@@ -1,0 +1,21 @@
+<!-- XML-QSTAT load_alarm_threshold configuration file -->
+<!-- This file caches site-specific SGE queue load 
+     alarm thresholds so that the xmlqstat interface
+     can compare the set alarm value with the dynamically
+     reported load averages. This allows us to take action
+     or at least render the HTML differently if a load average
+     is close to exceeding the load alarm threshold.
+-->
+<config>
+<load_alarm_threshold>
+<qi name="alarm.q@chrisdag-wireless.private.sonsorol.net" np_load_alarm="0.3" />
+<qi name="alarm.q@chrisdag.local" np_load_alarm="0.3" />
+<qi name="all.q@chrisdag-wireless.private.sonsorol.net" np_load_alarm="3.75" />
+<qi name="all.q@chrisdag.local" np_load_alarm="3.75" />
+<qi name="disabled.q@chrisdag-wireless.private.sonsorol.net" np_load_alarm="1.75" />
+<qi name="disabled.q@chrisdag.local" np_load_alarm="1.75" />
+<qi name="subordinate-01.q@chrisdag-wireless.private.sonsorol.net" np_load_alarm="1.75" />
+<qi name="subordinate-01.q@chrisdag.local" np_load_alarm="1.75" />
+</load_alarm_threshold>
+</config>
+

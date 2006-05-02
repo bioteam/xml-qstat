@@ -1,0 +1,79 @@
+<?xml version='1.0'?>
+<job_info  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <queue_info>
+    <Queue-List>
+      <name>alarm.q@chrisdag-wireless.private.sonsorol.net</name>
+      <qtype>BIP</qtype>
+      <slots_used>0</slots_used>
+      <slots_total>1</slots_total>
+      <arch>darwin</arch>
+      <state>au</state>
+      <load-alarm-reason>error: no value for &quot;np_load_avg&quot; because execd is in unknown state</load-alarm-reason>
+    </Queue-List>
+    <Queue-List>
+      <name>alarm.q@chrisdag.local</name>
+      <qtype>BIP</qtype>
+      <slots_used>0</slots_used>
+      <slots_total>1</slots_total>
+      <arch>darwin</arch>
+      <state>au</state>
+      <load-alarm-reason>error: no value for &quot;np_load_avg&quot; because execd is in unknown state</load-alarm-reason>
+    </Queue-List>
+    <Queue-List>
+      <name>all.q@chrisdag-wireless.private.sonsorol.net</name>
+      <qtype>BIP</qtype>
+      <slots_used>0</slots_used>
+      <slots_total>2</slots_total>
+      <arch>darwin</arch>
+      <state>au</state>
+      <load-alarm-reason>error: no value for &quot;np_load_avg&quot; because execd is in unknown state</load-alarm-reason>
+    </Queue-List>
+    <Queue-List>
+      <name>all.q@chrisdag.local</name>
+      <qtype>BIP</qtype>
+      <slots_used>0</slots_used>
+      <slots_total>1</slots_total>
+      <arch>darwin</arch>
+      <state>au</state>
+      <load-alarm-reason>error: no value for &quot;np_load_avg&quot; because execd is in unknown state</load-alarm-reason>
+    </Queue-List>
+    <Queue-List>
+      <name>disabled.q@chrisdag-wireless.private.sonsorol.net</name>
+      <qtype>BIP</qtype>
+      <slots_used>0</slots_used>
+      <slots_total>2</slots_total>
+      <arch>darwin</arch>
+      <state>adu</state>
+      <load-alarm-reason>error: no value for &quot;np_load_avg&quot; because execd is in unknown state</load-alarm-reason>
+    </Queue-List>
+    <Queue-List>
+      <name>disabled.q@chrisdag.local</name>
+      <qtype>BIP</qtype>
+      <slots_used>0</slots_used>
+      <slots_total>2</slots_total>
+      <arch>darwin</arch>
+      <state>adu</state>
+      <load-alarm-reason>error: no value for &quot;np_load_avg&quot; because execd is in unknown state</load-alarm-reason>
+    </Queue-List>
+    <Queue-List>
+      <name>subordinate-01.q@chrisdag-wireless.private.sonsorol.net</name>
+      <qtype>BIP</qtype>
+      <slots_used>0</slots_used>
+      <slots_total>1</slots_total>
+      <arch>darwin</arch>
+      <state>au</state>
+      <load-alarm-reason>error: no value for &quot;np_load_avg&quot; because execd is in unknown state</load-alarm-reason>
+    </Queue-List>
+    <Queue-List>
+      <name>subordinate-01.q@chrisdag.local</name>
+      <qtype>BIP</qtype>
+      <slots_used>0</slots_used>
+      <slots_total>1</slots_total>
+      <arch>darwin</arch>
+      <state>au</state>
+      <load-alarm-reason>error: no value for &quot;np_load_avg&quot; because execd is in unknown state</load-alarm-reason>
+    </Queue-List>
+  </queue_info>
+  <job_info>
+  </job_info>
+</job_info>
