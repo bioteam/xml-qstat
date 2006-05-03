@@ -1,0 +1,32 @@
+#!/usr/bin/perl
+
+$ENV{'SGE_ROOT'}='/opt/sge60s2/';
+$ENV{'SGE_CELL'}='default';
+
+$QSTAT = '/opt/sge60s2/bin/darwin/qstat';
+
+$jobID = $ENV{'QUERY_STRING'};
+
+#----
+# Rough security checking on CGI input, we will exit
+# if query_string is longer than 10 characters OR if
+# the query string contains any character that is not
+# a digit(0-9). Since we pass this value directly to 
+# the SGE qstat program we need to do some basic checks
+# on it. 
+#----
+
+if (length ($jobID) > 10) { die("Security Failure: query_string length"); }
+if ( $jobID =~ /\D\:/)      { die("Security Failure: suspicious data in query"); }
+
+
+print <<"EOF";
+HTTP/1.0 200 OK
+Content-type: text/xml
+
+EOF
+print `$QSTAT -f -F -xml -j $jobID`;
+
+
+1;
+

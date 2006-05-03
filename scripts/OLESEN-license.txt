@@ -1,0 +1,32 @@
+
+Quick background:
+
+The "sge-xml-cacher.pl" script is a quick derivitive work of 
+Mark Olesen's SGE FLEXlm license handling code. All mistakes are
+my own but I need to include Mark's License for his work.
+
+The license applies to the file "sge-xml-cacher.pl" :
+
+===========================================================================
+QUICK SUMMARY
+
+You are free:
+
+    * to copy, distribute, display, and utilize the work
+    * to make derivative works
+
+Under the following conditions:
+
+   * You must attribute the work and leave copyrights intact.
+
+   * You may not use this work for commercial purposes (i.e., sell it) --
+     unless you get the licensor's permission.
+
+   * If you alter, transform, or build upon this work, you may distribute
+     the resulting work only under a license identical to this one.
+
+===========================================================================
+
+Full details:
+
+http://creativecommons.org/licenses/by-nc-sa/2.5/
