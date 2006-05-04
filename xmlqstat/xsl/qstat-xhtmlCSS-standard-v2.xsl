@@ -689,7 +689,7 @@ We want to select everything in the Queue-List element EXCEPT for the active job
      real users will be behind firewalls and grid status should not leak
      outside the organization. 
 -->
-<a href="http://validator.w3.org/check?uri=http%3A%2F%2Fworkgroupcluster.apple.com/xmlqstat/qstat.html" title="Validate this page" >
+<a href="http://validator.w3.org/check/referer" title="Validate this page" >
 <img alt="XML Validation" src="images/xml-validate.gif" border="0" /></a>
 <xsl:text>
 </xsl:text> 
