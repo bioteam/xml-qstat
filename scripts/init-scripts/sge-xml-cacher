@@ -1,0 +1,45 @@
+#! /bin/sh
+
+## Simple start/stop script for the perl daemon that caches
+## Grid Engine XML status data for the "xml-qstat" web application
+
+
+## CUSTOMIZE AS NEEDED
+export SGE_ROOT=/export/home/bigcluster/sge
+export SGE_CELL=default
+export CACHE_SGE_XML_HOME=/export/home/xml-qstat/trunk/scripts/
+##
+## System start scripts typically run as root user, lets
+## downgrade that to a non-special user account. Adjust as needed
+NON_ROOT_USER=bioadmin
+##
+
+## Init the Grid Engine path/environment variables
+## so our script can access Grid Engine commands
+source $SGE_ROOT/$SGE_CELL/common/settings.sh
+
+
+DAEMON=$CACHE_SGE_XML_HOME/sge-xml-cacher.pl
+NAME=sge-xml-cacher
+DESC="Grid Engine XML Status Cache Daemon"
+
+	test -f $DAEMON || exit 0
+	set -e
+	case "$1" in
+  start)
+	echo -n "Starting $DESC: "
+	sudo -u $NON_ROOT_USER $DAEMON -d 
+	echo "$NAME."
+	;;
+  stop)
+	echo -n "Stopping $DESC: "
+	sudo -u $NON_ROOT_USER $DAEMON -k 
+	echo "$NAME."
+	;;
+  *)
+	N=/etc/init.d/$NAME
+	echo "Usage: $N {start|stop}" >&2
+	exit 1
+	;;
+esac
+	exit 0

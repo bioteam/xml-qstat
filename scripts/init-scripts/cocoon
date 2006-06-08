@@ -1,0 +1,33 @@
+#! /bin/sh
+
+# A very quick and dirty "start only" script for the Cocoon 
+# server engine. 
+
+## CUSTOMIZE AS NEEDED
+export JAVA_HOME=/export/home/tarballs/j2sdk1.4.2_06/
+export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+export COCOON_HOME=/export/home/xml-qstat/cocoon-2.1.9
+## System start scripts typically run as root user, lets
+## downgrade that to a non-special user account. Adjust as needed
+NON_ROOT_USER=bioadmin
+##
+
+DAEMON=$COCOON_HOME/cocoon.sh 
+NAME=cocoon
+DESC="Apache Cocoon"
+
+	test -f $DAEMON || exit 0
+	set -e
+	case "$1" in
+  start)
+	echo -n "Starting $DESC: "
+	sudo -u $NON_ROOT_USER $DAEMON servlet >>/var/log/cocoon 2>&1 &
+	echo "$NAME."
+	;;
+  *)
+	N=/etc/init.d/$NAME
+	echo "Usage: $N {start}" >&2
+	exit 1
+	;;
+esac
+	exit 0
