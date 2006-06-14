@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/bash
 
 ## Simple start/stop script for the perl daemon that caches
 ## Grid Engine XML status data for the "xml-qstat" web application
