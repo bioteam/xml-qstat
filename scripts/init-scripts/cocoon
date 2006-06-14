@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/bash
 
 # A very quick and dirty "start only" script for the Cocoon 
 # server engine. 
