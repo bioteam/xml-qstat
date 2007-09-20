@@ -1,0 +1,5 @@
+2007/09/20  Added:   The CommandGenerator .. a java class extending the ServiceableGenerator, 
+                     execute the command and parse the regular output from to furder processing
+            Added:   Netbeans project configured as described in project guidelines to be able
+                     to compile generator using the jar libraries from  cocoon project
+            Changed: sitemap.xmap to use the new generator. 
