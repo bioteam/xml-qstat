@@ -18,6 +18,9 @@ package org.xmlqstat.generator;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.Serializable;
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.components.source.SourceUtil;
 import org.xml.sax.SAXException;
@@ -37,6 +40,9 @@ import org.apache.excalibur.source.SourceException;
 import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.util.Map;
+import org.apache.avalon.framework.configuration.Configurable;
+import org.apache.cocoon.caching.CacheableProcessingComponent;
+import org.apache.excalibur.source.SourceValidity;
 
 /**
  * @cocoon.sitemap.component.documentation
@@ -53,10 +59,22 @@ import java.util.Map;
  * @author <a href="mailto:Petr.Jung@sun.com">Petr Jung</a>
  * @version CVS $Id: CommandGenerator.java $
  */
-public class CommandGenerator extends ServiceableGenerator {
+public class CommandGenerator extends ServiceableGenerator implements CacheableProcessingComponent, Configurable {
 
+   /* expire delay, fixed for 30sec, but should be read from configuration */
+   static final long EXPIRE_DEFAULT = 30L;
+   static final String EXPIRE_TAG = "expire";
+   
    /** The input source */
    protected InputSource inputSource;
+   /* expire delay in seconds */
+   protected long expire;
+   /** The validity that is being built */
+   protected ExpireValidity validity;
+
+   public void configure(Configuration conf) throws ConfigurationException {
+      this.expire = conf.getChild(EXPIRE_TAG).getValueAsLong(EXPIRE_DEFAULT);
+   }
 
    /**
     * Recycle this component.
@@ -81,7 +99,7 @@ public class CommandGenerator extends ServiceableGenerator {
    @Override
    public void setup(SourceResolver resolver, Map objectModel, String source, Parameters par) throws ProcessingException, SAXException, IOException {
       super.setup(resolver, objectModel, source, par);
-      inputSource = runShellCommand(source);
+      this.inputSource = runShellCommand(source);
    }
 
    /**
@@ -111,7 +129,7 @@ public class CommandGenerator extends ServiceableGenerator {
     * Call command shell and store the output stream
     * @param cmds a command string to be executed
     * @return the output of the command as a InputSource
-    * @throws java.io.IOException 
+    * @throws java.io.IOException
     */
    public InputSource runShellCommand(String cmds) throws IOException {
       if (getLogger().isDebugEnabled()) {
@@ -127,6 +145,42 @@ public class CommandGenerator extends ServiceableGenerator {
             getLogger().debug("call system command exception" + source, ex);
          }
          throw new IOException(ex.getMessage());
+      }
+   }
+
+   public Serializable getKey() {
+      return source;
+   }
+
+   public SourceValidity getValidity() {
+      if (this.validity == null) {
+         this.validity = new ExpireValidity(expire);
+      }
+      return this.validity;
+   }
+
+   /** Specific validity class */
+   public static class ExpireValidity implements SourceValidity {
+
+      static final long MILLIS = 1000l;
+      private long validTo = System.currentTimeMillis()+MILLIS;
+      private long expire;
+
+      /* expire is in miliseconds */
+      public ExpireValidity(long expire) {
+         this.expire = expire;
+      }
+
+      public int isValid() {
+         if (System.currentTimeMillis() <= validTo) {
+            return SourceValidity.VALID;
+         }
+         validTo = System.currentTimeMillis() + expire * MILLIS;
+         return SourceValidity.INVALID;
+      }
+
+      public int isValid(SourceValidity newValidity) {
+         return isValid();
       }
    }
 }
