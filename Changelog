@@ -1,3 +1,5 @@
+CD2007/10/24  Added:   build-xmlqstat-jar.sh helper script for local compiles of xml-qstat.jar
+	
 PJ2007/09/24  Added:   The CommandGenerator  configuration <expire></expire> tag
               Added:   The cacheing support
 
