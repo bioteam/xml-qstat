@@ -1,0 +1,102 @@
+#!/usr/bin/perl -w
+use strict;
+
+# -----------------------------------------------------------------------------
+# $Id$
+#
+# jobinfo cgi script
+#
+# This is a simple CGI that should function under Apache webservers
+# It gets raw XML data about job status ("qstat -xml -j <jobID>"), which
+# we can feed to Cocoon for XSLT processing.
+#
+# To get it working:
+# -----------------
+# 1. Adjust the SGE_ROOT, SGE_CELL and @qstat settings to match your system
+# 2. Install the script in a cgi-bin directory somewhere on your webserver
+# 3. Edit the sitemap.xmap file to insert the proper URL that points to this CGI
+#    the line you will want to edit will contain this string:
+#    'http://{request:serverName}:8080/xmlqstat/xmldata/jobinfo?{request:queryString}'
+#
+#    Just replace that URL with one that works on your system
+#
+# Note:
+#   The principal advantages of using this script instead of the java
+#   command generator:
+#     - it can deal with empty query strings and use that to display details
+#       for all jobs rather than just the scheduler messages
+#     - any input errors yield XML with 'cgi_error'
+#     - it removes empty elements that occur if an incorrect jobId is queried
+# -----------------------------------------------------------------------------
+
+$ENV{SGE_ROOT} ||= "/opt/n1ge6";
+$ENV{SGE_CELL} ||= "default";
+
+# failsafe for getting the architecture
+chomp( my $arch = $ENV{SGE_ARCH} || qx{$ENV{SGE_ROOT}/util/arch} || '' );
+
+my @qstat = ( "$ENV{SGE_ROOT}/bin/$arch/qstat", "-xml", "-j" );
+
+sub error {
+    print qq{<?xml version="1.0"?>\n};
+    print qq{<cgi_error>@_</cgi_error>\n};
+    exit 1;
+}
+
+for ( $qstat[0] ) {
+
+    # paranoid: check for spaces/meta-chars in path
+    if (/[*?<>{}\[\]\\\s]/) {
+        error "qstat with bad characters in path";
+    }
+
+    -x $_ or error "qstat not found: $_";
+}
+
+# -----
+# Rough security checking on CGI input.
+# Restrict input to numeric (jobid) input, but allow commas
+# -----
+
+my $input = $ENV{QUERY_STRING};
+defined $input or error "undefined jobid";
+
+my @jobIds;
+
+# treat an empty query parameter as '*'
+if ( length $input ) {
+    @jobIds = grep { defined } split /, /, $input;
+}
+else
+{
+    @jobIds = '*';
+}
+
+# this wildcard is not a dangerous as it may appear
+# - we are calling qstat directly without using the shell
+if ( grep { /^\*$/ } @jobIds ) {
+    @jobIds = '*';
+}
+else {
+    @jobIds = map { $_ ? /^(\w+)$/ : () } @jobIds;
+}
+push @qstat, join( "," => @jobIds );
+
+@jobIds or error "invalid jobid '$input'";
+
+{
+    local *PIPE;
+    if ( open PIPE, '-|', @qstat ) {    # open without shell
+        while (<PIPE>) {
+            s{</?>}{}g;                 # a bad jobId yields empty elements!
+            print;
+        }
+    }
+    else {
+        error "cannot qstat";
+    }
+}
+
+1;
+
+# ------------------------------------------------------------- end-of-file
