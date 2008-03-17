@@ -1,25 +1,25 @@
 #!/bin/sh
 
-## Simple start script for the Cocoon server engine
+## Simple start script for the httpi web-server
 
 ## CUSTOMIZE AS REQUIRED
 #
 # require GridEngine information for later queries
 : ${SGE_ROOT:=/opt/n1ge6}
 
-JAVA_HOME=/usr/lib/jvm/java
-COCOON_HOME=/data/app/cocoon
+HTTPI_HOME=/data/app/httpi
 PATH=/bin:/usr/bin:$SGE_ROOT/bin/`$SGE_ROOT/util/arch`
 
-# extra path for anything we wish to use via the java CommandGenerator
+# extra path for anything we wish to but don't want to add to the
+# cgi scripts ourselves
 PATH=$PATH:/data/app/bin
 
-export SGE_ROOT JAVA_HOME COCOON_HOME PATH
+export SGE_ROOT PATH
 unset DISPLAY  # a bit extra safety
 
 ##
 ## System start scripts typically run as root user,
-## downgrade to a non-root user account. Adjust as required
+## downgrade to a non-root user account. Adjust as needed
 ##
 runas_user=cfdadmin
 # -------------------------------------------------------------------------
@@ -36,12 +36,12 @@ then
    }
 fi
 
-daemon=$COCOON_HOME/cocoon.sh
-name=cocoon
-desc="Apache Cocoon"
+daemon=$HTTPI_HOME/httpi
+name=httpi
+desc="httpi webserver"
 
 # logging
-LOG=/var/log/cocoon
+LOG=/var/log/httpi
 LOG=/dev/null
 
 [ -f $daemon -a -x $daemon ] || {
@@ -54,7 +54,7 @@ set -e
 case "$1" in
 start)
    echo -n "Starting $desc: "
-   $daemon servlet >> $LOG 2>&1 &
+   $daemon >> $LOG 2>&1 &
    echo "$name"
    ;;
 

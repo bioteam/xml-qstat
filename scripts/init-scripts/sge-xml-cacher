@@ -1,45 +1,68 @@
-#!/bin/bash
+#!/bin/sh
 
 ## Simple start/stop script for the perl daemon that caches
 ## Grid Engine XML status data for the "xml-qstat" web application
 
-
 ## CUSTOMIZE AS NEEDED
-export SGE_ROOT=/export/home/bigcluster/sge
-export SGE_CELL=default
-export CACHE_SGE_XML_HOME=/export/home/xml-qstat/trunk/scripts/
+: ${SGE_ROOT:=/opt/n1ge6}
+: ${SGE_CELL:=default}
+
+CACHE_SGE_XML_HOME=/opt/xml-qstat/scripts
+
+export SGE_ROOT SGE_CELL CACHE_SGE_XML_HOME
+
 ##
-## System start scripts typically run as root user, lets
-## downgrade that to a non-special user account. Adjust as needed
-NON_ROOT_USER=bioadmin
+## System start scripts typically run as root user,
+## downgrade to a non-root user account. Adjust as needed
 ##
+runas_user=cfdadmin
+# -----------------------------------------------------------------------------
+# this script should run as 'runas_user'
+#
+if [ "$UID" -eq 0 -a "${runas_user:=root}" != root ]
+then
+    exec sudo -S -u $runas_user $0 $@
+    exitcode=$?       # retain exitcode
+
+    [ "$exitcode" == 0 ] || {
+        echo "could not change to $runas_user"
+        exit $exitcode
+    }
+fi
 
 ## Init the Grid Engine path/environment variables
 ## so our script can access Grid Engine commands
-source $SGE_ROOT/$SGE_CELL/common/settings.sh
+if [ -f $SGE_ROOT/$SGE_CELL/common/settings.sh ]
+then
+   . $SGE_ROOT/$SGE_CELL/common/settings.sh
+fi
 
+daemon=$CACHE_SGE_XML_HOME/sge-xml-cacher.pl
+name=sge-xml-cacher
+desc="GridEngine XML Status Cache Daemon"
 
-DAEMON=$CACHE_SGE_XML_HOME/sge-xml-cacher.pl
-NAME=sge-xml-cacher
-DESC="Grid Engine XML Status Cache Daemon"
+[ -f $daemon -a -x $daemon ] || {
+   echo "$daemon not found"
+   exit 5      # LSB compliant exit status - program is not installed
+}
 
-	test -f $DAEMON || exit 0
-	set -e
-	case "$1" in
-  start)
-	echo -n "Starting $DESC: "
-	sudo -u $NON_ROOT_USER $DAEMON -d 
-	echo "$NAME."
-	;;
-  stop)
-	echo -n "Stopping $DESC: "
-	sudo -u $NON_ROOT_USER $DAEMON -k 
-	echo "$NAME."
-	;;
-  *)
-	N=/etc/init.d/$NAME
-	echo "Usage: $N {start|stop}" >&2
-	exit 1
-	;;
+case "$1" in
+start)
+   echo -n "Starting $desc: "
+   $daemon -d
+   echo "$name"
+   ;;
+
+stop)
+   echo -n "Stopping $desc: "
+   $daemon -k
+   echo "$name"
+   ;;
+
+*)
+   echo "Usage: $0 {start|stop}" >&2
+   exit 1
+   ;;
 esac
-	exit 0
+
+exit 0
