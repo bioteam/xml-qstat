@@ -1,59 +1,68 @@
 #!/usr/bin/perl -w
 # avoid starter method here - otherwise we cannot kill the daemon
-
-## -----------------------------------------------------------------------
-#!/usr/bin/perl -w	# really start here
 use strict;
+use POSIX qw();
+use File::Temp qw();
 use Getopt::Std qw( getopts );
-use POSIX;
 import Sge;
 import cacheQstat;
-
-my %config;
 
 ###############################################################################
 ###############################################################################
 # CUSTOMIZE THESE SETTINGS TO MATCH YOUR REQUIREMENTS:
 #
 
-   # (1) Decide where your cached XML files will be stored 
-$config{'XML_OUTPUT_PATH'} = "/opt/xml-qstat/xmlqstat/xml/cached-sge-status.xml";
-
+my %config = (
+    ## (1) Decide where your cached XML files will be stored
+    qstatf =>
+      "/opt/n1ge6/default/site/xml-qstat/xmlqstat/xml/qstatf-cached.xml",
+    delay   => 30,
+    timeout => 10,
+);
 
 #
 # END OF CUSTOMIZE SETTINGS
 ###############################################################################
 ###############################################################################
-
-
 ( my $Script = $0 ) =~ s{^.*/}{};
-my $CmdLine = join( " " => $Script, @ARGV );
-my $tmpPath = "";
-
-
 
 # --------------------------------------------------------------------------
 sub usage {
-    $! = 0;               # clean exit
+    $! = 0;    # clean exit
     warn "@_\n" if @_;
     die <<"USAGE";
+usage: $Script [OPTION] [PARAM]
+  Cache GridEngine qstat -f information in xml format.
 
-usage: $Script [OPTION] [ARGS]
+options:
+    -d      daemonize
 
-  ## stuff goes here ... 
+    -h      help
+
+    -k      kill running daemon
+
+    -w      wake-up daemon from sleep
+
+params:
+    delay=N
+            waiting period in seconds between queries in daemon mode
+            (a delay of 0 is interpreted as 30 seconds)
+
+    qstatf=FILE
+            save qstat -f query to FILE
+            (default: $config{qstatf})
+
+    timeout=N
+            command timeout in seconds (default: 10 seconds)
+
 
 USAGE
 }
 
 # --------------------------------------------------------------------------
 my %opt;
-getopts( "hdkt:", \%opt );    # tolerate faults on unknown options
+getopts( "hdkw", \%opt );    # tolerate faults on unknown options
 $opt{h} and usage();
-
-
-
-select STDOUT;
-$| = 1;    # no output buffering
 
 sub kill_daemon {
     my $signal = shift || 9;
@@ -63,13 +72,12 @@ sub kill_daemon {
     kill $signal => @list if @list;
 }
 
-
 # ---------------------------------------------------------------------------
 # '-k'
-# kill daemon
+# terminate processes
 # ---------------------------------------------------------------------------
 if ( $opt{k} ) {
-    kill_daemon;    # KILL
+    kill_daemon 15;    # TERM
     exit 0;
 }
 
@@ -82,22 +90,32 @@ if ( $opt{w} ) {
     exit 0;
 }
 
-
-
+# extract command-line parameters of the form param=value
+# we can only overwrite the default config
+for (@ARGV) {
+    if ( my ( $k, $v ) = /^([A-Za-z]\w*)=(.+)$/ ) {
+        if ( exists $config{$k} ) {
+            $config{$k} = $v;
+        }
+    }
+}
 
 # ---------------------------------------------------------------------------
 # standard query, with optional '-d' (daemonize)
 # ---------------------------------------------------------------------------
-my ( $daemon, $delay ) = ( $opt{d}, 0 );
+my $daemon = $opt{d};
 
 if ($daemon) {    # daemonize
-    ( my $delay = (shift) || '' );
-    $delay =~ /^\d+$/ or undef $delay;
-    $daemon = $delay || 30;    # provide default delay
 
-    kill_daemon();             # remove old junk
+    # the delay between loops
+    my $delay = $config{delay};
+    $daemon = ( $delay and $delay =~ /^\d+$/ ) ? $delay : 30;
+
+    # terminate old processes
+    kill_daemon 15;    # TERM
+
     my $pid = fork;
-    exit if $pid;              # let parent exit
+    exit if $pid;      # let parent exit
     defined $pid or die "Couldn't fork: $!";
 
     # create a new process group
@@ -109,50 +127,77 @@ if ($daemon) {    # daemonize
     $SIG{USR1} = sub { sleep 0; };    # allow wake-up on demand
 }
 
+# setup before query
+Shell->timeout( $opt{t} || 15 );
+
+# Get a safe temporary file name to stash the initial XML
+my $tmp = File::Temp::mktemp("/tmp/sgeXMLcacher-$$-XXXXXX");
+
+# Query Grid Engine for XML status data
 do {
-
-
- ## collect data here ...
- 
- # Get a safe temporary file name to stash the initial XML
- $tmpPath = tmpnam();
- 
- #Set out output path for the persistant cache
- cacheQstat->cachePath($config{'XML_OUTPUT_PATH'});
-
- #Query Grid Engine for XML status data
- cacheQstat->query( timeout   => 15, 
-                    tmpPath   => "$tmpPath"
-                    ) ;
- 
- $delay = $daemon;
- 
-    sleep( $delay || 0 );
+    cacheQstat->query( tmp => $tmp, output => $config{qstatf} );
+    sleep( $daemon || 0 );
 } while $daemon;
 
 exit 0;
 
+# cleanup
+END {
+    unlink $tmp;
+}
+
 # --------------------------------------------------------------------------
+# the qx// command with a simple timeout wrapper
+
 package Shell;
+our ($timeout);
+
+BEGIN {
+    $timeout = 10;
+}
+
+#
+# assign new timeout
+#
+sub timeout {
+    my ( $caller, $value ) = @_;
+    $timeout = ( $value and $value =~ /^\d+$/ ) ? $value : 10;
+}
 
 sub cmd {
-    my ( $caller, %var ) = @_;
-    my $timeout = $var{timeout} || 0;
-    my $cmd     = $var{cmd}     || '';
-    my @lines;
+    my ( $caller, @command ) = @_;
+    my ( $redirect, @lines );
+    local *OLDERR;
 
     eval {
         local $SIG{ALRM} = sub { die "TIMEOUT\n" };    # NB: '\n' required
         alarm $timeout if $timeout;
-        $cmd or die "$caller: Shell->cmd with an undefined query\n";
-        @lines = qx{$cmd 2>&1};
+        @command or die "$caller: Shell->cmd with an undefined query\n";
+        if ( @command > 1 ) {
+            local *PIPE;
+
+            open OLDERR, ">&", \*STDERR and $redirect++;
+            open STDERR, ">/dev/null";
+
+            if ( open PIPE, '-|', @command ) {         # open without shell
+                @lines = <PIPE>;
+            }
+        }
+        else {
+            @lines = qx{$command[0] 2>&1};
+        }
         die "(EE) ", @lines if $?;
         alarm 0;
     };
 
+    # restore stderr
+    if ($redirect) {
+        open STDERR, ">&OLDERR";
+    }
+
     if ($@) {
         if ( $@ eq "TIMEOUT\n" ) {
-            warn "(WW) TIMEOUT after $timeout seconds on '$cmd'\n";
+            warn "(WW) TIMEOUT after $timeout seconds on '@command'\n";
             return undef;
         }
         else {
@@ -168,11 +213,12 @@ sub cmd {
 # --------------------------------------------------------------------------
 
 package Sge;
-use vars qw( $binary_path $utilbin_path );
+use vars qw( $bin );
 
 BEGIN {
-    $binary_path  = $ENV{SGE_BINARY_PATH} || '';
-    $utilbin_path = $ENV{SGE_utilbin}     || '';
+    $ENV{SGE_SINGLE_LINE} = 1;    # do not break up long lines with backslashes
+
+    $bin = $ENV{SGE_BINARY_PATH} || '';
 
     if ( -d ( $ENV{SGE_ROOT} || '' ) ) {
         my $arch = $ENV{SGE_ARCH}
@@ -181,11 +227,10 @@ BEGIN {
 
         chomp $arch;
 
-        -d $binary_path  or $binary_path  = "$ENV{SGE_ROOT}/bin/$arch";
-        -d $utilbin_path or $utilbin_path = "$ENV{SGE_ROOT}/utilbin/$arch";
+        -d $bin or $bin = "$ENV{SGE_ROOT}/bin/$arch";
     }
 
-    for ( $binary_path, $utilbin_path ) {
+    for ($bin) {
         if ( -d $_ ) {
             s{/*$}{/};
         }
@@ -194,7 +239,14 @@ BEGIN {
         }
     }
 
-    $ENV{SGE_SINGLE_LINE} = 1;    # do not break up long lines with backslashes
+}
+
+# relay command to Shell
+sub bin {
+    my $caller = shift;
+    my $cmd    = $bin . (shift);
+
+    return Shell->cmd( $cmd, @_ );
 }
 
 1;
@@ -202,41 +254,37 @@ BEGIN {
 # --------------------------------------------------------------------------
 
 package cacheQstat;
-use vars qw( $query $timeout $tmpPath $cachePath);
-
-BEGIN {
-    $timeout    = 15;
-    $tmpPath    = "/tmp/lastResort.xml";
-    #$cachePath  = $main::config{'XML_OUTPUT_PATH'};
-    $query      = $Sge::binary_path . "qstat -xml -r -f -explain aAcE ";
-}
-
-
-sub timeout {
-    my ( $caller, $value ) = @_;
-    ( $value ||= 0 ) > 0 or $value = 15;
-    $timeout = $value;
-}
-
-sub tmpPath {
-    my ( $caller, $value ) = @_;
-    $tmpPath = $value;
-}
-
-sub cachePath {
-    my ( $caller, $value ) = @_;
-    $cachePath = $value;
-}
 
 sub query {
-    my $caller  = shift;
+    my ( $caller, %param ) = @_;
 
-    #print "Query: $query > $tmpPath (cache to $cachePath) \n";
-    my $lines = Shell->cmd( timeout => $timeout, cmd => "$query > $tmpPath" );
-    
-    $lines = Shell->cmd( timeout => $timeout, cmd => "mv -f $tmpPath $cachePath"); 
+    $param{output} or die __PACKAGE__, " no output defined\n";
 
+    my $lines = Sge->bin( qstat => qw( -u * -xml -r -f -explain aAcE ) )
+      or return;
+
+    my $output = $param{tmp} || $param{output};
+
+    # record qstat xml output to a file
+    # NB: use 2-argument form to open for ">-" expansion!
+    if ($lines) {
+        local *FILE;
+
+        if ( open FILE, ">$output" ) {
+            my $oldfh = select FILE;
+            $| = 1;    # no output buffering
+            print FILE $lines;
+            close FILE;
+            select $oldfh;
+        }
+    }
+
+    # used intermediate tmp file
+    if ( $output ne $param{output} ) {
+        system "/bin/cat $output >| $param{output}";
+    }
 }
+
 
 1;
 
@@ -254,7 +302,7 @@ sub query {
 ##
 ## add more documentation
 ##
-## * Skeleton code for this daemon process taken from 
+## * Skeleton code for this daemon process taken from
 ## 	the "qlicserver" daemon written by Mark Olesen
 ##
 ##  * This is a derived work from Mark's "qlicserver" code
@@ -262,7 +310,7 @@ sub query {
 ###
 ##-----------------------------------------------------------
 ##   NOTE:
-##         copyright (c) 2003-05 <Mark.Olesen\@ArvinMeritor.com>
+##         copyright (c) 2003-08 <Mark.Olesen\@emconTechnologies.com>
 ##
 ##         Licensed and distributed under the Creative Commons
 ##         Attribution-NonCommercial-ShareAlike 2.5 License.
