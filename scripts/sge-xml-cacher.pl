@@ -5,7 +5,6 @@ use POSIX qw();
 use File::Temp qw();
 use Getopt::Std qw( getopts );
 import Sge;
-import cacheQstat;
 
 ###############################################################################
 ###############################################################################
@@ -13,7 +12,8 @@ import cacheQstat;
 #
 
 my %config = (
-    ## (1) Decide where your cached XML files will be stored
+    ## Decide where your cached XML file will be stored
+    ## or override on the command-line
     qstatf =>
       "/opt/n1ge6/default/site/xml-qstat/xmlqstat/xml/qstatf-cached.xml",
     delay   => 30,
@@ -32,7 +32,7 @@ sub usage {
     warn "@_\n" if @_;
     die <<"USAGE";
 usage: $Script [OPTION] [PARAM]
-  Cache GridEngine qstat -f information in xml format.
+  Cache GridEngine 'qstat -f' information in xml format.
 
 options:
     -d      daemonize
@@ -49,12 +49,11 @@ params:
             (a delay of 0 is interpreted as 30 seconds)
 
     qstatf=FILE
-            save qstat -f query to FILE
+            save 'qstat -f' query to FILE
             (default: $config{qstatf})
 
     timeout=N
             command timeout in seconds (default: 10 seconds)
-
 
 USAGE
 }
@@ -89,6 +88,9 @@ if ( $opt{w} ) {
     kill_daemon 10;    # USR1
     exit 0;
 }
+
+# create readonly files to prevent other processes from monkeying with them
+umask( 0222 | umask );
 
 # extract command-line parameters of the form param=value
 # we can only overwrite the default config
@@ -128,23 +130,18 @@ if ($daemon) {    # daemonize
 }
 
 # setup before query
-Shell->timeout( $opt{t} || 15 );
-
-# Get a safe temporary file name to stash the initial XML
-my $tmp = File::Temp::mktemp("/tmp/sgeXMLcacher-$$-XXXXXX");
+# adjust timeout - the license server is the Achilles heel
+if ( exists $config{timeout} ) {
+    Shell->timeout( $config{timeout} );
+}
 
 # Query Grid Engine for XML status data
 do {
-    cacheQstat->query( tmp => $tmp, output => $config{qstatf} );
+    Sge->qstatfCacher( $config{qstatf} );
     sleep( $daemon || 0 );
 } while $daemon;
 
 exit 0;
-
-# cleanup
-END {
-    unlink $tmp;
-}
 
 # --------------------------------------------------------------------------
 # the qx// command with a simple timeout wrapper
@@ -249,42 +246,32 @@ sub bin {
     return Shell->cmd( $cmd, @_ );
 }
 
-1;
-
 # --------------------------------------------------------------------------
 
-package cacheQstat;
+sub qstatfCacher {
+    my $caller    = shift;
+    my $cacheFile = shift;
 
-sub query {
-    my ( $caller, %param ) = @_;
-
-    $param{output} or die __PACKAGE__, " no output defined\n";
+    # always record qstat xml output to a file
+    $cacheFile or die __PACKAGE__, " no output defined\n";
 
     my $lines = Sge->bin( qstat => qw( -u * -xml -r -f -explain aAcE ) )
       or return;
 
-    my $output = $param{tmp} || $param{output};
-
-    # record qstat xml output to a file
-    # NB: use 2-argument form to open for ">-" expansion!
-    if ($lines) {
-        local *FILE;
-
-        if ( open FILE, ">$output" ) {
-            my $oldfh = select FILE;
-            $| = 1;    # no output buffering
-            print FILE $lines;
-            close FILE;
-            select $oldfh;
-        }
+    ## use temp file with rename to avoid race conditions
+    ## catch "-" STDOUT alias, and use 2-argument open for ">-" as well
+    my $tmpFile = $cacheFile;
+    if ( $cacheFile ne "-" ) {
+        $tmpFile .= ".TMP";
+        unlink $tmpFile;
     }
-
-    # used intermediate tmp file
-    if ( $output ne $param{output} ) {
-        system "/bin/cat $output >| $param{output}";
+    local *FILE;
+    if ( open FILE, ">$tmpFile" ) {
+        print FILE $lines;
+        close FILE;    # explicitly close before rename
+        rename $tmpFile, $cacheFile unless $tmpFile eq $cacheFile;    # atomic
     }
 }
-
 
 1;
 
@@ -296,11 +283,11 @@ sub query {
 ##
 ## =head1 NAME
 ##
-## sge-xml-cacher
+## qstatf-cacher.pl
 ##
 ## =head1 MORE
 ##
-## add more documentation
+## see qstatf-cacher.pl -h
 ##
 ## * Skeleton code for this daemon process taken from
 ## 	the "qlicserver" daemon written by Mark Olesen
