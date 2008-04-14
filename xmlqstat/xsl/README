@@ -1,0 +1,41 @@
+This directory contains XSLT transformations.
+
+Third-party transformations are included in subdirectories:
+
+  * exslt-templates/
+  * xsltl/
+
+
+Previous versions of templates that can either be deleted, or that we
+may wish to revive in some form or other:
+
+  * retired/
+
+
+Boilerplate and templates with named transforms are prefixed with 'xmlqstat-':
+
+  * xmlqstat-masthead.xsl
+  * xmlqstat-templates.xsl
+
+
+In general, the naming convention 'SOURCE-DEST.xsl' is chosen.
+If a particular rendering mode cannot be easily dealt within the same
+transformation, the naming convention 'SOURCE-MODE-DEST.xsl' is used.
+
+
+  * qhost-xhtml.xsl
+  * qlic-xhtml.xsl
+  * qstat-xhtml.xsl
+  * qstatf-xhtml.xsl
+  * qstatf-psp.xsl
+  * qstatj-xhtml.xsl
+
+
+For general actions, no particular convention has been used:
+
+  * extract-query.xsl
+  * info-to-xhtml.xsl
+
+  * rss.xml
+  * feed-atom-overview.xsl
+

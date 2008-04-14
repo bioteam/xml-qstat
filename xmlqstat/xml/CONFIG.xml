@@ -1,47 +1,54 @@
 <!-- XML-QSTAT configuration file -->
 <config>
 
-<!-- Set compat_mode to 'yes' if the version of Grid Engine
-     in use is earlier than version 6.0u7. This is required to
-     handle changes in XML output that occured in the u7 release.
-     Set to 'no' if SGE/N1GE is 6.0u7 or later. 
--->
-<compat_mode>no</compat_mode>
-
-
-<!-- Set this to 'yes' if you have created the load alarm
-     threshold configuration file 'CONFIG_alarm-threshold.xml'
-     file and want the xmlqstat interface to take this data into
-     consideration.
--->
-<use_alarm-threshold_data>yes</use_alarm-threshold_data>
-
-
-<!-- This value should be changed to reflect your local
-     timezone as it relates to UTC. This offset value is used
-     when constructing RFC-3339 validated timestamps that look
-     something like this:
+<!--
+    This value should be changed to reflect your local timezone as it
+    relates to UTC. This offset value is used when constructing
+    RFC-3339 validated timestamps that look something like this:
 
         1990-12-31T23:59:60Z
-	    1996-12-19T16:39:57-08:00 
-     
-     The cocoon server will report proper local date time
-     information but when formatting to the above standard we
-     need to insert the UTC correction info.
+	1996-12-19T16:39:57-08:00
 
-     Setting "Z" means no correction (UTC time matches)
+    The cocoon server will report proper local date time information,
+    but we need to insert the UTC correction info for the rss feed
 
-     EST (east coast USA) is 5 hours behind UTC so the
-     configuration value used here would be "-05:00"
+    Setting "Z" means no correction (UTC time matches)
 
-     Figure out your UTC offset and change the following
-     param accordinly.
+    CET (Central European Time) is 1 hour ahead of UTC, thus "+01:00"
+    EST (east coast USA) is 5 hours behind UTC, thus "-05:00"
+
+    Change the following param accordingly to your UTC offset.
 -->
-<UTC_timezone_offset>-05:00</UTC_timezone_offset>
+<UTC_TZ_offset>+01:00</UTC_TZ_offset>
 
-
-<!-- base URL with full HTTP:// text is needed within Atom feeds ...
+<!--
+    BROKEN AT THE MOMENT:
+    Set this to 'yes' if you have created the load alarm
+    threshold configuration file 'CONFIG_alarm-threshold.xml'
+    file and want the xmlqstat interface to take this data into
+    consideration.
 -->
-<baseURL>http://workgroupcluster.apple.com/xmlqstat/</baseURL>
+<use_alarm-threshold_data>no</use_alarm-threshold_data>
+
+<!--
+    NOT YET IMPLEMENTED (ALWAYS ENABLED)
+    Set this to 'yes' if you have the qlicserver program
+    and wish to view the resource allocation
+-->
+<have_qlicserver>yes</have_qlicserver>
+
+<!--
+    specify an external program for viewing the stdout files
+    - the jobId, filenames, etc. are passed via the queryString
+    leave empty if you don't have such a program
+-->
+<viewfileProgram>http://dealog01:8080/xmlqstat/viewfile</viewfileProgram>
+
+<!--
+    specify an external program for finding and viewing the log files
+    - the jobId, filenames, etc. are passed via the queryString
+    leave empty if you don't have such a program
+-->
+<viewlogProgram>http://dealog01:8080/xmlqstat/logview</viewlogProgram>
 
 </config>

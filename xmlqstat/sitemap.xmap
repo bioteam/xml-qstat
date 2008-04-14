@@ -1,177 +1,398 @@
 <?xml version="1.0" encoding="utf-8"?>
 <map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
-   <map:components>
-      <map:generators default="file" >
-         <map:generator name="commandGenerator" src="org.xmlqstat.generator.CommandGenerator">
-            <expire>60</expire> 
-         </map:generator>   
-      </map:generators>   
-      <map:transformers default="xslt" />
-      <map:readers default="resource" />
-      <map:serializers default="xhtml">
-         
-         <!-- Our custom XHTML output serializer for Sony PSP browsers -->
-         <map:serializer
-            name="xhtml-psp"
-            src="org.apache.cocoon.serialization.XMLSerializer"
-            mime-type="text/html; charset=ISO-8859-1">
-            <omit-xml-declaration>yes</omit-xml-declaration>
-            <omit-namespaces>yes</omit-namespaces>
-            <encoding>UTF-8</encoding>
-            <doctype-public>-//W3C//DTD XHTML 1.0 Strict//EN</doctype-public>
-            <doctype-system>http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd</doctype-system>
-         </map:serializer>
-         
-         
-         <!-- ATOM 1.0 Feed Serialzer -->
-         <map:serializer
-            name="atom-xml"
-            src="org.apache.cocoon.serialization.XMLSerializer"
-            mime-type="application/atom+xml; charset=UTF-8">
-            <encoding>UTF-8</encoding>
-         </map:serializer>
-         
-      </map:serializers>
-      
-      <map:selectors default="browser">
-         <!-- Need to auto-detect MS and PSP browers -->
-         <map:selector name="browser"
-                       src="org.apache.cocoon.selection.BrowserSelector">
-            <browser name="explorer" useragent="MSIE"/>
-            <browser name="sonyPSP"  useragent="PlayStation Portable"/>
-         </map:selector>
-      </map:selectors>
-      
-      <map:matchers default="wildcard" />
-   </map:components>
-   <map:pipelines>
-      
-      <map:pipeline>
-         
-         <!-- Catch & redirect people going to http://<server>/xmlqstat/  -->
-         <map:match pattern="">
-            <map:redirect-to uri="qstat.html"/>
-         </map:match>
-         
-         <!-- intercept unsupported browsers and SonyPSP user-agents -->
-         <map:match pattern="*">
-            <map:select type="browser">
-               <map:when test="explorer">
-                  <map:redirect-to uri="info/unsupported.html"/>
-               </map:when>
-               <map:otherwise>
-                  <!-- do nothing, continue flow -->
-               </map:otherwise>
-            </map:select>
-         </map:match>
-         
-         <!-- This lets cocoon find our static files -->
-         <map:match pattern="css/*.css">
-            <map:read mime-type="text/css" src="css/{1}.css" />
-         </map:match>
-         <map:match pattern="javascript/*.js">
-            <map:read mime-type="text/javascript" src="javascript/{1}.js" />
-         </map:match>
-         <map:match pattern="images/*.gif">
-            <map:read mime-type="image/gif" src="images/{1}.gif" />
-         </map:match>
-         <map:match pattern="images/icons/*/**.png">
-            <map:read mime-type="image/png" src="images/icons/{1}/{2}.png" />
-         </map:match>
-         <map:match pattern="images/screencap/*.**">
-            <map:read mime-type="image/{2}" src="images/screencap/{1}.{2}" />
-         </map:match>
-         
-         <!-- documentation rendering for url path /info/ -->
-         <map:match pattern="info/*.html">
-            <map:generate src="xml/info/{1}.xml" />
-            <map:transform src="xsl/info-to-xhtml.xsl">
-               <map:parameter name="timestamp" value="{date:EEE, d MMM yyyy HH:mm:ss}"/>
-            </map:transform>
-            <map:serialize type="xhtml" />
-         </map:match>
-         
-         <!-- MOBILE PSP rendering for url path /psp/ -->
-         <map:match pattern="psp/*.html">
-            <map:generate type="commandGenerator" src="qstat -xml -r -f -explain aAcE" />
-            <map:transform src="xsl/qstat-to-psp.xsl">
-               <map:parameter name="timestamp" value="{date:EEE, d MMM yyyy HH:mm:ss}"/>
-               <map:parameter name="renderMode" value="{1}"/>
-            </map:transform>
-            <map:serialize type="xhtml-psp"/>
-         </map:match>
-         
-         
-         <!-- time example: 1985-04-12T23:20:50.52Z -->
+  <map:components>
 
-         <!-- ATOM XML FEED -->
-         <map:match pattern="feed/*">
-            <map:generate type="commandGenerator" src="qstat -xml -r -f -explain aAcE" />
-            <map:transform src="xsl/feed-atom-{1}.xsl">
-               <map:parameter name="timestamp1" value="{date:yyyy-MM-DD}"/>
-               <map:parameter name="timestamp2" value="{date:HH:mm:ss}"/>
-            </map:transform>
-            <map:serialize type="atom-xml" />
-         </map:match>
-         
-         <!-- SGE JOB rendering for url path /job/  -->
-         <map:match pattern="job/*.html">
-            <map:generate type="commandGenerator" src="qstat -f -F -xml -j {1}" />
-            <map:transform src="xsl/job-to-xhtml.xsl">
-               <map:parameter name="jobID" value="{1}" />
-               <map:parameter name="timestamp" value="{date:EEE, d MMM yyyy HH:mm:ss}"/>
-            </map:transform>
-            <map:serialize type="xhtml" />
-         </map:match>
-         
-         
-         <!-- Standard View; CACHED Grid Engine XML data -->
-         <!-- URL will be "/xmlqstat/qstat.html"        -->
-         <map:match pattern="qstat.html">
-            <map:generate type="commandGenerator" src="qstat -xml -r -f -explain aAcE" />
-            <map:transform src="xsl/qstat-xhtmlCSS-standard-v2.xsl">
-               <map:parameter name="showQtable"  value="{cookie:displayQtable}" />
-               <map:parameter name="showPJtable" value="{cookie:displayPJtable}" />
-               <map:parameter name="showAJtable" value="{cookie:displayAJtable}" />
-               <map:parameter name="enableResourceQueries" value="no" />
-               <map:parameter name="real" value="yes" />
-               <map:parameter name="perUserJobSort" value="no" />
-               <map:parameter name="timestamp" value="{date:EEE, d MMM yyyy HH:mm:ss}"/>
-               
-            </map:transform>
-            <map:serialize type="xhtml" />
-         </map:match>
-         
-         
-         <!-- JOBS SHOWN PER USER -->
-         <!-- URL will be "/xmlqstat/(user)-jobs.html"        -->
-         <map:match pattern="*-jobs.html">
-            <map:generate type="commandGenerator" src="qstat -xml -r -f -explain aAcE" />
-            <map:transform src="xsl/qstat-xhtmlCSS-standard-v2.xsl">
-               <map:parameter name="showQtable" value="yes" />
-               <map:parameter name="showPJtable" value="{cookie:displayPJtable}" />
-               <map:parameter name="showAJtable" value="{cookie:displayAJtable}" />
-               <map:parameter name="enableResourceQueries" value="no" />
-               <map:parameter name="real" value="yes" />
-               <map:parameter name="perUserJobSort" value="{1}" />
-               <map:parameter name="timestamp" value="{date:EEE, d MMM yyyy HH:mm:ss}"/>
-            </map:transform>
-            <map:serialize type="xhtml" />
-         </map:match>
-         
-         <!-- Terse View; CACHED Grid Engine XML data -->
-         <!-- URL will be "/xmlqstat/qstat-terse.html"        -->
-         <map:match pattern="qstat-terse.html">
-            <map:generate type="commandGenerator" src="qstat -xml -r -f -explain aAcE" />
-            <map:transform src="xsl/qstat-xhtmlCSS-terse-v2.xsl">
-               <map:parameter name="showQtable" value="yes" />
-               <map:parameter name="real" value="yes" />
-               <map:parameter name="perUserJobSort" value="no" />
-               <map:parameter name="timestamp" value="{date:EEE, d MMM yyyy HH:mm:ss}"/>
-               
-            </map:transform>
-            <map:serialize type="xhtml" />
-         </map:match>
-      </map:pipeline>
-   </map:pipelines>
+    <map:generators default="file">
+      <map:generator
+        name="commandGenerator"
+        src="org.xmlqstat.generator.CommandGenerator"
+        >
+        <expire>60</expire>
+      </map:generator>
+    </map:generators>
+    <map:transformers default="xslt" />
+    <map:readers default="resource" />
+
+    <map:serializers default="xhtml">
+      <!-- Our custom XHTML output serializer for Sony PSP browsers -->
+      <map:serializer
+        name="xhtml-psp"
+        src="org.apache.cocoon.serialization.XMLSerializer"
+        mime-type="text/html; charset=ISO-8859-1"
+        >
+        <omit-xml-declaration>yes</omit-xml-declaration>
+        <omit-namespaces>yes</omit-namespaces>
+        <encoding>UTF-8</encoding>
+        <doctype-public>-//W3C//DTD XHTML 1.0 Strict//EN</doctype-public>
+        <doctype-system>http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd</doctype-system>
+      </map:serializer>
+
+      <!-- ATOM 1.0 Feed Serialzer -->
+      <map:serializer
+        name="atom-xml"
+        src="org.apache.cocoon.serialization.XMLSerializer"
+        mime-type="application/atom+xml; charset=UTF-8"
+        >
+        <encoding>UTF-8</encoding>
+      </map:serializer>
+    </map:serializers>
+
+    <map:selectors default="browser">
+      <!-- Need to auto-detect MS and PSP browers -->
+      <map:selector name="browser"
+        src="org.apache.cocoon.selection.BrowserSelector"
+        >
+        <browser name="explorer" useragent="MSIE"/>
+        <browser name="sonyPSP"  useragent="PlayStation Portable"/>
+      </map:selector>
+    </map:selectors>
+  <map:matchers default="wildcard" />
+</map:components>
+
+<map:pipelines>
+
+<!--
+   | Setup all the sources (files or via the CommandGenerator) as
+   | as cocoon:/{name}
+   |   1) to allow easier administration
+   |   2) to provide a means of viewing the xml files directly.
+   |
+   | Directly viewable xml also provides the possibility of collating
+   | information from several clusters
+   |
+   | Decide yourself if you wish to use file caches or the CommandGenerator.
+   | - The CommandGenerator is currently not caching properly and you may
+   |   receive a "too many files open" error that requires a cocoon restart.
+   -->
+<map:pipeline internal-only="true">
+  <!-- the cached results from "qlicserver output=FILE" -->
+  <map:match pattern="qlicFile">
+    <map:generate  src="xml/qlicserver.xml"/>
+    <map:serialize type="xml"/>
+  </map:match>
+  <!-- extracted query info for cached files -->
+  <map:match pattern="queryInfo">
+    <map:generate  src="cocoon:/qlicFile"/>
+    <map:transform src="xsl/extract-query.xsl" />
+    <map:serialize type="xml"/>
+  </map:match>
+
+  <!--
+     if we cache a qhost query with the qlicserver,
+     we can reuse it instead of qhostCmd
+   -->
+  <map:match pattern="qhostFile">
+    <map:generate  src="xml/qhost.xml"/>
+    <map:serialize type="xml"/>
+  </map:match>
+  <!-- use qhost.sh helper script instead of qhost directly
+       this avoid the namespace problem:
+       http://gridengine.sunsource.net/issues/show_bug.cgi?id=2515
+  -->
+  <map:match pattern="qhostCmd">
+    <map:generate  type="commandGenerator" src="qhost.sh -xml -j -q" />
+    <map:serialize type="xml"/>
+  </map:match>
+
+  <!--
+     if we cache the qstat query from the qlicserver,
+     we can reuse it instead of qstatCmd.
+     This is highly advisable if the qlicserver is running anyhow.
+  -->
+  <map:match pattern="qstatFile">
+    <map:generate  src="xml/qstat.xml"/>
+    <map:serialize type="xml"/>
+  </map:match>
+
+  <!-- Note:
+     The sole purpose of using the 'qstat.sh' wrapper instead of 'qstat'
+     is to log info to  /tmp/commandlog-qstat for DEBUGGING purposes
+     eg, find out how well the cocoon cache is performing
+     -->
+  <map:match pattern="qstatCmd">
+    <map:generate  type="commandGenerator" src="qstat.sh -u * -xml -r -s prs" />
+    <map:serialize type="xml"/>
+  </map:match>
+
+  <!--
+      The full qstat query traditionally used by xmlqstat and executed
+      directly as a command. As of 2008-04-14, the caching was not working
+      correctly. You are thus better advised to use the cached information
+      (qstatfFile) listed below.
+  -->
+  <map:match pattern="qstatfCmd">
+    <map:generate  type="commandGenerator" src="qstat.sh -u * -xml -r -f -explain aAcE" />
+    <map:serialize type="xml"/>
+  </map:match>
+
+  <!--
+      The full qstat query traditionally used by xmlqstat and generated by the
+      sge-xml-cacher.pl daemon.
+      Use a symbolic link to point to the file generated by the daemon.
+
+      If you are using the cached information instead of the CommandGenerator,
+      search and replace qstatfCmd with qstatfFile below.
+  -->
+  <map:match pattern="qstatfFile">
+    <map:generate  src="xml/qstatf.xml"/>
+    <map:serialize type="xml"/>
+  </map:match>
+
+</map:pipeline>
+
+
+<map:pipeline>
+  <!-- Catch & redirect people going to http://<server>/xmlqstat/
+       Redirect to 'jobs.html' for the qlicserver integration
+       Redirect to 'qstat-jobs.html' for the traditional "qstat -f" output
+       -->
+  <map:match pattern="">
+    <map:redirect-to uri="jobs.html"/>
+  </map:match>
+
+  <!-- Catch & redirect people going to http://<server>/xmlqstat/psp/  -->
+  <map:match pattern="psp/">
+    <map:redirect-to uri="default.html"/>
+  </map:match>
+
+  <!-- Catch & redirect people going to http://<server>/xmlqstat/feed/  -->
+  <map:match pattern="feed/">
+    <map:redirect-to uri="overview"/>
+  </map:match>
+
+  <!-- intercept unsupported browsers and SonyPSP user-agents -->
+  <map:match pattern="*">
+    <map:select type="browser">
+      <map:when test="explorer">
+        <map:redirect-to uri="info/unsupported.html"/>
+      </map:when>
+      <map:otherwise>
+      <!-- do nothing, continue flow -->
+      </map:otherwise>
+    </map:select>
+  </map:match>
+
+  <!-- let cocoon find our static files -->
+  <map:match pattern="css/*.css">
+    <map:read mime-type="text/css" src="css/{1}.css" />
+  </map:match>
+  <map:match pattern="javascript/*.js">
+    <map:read mime-type="text/javascript" src="javascript/{1}.js" />
+  </map:match>
+  <map:match pattern="**/*.gif">
+    <map:read mime-type="image/gif" src="{1}/{2}.gif" />
+  </map:match>
+  <map:match pattern="**/*.png">
+    <map:read mime-type="image/png" src="{1}/{2}.png" />
+  </map:match>
+  <map:match pattern="**/*.jpg">
+    <map:read mime-type="image/jpg" src="{1}/{2}.jpg" />
+  </map:match>
+
+  <!-- documentation rendering for url path /info/ -->
+  <map:match pattern="info/*.html">
+    <map:generate  src="xml/info/{1}.xml" />
+    <map:transform src="xsl/info-to-xhtml.xsl">
+      <map:parameter name="timestamp"  value="{date: yyyy-MM-dd HH:mm:ss}"/>
+    </map:transform>
+    <map:serialize type="xhtml" />
+  </map:match>
+
+  <!-- MOBILE PSP rendering for url path /psp/ -->
+  <map:match pattern="psp/*.html">
+    <map:generate  src="cocoon:/qstatfCmd" />
+    <map:transform src="xsl/qstatf-psp.xsl">
+      <map:parameter name="timestamp"  value="{date: yyyy-MM-dd HH:mm:ss}"/>
+      <map:parameter name="renderMode" value="{1}"/>
+    </map:transform>
+    <map:serialize type="xhtml-psp"/>
+  </map:match>
+
+  <!-- atom xml feed.
+       The timezone offset for the iso8601 timestamp is from CONFIG file
+       The baseURL must be passed through
+       -->
+  <map:match pattern="feed/*">
+    <map:generate  src="cocoon:/qstatfCmd" />
+    <map:transform src="xsl/feed-atom-{1}.xsl">
+      <map:parameter name="isoTimestamp" value="{date:yyyy-MM-dd'T'HH:mm:ss}"/>
+      <map:parameter name="baseURL"
+          value="http://{request:serverName}:{request:serverPort}/xmlqstat/"
+      />
+    </map:transform>
+    <map:serialize type="atom-xml" />
+  </map:match>
+
+  <!-- catch http://<server>/xmlqstat/resources -->
+  <map:match pattern="resources">
+    <map:redirect-to uri="resources.html"/>
+  </map:match>
+
+  <!-- catch http://<server>/xmlqstat/queues -->
+  <map:match pattern="queues">
+    <map:redirect-to uri="queues.html"/>
+  </map:match>
+
+  <!-- catch http://<server>/xmlqstat/summary -->
+  <map:match pattern="summary">
+    <map:redirect-to uri="queues.html?summary"/>
+  </map:match>
+
+  <!-- tmp fix: catch http://<server>/xmlqstat/qstat.html -->
+  <map:match pattern="qstat.html">
+    <map:redirect-to uri="jobs.html"/>
+  </map:match>
+
+  <!-- provide a means of viewing the xml files directly -->
+  <map:match pattern="query.xml">
+    <map:generate  src="cocoon:/queryInfo"/>
+    <map:serialize type="xml"/>
+  </map:match>
+  <map:match pattern="qlic.xml">
+    <map:generate  src="cocoon:/qlicFile"/>
+  </map:match>
+  <map:match pattern="qhost.xml">
+    <map:generate  src="cocoon:/qhostCmd"/>
+    <map:serialize type="xml"/>
+  </map:match>
+  <map:match pattern="qstat.xml">
+    <map:generate  src="cocoon:/qstatCmd"/>
+    <map:serialize type="xml"/>
+  </map:match>
+  <map:match pattern="qstatf.xml">
+    <map:generate  src="cocoon:/qstatfCmd"/>
+    <map:serialize type="xml"/>
+  </map:match>
+
+  <!-- url: "/xmlqstat/jobs.html?user"
+       display running and pending jobs, optionally selected by user
+       -->
+  <map:match pattern="jobs.html">
+    <!-- <map:generate  src="cocoon:/qstatCmd"/> -->
+    <map:aggregate element="newRootElement">
+      <map:part src="cocoon:/queryInfo" element="queryInfo"/>
+      <map:part src="cocoon:/qstatFile" element="qstatFile"/>
+    </map:aggregate>
+    <map:transform src="xsl/qstat-xhtml.xsl">
+      <map:parameter name="timestamp"       value="{date: yyyy-MM-dd HH:mm:ss}"/>
+      <map:parameter name="activeJobTable"  value="{cookie:activeJobTable}" />
+      <map:parameter name="pendingJobTable" value="{cookie:pendingJobTable}" />
+      <map:parameter name="filterByUser"    value="{request:queryString}" />
+    </map:transform>
+    <map:serialize type="xhtml"/>
+  </map:match>
+
+  <!-- url: "/xmlqstat/queues.html?renderMode"
+       display all the queue instances or just a summary
+       -->
+  <map:match pattern="queues.html">
+    <!-- <map:generate  src="cocoon:/qhostCmd"/> -->
+    <map:aggregate element="newRootElement">
+      <map:part src="cocoon:/queryInfo" element="queryInfo"/>
+      <map:part src="cocoon:/qhostFile" element="qhostFile"/>
+    </map:aggregate>
+    <map:transform src="xsl/qhost-xhtml.xsl">
+      <map:parameter name="timestamp"  value="{date: yyyy-MM-dd HH:mm:ss}"/>
+      <map:parameter name="renderMode" value="{request:queryString}" />
+    </map:transform>
+    <map:serialize type="xhtml"/>
+  </map:match>
+
+  <!-- url: "/xmlqstat/resources.html"
+       display the resource usage (gathered from qlicserver)
+       -->
+  <map:match pattern="resources.html">
+    <map:generate src="cocoon:/qlicFile" />
+    <map:transform src="xsl/qlic-xhtml.xsl">
+      <map:parameter name="timestamp" value="{date: yyyy-MM-dd HH:mm:ss}"/>
+    </map:transform>
+    <map:serialize type="xhtml"/>
+  </map:match>
+
+  <!-- url: "/xmlqstat/qstat-resources.html"
+       as per "/xmlqstat/resources.html", but render with xmlqstat navigation
+       -->
+  <map:match pattern="qstat-resources.html">
+    <map:generate src="cocoon:/qlicFile" />
+    <map:transform src="xsl/qlic-xhtml.xsl">
+      <map:parameter name="timestamp" value="{date: yyyy-MM-dd HH:mm:ss}"/>
+      <map:parameter name="menuMode"  value="xmlqstat" />
+    </map:transform>
+    <map:serialize type="xhtml"/>
+  </map:match>
+
+  <!-- url: "/xmlqstat/jobinfo.html?jobNumber"
+       use second webserver to handle empty queryString
+       -->
+  <map:match pattern="jobinfo.html">
+    <map:generate  src="http://{request:serverName}:8080/xmlqstat/xmldata/jobinfo?{request:queryString}" />
+    <map:transform src="xsl/qstatj-xhtml.xsl">
+      <map:parameter name="timestamp" value="{date: yyyy-MM-dd HH:mm:ss}"/>
+    </map:transform>
+    <map:serialize type="xhtml" />
+  </map:match>
+
+  <!-- url: /xmlqstat/job-(jobNumber).html
+       job details rendered with xmlqstat navigation,
+       cannot use queryString since it might be empty
+  -->
+  <map:match pattern="job-*.html">
+    <map:generate  type="commandGenerator" src="qstat -xml -j {1}" />
+    <map:transform src="xsl/qstatj-xhtml.xsl">
+      <map:parameter name="timestamp" value="{date: yyyy-MM-dd HH:mm:ss}"/>
+      <map:parameter name="menuMode"  value="xmlqstat"/>
+    </map:transform>
+    <map:serialize type="xhtml" />
+  </map:match>
+
+  <!-- url: "/xmlqstat/qstat-jobs.html?user"
+       display running and pending jobs, optionally selected by user
+       data gathered from "qstat -f", rendered with xmlqstat navigation
+       -->
+  <map:match pattern="qstat-jobs.html">
+    <map:generate  src="cocoon:/qstatfCmd" />
+    <map:transform src="xsl/qstatf-xhtml.xsl">
+      <map:parameter name="timestamp"        value="{date: yyyy-MM-dd HH:mm:ss}"/>
+      <map:parameter name="queueStatusTable" value="{cookie:queueStatusTable}" />
+      <map:parameter name="activeJobTable"   value="{cookie:activeJobTable}" />
+      <map:parameter name="pendingJobTable"  value="{cookie:pendingJobTable}" />
+      <map:parameter name="filterByUser"     value="{request:queryString}" />
+    </map:transform>
+    <map:serialize type="xhtml" />
+  </map:match>
+
+  <!-- url: "/xmlqstat/qstat-full.html"
+       display all the queue instances
+       data gathered from "qstat -f", rendered with xmlqstat navigation
+  -->
+  <map:match pattern="qstat-full.html">
+    <map:generate  src="cocoon:/qstatfCmd" />
+    <map:transform src="xsl/qstatf-xhtml.xsl">
+      <map:parameter name="timestamp"        value="{date: yyyy-MM-dd HH:mm:ss}"/>
+      <map:parameter name="queueStatusTable" value="{cookie:queueStatusTable}" />
+      <map:parameter name="activeJobTable"   value="{cookie:activeJobTable}" />
+      <map:parameter name="pendingJobTable"  value="{cookie:pendingJobTable}" />
+      <map:parameter name="renderMode"       value="full" />
+    </map:transform>
+    <map:serialize type="xhtml" />
+  </map:match>
+
+  <!-- url: "/xmlqstat/qstat-terse.html"
+       a very terse summary of the queue status
+       data gathered from "qstat -f", rendered with xmlqstat navigation
+  -->
+  <map:match pattern="qstat-terse.html">
+    <map:generate  src="cocoon:/qstatfCmd" />
+    <map:transform src="xsl/qstatf-xhtml.xsl">
+      <map:parameter name="timestamp"        value="{date: yyyy-MM-dd HH:mm:ss}"/>
+      <map:parameter name="queueStatusTable" value="{cookie:queueStatusTable}" />
+      <map:parameter name="activeJobTable"   value="{cookie:activeJobTable}" />
+      <map:parameter name="pendingJobTable"  value="{cookie:pendingJobTable}" />
+      <map:parameter name="renderMode"       value="terse" />
+    </map:transform>
+    <map:serialize type="xhtml" />
+  </map:match>
+
+</map:pipeline>
+</map:pipelines>
 </map:sitemap>
