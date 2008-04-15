@@ -2,7 +2,6 @@
 # avoid starter method here - otherwise we cannot kill the daemon
 use strict;
 use POSIX qw();
-use File::Temp qw();
 use Getopt::Std qw( getopts );
 import Sge;
 
@@ -12,10 +11,13 @@ import Sge;
 #
 
 my %config = (
-    ## Decide where your cached XML file will be stored
+    ## Decide where your cached XML files will be stored
     ## or override on the command-line
+    ## Set to an empty string to suppress the query and the output.
     qstatf =>
       "/opt/n1ge6/default/site/xml-qstat/xmlqstat/xml/qstatf-cached.xml",
+    qstat   => "",
+    qhost   => "",
     delay   => 30,
     timeout => 10,
 );
@@ -48,12 +50,24 @@ params:
             waiting period in seconds between queries in daemon mode
             (a delay of 0 is interpreted as 30 seconds)
 
+    qhost=FILE
+            save 'qhost' query (as per qlicserver) to FILE
+            (default: $config{qhost})
+
+    qstat=FILE
+            save 'qstat' query (as per qlicserver) to FILE
+            (default: $config{qstat})
+
     qstatf=FILE
             save 'qstat -f' query to FILE
             (default: $config{qstatf})
 
     timeout=N
             command timeout in seconds (default: 10 seconds)
+
+
+Use the qhost and qstat queries if you do not have the qlicserver running
+but wish to use the corresponding XSLT transformations.
 
 USAGE
 }
@@ -135,9 +149,15 @@ if ( exists $config{timeout} ) {
     Shell->timeout( $config{timeout} );
 }
 
+# one query must be defined
+usage "ERROR: define at least one of 'qhost', 'qstat' or 'qstatf'\n"
+  if not grep { $config{$_} } qw( qhost qstat qstatf );
+
 # Query Grid Engine for XML status data
 do {
     Sge->qstatfCacher( $config{qstatf} );
+    Sge->qstatCacher( $config{qstat} );
+    Sge->qhostCacher( $config{qhost} );
     sleep( $daemon || 0 );
 } while $daemon;
 
@@ -246,17 +266,10 @@ sub bin {
     return Shell->cmd( $cmd, @_ );
 }
 
-# --------------------------------------------------------------------------
-
-sub qstatfCacher {
+sub writeCache {
     my $caller    = shift;
     my $cacheFile = shift;
-
-    # always record qstat xml output to a file
-    $cacheFile or die __PACKAGE__, " no output defined\n";
-
-    my $lines = Sge->bin( qstat => qw( -u * -xml -r -f -explain aAcE ) )
-      or return;
+    @_ or return;
 
     ## use temp file with rename to avoid race conditions
     ## catch "-" STDOUT alias, and use 2-argument open for ">-" as well
@@ -267,10 +280,48 @@ sub qstatfCacher {
     }
     local *FILE;
     if ( open FILE, ">$tmpFile" ) {
-        print FILE $lines;
+        for (@_) {
+            print FILE $_;
+        }
         close FILE;    # explicitly close before rename
         rename $tmpFile, $cacheFile unless $tmpFile eq $cacheFile;    # atomic
     }
+}
+
+# --------------------------------------------------------------------------
+
+sub qstatfCacher {
+    my $caller    = shift;
+    my $cacheFile = shift or return;
+
+    my $lines = Sge->bin( qstat => qw( -u * -xml -r -f -explain aAcE ) )
+      or return;
+
+    Sge->writeCache( $cacheFile, $lines );
+}
+
+sub qstatCacher {
+    my $caller    = shift;
+    my $cacheFile = shift or return;
+
+    my $lines = Sge->bin( qstat => qw( -u * -xml -r -s prs) ) or return;
+
+    Sge->writeCache( $cacheFile, $lines );
+}
+
+sub qhostCacher {
+    my $caller    = shift;
+    my $cacheFile = shift or return;
+
+    # record qhost xml output to a file
+    # NB: use 2-argument form to open for ">-" expansion!
+    $cacheFile or return;
+    my $lines = Sge->bin( qhost => qw( -q -j -xml ) ) or return;
+
+    # replace xmlns= with xmlns:xsd=
+    $lines =~ s{\s+xmlns=}{ xmlns:xsd=}s;
+
+    Sge->writeCache( $cacheFile, $lines );
 }
 
 1;
