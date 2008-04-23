@@ -21,7 +21,7 @@ unset DISPLAY  # a bit extra safety
 ## System start scripts typically run as root user,
 ## downgrade to a non-root user account. Adjust as needed
 ##
-runas_user=cfdadmin
+runas_user=nobody
 # -------------------------------------------------------------------------
 # this script should run as 'runas_user'
 #
