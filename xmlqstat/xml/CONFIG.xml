@@ -31,11 +31,10 @@
 <use_alarm-threshold_data>no</use_alarm-threshold_data>
 
 <!--
-    NOT YET IMPLEMENTED (ALWAYS ENABLED)
     Set this to 'yes' if you have the qlicserver program
     and wish to view the resource allocation
 -->
-<have_qlicserver>yes</have_qlicserver>
+<qlicserver>yes</qlicserver>
 
 <!--
     specify an external program for viewing the stdout files

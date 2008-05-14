@@ -26,9 +26,10 @@
 <!-- Import our templates -->
 <xsl:include href="xmlqstat-templates.xsl"/>
 
-<!-- Prep our configuration XML file(s) -->
-<xsl:variable name="configFile" select="document('../xml/CONFIG.xml')" />
-<xsl:param name="viewlogProgram"><xsl:value-of select="$configFile/config/viewlogProgram"/></xsl:param>
+<!-- get specific configuration parameters -->
+<xsl:param name="viewlogProgram">
+  <xsl:value-of select="document('../xml/CONFIG.xml')/config/viewlogProgram"/>
+</xsl:param>
 
 <!-- XSL Parameters -->
 <xsl:param name="timestamp"/>

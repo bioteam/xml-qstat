@@ -35,10 +35,13 @@
 <xsl:param name="timestamp"/>
 <xsl:param name="menuMode"/>
 
-<!-- Read in our configuration XML file -->
-<xsl:variable name="configFile" select="document('../xml/CONFIG.xml')" />
-<xsl:param name="viewlogProgram"><xsl:value-of select="$configFile/config/viewlogProgram"/></xsl:param>
-<xsl:param name="viewfileProgram"><xsl:value-of select="$configFile/config/viewfileProgram"/></xsl:param>
+<!-- get specific configuration parameters -->
+<xsl:param name="viewfileProgram">
+  <xsl:value-of select="document('../xml/CONFIG.xml')/config/viewfileProgram"/>
+</xsl:param>
+<xsl:param name="viewlogProgram">
+  <xsl:value-of select="document('../xml/CONFIG.xml')/config/viewlogProgram"/>
+</xsl:param>
 
 <!-- Read in our bitmask translation XML config file -->
 <xsl:variable name="codeFile" select="document('../xml/CONFIG_statusCodes.xml')" />

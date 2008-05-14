@@ -15,6 +15,13 @@
     doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
 />
 
+<!-- get specific configuration parameters -->
+<xsl:variable name="config_qlicserver">
+<xsl:if
+    test="document('../xml/CONFIG.xml')/config/qlicserver = 'yes'"
+    >yes</xsl:if>
+</xsl:variable>
+
 <!-- define a standard (corporate, institutional) logo to use -->
 <xsl:template name="topLogo">
 <div class="topLogo" style="clear:both; align=right;">
@@ -70,11 +77,13 @@
       /></a>
     </xsl:otherwise>
     </xsl:choose>
+<xsl:if test="$config_qlicserver = 'yes'">
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <a href="resources.html" title="resources" ><img border="0"
         src="images/icons/silk/folder_database.png"
         alt="[resources]"
     /></a>
+</xsl:if>
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <!-- hostinfo: toggle between default/warn views -->
     <xsl:choose>
@@ -140,11 +149,13 @@
         src="images/icons/silk/server_chart.png"
         alt="[queue instances]"
     /></a>
+<xsl:if test="$config_qlicserver = 'yes'">
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <a href="qstat-resources.html" title="resources" ><img border="0"
         src="images/icons/silk/folder_database.png"
         alt="[resources]"
     /></a>
+</xsl:if>
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <a href="qstat-terse.html" title="cluster summary"><img border="0"
         src="images/icons/silk/layout.png"
