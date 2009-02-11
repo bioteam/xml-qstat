@@ -3,7 +3,7 @@
 # Chris Dagdigian (dag@sonsorol.org)
 #
 # This script can be used to compile and package the xml-qstat.jar file required
-# by Apache Cocoon for direct XML queries to the SGE Qmaster. 
+# by Apache Cocoon for direct XML queries to the SGE Qmaster.
 #
 # Instructions:
 #
@@ -15,7 +15,7 @@
 
 
 ## YOU WILL NEED TO EDIT THIS BLOCK TO MATCH YOUR LOCAL INSTALL
-MyCocoonBase="/opt/trunk/cocoon-2.1.10/build"
+MyCocoonBase="/data/app/cocoon-2.1.10/build"
 
 MYCLASSPATH="$MyCocoonBase/cocoon/cocoon.jar:\
 $MyCocoonBase/webapp/WEB-INF/lib/commons-lang-2.2.jar:\
@@ -49,7 +49,7 @@ echo "\n[STATUS] Java compiled into .class files; now we need to make a clean .j
 cd ../../../../
 
 ## We need to make a copy of our java/org/xmlqstat/generator/ tree that is free
-## from ".svn/*" files and also does not contain the .java file. From that 
+## from ".svn/*" files and also does not contain the .java file. From that
 ## clean directory we can make a nice jar archive
 
 if [ -d jarbuilder ]; then
@@ -72,14 +72,3 @@ echo "\n[STATUS] Making our .jar file"
 jar cvf xml-qstat.jar -C . .
 
 echo "\n[STATUS] Done! Look for a 'xml-qstat.jar' file in the jarbuilder/ folder."
-
-
-
-
-
-
-
-
-
-
-

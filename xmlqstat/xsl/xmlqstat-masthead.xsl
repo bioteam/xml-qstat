@@ -24,17 +24,16 @@
 
 <!-- define a standard (corporate, institutional) logo to use -->
 <xsl:template name="topLogo">
-<div class="topLogo" style="clear:both; align=right;">
+<div class="topLogo" style="clear:both; align:right;">
   <p>
-<!--    <img src="images/emconTech.png" width="370" alt="logo" /> -->
-    <img src="images/xml-qstat-logo.gif" width="150" alt="logo" />
+    <img src="images/emconTech.png" width="370" alt="logo" />
   </p>
 </div>
 </xsl:template>
 
 <!-- define a default xmlqstat local -->
 <xsl:template name="xmlqstatLogo">
-<div class="topLogo" style="clear:both; align=right;">
+<div class="topLogo" style="clear:both; align:right;">
   <p>
     <img src="images/xml-qstat-logo.gif" width="150" alt="logo" />
   </p>

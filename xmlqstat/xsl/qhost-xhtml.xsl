@@ -66,19 +66,6 @@
 
 <xsl:text>
 </xsl:text>
-<xsl:comment> Load dortch cookie utilities, display-altering code </xsl:comment>
-<xsl:text>
-</xsl:text>
-<script
-    language="JavaScript" type="text/javascript"
-    src="javascript/cookie.js"
-/>
-<script
-    language="JavaScript" type="text/javascript"
-    src="javascript/xmlqstat.js"
-/>
-<xsl:text>
-</xsl:text>
 <xsl:comment> Load CSS from a file </xsl:comment>
 <xsl:text>
 </xsl:text>

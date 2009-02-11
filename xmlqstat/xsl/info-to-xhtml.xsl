@@ -60,7 +60,7 @@
 </xsl:text>
 <div id="main">
 <!-- Topomost Logo Div -->
-<div class="topLogo" style="clear:both; align=right;">
+<div class="topLogo" style="clear:both; align:right;">
   <p>
     <img src="../images/xml-qstat-logo.gif" width="150" alt="logo" />
     <!-- <img src="../images/emconTech.png" width="370" alt="logo" /> -->

@@ -64,7 +64,7 @@ public class CommandGenerator extends ServiceableGenerator implements CacheableP
    /* expire delay, fixed for 30sec, but should be read from configuration */
    static final long EXPIRE_DEFAULT = 30L;
    static final String EXPIRE_TAG = "expire";
-   
+
    /** The input source */
    protected InputSource inputSource;
    /* expire delay in seconds */

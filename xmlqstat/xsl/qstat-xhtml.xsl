@@ -49,6 +49,7 @@
 <xsl:comment> Load dortch cookie utilities and display altering code </xsl:comment>
 <xsl:text>
 </xsl:text>
+<!-- This bit causes problems with FireFox3
 <script
     language="JavaScript" type="text/javascript"
     src="javascript/cookie.js"
@@ -57,6 +58,7 @@
     language="JavaScript" type="text/javascript"
     src="javascript/xmlqstat.js"
 />
+-->
 <xsl:text>
 </xsl:text>
 
