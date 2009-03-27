@@ -1,8 +1,13 @@
 #!/usr/bin/perl -w
 use strict;
 
+# CUSTOMIZE THESE SETTINGS TO MATCH YOUR REQUIREMENTS:
+my %config = (
+    SGE_ROOT => "/opt/grid",
+    SGE_CELL => "default",
+);
+
 # -----------------------------------------------------------------------------
-# $Id:$
 #
 # jobinfo cgi script
 #
@@ -12,7 +17,8 @@ use strict;
 #
 # To get it working:
 # ------------------
-# 1. Adjust the SGE_ROOT, SGE_CELL enviroment settings to match your system
+# 1. Adjust the SGE_ROOT, SGE_CELL environment settings to match your system,
+#    or pass them on the parameter list
 # 2. Install the script in a cgi-bin directory somewhere on your webserver
 # 3. Edit the sitemap.xmap file to insert the proper URL that points to this CGI
 #    the line you will want to edit will contain this string:
@@ -34,68 +40,83 @@ use strict;
 #   of dynamically generating other non-XML content.
 #
 # -----------------------------------------------------------------------------
+# boilerplate for hand-rolled cgi scripts
 
-###############################################################################
-###############################################################################
-# CUSTOMIZE THESE SETTINGS TO MATCH YOUR REQUIREMENTS:
-#
-
-$ENV{SGE_ROOT} ||= "/opt/n1ge6";
-$ENV{SGE_CELL} ||= "default";
-
-#
-# END OF CUSTOMIZE SETTINGS
-###############################################################################
-###############################################################################
-
-# failsafe for getting the architecture
-chomp( my $arch = $ENV{SGE_ARCH} || qx{$ENV{SGE_ROOT}/util/arch} || '' );
-
-my @qstat = ( "$ENV{SGE_ROOT}/bin/$arch/qstat", "-xml", "-j" );
-
+# simple error handling
 sub error {
     print qq{<?xml version="1.0"?>\n};
     print qq{<cgi_error>@_</cgi_error>\n};
     exit 1;
 }
 
-for ( $qstat[0] ) {
-    ## paranoid: check for spaces/meta-chars in path
-    if (/[*?<>{}\[\]\\\s]/) {
-        error "qstat with bad characters in path";
-    }
+# parameter checking: '&' is the normal separator, but split on '&amp;' too
+# pander to calling directly from the command-line as well (no QUERY_STRING)
+my @params = grep { defined and length } split /\&(?:amp;)?/,
+  ( $ENV{QUERY_STRING} || '' );
 
-    -x $_ or error "qstat not found: $_";
+# place named parameters in %param and unnamed parameters in %switch
+# place raw numbers in @jobIds
+my ( %param, %switch, @jobIds );
+
+for (@params) {
+    s{%([\dA-Fa-f]{2})}{chr hex $1}eg;    ## decode chars, eg %20 -> space etc
+    s{[*?&<>{}\[\]\\\`]}{}g;              ## remove meta-chars
+
+    if (/=/) {
+        my ( $k, $v ) = split /=/;
+        $v =~ s{^,+|,+$}{}g;              ## remove leading/trailing commas
+        $param{$k} = $v;
+    }
+    elsif ( /^\d+$/ ) {
+        push @jobIds, $_;
+    }
+    else {
+        $switch{$_}++;
+    }
 }
 
-my $input = $ENV{QUERY_STRING};
-defined $input or error "undefined jobid";
+#
+# GridEngine environment from params, env or config
+#
+for (qw( SGE_ROOT SGE_CELL )) {
+    if ( exists $param{$_} ) {
+        $ENV{$_} = $param{$_};
+    }
+    else {
+        $ENV{$_} ||= $config{$_};
+    }
+}
 
-my @jobIds;
+# finalize GridEngine environment, call directly (don't adjust path)
+my @qstat;
+{
+    chomp( my $arch = $ENV{SGE_ARCH} || qx{$ENV{SGE_ROOT}/util/arch} || '' );
+    my $bin = "$ENV{SGE_ROOT}/bin/$arch";
+
+    # no LD_LIBRARY_PATH adjustment needed on Linux/Solaris
+    @qstat = ( "$bin/qstat", "-xml", "-j" );
+
+    -d $bin and -x $qstat[0]
+      or error "qstat not found: $qstat[0]";
+}
+
+# -----------------------------------------------------------------------------
+
+#
+# the job= parameter has precedence
+# restrict to alphanumeric input (jobNumber or jobName)
+#
+if ( exists $param{job} ) {
+    @jobIds = grep { defined and /^(\w+)$/ } split /, /, $param{job};
+}
 
 # treat an empty query parameter as '*'
-if ( length $input ) {
-    @jobIds = grep { defined } split /, /, $input;
-}
-else
-{
-    @jobIds = '*';
-}
-
-# this wildcard is not a dangerous as it may appear
+# this wildcard is not as dangerous as it may appear
 # - we are calling qstat directly without using the shell
 #
-# Otherwise restrict to alphanumeric input (jobId or jobName)
-#
-if ( grep { /^\*$/ } @jobIds ) {
-    @jobIds = '*';
-}
-else {
-    @jobIds = map { $_ ? /^(\w+)$/ : () } @jobIds;
-}
-push @qstat, join( "," => @jobIds );
+@jobIds or @jobIds = '*';
 
-@jobIds or error "invalid jobid '$input'";
+push @qstat, join( "," => @jobIds );
 
 {
     local *PIPE;
@@ -112,4 +133,4 @@ push @qstat, join( "," => @jobIds );
 
 1;
 
-# ------------------------------------------------------------- end-of-file
+# ----------------------------------------------------------------- end-of-file

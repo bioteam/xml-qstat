@@ -6,13 +6,15 @@
 <xsl:output method="xml" version="1.0" encoding="UTF-8"/>
 
 <xsl:template match="/">
-  <xsl:apply-templates select="//detailed_job_info" />
-  <xsl:apply-templates select="//query" />
+  <xsl:copy-of select="/qlicserver/query"/>
+<!--  <xsl:copy-of select="/qlicserver/parameters"/> -->
 </xsl:template>
 
 <!-- Transcribe everything else verbatim -->
+<!--
 <xsl:template match="*|@*|comment()|text()">
   <xsl:copy><xsl:apply-templates/></xsl:copy>
 </xsl:template>
+-->
 
 </xsl:stylesheet>

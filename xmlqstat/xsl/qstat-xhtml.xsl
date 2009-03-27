@@ -26,9 +26,21 @@
 <!-- Import our templates -->
 <xsl:include href="xmlqstat-templates.xsl"/>
 
+<!-- Prep our configuration XML file(s) -->
+<xsl:variable name="configFile" select="document('../config/config.xml')" />
+
 <!-- get specific configuration parameters -->
-<xsl:param name="viewlogProgram">
-  <xsl:value-of select="document('../xml/CONFIG.xml')/config/viewlogProgram"/>
+<xsl:param name="viewlogProgram"><xsl:value-of select="$configFile/config/viewlogProgram"/></xsl:param>
+<xsl:param name="useJavaScript"><xsl:value-of select="$configFile/config/useJavaScript"/></xsl:param>
+
+<xsl:param name="cgiParams">
+  <xsl:if
+    test="//query/cluster">&amp;SGE_ROOT=<xsl:value-of
+    select="//query/cluster/@root"/><xsl:if
+    test="//query/cluster/@cell != 'default'"
+    >&amp;SGE_CELL=<xsl:value-of
+    select="//query/cluster/@cell"/></xsl:if>
+  </xsl:if>
 </xsl:param>
 
 <!-- XSL Parameters -->
@@ -46,21 +58,20 @@
 
 <xsl:text>
 </xsl:text>
-<xsl:comment> Load dortch cookie utilities and display altering code </xsl:comment>
+<xsl:comment> useJavaScript = '<xsl:value-of select="$useJavaScript"/>' </xsl:comment>
 <xsl:text>
 </xsl:text>
-<!-- This bit causes problems with FireFox3
-<script
-    language="JavaScript" type="text/javascript"
-    src="javascript/cookie.js"
-/>
-<script
-    language="JavaScript" type="text/javascript"
-    src="javascript/xmlqstat.js"
-/>
--->
+<!-- NB: <script> .. </script> needs some (any) content -->
+<xsl:if test="$useJavaScript = 'yes'" >
+<script src="javascript/cookie.js" type="text/javascript">
+  // Dortch cookies
+</script>
+<script src="javascript/xmlqstat.js" type="text/javascript">
+  // display altering code
+</script>
 <xsl:text>
 </xsl:text>
+</xsl:if>
 
 <xsl:comment> Load CSS from a file </xsl:comment>
 <xsl:text>
@@ -124,17 +135,30 @@
 
 <xsl:text>
 </xsl:text>
-<xsl:if test="//query/host">
-  <div id="upperBar">
-    <xsl:comment> Top dotted line bar (holds the qmaster host and update time) </xsl:comment>
-    [<xsl:value-of select="//query/host"/>]
-    <!-- remove 'T' in dateTime for easier reading -->
-    <xsl:value-of select="translate(//query/time, 'T', ' ')"/>
-  </div>
-</xsl:if>
-
+<xsl:comment> Top dotted line bar (holds the qmaster host and update time) </xsl:comment>
+<div id="upperBar">
+<xsl:choose>
+<xsl:when test="//query/cluster and //query/host">
+  <!-- query host, cluster/cell name -->
+  <xsl:value-of
+      select="//query/host"
+      />@<xsl:value-of
+      select="//query/cluster/@name"
+      />/<xsl:value-of
+      select="//query/cluster/@cell"/>
+  <xsl:text> </xsl:text>
+  <!-- replace 'T' in dateTime for easier reading -->
+  [<xsl:value-of select="translate(//query/time, 'T', '_')"/>]
+</xsl:when>
+<xsl:otherwise>
+  <!-- unnamed cluster: -->
+  unnamed cluster
+</xsl:otherwise>
+</xsl:choose>
+</div>
 <xsl:text>
 </xsl:text>
+
 <xsl:comment> Active Jobs </xsl:comment>
 <xsl:text>
 </xsl:text>
@@ -193,7 +217,7 @@
   <!-- no active jobs -->
   <blockquote>
   <span class="actheader">
-    <img alt="*" align="absmiddle" src="images/icons/silk/bullet_blue.png" />
+    <img alt="*" src="images/icons/silk/bullet_blue.png" />
     no active jobs
     <xsl:if test="$filterByUser">
       for <em><xsl:value-of select="$filterByUser"/></em>
@@ -266,7 +290,7 @@
   <!-- no pending jobs -->
   <blockquote>
   <span class="pendheader">
-    <img alt="*" align="absmiddle" src="images/icons/silk/bullet_blue.png" />
+    <img alt="*" src="images/icons/silk/bullet_blue.png" />
     no pending jobs
     <xsl:if test="$filterByUser" >
       for user <em><xsl:value-of select="$filterByUser"/></em>
@@ -324,7 +348,7 @@
 
   <tr>
   <!-- jobID with resource requests -->
-  <!-- link jobID to details: "jobinfo.html?{jobID}" -->
+  <!-- link jobID to details: "jobinfo?{jobID}" -->
   <td>
     <xsl:element name="a">
       <xsl:attribute name="title">
@@ -334,16 +358,16 @@
 </xsl:text>
         </xsl:for-each>
       </xsl:attribute>
-      <xsl:attribute name="href">jobinfo.html?<xsl:value-of select="JB_job_number"/></xsl:attribute>
+      <xsl:attribute name="href">jobinfo?<xsl:value-of select="JB_job_number"/></xsl:attribute>
       <xsl:value-of select="JB_job_number" />
     </xsl:element>
   </td>
   <!-- owner -->
   <td>
-    <!-- link owner names to "jobs.html?{owner}" -->
+    <!-- link owner names to "jobs?user={owner}" -->
     <xsl:element name="a">
       <xsl:attribute name="title">view jobs owned by <xsl:value-of select="JB_owner"/></xsl:attribute>
-      <xsl:attribute name="href">jobs.html?<xsl:value-of select="JB_owner"/></xsl:attribute>
+      <xsl:attribute name="href">jobs?user=<xsl:value-of select="JB_owner"/></xsl:attribute>
       <xsl:value-of select="JB_owner" />
     </xsl:element>
   </td>
@@ -432,7 +456,7 @@
 
   <tr>
   <!-- jobID with resource requests -->
-  <!-- link jobID to details: "jobinfo.html?{jobID}" -->
+  <!-- link jobID to details: "jobinfo?{jobID}" -->
   <td>
     <xsl:element name="a">
       <xsl:attribute name="title">
@@ -442,16 +466,16 @@
 </xsl:text>
         </xsl:for-each>
       </xsl:attribute>
-      <xsl:attribute name="href">jobinfo.html?<xsl:value-of select="JB_job_number"/></xsl:attribute>
+      <xsl:attribute name="href">jobinfo?<xsl:value-of select="JB_job_number"/></xsl:attribute>
       <xsl:value-of select="JB_job_number" />
     </xsl:element>
   </td>
   <!-- owner -->
   <td>
-    <!-- link owner names to "jobs.html?{owner}" -->
+    <!-- link owner names to "jobs?user={owner}" -->
     <xsl:element name="a">
       <xsl:attribute name="title">view jobs owned by <xsl:value-of select="JB_owner"/></xsl:attribute>
-      <xsl:attribute name="href">jobs.html?<xsl:value-of select="JB_owner"/></xsl:attribute>
+      <xsl:attribute name="href">jobs?user=<xsl:value-of select="JB_owner"/></xsl:attribute>
       <xsl:value-of select="JB_owner" />
     </xsl:element>
   </td>
@@ -530,6 +554,9 @@
         test="tasks">.<xsl:value-of
         select="tasks"/></xsl:if><xsl:text>&amp;</xsl:text>resources=<xsl:value-of
         select="$resources"/>
+<!--  <xsl:text>&amp;</xsl:text>SGE_ROOT=<xsl:value-of
+        select="@name"/>
+-->
   </xsl:variable>
 
   <!-- url viewlog?jobid=...&resources={resources} -->
@@ -537,7 +564,7 @@
     <xsl:attribute name="title">viewlog</xsl:attribute>
     <xsl:attribute name="href"><xsl:value-of
         select="$viewlogProgram"/>?<xsl:value-of
-        select="$request"/></xsl:attribute>
+        select="$request"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
     <img src="images/icons/silk/page_find.png" alt="[v]" border="0" />
   </xsl:element>
 
@@ -546,7 +573,7 @@
     <xsl:attribute name="title">plotlog</xsl:attribute>
     <xsl:attribute name="href"><xsl:value-of
         select="$viewlogProgram"/>?action=plot<xsl:text>&amp;</xsl:text><xsl:value-of
-        select="$request"/></xsl:attribute>
+        select="$request"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
     <img src="images/icons/silk/chart_curve.png" alt="[p]" border="0" />
   </xsl:element>
 
@@ -556,7 +583,7 @@
     <xsl:attribute name="href"><xsl:value-of
         select="$viewlogProgram"/>?action=plot<xsl:text>&amp;</xsl:text>owner=<xsl:value-of
         select="JB_owner"/><xsl:text>&amp;</xsl:text>resources=<xsl:value-of
-        select="$resources"/></xsl:attribute>
+        select="$resources"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
     <img src="images/icons/silk/chart_curve_add.png" alt="[P]" border="0" />
   </xsl:element>
 </xsl:if>

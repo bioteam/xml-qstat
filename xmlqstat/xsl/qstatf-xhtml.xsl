@@ -40,9 +40,9 @@
 <xsl:include href="xmlqstat-templates.xsl"/>
 
 <!-- Prep our configuration XML file(s) -->
-<xsl:variable name="configFile" select="document('../xml/CONFIG.xml')" />
+<xsl:variable name="configFile" select="document('../config/config.xml')" />
 <xsl:variable name="loadAlarmFile"
-    select="document('../xml/CONFIG_alarm-threshold.xml')"
+    select="document('../config/alarm-threshold.xml')"
 />
 
 <!-- XSL Parameters  -->
@@ -52,6 +52,9 @@
 <xsl:param name="filterByUser"/>
 <xsl:param name="renderMode"/>
 <xsl:param name="menuMode" select="'xmlqstat'"/>
+
+<!-- get specific configuration parameters -->
+<xsl:param name="useJavaScript"><xsl:value-of select="$configFile/config/useJavaScript"/></xsl:param>
 
 <!-- this doesn't seem to be working anyhow -->
 <xsl:param name="enableResourceQueries"/>
@@ -99,19 +102,20 @@
 
 <xsl:text>
 </xsl:text>
-<xsl:comment> Load dortch cookie utilities and display altering code </xsl:comment>
+<xsl:comment> useJavaScript = '<xsl:value-of select="$useJavaScript"/>' </xsl:comment>
 <xsl:text>
 </xsl:text>
-<script
-    language="JavaScript" type="text/javascript"
-    src="javascript/cookie.js"
-/>
-<script
-    language="JavaScript" type="text/javascript"
-    src="javascript/xmlqstat.js"
-/>
+<!-- NB: <script> .. </script> needs some (any) content -->
+<xsl:if test="$useJavaScript = 'yes'" >
+<script src="javascript/cookie.js" type="text/javascript">
+  // Dortch cookies
+</script>
+<script src="javascript/xmlqstat.js" type="text/javascript">
+  // display altering code
+</script>
 <xsl:text>
 </xsl:text>
+</xsl:if>
 
 <xsl:comment> Load CSS from a file </xsl:comment>
 <xsl:text>
@@ -668,7 +672,7 @@
   <!-- no active jobs -->
   <blockquote>
   <span class="actheader">
-    <img alt="*" align="absmiddle" src="images/icons/silk/bullet_blue.png" />
+    <img alt="*" src="images/icons/silk/bullet_blue.png" />
     no active jobs
     <xsl:if test="$filterByUser">
       for user <em><xsl:value-of select="$filterByUser"/></em>
@@ -733,7 +737,7 @@
   <!-- no pending jobs -->
   <blockquote>
   <span class="pendheader">
-    <img alt="*" align="absmiddle" src="images/icons/silk/bullet_blue.png" />
+    <img alt="*" src="images/icons/silk/bullet_blue.png" />
     no pending jobs
     <xsl:if test="$filterByUser">
       for user <em><xsl:value-of select="$filterByUser"/></em>

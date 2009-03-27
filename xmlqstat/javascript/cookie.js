@@ -1,3 +1,4 @@
+<![CDATA[
 // use -*- java -*- mode for javascript
 //
 // Written by:  Bill Dortch, hIdaho Design <bdortch@hidaho.com>
@@ -20,7 +21,7 @@ function GetCookie (name) {
         if (document.cookie.substring(i, j) == arg)
             return getCookieVal (j);
 	i = document.cookie.indexOf(" ", i) + 1;
-        if (i == 0) break; 
+        if (i == 0) break;
     }
     return null;
 }
@@ -41,3 +42,5 @@ function DeleteCookie (name,path,domain) {
             "; expires=Thu, 01-Jan-70 00:00:01 GMT";
     }
 }
+// ---------------------------------------------------------------- end-of-file
+]]>

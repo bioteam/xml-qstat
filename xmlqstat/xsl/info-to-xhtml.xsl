@@ -18,7 +18,7 @@
 <!-- get specific configuration parameters -->
 <xsl:variable name="config_qlicserver">
 <xsl:if
-    test="document('../xml/CONFIG.xml')/config/qlicserver = 'yes'"
+    test="document('../config/config.xml')/config/qlicserver = 'yes'"
     >yes</xsl:if>
 </xsl:variable>
 
@@ -60,19 +60,16 @@
 </xsl:text>
 <div id="main">
 <!-- Topomost Logo Div -->
-<div class="topLogo" style="clear:both; align:right;">
-  <p>
-    <img src="../images/xml-qstat-logo.gif" width="150" alt="logo" />
-    <!-- <img src="../images/emconTech.png" width="370" alt="logo" /> -->
-  </p>
-</div>
+  <xsl:call-template name="xmlqstatLogo">
+    <xsl:with-param name="relPath" select="'../'" />
+  </xsl:call-template>
 <xsl:text>
 </xsl:text>
 <!-- Top Menu Bar -->
 <div id="menu" style="text-align:middle;">
   <img alt="*" src="../images/icons/silk/bullet_blue.png" />
   <a href="../qstat-jobs.html" title="home" ><img border="0"
-      src="../images/icons/silk/house.png"
+      src="../images/icons/silk/lorry_flatbed.png"
       alt="[jobs]"
   /></a>
   <img alt="*" src="../images/icons/silk/bullet_blue.png" />
@@ -80,13 +77,6 @@
       src="../images/icons/silk/server_chart.png"
       alt="[queue instances]"
   /></a>
-<xsl:if test="$config_qlicserver = 'yes'">
-  <img alt="*" src="../images/icons/silk/bullet_blue.png" />
-  <a href="../qstat-resources.html" title="resources" ><img border="0"
-      src="../images/icons/silk/folder_database.png"
-      alt="[resources]"
-  /></a>
-</xsl:if>
   <img alt="*" src="../images/icons/silk/bullet_blue.png" />
   <a href="../qstat-terse.html" title="cluster summary"><img border="0"
       src="../images/icons/silk/layout.png"

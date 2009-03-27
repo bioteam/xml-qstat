@@ -4,7 +4,7 @@
 ## Grid Engine XML status data for the "xml-qstat" web application
 
 ## CUSTOMIZE AS NEEDED
-: ${SGE_ROOT:=/opt/n1ge6}
+: ${SGE_ROOT:=/opt/grid}
 : ${SGE_CELL:=default}
 
 CACHE_SGE_XML_HOME=/opt/xml-qstat/scripts
@@ -34,7 +34,7 @@ fi
 ## so our script can access Grid Engine commands
 if [ -f $SGE_ROOT/$SGE_CELL/common/settings.sh ]
 then
-   . $SGE_ROOT/$SGE_CELL/common/settings.sh
+    . $SGE_ROOT/$SGE_CELL/common/settings.sh
 fi
 
 daemon=$CACHE_SGE_XML_HOME/sge-xml-cacher.pl
@@ -42,27 +42,28 @@ name=sge-xml-cacher
 desc="GridEngine XML Status Cache Daemon"
 
 [ -f $daemon -a -x $daemon ] || {
-   echo "$daemon not found"
-   exit 5      # LSB compliant exit status - program is not installed
+    echo "$daemon not found"
+    exit 5      # LSB compliant exit status - program is not installed
 }
 
 case "$1" in
 start)
-   echo -n "Starting $desc: "
-   $daemon -d
-   echo "$name"
-   ;;
+    echo -n "Starting $desc: "
+    $daemon -d
+    echo "$name"
+    ;;
 
 stop)
-   echo -n "Stopping $desc: "
-   $daemon -k
-   echo "$name"
-   ;;
+    echo -n "Stopping $desc: "
+    $daemon -k
+    echo "$name"
+    ;;
 
 *)
-   echo "Usage: $0 {start|stop}" >&2
-   exit 1
-   ;;
+    echo "Usage: $0 {start|stop}" >&2
+    exit 1
+    ;;
 esac
 
 exit 0
+# ------------------------------------------------------------- end-of-file

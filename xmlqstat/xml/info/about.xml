@@ -115,7 +115,7 @@ The <b>httpi</b> directory is <em>optional</em> and contains a tiny, fast and
 secure pure-Perl webserver known as <a href="http://www.floodgap.com/httpi/">httpi</a>.
 
 This webserver can be used to generate dynamic XML when the cached data is
-not suitable and the user prefers not to use the pure-Java
+not suitable or if the user prefers not to use the pure-Java
 <em>CommandGenerator</em>.
 
 The original use of the second webserver was to service requests for
@@ -208,7 +208,7 @@ transformation of Grid Engine XML into various output forms.
 <br/><br/>
 
 Generally speaking, it should only be necessary to edit the
-<b>xmlqstat/xml/CONFIG.xml</b>. This file is used to set some simple
+<b>xmlqstat/config/config.xml</b>. This file is used to set some simple
 configuration preferences.
 
 In some cases, it may be necessary to edit <b>sitemap.xmap</b> to make minor
@@ -267,7 +267,7 @@ Installation Process:
   directory (details are below).
 </li>
 <li>
-  Edit the <b>xmlqstat/xml/CONFIG.xml</b> file to set local configuration
+  Edit the <b>xmlqstat/config/config.xml</b> file to set local configuration
   parameters (details are below)
 </li>
 <li>
@@ -299,7 +299,7 @@ Installation Process:
 <li>
   The web interface should be ready for testing.
   Point a web browser at the URL
-  <em>http://{yourServerName}:8888/xmlqstat/qstat-jobs.html</em>
+  <em>http://{yourServerName}:8888/xmlqstat/jobs.html</em>
 </li>
 </ol>
 ]]></para>
@@ -389,10 +389,10 @@ request the URI-prefix of "/xmlqstat".
 
 
 <section>
-<sectionHead>Customizing CONFIG.xml</sectionHead>
+<sectionHead>Customizing config.xml</sectionHead>
 <para><![CDATA[
-Within the <b>xmlqstat/xml/</b> directory there is a file called
-<b>CONFIG.xml</b> that needs to be edited to reflect the local site
+Within the <b>xmlqstat/config/</b> directory there is a file called
+<b>config.xml</b> that needs to be edited to reflect the local site
 installation. The file is well documented internally so it should be a
 simple process to edit. The following configuration questions are asked:
 <ol>
@@ -409,12 +409,28 @@ simple process to edit. The following configuration questions are asked:
   <em>optional (and broken at the moment).</em>
 
   If you run the <b>scripts/create-threshold-config.pl</b> helper script,
-  an additional XML configuration file (CONFIG_alarm-threshold.xml) will be
+  an additional XML configuration file (config/alarm-threshold.xml) will be
   created that lists the Grid Engine load alarm threshold values for each
   queue instance. These values can then be compared to the real-time load
   data reported by Grid Engine. When enabled, this feature will show a
   graphical "Load Ratio" column in the web interface. When the value is set
   to "no", the Load Ratio column data is not displayed.
+</li>
+<li>
+  <b>qlicserver</b>
+  <em>yes|no</em>.
+  Specify if the cached output from the qlicserver (FlexLM license integration)
+  is available.
+</li>
+<li>
+  <b>useJavaScript</b>
+  <em>yes|no</em>.
+  Specify if JavaScript should be enabled.
+</li>
+<li>
+  <b>jobinfoProgram</b>
+  <em>optional</em>.
+  Specify a program that can be used to query the GridEngine for job details.
 </li>
 <li>
   <b>viewfileProgram</b>
@@ -465,7 +481,7 @@ A basic overview of some of the built-in features:
 </li>
 <li>
   Per user job sorting. Users can view their own pending/active jobs by
-  adding their name as a request. eg, /xmlqstat/qstat-jobs.html?USERNAME
+  adding their name as a request. eg, /xmlqstat/jobs.html?USERNAME
 </li>
 <li>
   Sensible Job Detail handling. The URL "/xmlqstat/job-{JOBID}.html" can be

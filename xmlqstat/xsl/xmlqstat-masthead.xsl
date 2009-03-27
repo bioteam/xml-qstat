@@ -18,24 +18,46 @@
 <!-- get specific configuration parameters -->
 <xsl:variable name="config_qlicserver">
 <xsl:if
-    test="document('../xml/CONFIG.xml')/config/qlicserver = 'yes'"
+    test="document('../config/config.xml')/config/qlicserver = 'yes'"
     >yes</xsl:if>
 </xsl:variable>
 
 <!-- define a standard (corporate, institutional) logo to use -->
 <xsl:template name="topLogo">
-<div class="topLogo" style="clear:both; align:right;">
+<xsl:param name="relPath" />
+<div class="topLogo" style="clear:both; text-align:left;">
+  <!-- getting the image info (brute-force): -->
+  <xsl:if test="document('../config/config.xml')/config/topLogo/@src">
   <p>
-    <img src="images/emconTech.png" width="370" alt="logo" />
+    <xsl:element name="img">
+      <xsl:attribute name="src">
+        <xsl:if test="$relPath">
+          <xsl:value-of select="$relPath"/>
+        </xsl:if>
+        <xsl:value-of select="document('../config/config.xml')/config/topLogo/@src"/>
+      </xsl:attribute>
+      <xsl:if test="document('../config/config.xml')/config/topLogo/@width">
+        <xsl:attribute name="width"><xsl:value-of select="document('../config/config.xml')/config/topLogo/@width"/></xsl:attribute>
+      </xsl:if>
+      <xsl:attribute name="alt">logo</xsl:attribute>
+    </xsl:element>
   </p>
+  </xsl:if>
 </div>
 </xsl:template>
 
 <!-- define a default xmlqstat local -->
 <xsl:template name="xmlqstatLogo">
-<div class="topLogo" style="clear:both; align:right;">
+<xsl:param name="relPath" />
+<div class="topLogo" style="clear:both; text-align:left;">
   <p>
-    <img src="images/xml-qstat-logo.gif" width="150" alt="logo" />
+    <xsl:element name="img">
+      <xsl:attribute name="src"><xsl:if
+        test="$relPath"><xsl:value-of
+        select="$relPath"/></xsl:if>images/xml-qstat-logo.gif</xsl:attribute>
+      <xsl:attribute name="width">150</xsl:attribute>
+      <xsl:attribute name="alt">logo</xsl:attribute>
+    </xsl:element>
   </p>
 </div>
 </xsl:template>
@@ -50,27 +72,32 @@
 
   <div id="menu" style="text-align:left;">
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    <a href="jobs.html" title="jobs"><img border="0"
+    <a href="../../" title="clusters"><img border="0"
         src="images/icons/silk/house.png"
+        alt="[home]"
+    /></a>
+    <img alt="*" src="images/icons/silk/bullet_blue.png" />
+    <a href="jobs" title="jobs"><img border="0"
+        src="images/icons/silk/lorry_flatbed.png"
         alt="[jobs]"
     /></a>
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <!-- queueinfo: toggle between normal/more/less views -->
     <xsl:choose>
     <xsl:when test="$queueinfo = 'more'">
-      <a href="queues.html" title="queue instances"><img border="0"
+      <a href="queues" title="queue instances"><img border="0"
           src="images/icons/silk/chart_organisation_add.png"
           alt="[queue instances]"
       /></a>
     </xsl:when>
     <xsl:when test="$queueinfo = 'less'">
-      <a href="queues.html?summary" title="queue summary"><img border="0"
+      <a href="queues?summary" title="queue summary"><img border="0"
           src="images/icons/silk/chart_organisation_delete.png"
           alt="[queue summary]"
       /></a>
     </xsl:when>
     <xsl:otherwise>
-      <a href="queues.html?summary" title="queue summary"><img border="0"
+      <a href="queues?summary" title="queue summary"><img border="0"
           src="images/icons/silk/chart_organisation.png"
           alt="[queue summary]"
       /></a>
@@ -78,8 +105,8 @@
     </xsl:choose>
 <xsl:if test="$config_qlicserver = 'yes'">
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    <a href="resources.html" title="resources" ><img border="0"
-        src="images/icons/silk/folder_database.png"
+    <a href="resources" title="resources" ><img border="0"
+        src="images/icons/silk/database_key.png"
         alt="[resources]"
     /></a>
 </xsl:if>
@@ -87,19 +114,19 @@
     <!-- hostinfo: toggle between default/warn views -->
     <xsl:choose>
     <xsl:when test="$hostinfo = 'more'">
-      <a href="queues.html" title="all queues"><img border="0"
+      <a href="queues" title="all queues"><img border="0"
           src="images/icons/silk/error_add.png"
           alt="[all queues]"
       /></a>
     </xsl:when>
     <xsl:when test="$hostinfo = 'less'">
-      <a href="queues.html?warn" title="warn queues"><img border="0"
+      <a href="queues?warn" title="warn queues"><img border="0"
           src="images/icons/silk/error_delete.png"
           alt="[warn queues]"
       /></a>
     </xsl:when>
     <xsl:otherwise>
-      <a href="queues.html?warn" title="warn queues"><img border="0"
+      <a href="queues?warn" title="warn queues"><img border="0"
           src="images/icons/silk/error.png"
           alt="[warn queues]"
       /></a>
@@ -109,13 +136,13 @@
     <!-- jobinfo: toggle between more/less views -->
     <xsl:choose>
     <xsl:when test="$jobinfo = 'less'">
-      <a href="jobs.html" title="jobs"><img border="0"
+      <a href="jobs" title="jobs"><img border="0"
           src="images/icons/silk/magnifier_zoom_out.png"
           alt="[overview]"
       /></a>
     </xsl:when>
     <xsl:otherwise>
-      <a href="jobinfo.html" title="job details"><img border="0"
+      <a href="jobinfo" title="job details"><img border="0"
           src="images/icons/silk/magnifier_zoom_in.png"
           alt="[job details]"
       /></a>
@@ -139,8 +166,8 @@
 
   <div id="menu" style="text-align:middle;">
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    <a href="qstat-jobs.html" title="home" ><img border="0"
-        src="images/icons/silk/house.png"
+    <a href="qstat-jobs.html" title="jobs" ><img border="0"
+        src="images/icons/silk/lorry_flatbed.png"
         alt="[jobs]"
     /></a>
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
@@ -148,13 +175,6 @@
         src="images/icons/silk/server_chart.png"
         alt="[queue instances]"
     /></a>
-<xsl:if test="$config_qlicserver = 'yes'">
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    <a href="qstat-resources.html" title="resources" ><img border="0"
-        src="images/icons/silk/folder_database.png"
-        alt="[resources]"
-    /></a>
-</xsl:if>
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <a href="qstat-terse.html" title="cluster summary"><img border="0"
         src="images/icons/silk/layout.png"

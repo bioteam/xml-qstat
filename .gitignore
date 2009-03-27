@@ -25,4 +25,8 @@
 # ignore the persistent .build tag in the main directory
 /.build
 
+# ignore caches
+/xmlqstat/cache
+/xmlqstat/cache-*
+
 # end-of-file

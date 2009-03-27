@@ -121,14 +121,27 @@
 <xsl:text>
 </xsl:text>
 
-<xsl:comment> Top dotted line bar (holds the qmaster host and update time) </xsl:comment>
+<xsl:comment> Top dotted line bar (holds the cluster/qmaster names and update time) </xsl:comment>
 <div id="upperBar">
-  <xsl:if test="//query/host">
-    [<xsl:value-of select="//query/host"/>]
-    <!-- remove 'T' in dateTime for easier reading -->
-    <xsl:value-of select="translate(//query/time, 'T', ' ')"/>
-    <br/>
-  </xsl:if>
+  <xsl:choose>
+  <xsl:when test="//query/cluster and //query/host">
+    <!-- query host, cluster/cell name -->
+    <xsl:value-of
+        select="//query/host"
+        />@<xsl:value-of
+        select="//query/cluster/@name"
+        />/<xsl:value-of
+        select="//query/cluster/@cell"/>
+    <xsl:text> </xsl:text>
+    <!-- replace 'T' in dateTime for easier reading -->
+    [<xsl:value-of select="translate(//query/time, 'T', '_')"/>]
+  </xsl:when>
+  <xsl:otherwise>
+    <!-- unnamed cluster: -->
+    unnamed cluster
+  </xsl:otherwise>
+  </xsl:choose>
+  <br/>
   <xsl:choose>
   <xsl:when test="$AJ_total &gt; 0">
     <!-- active jobs: -->

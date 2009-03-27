@@ -3,7 +3,7 @@ body {
     margin: 10px 20px 0px;
 }
 
-// a:active {text-decoration: none}
+/* a:active {text-decoration: none} */
 
 a:link {
     text-decoration: none;
@@ -260,19 +260,16 @@ table.embedded
     border-style: hidden;
     border-spacing: 0px;
     border-collapse: collapse;
-    background-color: none;
 }
 
 table.embedded th {
     border-style: hidden;
     padding: 0px;
-    background-color: none;
 }
 
 table.embedded td {
     border-style: hidden;
     padding: 0px;
-    background-color: none;
 }
 
 

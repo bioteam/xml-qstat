@@ -11,9 +11,9 @@ use strict;
 #   to create the configuration file.
 #
 # Example:
-#  ./create-threshold-config.pl > ../xmlqstat/xml/CONFIG_alarm-threshold.xml
+#  ./create-threshold-config.pl > ../xmlqstat/config/alarm-threshold.xml
 #
-# Once CONFIG_alarm-threshold.xml exists, edit CONFIG.xml to
+# Once config/alarm-threshold.xml exists, edit config/config.xml to
 # enable this feature in the web interface.
 #
 # -----------------------

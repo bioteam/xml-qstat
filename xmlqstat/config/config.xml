@@ -24,7 +24,7 @@
 <!--
     BROKEN AT THE MOMENT:
     Set this to 'yes' if you have created the load alarm
-    threshold configuration file 'CONFIG_alarm-threshold.xml'
+    threshold configuration file 'config/alarm-threshold.xml'
     file and want the xmlqstat interface to take this data into
     consideration.
 -->
@@ -35,6 +35,18 @@
     and wish to view the resource allocation
 -->
 <qlicserver>yes</qlicserver>
+
+<!--
+    Set this to 'yes' if you wish to use JavaScript
+    may cause compatibility issues with some browser versions
+-->
+<useJavaScript>yes</useJavaScript>
+
+<!--
+    specify an external program for querying the the jobinfo
+    - the jobId, etc. are passed via the queryString
+-->
+<jobinfoProgram>http://dealog01:8080/xmlqstat/jobinfo</jobinfoProgram>
 
 <!--
     specify an external program for viewing the stdout files
@@ -50,4 +62,26 @@
 -->
 <viewlogProgram>http://dealog01:8080/xmlqstat/logview</viewlogProgram>
 
+
+<!--
+    define a logo for all of the pages
+    <topLogo src="images/xml-qstat-logo.gif" width="150" />
+-->
+<topLogo src="images/emconLogo.png" width="225" />
+
+<!-- define the cluster settings -->
+<clusters default="augsburg01">
+  <cluster
+     name="augsburg01"
+     root="/data/app/grid"
+     cell="default"
+  />
+  <cluster
+     name="augsburg02"
+     root="/data/app/n1ge6"
+     cell="default"
+  />
+</clusters>
+
 </config>
+<!-- end-of-file -->

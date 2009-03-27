@@ -5,7 +5,7 @@
 ## CUSTOMIZE AS REQUIRED
 #
 # require GridEngine information for later queries
-: ${SGE_ROOT:=/opt/n1ge6}
+: ${SGE_ROOT:=/opt/grid}
 
 HTTPI_HOME=/data/app/httpi
 PATH=/bin:/usr/bin:$SGE_ROOT/bin/`$SGE_ROOT/util/arch`
@@ -27,13 +27,13 @@ runas_user=nobody
 #
 if [ "$UID" -eq 0 -a "${runas_user:=root}" != root ]
 then
-   exec sudo -S -u $runas_user $0 $@
-   exitcode=$?       # retain exitcode
+    exec sudo -S -u $runas_user $0 $@
+    exitcode=$?       # retain exitcode
 
-   [ "$exitcode" == 0 ] || {
-      echo "could not change to $runas_user"
-      exit $exitcode
-   }
+    [ "$exitcode" == 0 ] || {
+       echo "could not change to $runas_user"
+       exit $exitcode
+    }
 fi
 
 daemon=$HTTPI_HOME/httpi
@@ -45,28 +45,28 @@ LOG=/var/log/httpi
 LOG=/dev/null
 
 [ -f $daemon -a -x $daemon ] || {
-   echo "$daemon not found"
-   exit 5      # LSB compliant exit status - program is not installed
+    echo "$daemon not found"
+    exit 5      # LSB compliant exit status - program is not installed
 }
 
 test -f $daemon || exit 0
 set -e
 case "$1" in
 start)
-   echo -n "Starting $desc: "
-   $daemon >> $LOG 2>&1 &
-   echo "$name"
-   ;;
+    echo -n "Starting $desc: "
+    $daemon >> $LOG 2>&1 &
+    echo "$name"
+    ;;
 
 stop)
-   echo "Usage: $0 {start}" >&2
-   exit 1
-   ;;
+    echo "Usage: $0 {start}" >&2
+    exit 1
+    ;;
 
 *)
-   echo "Usage: $0 {start}" >&2
-   exit 1
-   ;;
+    echo "Usage: $0 {start}" >&2
+    exit 1
+    ;;
 esac
 exit 0
 # ------------------------------------------------------------- end-of-file

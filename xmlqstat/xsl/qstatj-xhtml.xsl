@@ -37,14 +37,25 @@
 
 <!-- get specific configuration parameters -->
 <xsl:param name="viewfileProgram">
-  <xsl:value-of select="document('../xml/CONFIG.xml')/config/viewfileProgram"/>
+  <xsl:value-of select="document('../config/config.xml')/config/viewfileProgram"/>
 </xsl:param>
 <xsl:param name="viewlogProgram">
-  <xsl:value-of select="document('../xml/CONFIG.xml')/config/viewlogProgram"/>
+  <xsl:value-of select="document('../config/config.xml')/config/viewlogProgram"/>
 </xsl:param>
 
+<xsl:param name="cgiParams">
+  <xsl:if
+    test="//query/cluster">&amp;SGE_ROOT=<xsl:value-of
+    select="//query/cluster/@root"/><xsl:if
+    test="//query/cluster/@cell != 'default'"
+    >&amp;SGE_CELL=<xsl:value-of
+    select="//query/cluster/@cell"/></xsl:if>
+  </xsl:if>
+</xsl:param>
+
+
 <!-- Read in our bitmask translation XML config file -->
-<xsl:variable name="codeFile" select="document('../xml/CONFIG_statusCodes.xml')" />
+<xsl:variable name="codeFile" select="document('../config/status-codes.xml')" />
 
 
 <xsl:template match="/">
@@ -139,14 +150,21 @@
   </tr>
 <xsl:text>
 </xsl:text>
+  <!-- 6.1: /detailed_job_info/djob_info/qmaster_response -->
   <!-- running jobs first -->
   <xsl:apply-templates
-      select="/detailed_job_info/djob_info/qmaster_response[JB_ja_tasks]"
+      select="
+        //detailed_job_info/djob_info/element[JB_ja_tasks]
+      | //detailed_job_info/djob_info/qmaster_response[JB_ja_tasks]
+      "
       mode="overview"
   />
   <!-- pending jobs next -->
   <xsl:apply-templates
-      select="/detailed_job_info/djob_info/qmaster_response[not(JB_ja_tasks)]"
+      select="
+        //detailed_job_info/djob_info/element[not(JB_ja_tasks)]
+      | //detailed_job_info/djob_info/qmaster_response[not(JB_ja_tasks)]
+      "
       mode="overview"
   />
 </table>
@@ -171,33 +189,47 @@
   <th>jobID</th>
   <th>context</th>
   <th>cwd</th>
+  <!-- 6.1: /detailed_job_info/djob_info/qmaster_response -->
   <!-- running jobs first -->
   <xsl:apply-templates
-      select="/detailed_job_info/djob_info/qmaster_response[JB_ja_tasks]"
+      select="
+        //detailed_job_info/djob_info/element[JB_ja_tasks]
+      | //detailed_job_info/djob_info/qmaster_response[JB_ja_tasks]
+      "
       mode="context"
   />
   <!-- pending jobs next -->
   <xsl:apply-templates
-      select="/detailed_job_info/djob_info/qmaster_response[not(JB_ja_tasks)]"
+      select="
+        //detailed_job_info/djob_info/element[not(JB_ja_tasks)]
+      | //detailed_job_info/djob_info/qmaster_response[not(JB_ja_tasks)]
+      "
       mode="context"
   />
 </table>
 </div>
 </blockquote>
 
+<!-- 6.1: /detailed_job_info/djob_info/qmaster_response -->
 <!--
   detailed_job_info
   running jobs
 -->
 <xsl:apply-templates
-    select="/detailed_job_info/djob_info/qmaster_response[JB_ja_tasks]"
+    select="
+      //detailed_job_info/djob_info/element[JB_ja_tasks]
+    | //detailed_job_info/djob_info/qmaster_response[JB_ja_tasks]
+    "
 />
 <!--
   detailed_job_info
   pending jobs
 -->
 <xsl:apply-templates
-    select="/detailed_job_info/djob_info/qmaster_response[not(JB_ja_tasks)]"
+    select="
+      //detailed_job_info/djob_info/element[not(JB_ja_tasks)]
+    | //detailed_job_info/djob_info/qmaster_response[not(JB_ja_tasks)]
+    "
 />
 
 <!--
@@ -208,8 +240,12 @@
   <tr>
     <td>
       <div class="tableDescriptorElement">
+      <!-- 6.1: /detailed_job_info/messages/qmaster_response -->
         <xsl:value-of
-            select="count(/detailed_job_info/messages/qmaster_response/SME_global_message_list/element/MES_message)"
+            select="
+              count(//detailed_job_info/messages/element/SME_global_message_list/element/MES_message)
+            + count(//detailed_job_info/messages/qmaster_response/SME_global_message_list/element/MES_message)
+            "
         />
         Scheduling Messages
       </div>
@@ -219,8 +255,12 @@
 <table class="qstat" width="100%">
   <tr>
     <td>
+      <!-- 6.1: /detailed_job_info/messages/qmaster_response -->
       <xsl:apply-templates
-          select="/detailed_job_info/messages/qmaster_response/SME_global_message_list"
+          select="
+            //detailed_job_info/messages/element/SME_global_message_list
+          | //detailed_job_info/messages/qmaster_response/SME_global_message_list
+          "
       />
     </td>
   </tr>
@@ -267,27 +307,28 @@
 
 <!--
    overview table: contents
+   6.1: //djob_info/qmaster_response
 -->
 <xsl:template
-    match="//djob_info/qmaster_response"
+    match="//djob_info/element | //djob_info/qmaster_response"
     mode="overview"
 >
   <xsl:variable name="jobinfo-href">
     <xsl:choose>
     <xsl:when test="$menuMode='xmlqstat'">job-<xsl:value-of select="JB_job_number"/>.html</xsl:when>
-    <xsl:otherwise>jobinfo.html?<xsl:value-of select="JB_job_number"/></xsl:otherwise>
+    <xsl:otherwise>jobinfo?<xsl:value-of select="JB_job_number"/></xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
   <xsl:variable name="jobs-href">
     <xsl:choose>
     <xsl:when test="$menuMode='xmlqstat'">qstat-jobs.html?<xsl:value-of select="JB_owner"/></xsl:when>
-    <xsl:otherwise>jobs.html?<xsl:value-of select="JB_owner"/></xsl:otherwise>
+    <xsl:otherwise>jobs?user=<xsl:value-of select="JB_owner"/></xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
 
   <tr>
     <!-- jobID with resource requests -->
-    <!-- link jobID to details: "jobinfo.html?{jobID}" -->
+    <!-- link jobID to details: "jobinfo?{jobID}" -->
     <td>
       <xsl:element name="a">
         <xsl:attribute name="title">details for job <xsl:value-of select="JB_job_number"/>
@@ -297,7 +338,7 @@
       </xsl:element>
     </td>
 
-    <!-- owner/uid : link owner names to "jobs.html?{owner}" -->
+    <!-- owner/uid : link owner names to "jobs?user={owner}" -->
     <td>
      <xsl:element name="a">
        <xsl:attribute name="title">uid <xsl:value-of select="JB_uid"/></xsl:attribute>
@@ -361,9 +402,10 @@
 
 <!--
   context table: contents
+  6.1: //djob_info/qmaster_response
 -->
 <xsl:template
-    match="//djob_info/qmaster_response"
+    match="//djob_info/element | //djob_info/qmaster_response"
     mode="context"
 >
 <tr>
@@ -378,8 +420,9 @@
 
 <!--
   details table
+  6.1: //djob_info/qmaster_response
 -->
-<xsl:template match="//djob_info/qmaster_response">
+<xsl:template match="//djob_info/element | //djob_info/qmaster_response">
 <!--
     We use fixed-size tables constrained within thinJDBox DIV elements here
     We can cleanly output a variable number of these small tables
@@ -602,14 +645,21 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
     </tr>
   </xsl:if>
 
-  <xsl:if test="count(/detailed_job_info/messages/qmaster_response/SME_message_list/element[MES_job_number_list/element/ULNG = $jobId])">
+<!-- 6.1: /detailed_job_info/messages/qmaster_response -->
+  <xsl:if test="
+      count(//detailed_job_info/messages/element/SME_message_list/element[MES_job_number_list/element/ULNG = $jobId])
+    + count(//detailed_job_info/messages/qmaster_response/SME_message_list/element[MES_job_number_list/element/ULNG = $jobId])
+    ">
     <tr>
       <th>
       scheduler messages
       </th>
       <td>
         <xsl:apply-templates
-            select="/detailed_job_info/messages/qmaster_response/SME_message_list/element[MES_job_number_list/element/ULNG = $jobId]"
+            select="
+                //detailed_job_info/messages/element/SME_message_list/element[MES_job_number_list/element/ULNG = $jobId]
+              | //detailed_job_info/messages/qmaster_response/SME_message_list/element[MES_job_number_list/element/ULNG = $jobId]
+            "
         />
       </td>
     </tr>
@@ -764,7 +814,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
     <xsl:attribute name="title">viewlog</xsl:attribute>
     <xsl:attribute name="href"><xsl:value-of
         select="$viewlogProgram"/>?<xsl:value-of
-        select="$request"/></xsl:attribute>
+        select="$request"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
     <img alt="[v]" src="images/icons/silk/page_find.png" border="0" />
   </xsl:element>
 
@@ -773,7 +823,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
     <xsl:attribute name="title">plotlog</xsl:attribute>
     <xsl:attribute name="href"><xsl:value-of
         select="$viewlogProgram"/>?action=plot<xsl:text>&amp;</xsl:text><xsl:value-of
-        select="$request"/></xsl:attribute>
+        select="$request"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
     <img alt="[p]" src="images/icons/silk/chart_curve.png" border="0" />
   </xsl:element>
 
@@ -783,7 +833,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
     <xsl:attribute name="href"><xsl:value-of
         select="$viewlogProgram"/>?action=plot<xsl:text>&amp;</xsl:text>owner=<xsl:value-of
         select="../JB_owner"/><xsl:text>&amp;</xsl:text>resources=<xsl:value-of
-        select="$resources"/></xsl:attribute>
+        select="$resources"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
     <img alt="[P]" src="images/icons/silk/chart_curve_add.png" border="0" />
   </xsl:element>
 </xsl:if>

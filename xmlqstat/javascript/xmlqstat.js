@@ -1,3 +1,4 @@
+<![CDATA[
 // use -*- java -*- mode for javascript
 
 //
@@ -118,3 +119,5 @@ function resourceList(input, response)
         loadXMLDoc(url);
     }
 }
+// ---------------------------------------------------------------- end-of-file
+]]>

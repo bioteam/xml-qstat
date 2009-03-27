@@ -12,7 +12,7 @@
 <xsl:param name="baseURL"/>
 
 <!-- Read in our configuration XML file -->
-<xsl:variable name="configFile" select="document('../xml/CONFIG.xml')" />
+<xsl:variable name="configFile" select="document('../config/config.xml')" />
 <xsl:variable name="TZ_offset"  select="$configFile/config/UTC_TZ_offset"/>
 
 <xsl:variable name="atom-timestamp">

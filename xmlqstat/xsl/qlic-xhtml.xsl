@@ -55,27 +55,39 @@
 
 <div id="main">
 <!-- Topomost Logo Div and Top Menu Bar -->
+<xsl:call-template name="topLogo"/>
 <xsl:choose>
 <xsl:when test="$menuMode='xmlqstat'">
-  <xsl:call-template name="xmlqstatLogo"/>
   <xsl:call-template name="xmlqstatMenu"/>
 </xsl:when>
 <xsl:otherwise>
-  <xsl:call-template name="topLogo"/>
   <xsl:call-template name="topMenu"/>
 </xsl:otherwise>
 </xsl:choose>
 
 <xsl:text>
 </xsl:text>
-<xsl:if test="//query/host">
-  <div id="upperBar">
-    <xsl:comment> Top dotted line bar (holds the qmaster host and update time) </xsl:comment>
-    [<xsl:value-of select="//query/host"/>]
-    <!-- remove 'T' in dateTime for easier reading -->
-    <xsl:value-of select="translate(//query/time, 'T', ' ')"/>
-  </div>
-</xsl:if>
+<xsl:comment> Top dotted line bar (holds the qmaster host and update time) </xsl:comment>
+<div id="upperBar">
+<xsl:choose>
+<xsl:when test="//query/cluster and //query/host">
+  <!-- query host, cluster/cell name -->
+  <xsl:value-of
+      select="//query/host"
+      />@<xsl:value-of
+      select="//query/cluster/@name"
+      />/<xsl:value-of
+      select="//query/cluster/@cell"/>
+  <xsl:text> </xsl:text>
+  <!-- replace 'T' in dateTime for easier reading -->
+  [<xsl:value-of select="translate(//query/time, 'T', '_')"/>]
+</xsl:when>
+<xsl:otherwise>
+  <!-- unnamed cluster: -->
+  unnamed cluster
+</xsl:otherwise>
+</xsl:choose>
+</div>
 
 <xsl:text>
 </xsl:text>
@@ -134,15 +146,20 @@
 -->
 <xsl:template match="resources/resource">
   <tr align="right">
-  <!-- resource with served -->
+  <!-- annotate with 'served', 'from' and 'note' attributes -->
+  <xsl:variable name="annotation">
+    <xsl:if test="@served">served = <xsl:value-of select="@served"/>
+      <xsl:if test="@from"> [<xsl:value-of select="@from"/>]</xsl:if>
+    </xsl:if>
+    <xsl:if test="@note"> (<xsl:value-of select="@note"/>)</xsl:if>
+  </xsl:variable>
+
   <td align="left">
     <xsl:choose>
     <xsl:when test="@served">
       <span style="cursor:help;">
       <xsl:element name="acronym">
-        <xsl:attribute name="title">served =
-          <xsl:value-of select="@served"/>
-        </xsl:attribute>
+        <xsl:attribute name="title"><xsl:value-of select="$annotation"/></xsl:attribute>
         <xsl:value-of select="@name" />
       </xsl:element>
       </span>
