@@ -6,12 +6,6 @@ Third-party transformations are included in subdirectories:
   * xsltl/
 
 
-Previous versions of templates that can either be deleted, or that we
-may wish to revive in some form or other:
-
-  * retired/
-
-
 Boilerplate and templates with named transforms are prefixed with 'xmlqstat-':
 
   * xmlqstat-masthead.xsl
@@ -33,7 +27,10 @@ transformation, the naming convention 'SOURCE-MODE-DEST.xsl' is used.
 
 For general actions, no particular convention has been used:
 
+  * config-jobinfo.xsl
+  * directory-xhtml.xsl
   * extract-query.xsl
+  * index-xhtml.xsl
   * info-to-xhtml.xsl
 
   * rss.xml

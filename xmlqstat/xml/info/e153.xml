@@ -9,9 +9,9 @@
 <sectionHead>What is xml-qstat?</sectionHead>
 <para><![CDATA[xml-qstat is an attempt to do something useful with the XML status information that Grid Engine 6 <a href="http://gridengine.sunsource.net">(http://gridengine.sunsource.net</a> &amp; <a href="http://sun.com/software/gridware/">http://www.sun.com/software/gridware/</a>) is now able to produce. In previous attempts to build web based Grid Engine monitoring tools, the text based Grid status and monitoring tools were crudely parsed and wrapped into simple web CGI's:
 <div>
-<a href="../images/screencap/xmlqstat_011.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_011_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_011.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_011_thumb.png"/></a>
 Yielded ...
-<a href="../images/screencap/xmlqstat_013.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_013_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_013.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_013_thumb.png"/></a>
 </div>
 ]]>
 </para>
@@ -29,8 +29,8 @@ At it's heart, xml-qstat consists of a collection of stylesheets written in XSL.
 The 2nd generation code was abandoned when <a href="http://cocoon.apache.org/2.1/">Apache Cocoon</a> was discovered - the Cocoon framework functions out of the box on just about any Java enabled system and there are no requirements to download and build various dependent XML libraries and perl modules.
 <br/><br/>
 This is what generation 2 (pure Perl) looked like:
-<div><a href="../images/screencap/Mozillaxml_qstat_001.jpg"><img border="0" alt="*" src="../images/screencap/Mozillaxml_qstat_001.thumb.jpg"/></a>
-<a href="../images/screencap/Mozillaxml_qstat_002.jpg"><img border="0" alt="*" src="../images/screencap/Mozillaxml_qstat_002.thumb.jpg"/></a>
+<div><a href="../images/screenshot/Mozillaxml_qstat_001.jpg"><img border="0" alt="*" src="../images/screenshot/Mozillaxml_qstat_001.thumb.jpg"/></a>
+<a href="../images/screenshot/Mozillaxml_qstat_002.jpg"><img border="0" alt="*" src="../images/screenshot/Mozillaxml_qstat_002.thumb.jpg"/></a>
 </div>
 ]]>
 </para>
@@ -42,34 +42,34 @@ This is what generation 2 (pure Perl) looked like:
 <para>Current screenshots showing various features:
 <![CDATA[
 <div>
-<a href="../images/screencap/xmlqstat_001.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_001_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_001.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_001_thumb.png"/></a>
 
-<a href="../images/screencap/xmlqstat_002.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_002_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_002.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_002_thumb.png"/></a>
 
-<a href="../images/screencap/xmlqstat_006.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_006_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_006.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_006_thumb.png"/></a>
 
-<a href="../images/screencap/xmlqstat_007.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_007_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_007.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_007_thumb.png"/></a>
 </div>
 
 <div>
 Detailed information is kept hidden to keep the initial interface clean. Javascript and mouseover popups are used to present more detail when requested:
-<a href="../images/screencap/xmlqstat_005.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_005_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_005.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_005_thumb.png"/></a>
 
-<a href="../images/screencap/xmlqstat_003.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_003_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_003.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_003_thumb.png"/></a>
 
-<a href="../images/screencap/xmlqstat_004.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_004_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_004.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_004_thumb.png"/></a>
 
 </div>
 <div>
 Alternative rendered views include Atom 1.0 compliant syndication feeds as well as specially formatted interfaces for Sony Playstation Portable browsers:
 
-<a href="../images/screencap/xmlqstat_008.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_008_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_008.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_008_thumb.png"/></a>
 
-<a href="../images/screencap/xmlqstat_009.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_009_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_009.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_009_thumb.png"/></a>
 
-<a href="../images/screencap/xmlqstat_010.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_010_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_010.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_010_thumb.png"/></a>
 
-<a href="../images/screencap/psp-sge.jpg"><img border="0" alt="*" src="../images/screencap/psp-sge_thumb.jpg"/></a>
+<a href="../images/screenshot/psp-sge.jpg"><img border="0" alt="*" src="../images/screenshot/psp-sge_thumb.jpg"/></a>
 </div>
 ]]></para>
 </section>
@@ -104,7 +104,7 @@ The <b>cocoon</b> directory is a standard Apache Cocoon installation. The only f
 <br/><br/>
 The <b>httpi</b> directory is <em>optional</em> and contains a tiny, fast and secure pure-Perl webserver known as <a href="http://www.floodgap.com/httpi/">httpi</a>. This webserver is used to run a trivial CGI application that serves as a dynamic XML generator for cocoon when the cached data is not suitable. The primary use so far is to service requests for <b>job related</b> grid status data. When a user clicks on a Job ID within the web interface, cocoon will call upon httpi to run and return the raw XML results from the "qstat -j -xml" query. Eventually this functionality will be replaced with a pure-Java "Cocoon Generator" that performs the same task without requiring an external additional webserver.
 <br/><br/>
-The <b>scripts</b> folder currently contains 2 perl scripts. The "sge-xml-cacher.pl" script is a Perl daemon script that runs constantly and periodically refreshes the cached Grid Engine XML status data. This cached data is what cocoon uses to generate various views and interfaces. The default setting for this daemon is to refresh Grid Data every 30 seconds (this value is user configurable). The perl daemon is used so that Cocoon does not call "qstat -f -xml" every time a user hits the web page. The caching mechanism greatly reduces the load on the SGE qmaster and the Cocoon application server. The second perl script, "create-threshold-config.pl" is <em>optional</em> and is a helper script that can query Grid Engine to learn the configured load alarm thresholds for each queue. Since Grid Engine only reports current load values (and not the configured alarm thresholds) this helper script can create a 2ndary configuration file that is read by Cocoon to generate customized graphical "load ratio" reports within the web interface.
+The <b>scripts</b> folder currently contains 2 perl scripts. The "xmlqstat-cacher.pl" script is a Perl daemon script that runs constantly and periodically refreshes the cached Grid Engine XML status data. This cached data is what cocoon uses to generate various views and interfaces. The default setting for this daemon is to refresh Grid Data every 30 seconds (this value is user configurable). The perl daemon is used so that Cocoon does not call "qstat -f -xml" every time a user hits the web page. The caching mechanism greatly reduces the load on the SGE qmaster and the Cocoon application server. The second perl script, "create-threshold-config.pl" is <em>optional</em> and is a helper script that can query Grid Engine to learn the configured load alarm thresholds for each queue. Since Grid Engine only reports current load values (and not the configured alarm thresholds) this helper script can create a 2ndary configuration file that is read by Cocoon to generate customized graphical "load ratio" reports within the web interface.
 <br/><br/>
 The <b>xmlqstat</b> folder is where this application lives. It is organized into the following subfolders:
 <pre>
@@ -136,8 +136,8 @@ Installation Process:
 <li><em>optional:</em> Download  <a href="http://www.floodgap.com/httpi/">httpi</a> into the xml-qstat/ folder. This is only necessary if you want to enable the feature that allows job-level Grid Engine data to be reported (clicking on a JobID will show information about the running or pending job). </li>
 <li>Create the <b>mount-table.xml</b> configuration file in the cocoon directory (details are below).</li>
 <li>Edit the <b>xmlqstat/config/config.xml</b> file to set local configuration parameters (details are below) </li>
-<li>Edit the <b>scripts/sge-xml-cacher.pl</b> script to configure the full Unix file path to where cached SGE status data will be stored. If data is cached to a file named "cached-sge-data.xml" within the xmlqstat/xml/ folder then <b>xmlqstat/sitemap.xmap</b> can be left unchanged. If the cached data is stored elsewhere, the <b>sitemap.xmap</b> file located in xmlqstat/ will have to be edited in several locations to let cocoon know where the raw XML source resides.</li>
-<li>Start caching grid data! If your SGE environment has been set up (you can run 'qstat' via the command line) then starting the perl caching daemon should be as simple as entering the scripts/ folder and issuing the command "./sge-xml-cacher.pl -d". To stop the daemon, issue the command "./sge-xml-cacher.pl -k". To verify that the daemon is working, check the process table to see if it exists and then monitor the timestamps on the cache file. In its default setting, XML data should be updated every 30 seconds.</li>
+<li>Edit the <b>scripts/xmlqstat-cacher.pl</b> script to configure the full Unix file path to where cached SGE status data will be stored. If data is cached to a file named "cached-sge-data.xml" within the xmlqstat/xml/ folder then <b>xmlqstat/sitemap.xmap</b> can be left unchanged. If the cached data is stored elsewhere, the <b>sitemap.xmap</b> file located in xmlqstat/ will have to be edited in several locations to let cocoon know where the raw XML source resides.</li>
+<li>Start caching grid data! If your SGE environment has been set up (you can run 'qstat' via the command line) then starting the perl caching daemon should be as simple as entering the scripts/ folder and issuing the command "./xmlqstat-cacher.pl -d". To stop the daemon, issue the command "./xmlqstat-cacher.pl -k". To verify that the daemon is working, check the process table to see if it exists and then monitor the timestamps on the cache file. In its default setting, XML data should be updated every 30 seconds.</li>
 <li>The web interface should be ready for testing. Point a web browser at the URL http://(your server name):8888/xmlqstat/qstat.html</li>
 </ol>
 ]]></para>
@@ -193,7 +193,7 @@ After creating this file, it will be necessary to stop and restart Cocoon if it 
 Within the <b>xmlqstat/config/</b> directory there is a file called <b>config.xml</b> that needs to be edited to reflect the local site installation. The file is well documented internally so it should be a simple process to edit. The following configuration questions are asked:
 <ol>
 <li><b>compat_mode</b>. Starting with the release of Grid Engine 6.0u7 there have been major XML output changes made to the codebase. This configuration option should be set to "yes" if you are using a version of Grid Engine older than version 6.0u7. Set it to "no" if you are using 6.0u7 or later. </li>
-<li><b>use_alarm-threshold_data</b>. This is an optional feature. If you run the helper script located in <b>scripts/create-threshold-config.pl</b>, a special helper configuration XML file will be created that lists the Grid Engine load alarm threshold values for each queue instance. These values can then be compared to the real-time load data reported by Grid Engine. When enabled, this feature will show a graphical "Load Ratio" column in the web interface. When the value is set to "no", the Load Ratio column data is not displayed.</li>
+<li><b>use-alarm-threshold</b>. This is an optional feature. If you run the helper script located in <b>scripts/create-threshold-config.pl</b>, a special helper configuration XML file will be created that lists the Grid Engine load alarm threshold values for each queue instance. These values can then be compared to the real-time load data reported by Grid Engine. When enabled, this feature will show a graphical "Load Ratio" column in the web interface. When the value is set to "no", the Load Ratio column data is not displayed.</li>
 <li><b>UTC_timezone_offset</b>. This is <em>only</em> used for <b>Atom 1.0 Feeds</b> which mandate <a href="http://www.faqs.org/rfcs/rfc3339.html">RFC-3339 </a> formatted timestamps. Configuring this value allows the user to adjust for local timezones. The RFC3339 timestamp uses UTC time which can be offset to match a local timezone. </li>
 <li><b>baseURL</b> This is also <em>only</em> used for <b>Atom 1.0 Feeds</b> so they can contain a full, explict http:// URL pointing back to the xmlqstat web interface. All other portions of the web application use relative URLs. Configure this with the fully qualified URL to your installation.</li>
 </ol>

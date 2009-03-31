@@ -1,11 +1,11 @@
 
 Quick background:
 
-The "sge-xml-cacher.pl" script is a quick derivitive work of 
+The "xmlqstat-cacher.pl" script is a quick derivitive work of
 Mark Olesen's SGE FLEXlm license handling code. All mistakes are
 my own but I need to include Mark's License for his work.
 
-The license applies to the file "sge-xml-cacher.pl" :
+The license applies to the file "xmlqstat-cacher.pl" :
 
 ===========================================================================
 QUICK SUMMARY

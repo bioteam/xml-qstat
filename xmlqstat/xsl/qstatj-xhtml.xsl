@@ -1,8 +1,8 @@
 <xsl:stylesheet version="1.0"
+    xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:date="http://exslt.org/dates-and-times"
     xmlns:datetime="http://exslt.org/dates-and-times"
-    xmlns="http://www.w3.org/1999/xhtml"
     extension-element-prefixes="date"
 >
 <!--
@@ -36,20 +36,16 @@
 <xsl:param name="menuMode"/>
 
 <!-- get specific configuration parameters -->
-<xsl:param name="viewfileProgram">
-  <xsl:value-of select="document('../config/config.xml')/config/viewfileProgram"/>
-</xsl:param>
-<xsl:param name="viewlogProgram">
-  <xsl:value-of select="document('../config/config.xml')/config/viewlogProgram"/>
-</xsl:param>
+<xsl:param name="viewfileProgram" select="//config/programs/viewfile" />
+<xsl:param name="viewlogProgram" select="//config/programs/viewlog" />
 
 <xsl:param name="cgiParams">
   <xsl:if
-    test="//query/cluster">&amp;SGE_ROOT=<xsl:value-of
-    select="//query/cluster/@root"/><xsl:if
-    test="//query/cluster/@cell != 'default'"
+    test="//config/cluster">&amp;SGE_ROOT=<xsl:value-of
+    select="//config/cluster/@root"/><xsl:if
+    test="//config/cluster/@cell != 'default'"
     >&amp;SGE_CELL=<xsl:value-of
-    select="//query/cluster/@cell"/></xsl:if>
+    select="//config/cluster/@cell"/></xsl:if>
   </xsl:if>
 </xsl:param>
 
@@ -106,6 +102,17 @@
   </xsl:call-template>
 </xsl:otherwise>
 </xsl:choose>
+
+<xsl:if test="//config/cluster">
+  <xsl:comment> Top dotted line bar (holds the cluster name) </xsl:comment>
+  <div id="upperBar">
+    <!-- cluster/cell name -->
+    <xsl:value-of select="//config/cluster/@name"/>
+    <xsl:if test="//config/cluster/@cell != 'default'">/<xsl:value-of
+        select="//config/cluster/@cell"/>
+    </xsl:if>
+  </div>
+</xsl:if>
 
 <xsl:text>
 </xsl:text>
@@ -782,7 +789,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
 </xsl:template>
 
 <xsl:template match="JB_hard_queue_list/destin_ident_list">
-  <xsl:value-of select="QR_name"/>
+  <xsl:value-of select="QR_name" />
 </xsl:template>
 
 <xsl:template match="JB_hard_resource_list/qstat_l_requests">
@@ -867,8 +874,9 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
     <xsl:element name="acronym">
       <xsl:attribute name="title">
         <!-- this lookup translates JAT_state to something more readable -->
-        <xsl:value-of select="$codeFile/config/status[@bitmask=$state]/long"/>.
-        The raw JAT_state bitmask code = <xsl:value-of select="$state"/>
+        <xsl:value-of
+            select="$codeFile/config/status[@bitmask=$state]/long"
+        />. The raw JAT_state bitmask code = <xsl:value-of select="$state"/>
       </xsl:attribute>
       <xsl:value-of
           select="$codeFile/config/status[@bitmask=$state]/translation"

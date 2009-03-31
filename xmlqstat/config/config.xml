@@ -2,20 +2,20 @@
 <config>
 
 <!--
-    This value should be changed to reflect your local timezone as it
-    relates to UTC. This offset value is used when constructing
-    RFC-3339 validated timestamps that look something like this:
+    Change this value to reflect your local timezone relative to UTC.
+    This offset is used when constructing RFC-3339 validated timestamps that
+    look like this:
 
         1990-12-31T23:59:60Z
 	1996-12-19T16:39:57-08:00
 
     The cocoon server will report proper local date time information,
-    but we need to insert the UTC correction info for the rss feed
+    but we need to insert the UTC correction info for the RSS feed
 
     Setting "Z" means no correction (UTC time matches)
 
     CET (Central European Time) is 1 hour ahead of UTC, thus "+01:00"
-    EST (east coast USA) is 5 hours behind UTC, thus "-05:00"
+    EST (East coast USA) is 5 hours behind UTC, thus "-05:00"
 
     Change the following param accordingly to your UTC offset.
 -->
@@ -28,7 +28,7 @@
     file and want the xmlqstat interface to take this data into
     consideration.
 -->
-<use_alarm-threshold_data>no</use_alarm-threshold_data>
+<use-alarm-threshold>no</use-alarm-threshold>
 
 <!--
     Set this to 'yes' if you have the qlicserver program
@@ -46,41 +46,34 @@
     specify an external program for querying the the jobinfo
     - the jobId, etc. are passed via the queryString
 -->
-<jobinfoProgram>http://dealog01:8080/xmlqstat/jobinfo</jobinfoProgram>
+<programs>
+  <jobinfo>http://dealog01:8080/xmlqstat/jobinfo</jobinfo>
 
-<!--
-    specify an external program for viewing the stdout files
-    - the jobId, filenames, etc. are passed via the queryString
-    leave empty if you don't have such a program
--->
-<viewfileProgram>http://dealog01:8080/xmlqstat/viewfile</viewfileProgram>
+  <!--
+      specify an external program for viewing the stdout files
+      - the jobId, filenames, etc. are passed via the queryString
+      leave empty if you don't have such a program
+  -->
+  <viewfile>http://dealog01:8080/xmlqstat/viewfile</viewfile>
 
-<!--
-    specify an external program for finding and viewing the log files
-    - the jobId, filenames, etc. are passed via the queryString
-    leave empty if you don't have such a program
--->
-<viewlogProgram>http://dealog01:8080/xmlqstat/logview</viewlogProgram>
-
+  <!--
+      specify an external program for finding and viewing the log files
+      - the jobId, filenames, etc. are passed via the queryString
+      leave empty if you don't have such a program
+  -->
+  <viewlog>http://dealog01:8080/xmlqstat/logview</viewlog>
+</programs>
 
 <!--
     define a logo for all of the pages
-    <topLogo src="images/xml-qstat-logo.gif" width="150" />
+    <topLogo src="images/xml-qstat-logo.png" width="150" />
 -->
 <topLogo src="images/emconLogo.png" width="225" />
 
-<!-- define the cluster settings -->
-<clusters default="augsburg01">
-  <cluster
-     name="augsburg01"
-     root="/data/app/grid"
-     cell="default"
-  />
-  <cluster
-     name="augsburg02"
-     root="/data/app/n1ge6"
-     cell="default"
-  />
+<!-- define cluster settings -->
+<clusters>
+  <cluster name="augsburg01" root="/data/app/grid"  cell="default" />
+  <cluster name="augsburg02" root="/data/app/n1ge6" cell="default" />
 </clusters>
 
 </config>

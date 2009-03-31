@@ -15,7 +15,7 @@ Feed generation is still heavily under construction. Send in your suggestions fo
 <sectionHead>Available Feeds</sectionHead>
 <para>
 <![CDATA[
-<a href="../feed/overview"><img border="0" align="top" src="../images/atom-rss.gif" alt="Atom 1.0 Feed"/></a> - <a href="../feed/overview">Overview Feed</a> (beta)
+<a href="../feed/overview"><img border="0" align="top" src="../images/atom-rss.png" alt="Atom 1.0 Feed"/></a> - <a href="../feed/overview">Overview Feed</a> (beta)
 ]]>
 </para>
 </section>

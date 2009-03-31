@@ -1,6 +1,6 @@
 <xsl:stylesheet version="1.0"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:dt="http://xsltsl.org/date-time"
     xmlns:str="http://xsltsl.org/string"
     exclude-result-prefixes="dt str"
@@ -123,36 +123,36 @@
 
 <xsl:comment> Top dotted line bar (holds the cluster/qmaster names and update time) </xsl:comment>
 <div id="upperBar">
-  <xsl:choose>
-  <xsl:when test="//query/cluster and //query/host">
-    <!-- query host, cluster/cell name -->
-    <xsl:value-of
-        select="//query/host"
-        />@<xsl:value-of
-        select="//query/cluster/@name"
-        />/<xsl:value-of
-        select="//query/cluster/@cell"/>
-    <xsl:text> </xsl:text>
-    <!-- replace 'T' in dateTime for easier reading -->
-    [<xsl:value-of select="translate(//query/time, 'T', '_')"/>]
-  </xsl:when>
-  <xsl:otherwise>
-    <!-- unnamed cluster: -->
-    unnamed cluster
-  </xsl:otherwise>
-  </xsl:choose>
-  <br/>
-  <xsl:choose>
-  <xsl:when test="$AJ_total &gt; 0">
-    <!-- active jobs: -->
-    <xsl:value-of select="$AJ_total"/> active jobs
-    (<xsl:value-of select="sum(//queuevalue[@name='slots_used'])"/> slots)
-  </xsl:when>
-  <xsl:otherwise>
-    <!-- no active jobs -->
-    no active jobs
-  </xsl:otherwise>
-  </xsl:choose>
+<xsl:choose>
+<xsl:when test="//config/cluster">
+  <!-- query host, cluster/cell name -->
+  <xsl:value-of select="//config/cluster/@name"/>
+  <xsl:if test="//config/cluster/@cell != 'default'">/<xsl:value-of
+      select="//config/cluster/@cell"/>
+  </xsl:if>
+  <xsl:if test="//query/host">@<xsl:value-of select="//query/host"/>
+  <xsl:text> </xsl:text>
+  <!-- replace 'T' in dateTime for easier reading -->
+  [<xsl:value-of select="translate(//query/time, 'T', '_')"/>]
+  </xsl:if>
+</xsl:when>
+<xsl:otherwise>
+  <!-- unnamed cluster: -->
+  unnamed cluster
+</xsl:otherwise>
+</xsl:choose>
+<br/>
+<xsl:choose>
+<xsl:when test="$AJ_total &gt; 0">
+  <!-- active jobs: -->
+  <xsl:value-of select="$AJ_total"/> active jobs
+  (<xsl:value-of select="sum(//queuevalue[@name='slots_used'])"/> slots)
+</xsl:when>
+<xsl:otherwise>
+  <!-- no active jobs -->
+  no active jobs
+</xsl:otherwise>
+</xsl:choose>
 </div>
 
 <xsl:text>
@@ -173,6 +173,19 @@
     </tr>
   </table>
   <xsl:apply-templates select="//qhost" mode="summary"/>
+  </blockquote>
+</xsl:when>
+<xsl:when test="$renderMode='warn'">
+  <!-- warnings: -->
+  <blockquote>
+  <table class="qstat" width="100%">
+    <tr valign="middle">
+      <td>
+        <div class="tableDescriptorElement">Queue Warnings</div>
+      </td>
+    </tr>
+  </table>
+  <xsl:apply-templates select="//qhost"/>
   </blockquote>
 </xsl:when>
 <xsl:otherwise>

@@ -1,7 +1,6 @@
-<xsl:stylesheet
-    version="1.0"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet version="1.0"
     xmlns="http://www.w3.org/2005/Atom"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 >
 
 <!-- output declarations -->
@@ -113,13 +112,14 @@ Build a node set of all queues that are not usable for new or pending jobs      
   </author>
   <generator uri="/xmlqstat" version="1.0">xmlqstat</generator>
   <subtitle>Overview of Grid Engine state and status.</subtitle>
-  <!-- <logo>/images/xml-qstat-logo.gif</logo> -->
+  <!-- <logo>/images/xml-qstat-logo.png</logo> -->
   <id>urn:uuid:xmlqstat-atomfeed-overview</id>
 
   <entry>
     <title>Grid Engine Cluster Summary</title>
     <xsl:element name="link">
-      <xsl:attribute name="href"><xsl:value-of select="$baseURL"/>qstat.html</xsl:attribute>
+      <xsl:attribute name="href"><xsl:value-of
+        select="$baseURL"/>qstat-jobs.html</xsl:attribute>
     </xsl:element>
     <!-- we want an unchanging URN with a single ENTRY that
          has its UPDATED timestamp altered. Otherwise we end up
@@ -209,7 +209,8 @@ No unusual Queue Instance states have been detected.
 </xsl:otherwise>
 </xsl:choose>
 Click here for <xsl:element name="a">
-<xsl:attribute name="href"><xsl:value-of select="$baseURL"/>qstat.html</xsl:attribute>
+<xsl:attribute name="href"><xsl:value-of
+    select="$baseURL"/>qstat-jobs.html</xsl:attribute>
 Detailed information.
 </xsl:element><br/>
 </div>

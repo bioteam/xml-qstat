@@ -1,6 +1,6 @@
 <xsl:stylesheet version="1.0"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:dt="http://xsltsl.org/date-time"
     xmlns:str="http://xsltsl.org/string"
     exclude-result-prefixes="dt str"
@@ -26,20 +26,23 @@
 <!-- Import our templates -->
 <xsl:include href="xmlqstat-templates.xsl"/>
 
-<!-- Prep our configuration XML file(s) -->
-<xsl:variable name="configFile" select="document('../config/config.xml')" />
-
 <!-- get specific configuration parameters -->
-<xsl:param name="viewlogProgram"><xsl:value-of select="$configFile/config/viewlogProgram"/></xsl:param>
-<xsl:param name="useJavaScript"><xsl:value-of select="$configFile/config/useJavaScript"/></xsl:param>
+<xsl:param
+    name="useJavaScript"
+    select="document('../config/config.xml')/config/useJavaScript"
+    />
+<xsl:param
+    name="viewlogProgram"
+    select="//config/programs/viewlog"
+    />
 
 <xsl:param name="cgiParams">
   <xsl:if
-    test="//query/cluster">&amp;SGE_ROOT=<xsl:value-of
-    select="//query/cluster/@root"/><xsl:if
-    test="//query/cluster/@cell != 'default'"
+    test="//config/cluster">&amp;SGE_ROOT=<xsl:value-of
+    select="//config/cluster/@root"/><xsl:if
+    test="//config/cluster/@cell != 'default'"
     >&amp;SGE_CELL=<xsl:value-of
-    select="//query/cluster/@cell"/></xsl:if>
+    select="//config/cluster/@cell"/></xsl:if>
   </xsl:if>
 </xsl:param>
 
@@ -87,7 +90,7 @@
 <!-- DIFFERENT CSS STYLE DEPENDING ON USER COOKIE PREFERENCE PARAM(s) -->
 <!-- show/hide activeJobTable -->
 <xsl:choose>
-<xsl:when test="$activeJobTable = 'no'" >
+<xsl:when test="$useJavaScript = 'yes' and $activeJobTable = 'no'" >
    .activeJobTable { visibility: hidden; display: none; }
 </xsl:when>
 <xsl:otherwise>
@@ -96,7 +99,7 @@
 </xsl:choose>
 <!-- show/hide pendingJobTable -->
 <xsl:choose>
-<xsl:when test="$pendingJobTable = 'no'" >
+<xsl:when test="$useJavaScript = 'yes' and $pendingJobTable = 'no'" >
    .pendingJobTable { visibility: hidden; display: none; }
 </xsl:when>
 <xsl:otherwise>
@@ -138,17 +141,17 @@
 <xsl:comment> Top dotted line bar (holds the qmaster host and update time) </xsl:comment>
 <div id="upperBar">
 <xsl:choose>
-<xsl:when test="//query/cluster and //query/host">
+<xsl:when test="//config/cluster">
   <!-- query host, cluster/cell name -->
-  <xsl:value-of
-      select="//query/host"
-      />@<xsl:value-of
-      select="//query/cluster/@name"
-      />/<xsl:value-of
-      select="//query/cluster/@cell"/>
+  <xsl:value-of select="//config/cluster/@name"/>
+  <xsl:if test="//config/cluster/@cell != 'default'">/<xsl:value-of
+      select="//config/cluster/@cell"/>
+  </xsl:if>
+  <xsl:if test="//query/host">@<xsl:value-of select="//query/host"/>
   <xsl:text> </xsl:text>
   <!-- replace 'T' in dateTime for easier reading -->
   [<xsl:value-of select="translate(//query/time, 'T', '_')"/>]
+  </xsl:if>
 </xsl:when>
 <xsl:otherwise>
   <!-- unnamed cluster: -->
@@ -203,10 +206,12 @@
         </xsl:if>
         (<xsl:value-of select="$AJ_slots"/> slots)
       </div>
-      <!-- show/hide activeJobTable -->
-      <xsl:call-template name="toggleElementVisibility">
-        <xsl:with-param name="name" select="'activeJobTable'"/>
-      </xsl:call-template>
+      <!-- show/hide activeJobTable via javascript -->
+      <xsl:if test="$useJavaScript = 'yes'" >
+        <xsl:call-template name="toggleElementVisibility">
+          <xsl:with-param name="name"  select="'activeJobTable'"/>
+        </xsl:call-template>
+      </xsl:if>
     </td>
     </tr>
   </table>
@@ -276,10 +281,12 @@
         </xsl:if>
         (<xsl:value-of select="$PJ_slots"/> slots)
       </div>
-      <!-- show/hide pendingJobTable -->
-      <xsl:call-template name="toggleElementVisibility">
-        <xsl:with-param name="name" select="'pendingJobTable'"/>
-      </xsl:call-template>
+      <!-- show/hide pendingJobTable via javascript -->
+      <xsl:if test="$useJavaScript = 'yes'" >
+        <xsl:call-template name="toggleElementVisibility">
+          <xsl:with-param name="name" select="'pendingJobTable'"/>
+        </xsl:call-template>
+      </xsl:if>
     </td>
     </tr>
   </table>
@@ -353,7 +360,7 @@
     <xsl:element name="a">
       <xsl:attribute name="title">
         <xsl:for-each select="hard_request">
-          <xsl:value-of select="@name"/>=<xsl:value-of select="."/>
+          <xsl:value-of select="@name"/>=<xsl:value-of select="."/>,
 <xsl:text>
 </xsl:text>
         </xsl:for-each>
@@ -461,7 +468,7 @@
     <xsl:element name="a">
       <xsl:attribute name="title">
         <xsl:for-each select="hard_request">
-          <xsl:value-of select="@name"/>=<xsl:value-of select="."/>
+          <xsl:value-of select="@name"/>=<xsl:value-of select="."/>,
 <xsl:text>
 </xsl:text>
         </xsl:for-each>

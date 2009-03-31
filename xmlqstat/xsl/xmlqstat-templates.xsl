@@ -97,15 +97,24 @@
   <div class="visToggleElement">
     <xsl:element name="a">
       <xsl:attribute name="href">#</xsl:attribute>
-      <xsl:attribute name="onclick">setDiv('<xsl:value-of select="$name"/>', false)</xsl:attribute>
-      <img border="0" src="images/uparrow.gif" alt="Hide Table " title="hide" />
+      <xsl:attribute name="onclick">javascript:setDiv('<xsl:value-of select="$name"/>',false)</xsl:attribute>
+<!--
+      <img border="0" src="images/uparrow.gif" alt="[hide]" title="hide" />
+      <img border="0" src="images/icons/silk/delete.png" alt="[hide]" title="hide" />
+-->
+      <img border="0" src="images/icons/silk/bullet_toggle_minus.png" alt="[hide]" title="hide" />
     </xsl:element>
     <xsl:element name="a">
       <xsl:attribute name="href">#</xsl:attribute>
-      <xsl:attribute name="onclick">setDiv('<xsl:value-of select="$name"/>', true)</xsl:attribute>
-      <img border="0" src="images/dnarrow.gif" alt=" Show Table" title="show" />
+      <xsl:attribute name="onclick">javascript:setDiv('<xsl:value-of select="$name"/>',true)</xsl:attribute>
+<!--
+      <img border="0" src="images/dnarrow.gif" alt="[show]" title="show" />
+      <img border="0" src="images/icons/silk/add.png" alt="[show]" title="show" />
+-->
+      <img border="0" src="images/icons/silk/bullet_toggle_plus.png" alt="[show]" title="show" />
     </xsl:element>
   </div>
+
 </xsl:template>
 
 <!--
@@ -332,22 +341,22 @@
   <xsl:choose>
   <!-- 'u' unavailable state : alarm color -->
   <xsl:when test="contains($state, 'u')" >
-    <img alt="(?)" src="images/icons/silk/exclamation.png"/>
+    <img alt="(u)" src="images/icons/silk/exclamation.png"/>
   </xsl:when>
   <xsl:when test="contains($state, 'E')" >
-    <img alt="(!)" src="images/icons/silk/exclamation.png"/>
+    <img alt="(E)" src="images/icons/silk/exclamation.png"/>
   </xsl:when>
   <!-- 'a' alarm state : warn color -->
   <xsl:when test="contains($state, 'a')" >
-    <img alt="(!)" src="images/icons/silk/error.png"/>
+    <img alt="(a)" src="images/icons/silk/error.png"/>
   </xsl:when>
   <!-- 'd' disabled state : empty color -->
   <xsl:when test="contains($state, 'd')" >
-    <img alt="(x)" src="images/icons/silk/cancel.png" />
+    <img alt="(d)" src="images/icons/silk/cancel.png" />
   </xsl:when>
   <!-- 'S' suspended -->
   <xsl:when test="contains($state, 'S')" >
-    <img alt="(||)" src="images/icons/silk/control_pause.png" />
+    <img alt="(S)" src="images/icons/silk/control_pause.png" />
   </xsl:when>
   <!-- default -->
   <xsl:otherwise>

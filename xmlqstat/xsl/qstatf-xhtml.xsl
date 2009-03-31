@@ -1,6 +1,6 @@
 <xsl:stylesheet version="1.0"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:dt="http://xsltsl.org/date-time"
     xmlns:str="http://xsltsl.org/string"
     exclude-result-prefixes="dt str"
@@ -40,8 +40,12 @@
 <xsl:include href="xmlqstat-templates.xsl"/>
 
 <!-- Prep our configuration XML file(s) -->
-<xsl:variable name="configFile" select="document('../config/config.xml')" />
-<xsl:variable name="loadAlarmFile"
+<xsl:param
+    name="configFile"
+    select="document('../config/config.xml')"
+/>
+<xsl:param
+    name="loadAlarmFile"
     select="document('../config/alarm-threshold.xml')"
 />
 
@@ -54,14 +58,14 @@
 <xsl:param name="menuMode" select="'xmlqstat'"/>
 
 <!-- get specific configuration parameters -->
-<xsl:param name="useJavaScript"><xsl:value-of select="$configFile/config/useJavaScript"/></xsl:param>
+<xsl:param name="useJavaScript" select="$configFile/config/useJavaScript"/>
 
 <!-- this doesn't seem to be working anyhow -->
 <xsl:param name="enableResourceQueries"/>
 
 <!-- absolute or percent -->
-<xsl:param name="showSlotUsage"><xsl:value-of select="'absolute'"/></xsl:param>
-<xsl:param name="useAlarmThresholds"><xsl:value-of select="$configFile/config/use_alarm-threshold_data"/></xsl:param>
+<xsl:param name="showSlotUsage" select="'absolute'"/>
+<xsl:param name="useAlarmThresholds" select="$configFile/config/use-alarm-threshold"/>
 
 <!-- define sorting keys -->
 <xsl:key
@@ -623,17 +627,19 @@
         </xsl:if>
         (<xsl:value-of select="$AJ_slots"/> slots)
       </div>
-      <!-- show/hide the activeJobTable -->
-      <xsl:call-template name="toggleElementVisibility">
-        <xsl:with-param name="name" select="'activeJobTable'"/>
-      </xsl:call-template>
+      <!-- show/hide the activeJobTable via javascript -->
+      <xsl:if test="$useJavaScript = 'yes'" >
+        <xsl:call-template name="toggleElementVisibility">
+          <xsl:with-param name="name" select="'activeJobTable'"/>
+        </xsl:call-template>
+      </xsl:if>
     </td>
     </tr>
   </table>
   <div class="activeJobTable" id="activeJobTable">
     <table class="qstat" width="100%">
       <tr>
-      <th>jobID</th>
+      <th>jobId</th>
       <th>owner</th>
       <th>name</th>
       <th>queue</th>
@@ -705,17 +711,19 @@
         </xsl:if>
         (<xsl:value-of select="$PJ_slots"/> slots)
       </div>
-      <!-- show/hide pendingJobTable -->
-      <xsl:call-template name="toggleElementVisibility">
-        <xsl:with-param name="name" select="'pendingJobTable'"/>
-      </xsl:call-template>
+      <!-- show/hide the pendingJobTable via javascript -->
+      <xsl:if test="$useJavaScript = 'yes'" >
+        <xsl:call-template name="toggleElementVisibility">
+          <xsl:with-param name="name" select="'pendingJobTable'"/>
+        </xsl:call-template>
+      </xsl:if>
     </td>
     </tr>
   </table>
   <div class="pendingJobTable" id="pendingJobTable">
     <table class="qstat" width="100%">
       <tr>
-      <th>jobID</th>
+      <th>jobId</th>
       <th>owner</th>
       <th>name</th>
       <th>slots</th>
@@ -763,9 +771,9 @@
 <xsl:text>
 </xsl:text>
 <div class="bottomBox">
-  <a href="psp/qstat.html" title="format for Sony PSP web browser"><img alt="XHTML-PSP" src="images/sonyPSP.gif" border="0" /></a>
+  <a href="psp/qstat.html" title="format for Sony PSP web browser"><img alt="XHTML-PSP" src="images/sonyPSP.png" border="0" /></a>
   <xsl:text> </xsl:text>
-  <a href="info/rss-feeds.html" title="list RSS feeds"><img alt="RSS-Feeds" src="images/rssAvailable.gif" border="0" /></a>
+  <a href="info/rss-feeds.html" title="list RSS feeds"><img alt="RSS-Feeds" src="images/rssAvailable.png" border="0" /></a>
   <xsl:text>
   </xsl:text>
 </div>
@@ -817,7 +825,7 @@
         <xsl:text disable-output-escaping="yes">spoolMessages('execd&amp;h=</xsl:text><xsl:value-of select="name"/>
         <xsl:text>','')</xsl:text>
        </xsl:attribute>
-       <img src="static/e_d.gif" border="0"/>
+       <img src="images/e_d.gif" border="0"/>
       </xsl:element>
      </xsl:element>
     </span>
@@ -939,7 +947,9 @@
     <xsl:when test="load_avg">
      <!-- When load_avg is reported, output as usual -->
      <td class="boldcode">
-      <xsl:element name="code"><xsl:value-of select="load_avg"/></xsl:element>
+      <xsl:element name="code">
+      <xsl:value-of select="load_avg"/>
+      </xsl:element>
      </td>
     </xsl:when>
     <xsl:otherwise>
@@ -1183,8 +1193,8 @@
 
  <xsl:template match="Queue-List/resource">
   <xsl:element name="code">
-   <xsl:value-of select="@name"/>=<xsl:value-of select="."/>
-   <br/>
+  <xsl:value-of select="@name"/>=<xsl:value-of select="."/>
+  <br/>
   </xsl:element>
  </xsl:template>
 
@@ -1197,12 +1207,14 @@
 <xsl:text>
 </xsl:text>
   <tr>
-    <!-- jobID: link owner names to "job-{jobID}.html" -->
+    <!-- jobId: link owner names to "job-{jobId}.html" -->
     <td class="boldcode">
       <xsl:element name="a">
         <xsl:attribute name="href">job-<xsl:value-of select="JB_job_number"/>.html</xsl:attribute>
-        <xsl:attribute name="title">view information about job <xsl:value-of select="JB_job_number"/></xsl:attribute>
-        <xsl:element name="code"><xsl:value-of select="JB_job_number"/></xsl:element>
+        <xsl:attribute name="title">details for job <xsl:value-of select="JB_job_number"/></xsl:attribute>
+        <xsl:element name="code">
+        <xsl:value-of select="JB_job_number"/>
+        </xsl:element>
       </xsl:element>
     </td>
 
@@ -1218,9 +1230,9 @@
     <!-- jobName -->
     <td class="boldcode">
       <xsl:element name="code">
-        <xsl:call-template name="shortName">
-          <xsl:with-param name="name" select="JB_name"/>
-        </xsl:call-template>
+      <xsl:call-template name="shortName">
+        <xsl:with-param name="name" select="JB_name"/>
+      </xsl:call-template>
       </xsl:element>
     </td>
 
@@ -1234,21 +1246,21 @@
     <!-- tasks -->
     <td class="boldcode">
       <xsl:element name="code">
-        <xsl:value-of select="tasks"/>
+      <xsl:value-of select="tasks"/>
       </xsl:element>
     </td>
 
     <!-- submissionTime -->
     <td class="boldcode">
       <xsl:element name="code">
-        <xsl:value-of select="JB_submission_time"/>
+      <xsl:value-of select="JB_submission_time"/>
       </xsl:element>
     </td>
 
     <!-- priority -->
     <td class="boldcode">
       <xsl:element name="code">
-        <xsl:value-of select="JAT_prio"/>
+      <xsl:value-of select="JAT_prio"/>
       </xsl:element>
     </td>
 
@@ -1257,25 +1269,25 @@
       <xsl:element name="code">
 
 <!-- disable icons in pending state column until we can make them smaller
-    <xsl:choose>
+      <xsl:choose>
       <xsl:when test="state='qw'">
-              <span style="cursor:help;">
-               <acronym title="Pending (qw)">
-               <img src="images/icons/silk/time.png" /> </acronym>
-              </span>
+        <span style="cursor:help;">
+          <acronym title="Pending (qw)">
+          <img src="images/icons/silk/time.png" /></acronym>
+        </span>
       </xsl:when>
       <xsl:when test="state='hqw'">
-              <span style="cursor:help;">
-               <acronym title="Pending with hold state (hqw)">
-               <img src="images/icons/silk/time_add.png" /> </acronym>
-              </span>
+        <span style="cursor:help;">
+          <acronym title="Pending with hold state (hqw)">
+          <img src="images/icons/silk/time_add.png" /></acronym>
+        </span>
       </xsl:when>
-     <xsl:otherwise>
-       <xsl:value-of select="state"/>
-     </xsl:otherwise>
-    </xsl:choose>
--->
+      <xsl:otherwise>
         <xsl:value-of select="state"/>
+      </xsl:otherwise>
+      </xsl:choose>
+-->
+      <xsl:value-of select="state"/>
       </xsl:element>
     </td>
   </tr>
@@ -1286,7 +1298,7 @@
     </xsl:text>
     <tr class="hardRequest">
       <td colspan="8" align="right" class="alarmcode" id="hardRequest">
-        Job <xsl:value-of select="JB_job_number"/> Hard Request:
+        job <xsl:value-of select="JB_job_number"/> hard request:
         <xsl:apply-templates select="hard_request"/>
       </td>
     </tr>
@@ -1353,11 +1365,11 @@
   </xsl:variable>
 
   <tr>
-    <!-- jobID: link owner names to "job-{jobID}.html" -->
+    <!-- jobId: link owner names to "job-{jobId}.html" -->
     <td class="boldcode">
       <xsl:element name="a">
         <xsl:attribute name="href">job-<xsl:value-of select="JB_job_number"/>.html</xsl:attribute>
-        <xsl:attribute name="title">view information about job <xsl:value-of select="JB_job_number"/></xsl:attribute>
+        <xsl:attribute name="title">details for job <xsl:value-of select="JB_job_number"/></xsl:attribute>
         <xsl:element name="code"><xsl:value-of select="JB_job_number"/></xsl:element>
       </xsl:element>
     </td>

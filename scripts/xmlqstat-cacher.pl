@@ -15,7 +15,7 @@ my %config = (
     ## or override on the command-line
     ## Set to an empty string to suppress the query and the output.
     qstatf =>
-      "/opt/n1ge6/default/site/xml-qstat/xmlqstat/xml/qstatf-cached.xml",
+      "/opt/grid/default/site/xml-qstat/xmlqstat/xml/qstatf-cached.xml",
     qstat   => "",
     qhost   => "",
     delay   => 30,
@@ -37,32 +37,32 @@ usage: $Script [OPTION] [PARAM]
   Cache GridEngine 'qstat -f' information in xml format.
 
 options:
-    -d      daemonize
+  -d      daemonize
 
-    -h      help
+  -h      help
 
-    -k      kill running daemon
+  -k      kill running daemon
 
-    -w      wake-up daemon from sleep
+  -w      wake-up daemon from sleep
 
 params:
-    delay=N
+  delay=N
             waiting period in seconds between queries in daemon mode
             (a delay of 0 is interpreted as 30 seconds)
 
-    qhost=FILE
+  qhost=FILE
             save 'qhost' query (as per qlicserver) to FILE
             (default: $config{qhost})
 
-    qstat=FILE
+  qstat=FILE
             save 'qstat' query (as per qlicserver) to FILE
             (default: $config{qstat})
 
-    qstatf=FILE
+  qstatf=FILE
             save 'qstat -f' query to FILE
             (default: $config{qstatf})
 
-    timeout=N
+  timeout=N
             command timeout in seconds (default: 10 seconds)
 
 
@@ -279,14 +279,19 @@ sub writeCache {
         unlink $tmpFile;
     }
     local *FILE;
-    if ( open FILE, ">$tmpFile" ) {
-        for (@_) {
-            print FILE $_;
-        }
-        close FILE;    # explicitly close before rename
-        rename $tmpFile, $cacheFile unless $tmpFile eq $cacheFile;    # atomic
+    open FILE, ">$tmpFile" or return;
+
+    for (@_) {
+        print FILE $_;
+    }
+
+    close FILE;    # explicitly close before rename
+    if ( $tmpFile ne $cacheFile ) {
+        chmod 0444      => $tmpFile;      # output cache is readonly
+        rename $tmpFile => $cacheFile;    # atomic
     }
 }
+
 
 # --------------------------------------------------------------------------
 
@@ -313,9 +318,6 @@ sub qhostCacher {
     my $caller    = shift;
     my $cacheFile = shift or return;
 
-    # record qhost xml output to a file
-    # NB: use 2-argument form to open for ">-" expansion!
-    $cacheFile or return;
     my $lines = Sge->bin( qhost => qw( -q -j -xml ) ) or return;
 
     # replace xmlns= with xmlns:xsd=
@@ -334,11 +336,11 @@ sub qhostCacher {
 ##
 ## =head1 NAME
 ##
-## qstatf-cacher.pl
+## xmlqstat-cacher.pl
 ##
 ## =head1 MORE
 ##
-## see qstatf-cacher.pl -h
+## see xmlqstat-cacher.pl -h
 ##
 ## * Skeleton code for this daemon process taken from
 ## 	the "qlicserver" daemon written by Mark Olesen

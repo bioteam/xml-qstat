@@ -54,7 +54,7 @@
     <xsl:element name="img">
       <xsl:attribute name="src"><xsl:if
         test="$relPath"><xsl:value-of
-        select="$relPath"/></xsl:if>images/xml-qstat-logo.gif</xsl:attribute>
+        select="$relPath"/></xsl:if>images/xml-qstat-logo.png</xsl:attribute>
       <xsl:attribute name="width">150</xsl:attribute>
       <xsl:attribute name="alt">logo</xsl:attribute>
     </xsl:element>
@@ -76,13 +76,15 @@
         src="images/icons/silk/house.png"
         alt="[home]"
     /></a>
+
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <a href="jobs" title="jobs"><img border="0"
         src="images/icons/silk/lorry_flatbed.png"
         alt="[jobs]"
     /></a>
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
+
     <!-- queueinfo: toggle between normal/more/less views -->
+    <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <xsl:choose>
     <xsl:when test="$queueinfo = 'more'">
       <a href="queues" title="queue instances"><img border="0"
@@ -103,15 +105,9 @@
       /></a>
     </xsl:otherwise>
     </xsl:choose>
-<xsl:if test="$config_qlicserver = 'yes'">
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    <a href="resources" title="resources" ><img border="0"
-        src="images/icons/silk/database_key.png"
-        alt="[resources]"
-    /></a>
-</xsl:if>
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
+
     <!-- hostinfo: toggle between default/warn views -->
+    <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <xsl:choose>
     <xsl:when test="$hostinfo = 'more'">
       <a href="queues" title="all queues"><img border="0"
@@ -132,8 +128,17 @@
       /></a>
     </xsl:otherwise>
     </xsl:choose>
+
+<xsl:if test="$config_qlicserver = 'yes'">
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
+    <a href="resources" title="resources" ><img border="0"
+        src="images/icons/silk/database_key.png"
+        alt="[resources]"
+    /></a>
+</xsl:if>
+
     <!-- jobinfo: toggle between more/less views -->
+    <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <xsl:choose>
     <xsl:when test="$jobinfo = 'less'">
       <a href="jobs" title="jobs"><img border="0"
@@ -148,6 +153,7 @@
       /></a>
     </xsl:otherwise>
     </xsl:choose>
+
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <a href="" title="reload"><img border="0"
         src="images/icons/silk/arrow_refresh_small.png"
@@ -166,25 +172,35 @@
 
   <div id="menu" style="text-align:middle;">
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
+    <a href="./" title="home"><img border="0"
+        src="images/icons/silk/house.png"
+        alt="[home]"
+    /></a>
+
+    <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <a href="qstat-jobs.html" title="jobs" ><img border="0"
         src="images/icons/silk/lorry_flatbed.png"
         alt="[jobs]"
     /></a>
+
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <a href="qstat-full.html" title="queue instances"><img border="0"
         src="images/icons/silk/server_chart.png"
         alt="[queue instances]"
     /></a>
+
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <a href="qstat-terse.html" title="cluster summary"><img border="0"
         src="images/icons/silk/layout.png"
         alt="[cluster summary]"
     /></a>
+
     <img alt="*"  src="images/icons/silk/bullet_blue.png" />
     <a href="info/about.html" title="about"><img border="0"
         src="images/icons/silk/information.png"
         alt="[about]"
     /></a>
+
     <!-- not yet written
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <a href="info/help.html" title="help"><img border="0"
@@ -197,6 +213,7 @@
         alt="[notes]"
     /></a>
     -->
+
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <a href="" title="reload"><img border="0"
         src="images/icons/silk/arrow_refresh_small.png"

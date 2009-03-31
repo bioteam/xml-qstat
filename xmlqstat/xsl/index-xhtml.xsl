@@ -1,6 +1,6 @@
 <xsl:stylesheet version="1.0"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:dt="http://xsltsl.org/date-time"
     xmlns:str="http://xsltsl.org/string"
     exclude-result-prefixes="dt str"
@@ -56,7 +56,28 @@
 <xsl:call-template name="topLogo"/>
 
 <!-- Top Menu Bar -->
-<!-- <xsl:call-template name="topMenu"/> -->
+
+<div id="menu" style="text-align:left;">
+  <img alt="*" src="images/icons/silk/bullet_blue.png" />
+  <a href="config" title="config"><img border="0"
+      src="images/icons/silk/folder_wrench.png"
+      alt="[config]"
+  /></a>
+
+  <img alt="*" src="images/icons/silk/bullet_blue.png" />
+  <a href="sitemap.xmap" title="sitemap"><img border="0"
+      src="images/icons/silk/wrench.png"
+      alt="[sitemap]"
+  /></a>
+
+  <img alt="*" src="images/icons/silk/bullet_blue.png" />
+  <a href="" title="reload"><img border="0"
+      src="images/icons/silk/arrow_refresh_small.png"
+      alt="[reload]"
+  /></a>
+
+  <img alt="*" src="images/icons/silk/bullet_blue.png" />
+</div>
 
 <!-- <div id="upperBar">
 </div>
@@ -65,9 +86,30 @@
 <xsl:text>
 </xsl:text>
 
+<!-- cluster selection -->
+<blockquote>
+<table class="qstat" width="100%">
+  <tr valign="middle">
+    <td>
+      <div class="tableDescriptorElement">Clusters</div>
+    </td>
+  </tr>
+</table>
 <xsl:apply-templates select="//config/clusters" />
+</blockquote>
 
 </div>
+
+<!-- bottom links -->
+<img alt="*" src="images/icons-silk-empty.png" />
+<a href="qstat-jobs.html" title="xmlqstat"><img border="0"
+    src="images/icons/silk/table_gear.png" alt="[xmlqstat]"
+/></a>
+<xsl:text> </xsl:text>
+<a href="psp/" title="sony psp"><img border="0"
+    src="images/icons/silk/controller.png" alt="[psp]"
+/></a>
+
 </body></html>
 
 </xsl:template>
@@ -77,13 +119,13 @@
   active jobs: header
  -->
 <xsl:template match="//config/clusters">
-  <div class="activeJobTable" id="activeJobTable">
+  <div class="activeJobTable" style="text-align:left;">
     <table class="qstat" width="100%">
     <tr>
-      <th>cluster</th>
+      <th colspan="2">name</th>
       <th>root</th>
       <th>cell</th>
-      <th>cache files</th>
+      <th>cache</th>
     </tr>
     <xsl:for-each select="cluster">
       <!-- sorted by job number and task -->
@@ -97,16 +139,15 @@
 <xsl:template match="//cluster">
   <tr>
   <!-- cluster name -->
-  <!-- link to jobs: "jobs?cluster={name}" -->
   <td>
-    <!-- link owner names to "jobs?user={owner}" -->
     <xsl:element name="a">
-      <xsl:attribute name="title">view jobs on cluster <xsl:value-of select="@name"/></xsl:attribute>
+      <xsl:attribute name="title">jobs</xsl:attribute>
       <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/jobs</xsl:attribute>
       <xsl:value-of select="@name"/>
     </xsl:element>
+  </td>
+  <td>
     <!-- jobs -->
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <xsl:element name="a">
       <xsl:attribute name="title">jobs</xsl:attribute>
       <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/jobs</xsl:attribute>
@@ -127,14 +168,14 @@
       />
     </xsl:element>
 
-    <!-- resources -->
+    <!-- queues -->
     <xsl:text> </xsl:text>
     <xsl:element name="a">
-      <xsl:attribute name="title">resources</xsl:attribute>
-      <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/resources</xsl:attribute>
+      <xsl:attribute name="title">queue listing</xsl:attribute>
+      <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/queues</xsl:attribute>
       <img border="0"
-          src="images/icons/silk/database_key.png"
-          alt="[resources]"
+          src="images/icons/silk/chart_organisation_add.png"
+          alt="[queue instances]"
       />
     </xsl:element>
 
@@ -149,6 +190,17 @@
       />
     </xsl:element>
 
+    <!-- resources -->
+    <xsl:text> </xsl:text>
+    <xsl:element name="a">
+      <xsl:attribute name="title">resources</xsl:attribute>
+      <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/resources</xsl:attribute>
+      <img border="0"
+          src="images/icons/silk/database_key.png"
+          alt="[resources]"
+      />
+    </xsl:element>
+
   </td>
   <td>
       <xsl:value-of select="@root"/>
@@ -156,13 +208,12 @@
   <td>
       <xsl:value-of select="@cell"/>
   </td>
-
   <td>
     <!-- list cache files -->
     <xsl:text> </xsl:text>
     <xsl:element name="a">
       <xsl:attribute name="title">cache</xsl:attribute>
-      <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/></xsl:attribute>
+      <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/cache</xsl:attribute>
       <img border="0"
           src="images/icons/silk/folder_explore.png"
           alt="[cache]"

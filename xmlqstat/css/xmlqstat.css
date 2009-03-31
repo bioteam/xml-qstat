@@ -376,7 +376,7 @@ table.embedded td {
 
 .queueStatusTable {
     visibility: visible;
-    display: inline;
+    display:    inline;
 }
 
 .scrollableDIV {

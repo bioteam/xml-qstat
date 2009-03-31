@@ -1,8 +1,12 @@
 <xsl:stylesheet version="1.0"
+    xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:dir="http://apache.org/cocoon/directory/2.0"
-    xmlns="http://www.w3.org/1999/xhtml"
 >
+<!--
+   | process the output from a directory generator
+   | to create a list of hyperlinks
+-->
 
 <!-- output declarations -->
 <xsl:output method="xml" indent="yes" version="1.0" encoding="UTF-8"
@@ -19,27 +23,31 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="Refresh" content="30" />
-<title>cache - <xsl:value-of select="$parentDir"/></title>
+<title>dir - <xsl:value-of select="$parentDir"/></title>
 
 <xsl:text>
 </xsl:text>
-</head>
+</head><body>
+<div class="main">
+<strong>directory contents: <xsl:value-of select="$parentDir"/></strong>
+<blockquote>
+  <xsl:choose>
+  <xsl:when test="/dir:directory">
+    <xsl:apply-templates select="/dir:directory" />
+  </xsl:when>
+  <xsl:otherwise>
+    directory does not exist or is empty
+  </xsl:otherwise>
+  </xsl:choose>
+</blockquote>
 <xsl:text>
 </xsl:text>
-
-<body>
-
-<xsl:apply-templates select="/dir:directory" />
-
-<xsl:text>
-</xsl:text>
-
+</div>
 </body></html>
 </xsl:template>
 
 
 <xsl:template match="/dir:directory">
-
   <xsl:element name="ul">
 
   <xsl:for-each select="dir:file">
@@ -49,11 +57,9 @@
         <xsl:value-of select="@name"/>
       </xsl:element>
     </xsl:element>
-
   </xsl:for-each>
 
   </xsl:element>
-
 </xsl:template>
 
 </xsl:stylesheet>

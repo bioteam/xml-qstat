@@ -1,22 +1,22 @@
-<![CDATA[
 // use -*- java -*- mode for javascript
 
 //
 // set a div 'name' to visible or hidden
 // set a cookie for persistence across browser reloads etc
 //
-function setDiv(name, state) {
+function setDiv(name, state)
+{
     if (state)
     {
         document.getElementById(name).style.visibility = "visible";
         document.getElementById(name).style.display    = "inline";
-        SetCookie (name, "yes", null, "/");
+        SetCookie(name, "yes", null, "/");
     }
     else
     {
         document.getElementById(name).style.visibility = "hidden";
         document.getElementById(name).style.display    = "none";
-        SetCookie (name, "no", null, "/");
+        SetCookie(name, "no", null, "/");
     }
 }
 
@@ -56,9 +56,9 @@ function processReqChange()
         // only if "OK"
         if (req.status == 200)
         {
-            response  = req.responseXML.documentElement;
-            method    = response.getElementsByTagName('method')[0].firstChild.data;
-            result    = response.getElementsByTagName('result')[0].firstChild.data;
+            response = req.responseXML.documentElement;
+            method   = response.getElementsByTagName('method')[0].firstChild.data;
+            result   = response.getElementsByTagName('result')[0].firstChild.data;
 
             // alert (method) //checkName('',result)
 
@@ -119,5 +119,5 @@ function resourceList(input, response)
         loadXMLDoc(url);
     }
 }
+
 // ---------------------------------------------------------------- end-of-file
-]]>

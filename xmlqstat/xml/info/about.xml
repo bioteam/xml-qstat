@@ -6,16 +6,27 @@
 
 <section>
 <sectionHead>What is xml-qstat?</sectionHead>
-<para><![CDATA[xml-qstat is an attempt to do something useful with the XML status information that Grid Engine 6 <a href="http://gridengine.sunsource.net">(http://gridengine.sunsource.net</a> &amp; <a href="http://sun.com/software/gridware/">http://www.sun.com/software/gridware/</a>) is now able to produce. In previous attempts to build web based Grid Engine monitoring tools, the text based Grid status and monitoring tools were crudely parsed and wrapped into simple web CGI's:
+<para><![CDATA[
+xml-qstat is an attempt to do something useful with the XML status information
+that GridEngine 6 <a href="http://gridengine.sunsource.net">(http://gridengine.sunsource.net</a>
+&amp; <a href="http://sun.com/software/gridware/">http://www.sun.com/software/gridware/</a>)
+is now able to produce. In previous attempts to build web based GridEngine
+monitoring tools, the text based Grid status and monitoring tools were
+crudely parsed and wrapped into simple web CGI's:
 <div>
-<a href="../images/screencap/xmlqstat_011.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_011_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_011.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_011_thumb.png"/></a>
 Yielded ...
-<a href="../images/screencap/xmlqstat_013.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_013_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_013.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_013_thumb.png"/></a>
 </div>
 ]]>
 </para>
 <para>
-At it's heart, xml-qstat consists of a collection of stylesheets written in XSL. The stylesheets can be used with a XSLT transformation engine to change raw Grid Engine XML data into convenient formats such as XHTML and RSS. Once the grid data has been mapulated into XHTML we can then apply other web technologies such as CSS, DHTML and Javascrip to create fairly sophisticated web based tools for Grid Engine status reporting and monitoring.
+At its heart, xml-qstat consists of a collection of stylesheets written in
+XSL. The stylesheets can be used with a XSLT transformation engine to change
+raw GridEngine XML data into convenient formats such as XHTML and RSS. Once
+the grid data has been mapulated into XHTML we can then apply other web
+technologies such as CSS, DHTML and Javascrip to create fairly sophisticated
+web based tools for GridEngine status reporting and monitoring.
 </para>
 <para>
 <![CDATA[The current version of this software has been developed to run under the <a href="http://cocoon.apache.org/2.1/">Apache Cocoon</a> XML publishing framework.]]>
@@ -24,12 +35,29 @@ At it's heart, xml-qstat consists of a collection of stylesheets written in XSL.
 
 <section>
 <sectionHead>History</sectionHead>
-<para>This is a 3rd generation codebase of a project that was begun in mid-2005. <![CDATA[Early versions of this program used Xalan-C++ (<a href="http://xml.apache.org/xalan-c/">http://xml.apache.org/xalan-c/</a>) but that package turned out to be difficult to build on various Linux and Apple OS X systems. The 2nd generation xml-qstat programs and CGIs used the very nice perl modules <strong>XML::LibXML </strong>and <strong>XML::LibXSLT</strong>. Those modules provided perl intefaces to the Gnome Project's excellent <strong>libxml2</strong> (<a href="http://www.xmlsoft.org">http://www.xmlsoft.org</a>/) and <strong>libxslt</strong> (<a href="http://xmlsoft.org/XSLT/">http://xmlsoft.org/XSLT/</a>) code libraries.
-The 2nd generation code was abandoned when <a href="http://cocoon.apache.org/2.1/">Apache Cocoon</a> was discovered - the Cocoon framework functions out of the box on just about any Java enabled system and there are no requirements to download and build various dependent XML libraries and perl modules.
+
+<para>
+This is a 3rd generation codebase of a project that was begun in mid-2005.
+<![CDATA[Early versions of this program used Xalan-C++
+(<a href="http://xml.apache.org/xalan-c/">http://xml.apache.org/xalan-c/</a>)
+but that package turned out to be difficult to build on various Linux and
+Apple OS X systems.  The 2nd generation xml-qstat programs and CGIs used the
+very nice perl modules
+<strong>XML::LibXML</strong> and <strong>XML::LibXSLT</strong>.
+Those modules provided perl intefaces to the Gnome Project's excellent
+<strong>libxml2</strong> (<a href="http://www.xmlsoft.org">http://www.xmlsoft.org</a>/)
+and <strong>libxslt</strong>
+(<a href="http://xmlsoft.org/XSLT/">http://xmlsoft.org/XSLT/</a>)
+code libraries. The 2nd generation code was abandoned when
+<a href="http://cocoon.apache.org/2.1/">Apache Cocoon</a> was discovered
+- the Cocoon framework functions out of the box on just about any Java
+enabled system and there are no requirements to download and build various
+dependent XML libraries and perl modules.
+
 <br/><br/>
 This is what generation 2 (pure Perl) looked like:
-<div><a href="../images/screencap/Mozillaxml_qstat_001.jpg"><img border="0" alt="*" src="../images/screencap/Mozillaxml_qstat_001.thumb.jpg"/></a>
-<a href="../images/screencap/Mozillaxml_qstat_002.jpg"><img border="0" alt="*" src="../images/screencap/Mozillaxml_qstat_002.thumb.jpg"/></a>
+<div><a href="../images/screenshot/Mozillaxml_qstat_001.jpg"><img border="0" alt="*" src="../images/screenshot/Mozillaxml_qstat_001.thumb.jpg"/></a>
+<a href="../images/screenshot/Mozillaxml_qstat_002.jpg"><img border="0" alt="*" src="../images/screenshot/Mozillaxml_qstat_002.thumb.jpg"/></a>
 </div>
 ]]>
 </para>
@@ -41,34 +69,29 @@ This is what generation 2 (pure Perl) looked like:
 <para>Current screenshots showing various features:
 <![CDATA[
 <div>
-<a href="../images/screencap/xmlqstat_001.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_001_thumb.png"/></a>
-
-<a href="../images/screencap/xmlqstat_002.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_002_thumb.png"/></a>
-
-<a href="../images/screencap/xmlqstat_006.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_006_thumb.png"/></a>
-
-<a href="../images/screencap/xmlqstat_007.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_007_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_001.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_001_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_002.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_002_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_006.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_006_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_007.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_007_thumb.png"/></a>
 </div>
 
 <div>
-Detailed information is kept hidden to keep the initial interface clean. Javascript and mouseover popups are used to present more detail when requested:
-<a href="../images/screencap/xmlqstat_005.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_005_thumb.png"/></a>
-
-<a href="../images/screencap/xmlqstat_003.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_003_thumb.png"/></a>
-
-<a href="../images/screencap/xmlqstat_004.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_004_thumb.png"/></a>
+Detailed information is kept hidden to keep the initial interface clean.
+Javascript and mouseover popups are used to present more detail when
+requested:
+<a href="../images/screenshot/xmlqstat_005.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_005_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_003.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_003_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_004.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_004_thumb.png"/></a>
 
 </div>
 <div>
-Alternative rendered views include Atom 1.0 compliant syndication feeds as well as specially formatted interfaces for Sony Playstation Portable browsers:
-
-<a href="../images/screencap/xmlqstat_008.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_008_thumb.png"/></a>
-
-<a href="../images/screencap/xmlqstat_009.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_009_thumb.png"/></a>
-
-<a href="../images/screencap/xmlqstat_010.png"><img border="0" alt="*" src="../images/screencap/xmlqstat_010_thumb.png"/></a>
-
-<a href="../images/screencap/psp-sge.jpg"><img border="0" alt="*" src="../images/screencap/psp-sge_thumb.jpg"/></a>
+Alternative rendered views include Atom 1.0 compliant syndication feeds as
+well as specially formatted interfaces for Sony Playstation Portable
+browsers:
+<a href="../images/screenshot/xmlqstat_008.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_008_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_009.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_009_thumb.png"/></a>
+<a href="../images/screenshot/xmlqstat_010.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_010_thumb.png"/></a>
+<a href="../images/screenshot/psp-sge.jpg"><img border="0" alt="*" src="../images/screenshot/psp-sge_thumb.jpg"/></a>
 </div>
 ]]></para>
 </section>
@@ -80,7 +103,7 @@ Alternative rendered views include Atom 1.0 compliant syndication feeds as well 
 <li>A recent version of Java</li>
 <li>A recent version of Perl</li>
 <li>Apache Cocoon version 2.1.8 or higher</li>
-<li>Grid Engine version 6.0u7 or higher (6.1u3 or later strongly encouraged)</li>
+<li>GridEngine version 6.0u7 or higher (6.1u3 or later strongly encouraged)</li>
 <li>Mozilla, Safari, Firefox, Sony PSP or Opera web browser (Internet Explorer is not currently supported)</li>
 </ul>
 ]]></para>
@@ -93,26 +116,27 @@ Alternative rendered views include Atom 1.0 compliant syndication feeds as well 
 The code is organized in the following manner:
 <pre>
 $ ls -l /opt/xml-qstat/
-drwxr-xr-x    cocoon-2.1.8
-drwxr-xr-x    java
-drwxr-xr-x    httpi
-drwxr-xr-x    scripts
-drwxr-xr-x    xmlqstat
+drwxr-xr-x    cocoon-2.1.8/
+drwxr-xr-x    java/
+drwxr-xr-x    httpi/
+drwxr-xr-x    scripts/
+drwxr-xr-x    xmlqstat/
 </pre>
-The <b>cocoon</b> directory is a standard Apache Cocoon installation.
+The <b>cocoon/</b> directory is a standard Apache Cocoon installation.
 The only file touched inside the cocoon directory is a customized
 "mount-table.xml" configuration file that informs the application server
 that the URI-prefix of "/xmlqstat/" should be handled by the "xmlqstat/"
 directory.
 <br/><br/>
-The <b>java</b> directory contains the
+The <b>java/</b> directory contains the
 <em>CommandGenerator</em>
 that can be used largely instead of file caching and may allows some users
 to avoid a second webserver.
 <br/><br/>
 
-The <b>httpi</b> directory is <em>optional</em> and contains a tiny, fast and
-secure pure-Perl webserver known as <a href="http://www.floodgap.com/httpi/">httpi</a>.
+The <b>httpi/</b> directory is <em>optional</em> and contains a tiny, fast and
+secure pure-Perl webserver known as
+<a href="http://www.floodgap.com/httpi/">httpi</a>.
 
 This webserver can be used to generate dynamic XML when the cached data is
 not suitable or if the user prefers not to use the pure-Java
@@ -128,7 +152,7 @@ output, or to serve bitmap images of system loads, solution convergence,
 etc.
 
 <br/><br/>
-The <b>scripts</b> directory currently contains 1 shell script and
+The <b>scripts/</b> directory currently contains 1 shell script and
 3 perl scripts.
 
 <ol>
@@ -140,80 +164,93 @@ The <b>scripts</b> directory currently contains 1 shell script and
 <li>
   The <b>jobinfo</b> CGI script is an <em>optional</em> cgi script for
   processing the jod detail requests.
-  It should be placed under the "/xmlqstat/xmldata/" path of the second
-  webserver. You can use curl to test that is is working properly:
+  It should be placed under the "/xmlqstat/" path of the second
+  webserver. You can use curl to test that it is working properly:
   <pre>
-     curl http://SERVER:PORT/xmlqstat/xmldata/jobinfo
-     curl http://SERVER:PORT/xmlqstat/xmldata/jobinfo?JOBID</pre>
+     curl http://SERVER:PORT/xmlqstat/jobinfo
+     curl http://SERVER:PORT/xmlqstat/jobinfo?JOBID</pre>
 </li>
 <li>
-  The <b>sge-xml-cacher.pl</b> is <em>only</em> required,
-  if you are not using the <em>CommandGenerator</em> or not
-  caching information via the <em>qlicerver</em>
-  (FlexLM + GridEngine integration).
+  The <b>xmlqstat-cacher.pl</b> is <em>only</em> required if you are not
+  using the <em>CommandGenerator</em> or not caching information via the
+  <em>qlicerver</em> (FlexLM + GridEngine integration).
 
-  This Perl daemon script constantly and periodically
-  refreshes the cached Grid Engine XML status data.
-  This cached data is what cocoon uses to generate various views and
-  interfaces. The default setting for this daemon is to refresh Grid Data
-  every 30 seconds (this value is user configurable). The perl daemon is
-  used so that Cocoon does not call "qstat -f -xml" every time a user hits
-  the web page. The caching mechanism greatly reduces the load on the SGE
-  qmaster and the Cocoon application server.
+  This Perl daemon script constantly and periodically refreshes the cached
+  GridEngine XML status data. This cached data is what cocoon uses to
+  generate various views and interfaces. The default setting for this daemon
+  is to refresh Grid Data every 30 seconds (this value is user
+  configurable). The perl daemon is used so that Cocoon does not call
+  "qstat -f -xml" every time a user hits the web page. The caching mechanism
+  greatly reduces the load on the SGE qmaster and the Cocoon application
+  server.
 </li>
 <li>
   The <b>create-threshold-config.pl</b> is <em>optional</em>
-  and is a helper script that can query Grid Engine to learn the
+  and is a helper script that can query GridEngine to learn the
   configured load alarm thresholds for each queue.
-  Since Grid Engine only reports current load values
+  Since GridEngine only reports current load values
   (and not the configured alarm thresholds) this helper script can create
   a secondary configuration file that is read by Cocoon to generate
   customized graphical "load ratio" reports within the web interface.
 </li>
 </ol>
-The <b>scripts/init-scripts</b> directory contains a few roughed out
+The <b>scripts/init-scripts/</b> directory contains a few roughed out
 initialization scripts for the various applications.
 
 <br/><br/>
-The <b>xmlqstat</b> directory is where this application lives.
+The <b>xmlqstat/</b> directory is where this application lives.
 It is organized into the following sub-directories:
 <pre>
 
 $ ls -l xmlqstat/
-drwxr-xr-x   css
-drwxr-xr-x   images
-drwxr-xr-x   javascript
+drwxr-xr-x   config/
+drwxr-xr-x   css/
+drwxr-xr-x   images/
+drwxr-xr-x   javascript/
 -rw-r--r--   sitemap.xmap
-drwxr-xr-x   xml
-drwxr-xr-x   xsl
+drwxr-xr-x   xml/
+drwxr-xr-x   xsl/
 </pre>
 
-The <b>css</b> directory contains CSS stylesheets used for seperation of
+The <b>config/</b> directory contains user-customizable configuration files.
+<br/>
+The <b>css/</b> directory contains CSS stylesheets used for seperation of
 content from presentation.
 <br/>
-The <b>image</b> directory contains images, icons and graphic elements.
+The <b>image/</b> directory contains images, icons and graphic elements.
 <br/>
-The <b>javascript</b> directory contains javascript used for presentation and
+The <b>javascript/</b> directory contains javascript used for presentation and
 display preference formatting.
 <br/>
 The <b>sitemap.xmap</b> is a Cocoon configuration file that tells the
 application server how to handle, route and process various transformation
 requests.
 <br/>
-The <b>xml</b> directory contains user-customizable configuration files and the
-raw XML source for the documentation and help files.
+The <b>xml/</b> directory contains static XML source for the documentation
+and help files.
 <br/>
-The <b>xsl</b> directory contains the XSLT stylesheets that guide the
-transformation of Grid Engine XML into various output forms.
+The <b>xsl/</b> directory contains the XSLT stylesheets that guide the
+transformation of GridEngine XML into various output forms.
 <br/><br/>
 
 Generally speaking, it should only be necessary to edit the
 <b>xmlqstat/config/config.xml</b>. This file is used to set some simple
 configuration preferences.
 
+If you are using file caching (eg, with the qlicerver code), the names of the
+cache directories must correspond to the cluster named. For example:
+<pre>
+$ ls -lF cache-*
+lrwxrwxrwx   cache-cluster01 -&gt; ../../grid/default/site/cache/
+lrwxrwxrwx   cache-cluster02 -&gt; ../../n1ge6/default/site/cache/
+</pre>
+With this mechanism, it is possible to monitor several cluster installations
+or cluster cells, provided that the cache contents can be directly mounted
+into the file system.
+
+
 In some cases, it may be necessary to edit <b>sitemap.xmap</b> to make minor
-configuration changes. For example, to specify a different default URL and
-port number for the <em>optional</em> httpi webserver, or to select
+configuration changes. For example, to select
 alternative input sources (cached or from <em>CommandGenerator</em>).
 
 ]]></para>
@@ -276,7 +313,7 @@ Installation Process:
   and are not caching qstat information with the <em>qlicerver</em>
   <ol>
   <li>
-    Edit the <b>scripts/sge-xml-cacher.pl</b> script to configure the full
+    Edit the <b>scripts/xmlqstat-cacher.pl</b> script to configure the full
     Unix file path to where cached SGE status data will be stored. If data is
     cached to a file named "cached-sge-data.xml" within the xmlqstat/xml/
     directory then <b>xmlqstat/sitemap.xmap</b> can be left unchanged. If the
@@ -288,8 +325,8 @@ Installation Process:
     Start caching grid data! If your SGE environment has been set up (you can
     run 'qstat' via the command line) then starting the perl caching daemon
     should be as simple as entering the scripts/ directory and issuing the
-    command "./sge-xml-cacher.pl -d". To stop the daemon, issue the command
-    "./sge-xml-cacher.pl -k". To verify that the daemon is working, check the
+    command "./xmlqstat-cacher.pl -d". To stop the daemon, issue the command
+    "./xmlqstat-cacher.pl -k". To verify that the daemon is working, check the
     process table to see if it exists and then monitor the timestamps on the
     cache file. In its default setting, XML data should be updated every 30
     seconds.
@@ -299,7 +336,7 @@ Installation Process:
 <li>
   The web interface should be ready for testing.
   Point a web browser at the URL
-  <em>http://{yourServerName}:8888/xmlqstat/jobs.html</em>
+  <em>http://{yourServerName}:8888/xmlqstat/qstat-jobs.html</em>
 </li>
 </ol>
 ]]></para>
@@ -310,17 +347,16 @@ Installation Process:
 <para><![CDATA[
 <ul>
 <li>
-  The command-line syntax of the <b>sge-xml-cacher.pl</b> daemon has
-  changed since the last version.
-  The previous <b>-d</b> and <b>-t</b> options have replaced with the
-  <b>delay=...</b> and <b>timeout=...</b> command-line parameters,
-  respectively.  This change improves flexibility and corresponds to the
-  new syntax supported by the <b>qlicerver</b> FlexLM integration.
+  The command-line syntax of the <b>xmlqstat-cacher.pl</b> daemon has
+  changed from previous versions.
+  Now <b>delay=...</b> and <b>timeout=...</b> command-line parameters are
+  used.  This change improves flexibility and corresponds to the
+  current syntax used by the <b>qlicerver</b> FlexLM integration.
 </li>
 <li>
   As of 2008-04-14, the CommandGenerator still does not appear to
   be caching as required and desired.
-  The <b>sge-xml-cacher.pl</b> daemon should be used instead.
+  The <b>xmlqstat-cacher.pl</b> daemon should be used instead.
 </li>
 <li>
   The transformations have been tested with GridEngine 6.1, no promises
@@ -365,10 +401,10 @@ the example:
 <pre>
 
 $ ls -l /opt/xml-qstat/
-drwxr-xr-x    cocoon-2.1.8
-drwxr-xr-x    httpi
-drwxr-xr-x    scripts
-drwxr-xr-x    xmlqstat
+drwxr-xr-x    cocoon-2.1.8/
+drwxr-xr-x    httpi/
+drwxr-xr-x    scripts/
+drwxr-xr-x    xmlqstat/
 </pre>
 Then you would simply create a file called <b>cocoon-2.1.8/mount-table.xml</b> with contents that looked like this:
 <pre>
@@ -376,7 +412,7 @@ Then you would simply create a file called <b>cocoon-2.1.8/mount-table.xml</b> w
   &lt;mount-table&gt;
 
     &lt;!-- Map the browser URI "/xmlqstat" to our webapp directory --&gt;
-    &lt;mount uri-prefix="xmlqstat/" src="../../../xmlqstat/"/&gt;
+    &lt;mount uri-prefix="xmlqstat/" src="../../../xmlqstat/sitemap.xmap"/&gt;
 
   &lt;/mount-table&gt;
 </pre>
@@ -405,14 +441,14 @@ simple process to edit. The following configuration questions are asked:
   match a local timezone.
 </li>
 <li>
-  <b>use_alarm-threshold_data</b>
-  <em>optional (and broken at the moment).</em>
+  <b>use-alarm-threshold</b>
+  <em>optional (and possibly broken at the moment).</em>
 
   If you run the <b>scripts/create-threshold-config.pl</b> helper script,
   an additional XML configuration file (config/alarm-threshold.xml) will be
-  created that lists the Grid Engine load alarm threshold values for each
+  created that lists the GridEngine load alarm threshold values for each
   queue instance. These values can then be compared to the real-time load
-  data reported by Grid Engine. When enabled, this feature will show a
+  data reported by GridEngine. When enabled, this feature will show a
   graphical "Load Ratio" column in the web interface. When the value is set
   to "no", the Load Ratio column data is not displayed.
 </li>
@@ -428,17 +464,17 @@ simple process to edit. The following configuration questions are asked:
   Specify if JavaScript should be enabled.
 </li>
 <li>
-  <b>jobinfoProgram</b>
+  <b>programs/jobinfo</b>
   <em>optional</em>.
   Specify a program that can be used to query the GridEngine for job details.
 </li>
 <li>
-  <b>viewfileProgram</b>
+  <b>programs/viewfile</b>
   <em>optional</em>.
   Specify a program that can be used to view the GridEngine job output files.
 </li>
 <li>
-  <b>viewlogProgram</b>
+  <b>programs/viewlog</b>
   <em>optional</em>.
   Specify a program that can be used to find and view the log files.
   This could also be used to specify some other form of log file or runtime
@@ -452,7 +488,7 @@ simple process to edit. The following configuration questions are asked:
 <section>
 <sectionHead>Unintended Benefits</sectionHead>
 <para><![CDATA[
-During development of this project, I was able to find and document three unique cases where Grid Engine does not produce well-formed XML. The three problems are documented in 2 bug reports I have filed with the developers:
+During development of this project, I was able to find and document three unique cases where GridEngine does not produce well-formed XML. The three problems are documented in 2 bug reports I have filed with the developers:
 <ul>
 <li><a href="http://gridengine.sunsource.net/issues/show_bug.cgi?id=1949">http://gridengine.sunsource.net/issues/show_bug.cgi?id=1949</a></li>
 <li><a href="http://gridengine.sunsource.net/issues/show_bug.cgi?id=1957">http://gridengine.sunsource.net/issues/show_bug.cgi?id=1957</a></li>
@@ -472,21 +508,12 @@ A basic overview of some of the built-in features:
 <li>Valid Atom 1.0 syndication feed</li>
 <li>XSL driven documentation framework</li>
 <li>
-  Browser cookies used to persist user display preferences. Views are
+  Browser cookies used for persistent user display preferences. Views are
   dynamically rendered according to cookie values.
 </li>
 <li>
   Three primary views: Job listing (user or all jobs), queue instance
   listing or summary.
-</li>
-<li>
-  Per user job sorting. Users can view their own pending/active jobs by
-  adding their name as a request. eg, /xmlqstat/jobs.html?USERNAME
-</li>
-<li>
-  Sensible Job Detail handling. The URL "/xmlqstat/job-{JOBID}.html" can be
-  used used for any active or pending job of any type. Custom rendering is
-  done via detecting the features and type of XML.
 </li>
 <li>
   Custom view for Sony Playstation Portable web browsers. The PSP browser
@@ -511,7 +538,7 @@ A mailing list has been set up for xml-qstat discussion. More information about 
 <section>
 <sectionHead>Resources</sectionHead>
 <para><![CDATA[
-It turns out that getting at Grid Engine XML and pulling out the data one is
+It turns out that getting at GridEngine XML and pulling out the data one is
 interested in is actually pretty easy. The hardest part of this project is
 actually the web design and interface aspects. The following references were
 invaluable during the course of initial experiments and the eventual code:

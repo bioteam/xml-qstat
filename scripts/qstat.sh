@@ -14,8 +14,8 @@ logfile=/tmp/commandlog-$cmd
 
 if [ ! -s $logfile ]
 then
-   echo "# command logger: $0" >| $logfile 2>/dev/null
-   chmod 0666 $logfile 2>/dev/null
+    echo "# command logger: $0" >| $logfile 2>/dev/null
+    chmod 0666 $logfile 2>/dev/null
 fi
 
 echo "$(date --rfc-3339=s) $USER@$HOST: $cmd $@" >> $logfile 2>/dev/null

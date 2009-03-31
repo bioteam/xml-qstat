@@ -1,6 +1,6 @@
 <xsl:stylesheet version="1.0"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 >
 
 <!--
@@ -68,7 +68,12 @@
 <!-- Top Menu Bar -->
 <div id="menu" style="text-align:middle;">
   <img alt="*" src="../images/icons/silk/bullet_blue.png" />
-  <a href="../qstat-jobs.html" title="home" ><img border="0"
+  <a href="../" title="home"><img border="0"
+      src="../images/icons/silk/house.png"
+      alt="[home]"
+  /></a>
+  <img alt="*" src="../images/icons/silk/bullet_blue.png" />
+  <a href="../qstat-jobs.html" title="jobs" ><img border="0"
       src="../images/icons/silk/lorry_flatbed.png"
       alt="[jobs]"
   /></a>
@@ -153,9 +158,9 @@
 <xsl:text>
 </xsl:text>
 <div class="bottomBox">
-  <a href="../psp/qstat.html" title="format for Sony PSP web browser"><img alt="XHTML-PSP" src="../images/sonyPSP.gif" border="0" /></a>
+  <a href="../psp/qstat.html" title="format for Sony PSP web browser"><img alt="XHTML-PSP" src="../images/sonyPSP.png" border="0" /></a>
   <xsl:text> </xsl:text>
-  <a href="../info/rss-feeds.html" title="list RSS feeds"><img alt="RSS-Feeds" src="../images/rssAvailable.gif" border="0" /></a>
+  <a href="../info/rss-feeds.html" title="list RSS feeds"><img alt="RSS-Feeds" src="../images/rssAvailable.png" border="0" /></a>
 </div>
 <xsl:text>
 </xsl:text>

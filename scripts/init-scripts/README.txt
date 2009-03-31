@@ -12,7 +12,7 @@ There are 1-3 systems that might need to be started:
      and/or the Java Command-Generator.
 
   3. The httpi web-server.
-     Might be required, depending on the what extras you need or if you
+     Might be required, depending on which extras you need or if you
      aren't using the Java Command-Generator.
 
 
@@ -37,4 +37,4 @@ WARNING
     account you pick for this should probably the account you have
     been installing the application with.
 
-2008-03-17
+2009-03-31
