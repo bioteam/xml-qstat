@@ -89,13 +89,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <xsl:choose>
-<xsl:when test="$renderMode='terse'">
-  <title>cluster summary</title>
-</xsl:when>
 <xsl:when test="$renderMode='full'">
+  <link rel="icon" type="image/png" href="images/icons/silk/chart_bar.png"/>
   <title>queue instances</title>
 </xsl:when>
+<xsl:when test="$renderMode='terse'">
+  <link rel="icon" type="image/png" href="images/icons/silk/report.png"/>
+  <title>cluster summary</title>
+</xsl:when>
 <xsl:otherwise>
+  <link rel="icon" type="image/png" href="images/icons/silk/lorry_flatbed.png"/>
   <title>jobs</title>
 </xsl:otherwise>
 </xsl:choose>
@@ -133,24 +136,14 @@
 </xsl:text>
  <style type="text/css">
 <!-- DIFFERENT CSS STYLE DEPENDING ON USER COOKIE PREFERENCE PARAM(s) -->
-<xsl:choose>
-<!-- show/hide activeJobTable -->
-<xsl:when test="$activeJobTable = 'no'" >
-   .activeJobTable { visibility: hidden; display: none;  }
-</xsl:when>
-<xsl:otherwise>
-   .activeJobTable { visibility: visible; display: inline;   }
-</xsl:otherwise>
-</xsl:choose>
-<xsl:choose>
-<!-- show/hide pendingJobTable -->
-<xsl:when test="$pendingJobTable = 'no'" >
-   .pendingJobTable { visibility: hidden; display: none;  }
-</xsl:when>
-<xsl:otherwise>
-   .pendingJobTable { visibility: visible; display: inline;   }
-</xsl:otherwise>
-</xsl:choose>
+<!-- hide activeJobTable (depending on cookie value) -->
+<xsl:if test="$useJavaScript = 'yes' and $activeJobTable = 'no'" >
+  .activeJobTable { visibility: hidden; display: none; }
+</xsl:if>
+<!-- hide pendingJobTable (depending on cookie value) -->
+<xsl:if test="$useJavaScript = 'yes' and $pendingJobTable = 'no'" >
+  .pendingJobTable { visibility: hidden; display: none; }
+</xsl:if>
 <!-- END COOKIE DEPENDENT VARIABLE CSS STYLE OUTPUT -->
 <xsl:text>
 </xsl:text>
@@ -326,7 +319,7 @@
 <xsl:text>
 </xsl:text>
 <xsl:if test="//query/host">
-  <div id="upperBar">
+  <div class="dividerBarBelow">
     <xsl:comment>
       Top dotted line bar (holds the qmaster host and update time)
     </xsl:comment>
@@ -400,7 +393,7 @@
   <table width="80%" class="qstat">
     <tr valign="middle">
       <td>
-        <div class="tableDescriptorElement">Grid Engine Cluster Summary</div>
+        <div class="tableDescriptorElement">GridEngine Cluster Summary</div>
       </td>
     </tr>
   </table>
@@ -437,7 +430,7 @@
         </xsl:call-template>
       </td>
 
-      <td class="boldcode">This cluster has
+      <td class="boldCode">This cluster has
         <xsl:value-of select="format-number($queueInstances,'###,###,###')"/>
         queue instances offering up
         <xsl:value-of select="format-number($slotsTotal,'###,###,###')"/>
@@ -500,7 +493,7 @@
           <xsl:with-param name="percent" select="$unavailable-dEau-Percent"/>
         </xsl:call-template>
       </td>
-      <td class="boldcode">
+      <td class="boldCode">
         <xsl:value-of select="format-number($unavailable-all-Percent,'##0.#') "/>%
         of configured grid queue instances are closed to new jobs due to
         load threshold alarms, errors or administrative action.
@@ -518,7 +511,7 @@
         </xsl:when>
         </xsl:choose>
       </td>
-      <td colspan="2" class="boldcode">
+      <td colspan="2" class="boldCode">
         <ul>
           <xsl:if test="$QI_state_au &gt; 0">
             <li><xsl:value-of select="$QI_state_au"/>
@@ -548,7 +541,7 @@
     <tr>
       <th>Active Jobs</th>
       <td/>
-      <td colspan="2" class="boldcode">
+      <td colspan="2" class="boldCode">
         <ul>
           <xsl:choose>
           <xsl:when test="$AJ_total &gt; 0">
@@ -572,7 +565,7 @@
     <tr>
       <th>Pending Jobs</th>
       <td/>
-      <td colspan="2" class="boldcode">
+      <td colspan="2" class="boldCode">
         <ul>
           <xsl:choose>
           <xsl:when test="$PJ_total &gt; 0" >
@@ -628,7 +621,7 @@
         (<xsl:value-of select="$AJ_slots"/> slots)
       </div>
       <!-- show/hide the activeJobTable via javascript -->
-      <xsl:if test="$useJavaScript = 'yes'" >
+      <xsl:if test="$useJavaScript = 'yes'">
         <xsl:call-template name="toggleElementVisibility">
           <xsl:with-param name="name" select="'activeJobTable'"/>
         </xsl:call-template>
@@ -676,15 +669,15 @@
 </xsl:when>
 <xsl:otherwise>
   <!-- no active jobs -->
-  <blockquote>
-  <span class="actheader">
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    no active jobs
-    <xsl:if test="$filterByUser">
-      for user <em><xsl:value-of select="$filterByUser"/></em>
-    </xsl:if>
-  </span>
-  </blockquote>
+  <div class="skipTableFormat">
+    <blockquote>
+      <img alt="*" src="images/icons/silk/bullet_blue.png" />
+      no active jobs
+      <xsl:if test="$filterByUser">
+        for user <em><xsl:value-of select="$filterByUser"/></em>
+      </xsl:if>
+    </blockquote>
+  </div>
 </xsl:otherwise>
 </xsl:choose>
 </xsl:if>
@@ -743,15 +736,15 @@
 </xsl:when>
 <xsl:otherwise>
   <!-- no pending jobs -->
-  <blockquote>
-  <span class="pendheader">
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    no pending jobs
-    <xsl:if test="$filterByUser">
-      for user <em><xsl:value-of select="$filterByUser"/></em>
-    </xsl:if>
-  </span>
-  </blockquote>
+  <div class="skipTableFormat">
+    <blockquote>
+      <img alt="*" src="images/icons/silk/bullet_blue.png" />
+      no pending jobs
+      <xsl:if test="$filterByUser">
+        for user <em><xsl:value-of select="$filterByUser"/></em>
+      </xsl:if>
+    </blockquote>
+  </div>
 </xsl:otherwise>
 </xsl:choose>
 </xsl:if>
@@ -794,7 +787,7 @@
 <xsl:text>
 </xsl:text>
    <!-- QUEUE NAME -->
-   <td colspan="2" class="boldcode">
+   <td colspan="2" class="boldCode">
    queue resources
 <xsl:choose>
 <xsl:when test="$enableResourceQueries='yes'">
@@ -836,7 +829,7 @@
 <xsl:text>
 </xsl:text>
    <!-- QUEUE TYPE -->
-   <td class="boldcode">
+   <td class="boldCode">
     <span style="cursor:help;">
      <xsl:element name="acronym">
       <xsl:attribute name="title">Defines if the queue supports (B)atch, (I)nteractive or (P)arallel job types</xsl:attribute>
@@ -850,7 +843,7 @@
    <!-- Slots used/total inside one TD table element-->
    <xsl:choose>
 <xsl:when test='slots_used=0'>
-     <td class="boldcode"> <div class="progbarOuter">
+     <td class="boldCode"> <div class="progbarOuter">
        <div class="progbarInner" style="width:0%;">
        <div class="progbarFont">
         <span style="cursor:help;">
@@ -875,7 +868,7 @@
 </xsl:text>
 </xsl:when>
     <xsl:when test='slots_total=slots_used'>
-     <td class="boldcode">
+     <td class="boldCode">
       <div class="progbarOuter">
        <div class="progbarInner" style="width:100%;">
        <div class="progbarFont">
@@ -904,7 +897,7 @@
      <xsl:variable name="QIslotsPercent" select="($QIslotsUsed div $QIslotsTotal)*100"/>
 
      <!-- This does the bar graph of job slot usage when values are not 0% or 100% -->
-     <td class="boldcode">
+     <td class="boldCode">
       <div class="progbarOuter">
        <xsl:element name="div">
         <xsl:attribute name="class">progbarInner</xsl:attribute>
@@ -946,7 +939,7 @@
    <xsl:choose>
     <xsl:when test="load_avg">
      <!-- When load_avg is reported, output as usual -->
-     <td class="boldcode">
+     <td class="boldCode">
       <xsl:element name="code">
       <xsl:value-of select="load_avg"/>
       </xsl:element>
@@ -954,7 +947,7 @@
     </xsl:when>
     <xsl:otherwise>
      <!-- otherwise, add a placeholder table entry for missing load_avg -->
-     <td class="alarmcode">unknown</td>
+     <td class="alarmCode">unknown</td>
     </xsl:otherwise>
    </xsl:choose>
 
@@ -1019,15 +1012,15 @@
    <!-- SYSTEM ARCH for QUEUE -->
 <xsl:text>
 </xsl:text>
-   <td class="boldcode" >
+   <td class="boldCode" >
    <span style="font-size:smaller;"><xsl:value-of select="arch"/></span>
    </td>
 
    <!-- QUEUE STATE -->
 <xsl:text>
 </xsl:text>
-   <!-- had to remove id=statecolumn need to fix in CSS, maybe special boldcode .. -->
-   <td class="boldcode"  >
+   <!-- had to remove id=statecolumn need to fix in CSS, maybe special boldCode .. -->
+   <td class="boldCode"  >
     <xsl:element name="code">
      <!-- Embedd a mouseover popup that lists the contents of any load-alarm-reason data we've recieved -->
      <xsl:choose>
@@ -1148,7 +1141,7 @@
       </td>
 
       <!-- load -->
-      <td class="alarmcode">unknown</td>
+      <td class="alarmCode">unknown</td>
 
       <!-- arch -->
       <td>
@@ -1183,7 +1176,7 @@
  <!-- that info contained in a mouseover popup thingie...                 -->
  <!--                                                                     -->
  <xsl:template match="Queue-List/load-alarm-reason">
-  <!--    <tr class="alarmcode" >                                          -->
+  <!--    <tr class="alarmCode" >                                          -->
   <!--      <td colspan="8" align="right">                                 -->
   <!--        <xsl:apply-templates/>                                       -->
   <!--      </td>                                                          -->
@@ -1208,7 +1201,7 @@
 </xsl:text>
   <tr>
     <!-- jobId: link owner names to "job-{jobId}.html" -->
-    <td class="boldcode">
+    <td class="boldCode">
       <xsl:element name="a">
         <xsl:attribute name="href">job-<xsl:value-of select="JB_job_number"/>.html</xsl:attribute>
         <xsl:attribute name="title">details for job <xsl:value-of select="JB_job_number"/></xsl:attribute>
@@ -1219,7 +1212,7 @@
     </td>
 
     <!-- owner: link owner names to "qstat-jobs.html?{owner}" -->
-    <td class="boldcode">
+    <td class="boldCode">
       <xsl:element name="a">
         <xsl:attribute name="href">qstat-jobs.html?<xsl:value-of select="JB_owner"/></xsl:attribute>
         <xsl:attribute name="title">view jobs owned by user <xsl:value-of select="JB_owner"/></xsl:attribute>
@@ -1228,7 +1221,7 @@
     </td>
 
     <!-- jobName -->
-    <td class="boldcode">
+    <td class="boldCode">
       <xsl:element name="code">
       <xsl:call-template name="shortName">
         <xsl:with-param name="name" select="JB_name"/>
@@ -1237,35 +1230,35 @@
     </td>
 
     <!-- slots -->
-    <td class="boldcode">
+    <td class="boldCode">
       <xsl:element name="code">
       <xsl:value-of select="slots"/>
       </xsl:element>
     </td>
 
     <!-- tasks -->
-    <td class="boldcode">
+    <td class="boldCode">
       <xsl:element name="code">
       <xsl:value-of select="tasks"/>
       </xsl:element>
     </td>
 
     <!-- submissionTime -->
-    <td class="boldcode">
+    <td class="boldCode">
       <xsl:element name="code">
       <xsl:value-of select="JB_submission_time"/>
       </xsl:element>
     </td>
 
     <!-- priority -->
-    <td class="boldcode">
+    <td class="boldCode">
       <xsl:element name="code">
       <xsl:value-of select="JAT_prio"/>
       </xsl:element>
     </td>
 
     <!-- state -->
-    <td class="boldcode">
+    <td class="boldCode">
       <xsl:element name="code">
 
 <!-- disable icons in pending state column until we can make them smaller
@@ -1297,7 +1290,7 @@
     <xsl:text>
     </xsl:text>
     <tr class="hardRequest">
-      <td colspan="8" align="right" class="alarmcode" id="hardRequest">
+      <td colspan="8" align="right" class="alarmCode" id="hardRequest">
         job <xsl:value-of select="JB_job_number"/> hard request:
         <xsl:apply-templates select="hard_request"/>
       </td>
@@ -1366,7 +1359,7 @@
 
   <tr>
     <!-- jobId: link owner names to "job-{jobId}.html" -->
-    <td class="boldcode">
+    <td class="boldCode">
       <xsl:element name="a">
         <xsl:attribute name="href">job-<xsl:value-of select="JB_job_number"/>.html</xsl:attribute>
         <xsl:attribute name="title">details for job <xsl:value-of select="JB_job_number"/></xsl:attribute>
@@ -1374,17 +1367,17 @@
       </xsl:element>
     </td>
 
-    <!-- owner: link owner names to "qstat-full.html?{owner}" -->
-    <td class="boldcode">
+    <!-- owner: link owner names to "qstat-jobs.html?{owner}" -->
+    <td class="boldCode">
       <xsl:element name="a">
-        <xsl:attribute name="href">qstat-full.html?<xsl:value-of select="JB_owner"/></xsl:attribute>
+        <xsl:attribute name="href">qstat-jobs.html?<xsl:value-of select="JB_owner"/></xsl:attribute>
         <xsl:attribute name="title">view jobs owned by user <xsl:value-of select="JB_owner"/></xsl:attribute>
         <xsl:value-of select="JB_owner"/>
       </xsl:element>
     </td>
 
     <!-- jobName -->
-    <td class="boldcode">
+    <td class="boldCode">
       <xsl:element name="code">
         <xsl:call-template name="shortName">
           <xsl:with-param name="name" select="JB_name"/>
@@ -1393,7 +1386,7 @@
     </td>
 
     <!-- queue instance: take the first one even if it is not the master -->
-    <td class="boldcode">
+    <td class="boldCode">
       <xsl:choose>
       <xsl:when test="$nInstances &gt; 1">
         <xsl:element name="code">
@@ -1425,35 +1418,35 @@
     </td>
 
     <!-- slots -->
-    <td class="boldcode">
+    <td class="boldCode">
       <xsl:element name="code">
       <xsl:value-of select="$slots"/>
       </xsl:element>
     </td>
 
     <!-- tasks -->
-    <td class="boldcode">
+    <td class="boldCode">
       <xsl:element name="code">
         <xsl:value-of select="tasks"/>
       </xsl:element>
     </td>
 
     <!-- startTime -->
-    <td class="boldcode">
+    <td class="boldCode">
       <xsl:element name="code">
         <xsl:value-of select="JAT_start_time"/>
       </xsl:element>
     </td>
 
     <!-- priority -->
-    <td class="boldcode">
+    <td class="boldCode">
       <xsl:element name="code">
         <xsl:value-of select="JAT_prio"/>
       </xsl:element>
     </td>
 
     <!-- state -->
-    <td class="boldcode">
+    <td class="boldCode">
       <xsl:element name="code">
         <xsl:choose>
         <xsl:when test="state='r'">r</xsl:when>

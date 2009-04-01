@@ -29,17 +29,23 @@
   <!-- getting the image info (brute-force): -->
   <xsl:if test="document('../config/config.xml')/config/topLogo/@src">
   <p>
-    <xsl:element name="img">
-      <xsl:attribute name="src">
-        <xsl:if test="$relPath">
-          <xsl:value-of select="$relPath"/>
-        </xsl:if>
-        <xsl:value-of select="document('../config/config.xml')/config/topLogo/@src"/>
-      </xsl:attribute>
-      <xsl:if test="document('../config/config.xml')/config/topLogo/@width">
-        <xsl:attribute name="width"><xsl:value-of select="document('../config/config.xml')/config/topLogo/@width"/></xsl:attribute>
+    <xsl:element name="a">
+      <xsl:if test="document('../config/config.xml')/config/topLogo/@href">
+        <xsl:attribute name="href"><xsl:value-of select="document('../config/config.xml')/config/topLogo/@href"/></xsl:attribute>
       </xsl:if>
-      <xsl:attribute name="alt">logo</xsl:attribute>
+      <xsl:element name="img">
+        <xsl:attribute name="src">
+          <xsl:if test="$relPath">
+            <xsl:value-of select="$relPath"/>
+          </xsl:if>
+          <xsl:value-of select="document('../config/config.xml')/config/topLogo/@src"/>
+        </xsl:attribute>
+        <xsl:if test="document('../config/config.xml')/config/topLogo/@width">
+          <xsl:attribute name="width"><xsl:value-of select="document('../config/config.xml')/config/topLogo/@width"/></xsl:attribute>
+        </xsl:if>
+        <xsl:attribute name="alt">logo</xsl:attribute>
+        <xsl:attribute name="border">0</xsl:attribute>
+      </xsl:element>
     </xsl:element>
   </p>
   </xsl:if>
@@ -83,24 +89,18 @@
         alt="[jobs]"
     /></a>
 
-    <!-- queueinfo: toggle between normal/more/less views -->
+    <!-- queueinfo: toggle between default/more views -->
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <xsl:choose>
     <xsl:when test="$queueinfo = 'more'">
-      <a href="queues" title="queue instances"><img border="0"
-          src="images/icons/silk/chart_organisation_add.png"
-          alt="[queue instances]"
-      /></a>
-    </xsl:when>
-    <xsl:when test="$queueinfo = 'less'">
-      <a href="queues?summary" title="queue summary"><img border="0"
-          src="images/icons/silk/chart_organisation_delete.png"
-          alt="[queue summary]"
+      <a href="queues" title="all queue"><img border="0"
+          src="images/icons/silk/chart_bar_add.png"
+          alt="[queues]"
       /></a>
     </xsl:when>
     <xsl:otherwise>
       <a href="queues?summary" title="queue summary"><img border="0"
-          src="images/icons/silk/chart_organisation.png"
+          src="images/icons/silk/chart_bar.png"
           alt="[queue summary]"
       /></a>
     </xsl:otherwise>
@@ -111,19 +111,13 @@
     <xsl:choose>
     <xsl:when test="$hostinfo = 'more'">
       <a href="queues" title="all queues"><img border="0"
-          src="images/icons/silk/error_add.png"
-          alt="[all queues]"
-      /></a>
-    </xsl:when>
-    <xsl:when test="$hostinfo = 'less'">
-      <a href="queues?warn" title="warn queues"><img border="0"
-          src="images/icons/silk/error_delete.png"
-          alt="[warn queues]"
+          src="images/icons/silk/chart_bar_add.png"
+          alt="[queues]"
       /></a>
     </xsl:when>
     <xsl:otherwise>
       <a href="queues?warn" title="warn queues"><img border="0"
-          src="images/icons/silk/error.png"
+          src="images/icons/silk/chart_bar_error.png"
           alt="[warn queues]"
       /></a>
     </xsl:otherwise>
@@ -143,7 +137,7 @@
     <xsl:when test="$jobinfo = 'less'">
       <a href="jobs" title="jobs"><img border="0"
           src="images/icons/silk/magnifier_zoom_out.png"
-          alt="[overview]"
+          alt="[jobs]"
       /></a>
     </xsl:when>
     <xsl:otherwise>
@@ -164,7 +158,7 @@
 </xsl:template>
 
 <!-- define top menu bar for navigation
-     this version is works with the traditional xmlqstat navigation
+     this version is for the traditional xmlqstat navigation
      (using qstat -f output)
 -->
 <xsl:template name="xmlqstatMenu">
@@ -185,17 +179,17 @@
 
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <a href="qstat-full.html" title="queue instances"><img border="0"
-        src="images/icons/silk/server_chart.png"
+        src="images/icons/silk/chart_bar.png"
         alt="[queue instances]"
     /></a>
 
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <a href="qstat-terse.html" title="cluster summary"><img border="0"
-        src="images/icons/silk/layout.png"
+        src="images/icons/silk/report.png"
         alt="[cluster summary]"
     /></a>
 
-    <img alt="*"  src="images/icons/silk/bullet_blue.png" />
+    <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <a href="info/about.html" title="about"><img border="0"
         src="images/icons/silk/information.png"
         alt="[about]"
@@ -234,7 +228,7 @@
   <xsl:text>
   </xsl:text>
   <xsl:if test="$timestamp">
-    <div id="bottomBar">
+    <div class="dividerBarAbove">
       Rendered: <xsl:value-of select="$timestamp"/>
     </div>
     <xsl:text>

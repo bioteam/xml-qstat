@@ -15,21 +15,23 @@
 />
 
 <!-- XSL Parameters  -->
-<xsl:param name="parentDir"/>
+<xsl:param name="dir"/>
+<xsl:param name="prefix"/>
 
 
 <xsl:template match="/" >
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Refresh" content="30" />
-<title>dir - <xsl:value-of select="$parentDir"/></title>
+<meta http-equiv="Refresh" content="60" />
+<link rel="icon" type="image/png" href="images/icons/silk/folder.png"/>
+<title>dir - <xsl:value-of select="$dir"/></title>
 
 <xsl:text>
 </xsl:text>
 </head><body>
 <div class="main">
-<strong>directory contents: <xsl:value-of select="$parentDir"/></strong>
+<strong>directory contents: <xsl:value-of select="$dir"/></strong>
 <blockquote>
   <xsl:choose>
   <xsl:when test="/dir:directory">
@@ -53,7 +55,10 @@
   <xsl:for-each select="dir:file">
     <xsl:element name="li">
       <xsl:element name="a">
-        <xsl:attribute name="href"><xsl:value-of select="$parentDir"/>/<xsl:value-of select="@name"/></xsl:attribute>
+        <xsl:attribute name="href">
+          <xsl:if test="$prefix"><xsl:value-of select="$prefix"/>/</xsl:if>
+          <xsl:value-of select="@name"/>
+        </xsl:attribute>
         <xsl:value-of select="@name"/>
       </xsl:element>
     </xsl:element>

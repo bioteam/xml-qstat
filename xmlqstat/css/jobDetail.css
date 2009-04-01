@@ -1,3 +1,4 @@
+/* text/css */
 table.JDOverview {
     border-width: 1px 1px 1px 1px;
     border-spacing: 2px 2px;
@@ -23,17 +24,6 @@ table.JDOverview th {
     width: 30px;
 }
 
-#main .wideJDBox .JDOverview #schedMsgHeader {
-    width: 100%;
-    float: right;
-    text-align: right;
-    vertical-align: top;
-}
-
-#main .wideJDBox .JDOverview td {
-    vertical-align: top;
-}
-
 table.JDOverview td {
     width: 100px;
     border-top: 1px none;
@@ -48,88 +38,34 @@ table.JDOverview td {
 }
 
 
-table.JDOverview-thinbox {
-    border-width: 1px 1px 1px 1px;
-    border-spacing: 2px 2px;
-    border-style: inset;
-    border-color: #8CACBB;
-    border-collapse: collapse;
-    background-color: white;
-    width: 100%;
-    height: 100%;
-}
+#main JDOverview #schedMsgList  .odd:hover { background: #eed; color: #000 }
+#main JDOverview #schedMsgList .even:hover { background: #eed; color: #000 }
+#main JDOverview #aJobInfoList  .odd:hover { background: #eed; color: #000 }
+#main JDOverview #aJobInfoList .even:hover { background: #eed; color: #000 }
 
-table.JDOverview-thinbox th {
-    border-width: 1px 1px 1px 1px;
-    padding: 2px;
-    border-style: inset;
-    border-color: #8CACBB;
-    background-color: #DEE7EC;
-    font-family: monospace;
-    font-size: 12px;
-    margin-right: 4px;
-    width: 60px;
-}
-
-table.JDOverview-thinbox td {
-    border-top: 1px none;
-    border-right: 1px none;
-    border-bottom: 1px none;
-    border-left: 1px none;
-    padding: 2px 2px 2px 2px;
-    border-style: inset;
-    border-color: #8CACBB;
-    background-color: white;
-    font-size:12px;
-    font-family: monospace;
-}
-
-
-.wideJDBox {
-    margin: 4px 4px 4px 4px;
-    padding: 4px 4px 4px 4px;
-    border: thin none;
-    clear: left;
-    overflow: auto;
-}
-
-.thinJDBox {
-    padding: 4px;
-    border: thin none #000000;
-    float: left;
-    width: 350px;
-    height: 70px;
-    margin: 4px;
-    clear: none;
-}
-
-
-#main .wideJDBox .JDOverview #schedMsgList  .odd:hover { background: #eed; color: #000 }
-#main .wideJDBox .JDOverview #schedMsgList .even:hover { background: #eed; color: #000 }
-#main .wideJDBox .JDOverview #aJobInfoList  .odd:hover { background: #eed; color: #000 }
-#main .wideJDBox .JDOverview #aJobInfoList .even:hover { background: #eed; color: #000 }
-#main .qstat #activeJobRow:hover                       { background: #eed; color: #000 }
-#main .qstat .schedMesgRow:hover                       { background: #eed; color: #000 }
+#main .qstat #activeJobRow:hover  { background: #eed; color: #000 }
+#main .qstat .schedMesgRow:hover  { background: #eed; color: #000 }
 
 #main .qstat tr {
     font-family: "Courier New", Courier, mono;
     font-size: .8em;
 }
 
-#main .wideJDBox .JDOverview #schedMsgList .even {
+#main .JDOverview #schedMsgList .even {
     padding-bottom: 2px;
     border-bottom-width: 1px;
     border-bottom-style: dotted;
 }
 
-#main .wideJDBox .JDOverview #schedMsgList .odd {
+#main .JDOverview #schedMsgList .odd {
     padding-bottom: 2px;
     border-bottom-width: 1px;
     border-bottom-style: dotted;
 }
 
 
-#main .wideJDBox .JDOverview #schedMsgHeader {
+#main .JDOverview #schedMsgHeader {
     background-color: #FFFFFF;
 }
 
+/* end-of-file */

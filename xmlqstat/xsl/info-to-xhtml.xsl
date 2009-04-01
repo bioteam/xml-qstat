@@ -32,6 +32,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="icon" type="image/png" href="../images/icons/silk/information.png"/>
 <title><xsl:value-of select="/content/title"/></title>
 
 <xsl:text>
@@ -73,18 +74,18 @@
       alt="[home]"
   /></a>
   <img alt="*" src="../images/icons/silk/bullet_blue.png" />
-  <a href="../qstat-jobs.html" title="jobs" ><img border="0"
+  <a href="../qstat-jobs.html" title="jobs"><img border="0"
       src="../images/icons/silk/lorry_flatbed.png"
       alt="[jobs]"
   /></a>
   <img alt="*" src="../images/icons/silk/bullet_blue.png" />
   <a href="../qstat-full.html" title="queue instances"><img border="0"
-      src="../images/icons/silk/server_chart.png"
+      src="../images/icons/silk/chart_bar.png"
       alt="[queue instances]"
   /></a>
   <img alt="*" src="../images/icons/silk/bullet_blue.png" />
   <a href="../qstat-terse.html" title="cluster summary"><img border="0"
-      src="../images/icons/silk/layout.png"
+      src="../images/icons/silk/report.png"
       alt="[cluster summary]"
   /></a>
   <img alt="*"  src="../images/icons/silk/bullet_blue.png" />
@@ -117,7 +118,7 @@
 <xsl:comment> Top dotted line bar</xsl:comment>
 <xsl:text>
 </xsl:text>
-    <div id="upperBar"><xsl:text> </xsl:text></div>
+    <div class="dividerBarBelow"><xsl:text> </xsl:text></div>
 <xsl:text>
 </xsl:text>
 
@@ -175,22 +176,16 @@
 <!-- create a name anchor we can use if we ever get around to
      automatically makinga table of contents
 -->
-<xsl:template match="section" >
+<xsl:template match="section">
   <xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="position()"/></xsl:attribute></xsl:element>
   <h3 class="infoSectionHead"><xsl:value-of select="sectionHead"/></h3>
   <xsl:apply-templates select="./para"/>
 </xsl:template>
 
 <xsl:template match="para">
-  <xsl:text>
-  </xsl:text>
-  <div class="infoPara" ><br/>
+  <div class="infoPara"><br/>
     <xsl:value-of select="." disable-output-escaping="yes"/>
-    <xsl:text>
-    </xsl:text>
   </div>
-  <xsl:text>
-  </xsl:text>
 </xsl:template>
 
 </xsl:stylesheet>

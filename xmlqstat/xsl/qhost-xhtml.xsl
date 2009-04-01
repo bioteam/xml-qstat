@@ -54,13 +54,28 @@
 
 <xsl:choose>
 <xsl:when test="$renderMode='summary'">
-  <title>queue summary</title>
+  <link rel="icon" type="image/png" href="images/icons/silk/chart_bar.png"/>
+  <title> queue summary
+    <xsl:if test="//config/cluster/@name">
+    - <xsl:value-of select="//config/cluster/@name"/>
+    </xsl:if>
+  </title>
 </xsl:when>
 <xsl:when test="$renderMode='warn'">
-  <title>queue warnings</title>
+  <link rel="icon" type="image/png" href="images/icons/silk/chart_bar_error.png"/>
+  <title> queue warnings
+    <xsl:if test="//config/cluster/@name">
+    - <xsl:value-of select="//config/cluster/@name"/>
+    </xsl:if>
+  </title>
 </xsl:when>
 <xsl:otherwise>
-  <title>queue instances</title>
+  <link rel="icon" type="image/png" href="images/icons/silk/chart_bar_add.png"/>
+  <title> queue instances
+    <xsl:if test="//config/cluster/@name">
+    - <xsl:value-of select="//config/cluster/@name"/>
+    </xsl:if>
+  </title>
 </xsl:otherwise>
 </xsl:choose>
 
@@ -122,7 +137,7 @@
 </xsl:text>
 
 <xsl:comment> Top dotted line bar (holds the cluster/qmaster names and update time) </xsl:comment>
-<div id="upperBar">
+<div class="dividerBarBelow">
 <xsl:choose>
 <xsl:when test="//config/cluster">
   <!-- query host, cluster/cell name -->
@@ -529,7 +544,7 @@
       </xsl:choose>
       <xsl:element name="a">
         <xsl:attribute name="title">details for job <xsl:value-of select="@name"/></xsl:attribute>
-        <xsl:attribute name="href">jobinfo.html?<xsl:value-of select="@name"/></xsl:attribute>
+        <xsl:attribute name="href">jobinfo?<xsl:value-of select="@name"/></xsl:attribute>
         <xsl:value-of select="@name"/>
       </xsl:element>
       <br/>

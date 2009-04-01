@@ -151,6 +151,7 @@
 <xsl:text>
 </xsl:text>
 
+<link rel="icon" type="image/png" href="../images/icons/silk/controller.png"/>
 <xsl:choose>
 <xsl:when test="$renderMode='qalert'">
   <title>queue alerts (psp)</title>

@@ -26,6 +26,12 @@
 <!-- Import our templates -->
 <xsl:include href="xmlqstat-templates.xsl"/>
 
+<!-- XSL Parameters -->
+<xsl:param name="timestamp"/>
+<xsl:param name="activeJobTable"/>
+<xsl:param name="pendingJobTable"/>
+<xsl:param name="filterByUser"/>
+
 <!-- get specific configuration parameters -->
 <xsl:param
     name="useJavaScript"
@@ -46,18 +52,17 @@
   </xsl:if>
 </xsl:param>
 
-<!-- XSL Parameters -->
-<xsl:param name="timestamp"/>
-<xsl:param name="activeJobTable"/>
-<xsl:param name="pendingJobTable"/>
-<xsl:param name="filterByUser"/>
-
 <xsl:template match="/" >
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="Refresh" content="30" />
-<title>jobs</title>
+<link rel="icon" type="image/png" href="images/icons/silk/lorry_flatbed.png"/>
+<title> jobs
+  <xsl:if test="//config/cluster/@name">
+  - <xsl:value-of select="//config/cluster/@name"/>
+  </xsl:if>
+</title>
 
 <xsl:text>
 </xsl:text>
@@ -88,24 +93,14 @@
 </xsl:text>
 <style type="text/css">
 <!-- DIFFERENT CSS STYLE DEPENDING ON USER COOKIE PREFERENCE PARAM(s) -->
-<!-- show/hide activeJobTable -->
-<xsl:choose>
-<xsl:when test="$useJavaScript = 'yes' and $activeJobTable = 'no'" >
-   .activeJobTable { visibility: hidden; display: none; }
-</xsl:when>
-<xsl:otherwise>
-   .activeJobTable { visibility: visible; display: inline; }
-</xsl:otherwise>
-</xsl:choose>
-<!-- show/hide pendingJobTable -->
-<xsl:choose>
-<xsl:when test="$useJavaScript = 'yes' and $pendingJobTable = 'no'" >
-   .pendingJobTable { visibility: hidden; display: none; }
-</xsl:when>
-<xsl:otherwise>
-   .pendingJobTable { visibility: visible; display: inline; }
-</xsl:otherwise>
-</xsl:choose>
+<!-- hide activeJobTable (depending on cookie value) -->
+<xsl:if test="$useJavaScript = 'yes' and $activeJobTable = 'no'" >
+  .activeJobTable { visibility: hidden; display: none; }
+</xsl:if>
+<!-- hide pendingJobTable (depending on cookie value) -->
+<xsl:if test="$useJavaScript = 'yes' and $pendingJobTable = 'no'" >
+  .pendingJobTable { visibility: hidden; display: none; }
+</xsl:if>
 <!-- END COOKIE DEPENDENT VARIABLE CSS STYLE OUTPUT -->
 <xsl:text>
 </xsl:text>
@@ -139,7 +134,7 @@
 <xsl:text>
 </xsl:text>
 <xsl:comment> Top dotted line bar (holds the qmaster host and update time) </xsl:comment>
-<div id="upperBar">
+<div class="dividerBarBelow">
 <xsl:choose>
 <xsl:when test="//config/cluster">
   <!-- query host, cluster/cell name -->
@@ -184,10 +179,14 @@
 <xsl:variable name="AJ_slots">
   <xsl:choose>
   <xsl:when test="$filterByUser">
-    <xsl:value-of select="count(//job_info/queue_info/job_list[JB_owner=$filterByUser])"/>
+    <xsl:call-template name="count-slots">
+      <xsl:with-param name="nodeList" select="//job_info/queue_info/job_list[JB_owner=$filterByUser]"/>
+    </xsl:call-template>
   </xsl:when>
   <xsl:otherwise>
-    <xsl:value-of select="sum(//job_info/queue_info/job_list/slots)"/>
+    <xsl:call-template name="count-slots">
+      <xsl:with-param name="nodeList" select="//job_info/queue_info/job_list"/>
+    </xsl:call-template>
   </xsl:otherwise>
   </xsl:choose>
 </xsl:variable>
@@ -220,15 +219,15 @@
 </xsl:when>
 <xsl:otherwise>
   <!-- no active jobs -->
-  <blockquote>
-  <span class="actheader">
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    no active jobs
-    <xsl:if test="$filterByUser">
-      for <em><xsl:value-of select="$filterByUser"/></em>
-    </xsl:if>
-  </span>
-  </blockquote>
+  <div class="skipTableFormat">
+    <blockquote>
+      <img alt="*" src="images/icons/silk/bullet_blue.png" />
+      no active jobs
+      <xsl:if test="$filterByUser">
+        for <em><xsl:value-of select="$filterByUser"/></em>
+      </xsl:if>
+    </blockquote>
+  </div>
 </xsl:otherwise>
 </xsl:choose>
 
@@ -295,15 +294,15 @@
 </xsl:when>
 <xsl:otherwise>
   <!-- no pending jobs -->
-  <blockquote>
-  <span class="pendheader">
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    no pending jobs
-    <xsl:if test="$filterByUser" >
-      for user <em><xsl:value-of select="$filterByUser"/></em>
-    </xsl:if>
-  </span>
-  </blockquote>
+  <div class="skipTableFormat">
+    <blockquote>
+      <img alt="*" src="images/icons/silk/bullet_blue.png" />
+      no pending jobs
+      <xsl:if test="$filterByUser" >
+        for user <em><xsl:value-of select="$filterByUser"/></em>
+      </xsl:if>
+    </blockquote>
+  </div>
 </xsl:otherwise>
 </xsl:choose>
 </xsl:if>
@@ -327,7 +326,7 @@
   <div class="activeJobTable" id="activeJobTable">
     <table class="qstat" width="100%">
     <tr>
-      <th>jobID</th>
+      <th>jobId</th>
       <th>owner</th>
       <th>name</th>
       <th>slots</th>
@@ -354,15 +353,14 @@
 <xsl:if test="not($filterByUser) or JB_owner=$filterByUser">
 
   <tr>
-  <!-- jobID with resource requests -->
-  <!-- link jobID to details: "jobinfo?{jobID}" -->
+  <!-- jobId with resource requests -->
+  <!-- link jobId to details: "jobinfo?{jobId}" -->
   <td>
     <xsl:element name="a">
       <xsl:attribute name="title">
         <xsl:for-each select="hard_request">
-          <xsl:value-of select="@name"/>=<xsl:value-of select="."/>,
-<xsl:text>
-</xsl:text>
+          <xsl:value-of select="@name"/>=<xsl:value-of select="."/>
+          <xsl:text> </xsl:text>
         </xsl:for-each>
       </xsl:attribute>
       <xsl:attribute name="href">jobinfo?<xsl:value-of select="JB_job_number"/></xsl:attribute>
@@ -435,7 +433,7 @@
   <div class="pendingJobTable" id="pendingJobTable">
     <table class="qstat" width="100%">
     <tr>
-      <th>jobID</th>
+      <th>jobId</th>
       <th>owner</th>
       <th>name</th>
       <th>slots</th>
@@ -462,15 +460,14 @@
 <xsl:if test="not($filterByUser) or JB_owner=$filterByUser">
 
   <tr>
-  <!-- jobID with resource requests -->
-  <!-- link jobID to details: "jobinfo?{jobID}" -->
+  <!-- jobId with resource requests -->
+  <!-- link jobId to details: "jobinfo?{jobId}" -->
   <td>
     <xsl:element name="a">
       <xsl:attribute name="title">
         <xsl:for-each select="hard_request">
-          <xsl:value-of select="@name"/>=<xsl:value-of select="."/>,
-<xsl:text>
-</xsl:text>
+          <xsl:value-of select="@name"/>=<xsl:value-of select="."/>
+          <xsl:text> </xsl:text>
         </xsl:for-each>
       </xsl:attribute>
       <xsl:attribute name="href">jobinfo?<xsl:value-of select="JB_job_number"/></xsl:attribute>
@@ -486,23 +483,23 @@
       <xsl:value-of select="JB_owner" />
     </xsl:element>
   </td>
-  <!-- name -->
+  <!-- name and full name -->
   <td>
-  <xsl:choose>
-  <xsl:when test="string-length(full_job_name) &gt; 24">
-    <span style="cursor:help;">
-    <xsl:element name="acronym">
-      <xsl:attribute name="title">
-        <xsl:value-of select="full_job_name" />
-      </xsl:attribute>
-      <xsl:value-of select="substring(full_job_name,0,24)" /> ...
-    </xsl:element>
-    </span>
-  </xsl:when>
-  <xsl:otherwise>
-    <xsl:value-of select="full_job_name" />
-  </xsl:otherwise>
-  </xsl:choose>
+    <xsl:choose>
+    <xsl:when test="string-length(full_job_name) &gt; 24">
+      <span style="cursor:help;">
+      <xsl:element name="acronym">
+        <xsl:attribute name="title">
+          <xsl:value-of select="full_job_name" />
+        </xsl:attribute>
+        <xsl:value-of select="substring(full_job_name,0,24)" /> ...
+      </xsl:element>
+      </span>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:value-of select="full_job_name" />
+    </xsl:otherwise>
+    </xsl:choose>
   </td>
   <!-- slots -->
   <td>
@@ -561,9 +558,6 @@
         test="tasks">.<xsl:value-of
         select="tasks"/></xsl:if><xsl:text>&amp;</xsl:text>resources=<xsl:value-of
         select="$resources"/>
-<!--  <xsl:text>&amp;</xsl:text>SGE_ROOT=<xsl:value-of
-        select="@name"/>
--->
   </xsl:variable>
 
   <!-- url viewlog?jobid=...&resources={resources} -->

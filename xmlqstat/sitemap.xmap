@@ -269,7 +269,7 @@
     </map:otherwise>
     </map:select>
     <map:transform src="xsl/directory-xhtml.xsl">
-      <map:parameter name="parentDir" value="{1}" />
+      <map:parameter name="dir" value="{1}" />
     </map:transform>
     <map:serialize type="xhtml" />
   </map:match>
@@ -458,7 +458,8 @@
       <map:parameter name="include" value="\.xml$"/>
     </map:generate>
     <map:transform src="xsl/directory-xhtml.xsl">
-      <map:parameter name="parentDir" value="config"/>
+      <map:parameter name="dir"    value="config"/>
+      <map:parameter name="prefix" value="config"/>
     </map:transform>
     <map:serialize type="xhtml"/>
   </map:match>

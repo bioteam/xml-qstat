@@ -28,8 +28,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Refresh" content="30" />
-<title>Clusters</title>
+<link rel="icon" type="image/png" href="images/icons/silk/tux.png"/>
+<title>clusters</title>
 
 <xsl:comment> Load CSS from a file </xsl:comment>
 <xsl:text>
@@ -79,7 +79,7 @@
   <img alt="*" src="images/icons/silk/bullet_blue.png" />
 </div>
 
-<!-- <div id="upperBar">
+<!-- <div class="dividerBarBelow">
 </div>
 -->
 
@@ -101,14 +101,16 @@
 </div>
 
 <!-- bottom links -->
-<img alt="*" src="images/icons-silk-empty.png" />
-<a href="qstat-jobs.html" title="xmlqstat"><img border="0"
-    src="images/icons/silk/table_gear.png" alt="[xmlqstat]"
-/></a>
-<xsl:text> </xsl:text>
-<a href="psp/" title="sony psp"><img border="0"
-    src="images/icons/silk/controller.png" alt="[psp]"
-/></a>
+<div class="bottomBox">
+  <img alt="*" src="images/icons-silk-empty.png" />
+  <a href="qstat-jobs.html" title="xmlqstat"><img border="0"
+      src="images/icons/silk/table_gear.png" alt="[xmlqstat]"
+  /></a>
+  <xsl:text> </xsl:text>
+  <a href="psp/" title="sony psp"><img border="0"
+      src="images/icons/silk/controller.png" alt="[psp]"
+  /></a>
+</div>
 
 </body></html>
 
@@ -163,7 +165,7 @@
       <xsl:attribute name="title">queue summary</xsl:attribute>
       <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/queues?summary</xsl:attribute>
       <img border="0"
-          src="images/icons/silk/chart_organisation.png"
+          src="images/icons/silk/chart_bar.png"
           alt="[queue instances]"
       />
     </xsl:element>
@@ -174,7 +176,7 @@
       <xsl:attribute name="title">queue listing</xsl:attribute>
       <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/queues</xsl:attribute>
       <img border="0"
-          src="images/icons/silk/chart_organisation_add.png"
+          src="images/icons/silk/chart_bar_add.png"
           alt="[queue instances]"
       />
     </xsl:element>
@@ -182,10 +184,10 @@
     <!-- queues?warn -->
     <xsl:text> </xsl:text>
     <xsl:element name="a">
-      <xsl:attribute name="title">warn queues</xsl:attribute>
+      <xsl:attribute name="title">queue warnings</xsl:attribute>
       <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/queues?warn</xsl:attribute>
       <img border="0"
-          src="images/icons/silk/error.png"
+          src="images/icons/silk/chart_bar_error.png"
           alt="[warn queue]"
       />
     </xsl:element>

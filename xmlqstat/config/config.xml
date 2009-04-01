@@ -65,10 +65,10 @@
 </programs>
 
 <!--
-    define a logo for all of the pages
+    define a logo for all of the pages and the link location
     <topLogo src="images/xml-qstat-logo.png" width="150" />
 -->
-<topLogo src="images/emconLogo.png" width="225" />
+<topLogo src="images/emconLogo.png" width="225" href="http://dealog01:8080"/>
 
 <!-- define cluster settings -->
 <clusters>

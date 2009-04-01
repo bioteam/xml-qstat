@@ -35,7 +35,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="Refresh" content="30" />
-<title>resources</title>
+<link rel="icon" type="image/png" href="images/icons/silk/database_key.png"/>
+<title> resources
+  <xsl:if test="//query/cluster/@name">
+  - <xsl:value-of select="//query/cluster/@name"/>
+  </xsl:if>
+</title>
 <!-- import CSS from a file -->
 <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
 </head>
@@ -68,7 +73,7 @@
 <xsl:text>
 </xsl:text>
 <xsl:comment> Top dotted line bar (holds the qmaster host and update time) </xsl:comment>
-<div id="upperBar">
+<div class="dividerBarBelow">
 <xsl:choose>
 <xsl:when test="//query/cluster and //query/host">
   <!-- query host, cluster/cell name -->
@@ -234,8 +239,7 @@
         <xsl:attribute name="title">
           <xsl:for-each select="user[@type = 'extern']">
             <xsl:value-of select="@name"/>@<xsl:value-of select="@host"/>=<xsl:value-of select="."/>
-<xsl:text>
-</xsl:text>
+            <xsl:text> </xsl:text>
           </xsl:for-each>
         </xsl:attribute>
       <xsl:value-of select="@extern" />
@@ -260,8 +264,7 @@
         <xsl:attribute name="title">
           <xsl:for-each select="user[@type = 'intern']">
             <xsl:value-of select="@name"/>@<xsl:value-of select="@host"/>=<xsl:value-of select="."/>
-<xsl:text>
-</xsl:text>
+            <xsl:text> </xsl:text>
           </xsl:for-each>
         </xsl:attribute>
       <xsl:value-of select="@intern" />
@@ -284,8 +287,7 @@
       <xsl:attribute name="title">
         <xsl:for-each select="user[@type = 'waiting']">
           <xsl:value-of select="@name"/>=<xsl:value-of select="."/>
-<xsl:text>
-</xsl:text>
+          <xsl:text> </xsl:text>
         </xsl:for-each>
       </xsl:attribute>
     <xsl:value-of select="@waiting" />
@@ -317,7 +319,6 @@
 <xsl:text>
 </xsl:text>
 </xsl:template>
-
 
 
 </xsl:stylesheet>

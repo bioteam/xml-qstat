@@ -3,7 +3,7 @@ body {
     margin: 10px 20px 0px;
 }
 
-/* a:active {text-decoration: none} */
+/* a:active { text-decoration: none; } */
 
 a:link {
     text-decoration: none;
@@ -39,7 +39,7 @@ a:hover {
     padding-left: 1px;
 }
 
-#main #bottomBar {
+.dividerBarAbove {
     margin: 2px;
     padding: 2px;
     font-size: small;
@@ -47,11 +47,12 @@ a:hover {
     font-weight: normal;
     font-variant: normal;
     text-align: right;
+    border-bottom-color: #000;
     border-top-width: 1px;
     border-top-style: dashed;
 }
 
-#main #upperBar {
+.dividerBarBelow {
     margin: 2px;
     padding: 2px;
     font-size: small;
@@ -63,6 +64,7 @@ a:hover {
     border-bottom-width: 1px;
     border-bottom-style: dashed;
 }
+
 
 p,h1,pre {
     margin: 0px 10px 10px 10px;
@@ -135,7 +137,7 @@ code {
     font-family: monospace;
 }
 
-.boldcode {
+.boldCode {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: normal;
     font-variant: normal;
@@ -143,7 +145,7 @@ code {
     font-size: small;
 }
 
-/* combined boldcode and code */
+/* combined code and boldCode */
 .outputCode {
     font-family: monospace;
     font-weight: normal;
@@ -153,24 +155,12 @@ code {
 }
 
 
-.alarmcode {
+.alarmCode {
     font-family: monospace;
     font-style: italic;
     font-weight: bold;
     color: #666;
     font-size: small;
-}
-
-.activejob {
-    font-family: monospace;
-    font-variant: normal;
-    color: #000;
-}
-
-.pendheader {
-    font-family: Geneva, Arial, Helvetica, sans-serif;
-    font-size: 14px;
-    vertical-align: middle;
 }
 
 #main .infoSectionHead {
@@ -188,9 +178,10 @@ code {
     font-size: 1em;
 }
 
-.actheader {
+.skipTableFormat {
     font-family: Geneva, Arial, Helvetica, sans-serif;
     font-size: 14px;
+    vertical-align: middle;
 }
 
 .visToggleElement {
@@ -255,8 +246,7 @@ table.qstat td {
 }
 
 /* embedded table */
-table.embedded
-{
+table.embedded {
     border-style: hidden;
     border-spacing: 0px;
     border-collapse: collapse;
@@ -281,15 +271,6 @@ table.embedded td {
     padding-right: 2px;
 }
 
-.qstatContent {
-    border-top: 1px none;
-    border-right: 1px none;
-    border-bottom: 1px none;
-    border-left: 1px none;
-    margin: 10px 10px 10px 10px;
-    padding: 4px 4px 4px 4px;
-}
-
 .bottomBox {
     font-family: "Courier New", Courier, mono;
     font-size: small;
@@ -300,14 +281,14 @@ table.embedded td {
     border: 2px none;
 }
 
-.floatheader {
-    font-family: "Courier New", Courier, mono;
-    background-color: #DEE7EC;
-    text-align: right;
-    vertical-align: middle;
-    padding: 2px 2px 2px 2px;
-    margin:  2px 2px 2px 2px;
-    border: thin solid #8CACBB;
+.progbarInner {
+    height: 10px;
+    width:  100%;
+    left:   0;
+    margin: 0;
+    padding: 0;
+    background: #ABB7D6;
+    text-indent: 2px;
 }
 
 .progbarOuter {
@@ -320,16 +301,6 @@ table.embedded td {
     margin-right: 0.5em;
 }
 
-.progbarInner {
-    height: 10px;
-    width: 100%;
-    left: 0;
-    margin: 0;
-    padding: 0;
-    background: #ABB7D6;
-    text-indent: 2px;
-}
-
 .progbarFont {
     font: 9px Verdana, Arial, sans-serif;
     color: #000;
@@ -337,73 +308,23 @@ table.embedded td {
     text-indent: 2px;
 }
 
-.iconOuter {
-    height: 10px;
-    width: 20px;
-    background: #fff;
-    border: 1px solid #8CACBB;
-    margin: .5em;
-    padding: 0;
-}
-
-.iconInner {
-    height: 10px;
-    width: 20px;
-    margin: 0;
-    padding: 0;
-    background: #8CACBB;
-    text-indent: 2px;
-    vertical-align: middle;
-}
-
-.iconFont {
-    font: 9px Verdana, Arial, sans-serif;
-    color: #000;
-    text-align: center;
-    margin: 1px;
-}
-
 /* default visibility for activeJobTable */
-.activeJobTable {
-    visibility: visible;
+.activeJobTable { 
+    visibility: visible; 
     display:    inline;
 }
 
+/* default visibility for pendingJobTable */
 .pendingJobTable {
     visibility: visible;
     display:    inline;
 }
 
-.queueStatusTable {
-    visibility: visible;
-    display:    inline;
-}
+#main .qstat tbody     { background: #F6F6F6; border-color: #CCC; color: #333 }
+#main .qstat tr:hover  { background: #EED; color: #000 }
+#main .qstat .odd      { background: #F6F6F6; border-color: #CCC; color: #333 }
+#main .qstat .even     { background: #E7FFFF; border-color: #CEE; color: #099 }
 
-.scrollableDIV {
-    margin-left: -1px;
-    padding-left: 1px;
-    padding-top: 0px;
-    clear: left;
-    overflow: auto;
-    width: 100%;
-    height: 200px;
-    border-style: solid;
-    border-top-style: none;
-    border-right-style: none;
-    border-color: #8CACBB;
-    border-right-width: 1px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
-}
-
-#main .qstat tbody                      { background: #F6F6F6; border-color: #CCC; color: #333 }
-#main #activeJobTable   .qstat .odd     { background: #F6F6F6; border-color: #CCC; color: #333 }
-#main #activeJobTable   .qstat .even    { background: #E7FFFF; border-color: #CEE; color: #099 }
-#main #activeJobTable   .qstat tr:hover { background: #EED; color: #000 }
-#main #pendingJobTable  .qstat tr:hover { background: #EED; color: #000 }
-#main #queueStatusTable .qstat tr:hover { background: #EED; color: #000 }
-#main #resourcesTable   .qstat tr:hover { background: #EED; color: #000 }
-#main #hostInfoTable    .qstat tr:hover { background: #EED; color: #000 }
 
 #main #queueStatusTable img {
     padding-right: 2px;
@@ -415,3 +336,5 @@ table.embedded td {
     list-style-image: url(images/icons/silk/bullet_blue.png);
     list-style-type: circle;
 }
+
+/* end-of-file */

@@ -58,7 +58,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>job details</title>
+<link rel="icon" type="image/png" href="images/icons/silk/lorry.png"/>
+<title> job details
+  <xsl:if test="//config/cluster/@name">
+  - <xsl:value-of select="//config/cluster/@name"/>
+  </xsl:if>
+</title>
 <xsl:text>
 </xsl:text>
 
@@ -103,27 +108,26 @@
 </xsl:otherwise>
 </xsl:choose>
 
-<xsl:if test="//config/cluster">
+<xsl:choose>
+<xsl:when test="//config/cluster">
   <xsl:comment> Top dotted line bar (holds the cluster name) </xsl:comment>
-  <div id="upperBar">
+  <div class="dividerBarBelow">
     <!-- cluster/cell name -->
     <xsl:value-of select="//config/cluster/@name"/>
     <xsl:if test="//config/cluster/@cell != 'default'">/<xsl:value-of
         select="//config/cluster/@cell"/>
     </xsl:if>
   </div>
-</xsl:if>
-
-<xsl:text>
-</xsl:text>
-<xsl:if test="//query/host">
-  <div id="upperBar">
+</xsl:when>
+<xsl:when test="//query/host">
+  <div class="dividerBarBelow">
     <xsl:comment> Top dotted line bar (holds the qmaster host and update time) </xsl:comment>
     [<xsl:value-of select="//query/host"/>]
     <!-- remove 'T' in dateTime for easier reading -->
     <xsl:value-of select="translate(//query/time, 'T', ' ')"/>
   </div>
-</xsl:if>
+</xsl:when>
+</xsl:choose>
 
 <xsl:text>
 </xsl:text>
@@ -144,10 +148,10 @@
 </table>
 <xsl:text>
 </xsl:text>
-<div class="qstDiv" id="queueStatusTable">
+<div class="queueStatusTable" id="queueStatusTable">
 <table class="qstat" width="100%">
   <tr>
-    <th>jobID</th>
+    <th>jobId</th>
     <th>owner</th>
     <th>name</th>
     <th>submitted</th>
@@ -157,7 +161,7 @@
   </tr>
 <xsl:text>
 </xsl:text>
-  <!-- 6.1: /detailed_job_info/djob_info/qmaster_response -->
+  <!-- 6.1: //detailed_job_info/djob_info/qmaster_response -->
   <!-- running jobs first -->
   <xsl:apply-templates
       select="
@@ -193,10 +197,10 @@
 </table>
 <div>
 <table class="qstat" width="100%">
-  <th>jobID</th>
+  <th>jobId</th>
   <th>context</th>
   <th>cwd</th>
-  <!-- 6.1: /detailed_job_info/djob_info/qmaster_response -->
+  <!-- 6.1: //detailed_job_info/djob_info/qmaster_response -->
   <!-- running jobs first -->
   <xsl:apply-templates
       select="
@@ -217,7 +221,7 @@
 </div>
 </blockquote>
 
-<!-- 6.1: /detailed_job_info/djob_info/qmaster_response -->
+<!-- 6.1: //detailed_job_info/djob_info/qmaster_response -->
 <!--
   detailed_job_info
   running jobs
@@ -247,7 +251,7 @@
   <tr>
     <td>
       <div class="tableDescriptorElement">
-      <!-- 6.1: /detailed_job_info/messages/qmaster_response -->
+      <!-- 6.1: //detailed_job_info/messages/qmaster_response -->
         <xsl:value-of
             select="
               count(//detailed_job_info/messages/element/SME_global_message_list/element/MES_message)
@@ -262,7 +266,7 @@
 <table class="qstat" width="100%">
   <tr>
     <td>
-      <!-- 6.1: /detailed_job_info/messages/qmaster_response -->
+      <!-- 6.1: //detailed_job_info/messages/qmaster_response -->
       <xsl:apply-templates
           select="
             //detailed_job_info/messages/element/SME_global_message_list
@@ -334,12 +338,11 @@
   </xsl:variable>
 
   <tr>
-    <!-- jobID with resource requests -->
-    <!-- link jobID to details: "jobinfo?{jobID}" -->
+    <!-- jobId with resource requests -->
+    <!-- link jobId to details: "jobinfo?{jobId}" -->
     <td>
       <xsl:element name="a">
-        <xsl:attribute name="title">details for job <xsl:value-of select="JB_job_number"/>
-        </xsl:attribute>
+        <xsl:attribute name="title">details for job <xsl:value-of select="JB_job_number"/></xsl:attribute>
         <xsl:attribute name="href"><xsl:value-of select="$jobinfo-href"/></xsl:attribute>
         <xsl:value-of select="JB_job_number" />
       </xsl:element>
@@ -430,11 +433,6 @@
   6.1: //djob_info/qmaster_response
 -->
 <xsl:template match="//djob_info/element | //djob_info/qmaster_response">
-<!--
-    We use fixed-size tables constrained within thinJDBox DIV elements here
-    We can cleanly output a variable number of these small tables
-    because the DIVs "float right" and line themselves up well ...
--->
 <xsl:variable name="jobId" select="JB_job_number"/>
 <blockquote>
 <table class="qstat" width="100%">
