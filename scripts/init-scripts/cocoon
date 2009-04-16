@@ -1,7 +1,7 @@
 #!/bin/sh
-
-## Simple start script for the Cocoon server engine
-
+#
+# Simple start script for the Cocoon server engine
+#
 ## CUSTOMIZE AS REQUIRED
 #
 # require GridEngine information for later queries
@@ -19,6 +19,8 @@ export SGE_ROOT SGE_CELL JAVA_HOME COCOON_HOME
 if [ -f $SGE_ROOT/$SGE_CELL/common/settings.sh ]
 then
     . $SGE_ROOT/$SGE_CELL/common/settings.sh
+else
+    unset SGE_ROOT SGE_CELL
 fi
 
 # extra path for anything we wish to use via the java CommandGenerator
@@ -68,12 +70,25 @@ start)
     ;;
 
 stop)
-    echo "Usage: $0 {start}" >&2
-    exit 1
+    echo "Stopping $desc: $name"
+    # get pid
+    pid=`ps -f -C java | awk '{if (/cocoon/) print $2}'`
+    if [ -z "$pid" ]
+    then
+        echo "process not found"
+    else
+        kill -15 $pid
+    fi
+    ;;
+
+restart)
+    ## Stop (if running) and start anew
+    $0 stop
+    $0 start
     ;;
 
 *)
-    echo "Usage: $0 {start}" >&2
+    echo "Usage: $0 {start|stop|restart}" >&2
     exit 1
     ;;
 esac

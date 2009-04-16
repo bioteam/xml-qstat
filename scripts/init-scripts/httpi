@@ -1,10 +1,10 @@
 #!/bin/sh
-
-## Simple start script for the httpi web-server
-
+#
+# Simple start script for the httpi web-server
+#
 ## CUSTOMIZE AS REQUIRED
 #
-# require GridEngine information for later queries
+# maybe require GridEngine information for later queries
 : ${SGE_ROOT:=/opt/grid}
 
 HTTPI_HOME=/data/app/httpi
@@ -15,7 +15,9 @@ PATH=/bin:/usr/bin:$SGE_ROOT/bin/`$SGE_ROOT/util/arch`
 PATH=$PATH:/data/app/bin
 
 export SGE_ROOT PATH
-unset DISPLAY  # a bit extra safety
+unset DISPLAY   # a bit extra safety
+
+[ -d "$SGE_ROOT" ] || unset SGE_ROOT
 
 ##
 ## System start scripts typically run as root user,
@@ -59,12 +61,25 @@ start)
     ;;
 
 stop)
-    echo "Usage: $0 {start}" >&2
-    exit 1
+    echo "Stopping $desc: $name"
+    # get pid
+    pid=`ps aux | grep dhttpi | awk '{if (/dhhtpi:/) print $2}'`
+    if [ -z "$pid" ]
+    then
+        echo "process not found"
+    else
+        kill -15 $pid
+    fi
+    ;;
+
+restart)
+    ## Stop (if running) and start anew
+    $0 stop
+    $0 start
     ;;
 
 *)
-    echo "Usage: $0 {start}" >&2
+    echo "Usage: $0 {start|stop|restart}" >&2
     exit 1
     ;;
 esac
