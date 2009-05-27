@@ -72,8 +72,8 @@
 
 <!-- define cluster settings -->
 <clusters>
-  <cluster name="augsburg01" root="/data/app/grid"  cell="default" />
-  <cluster name="augsburg02" root="/data/app/n1ge6" cell="default" />
+  <cluster name="augsburg01" root="/data/app/grid01" cell="default" />
+  <cluster name="augsburg02" root="/data/app/grid02" cell="default" />
 </clusters>
 
 </config>

@@ -99,13 +99,18 @@
      | (highly advisable if the qlicserver is running anyhow), or generate
      | contents on-the-fly with the CommandGenerator.
      | NB:
-     | The sole purpose of using the 'qstat.sh' wrapper instead of 'qstat'
-     | is to log info to '/tmp/commandlog-qstat' for DEBUGGING purposes
-     | eg, find out how well the cocoon cache is performing
+     | Using the 'qstat.sh' wrapper instead of 'qstat' allows logging
+     | to '/tmp/commandlog-qstat' for DEBUGGING purposes
+     | eg, find out how well the cocoon cache is performing.
+     | It also allows use to add a SGE_ROOT=.. initial parameter for
+     | addressing different clusters
      -->
   <map:match pattern="qstat">
     <!-- <map:generate  src="cache/qstat.xml" /> -->
-    <map:generate  type="commandGenerator" src="qstat.sh -u * -xml -r -s prs" />
+    <map:generate
+        type="commandGenerator"
+        src="qstat.sh -u * -xml -r -s prs"
+        />
     <map:serialize type="xml"/>
   </map:match>
 
@@ -117,7 +122,10 @@
      -->
   <map:match pattern="qstatf">
     <!-- <map:generate  src="cache/qstatf.xml" /> -->
-    <map:generate  type="commandGenerator" src="qstat.sh -u * -xml -r -f -explain aAcE" />
+    <map:generate
+        type="commandGenerator"
+        src="qstat.sh -u * -xml -r -f -explain aAcE"
+        />
     <map:serialize type="xml"/>
   </map:match>
 
@@ -507,7 +515,10 @@
        cannot use queryString since it might be empty
        -->
   <map:match pattern="job-*.xml">
-    <map:generate  type="commandGenerator" src="qstat -xml -j {1}" />
+    <map:generate
+        type="commandGenerator"
+        src="qstat.sh -xml -j {1}"
+        />
     <map:serialize type="xml"/>
   </map:match>
 
