@@ -102,10 +102,10 @@
 
 <!-- resources: -->
 <blockquote>
-<table class="qstat" width="100%">
+<table class="listing">
   <tr valign="middle">
     <td>
-      <div class="tableDescriptorElement">Resources</div>
+      <div class="tableCaption">Resources</div>
     </td>
   </tr>
 </table>
@@ -129,7 +129,7 @@
 -->
 <xsl:template match="qlicserver/resources">
 <div id="resourcesTable">
-  <table class="qstat" width="100%">
+  <table class="listing">
   <tr>
     <th/>
     <th>used</th>
@@ -200,7 +200,7 @@
       <xsl:call-template name="progressBar">
         <xsl:with-param name="label" select="concat($valueUsed, '/', $valueTotal)" />
         <xsl:with-param name="percent" select="100"/>
-        <xsl:with-param name="background" select="'#ffff7f'" />
+        <xsl:with-param name="background" select="'#ffffdd'" />
       </xsl:call-template>
     </xsl:when>
     <xsl:when test="$valueUsed &gt; 0">
@@ -221,7 +221,7 @@
   </xsl:when>
   <xsl:otherwise>
     <!-- alarm color -->
-    <td bgcolor="#ff7f7f">0</td>
+    <td class="alarmState">0</td>
   </xsl:otherwise>
   </xsl:choose>
 
@@ -303,15 +303,15 @@
   </xsl:when>
   <xsl:when test="@type = 'track'">
     <!-- pale warn color -->
-    <td bgcolor="#ffd">0</td>
+    <td class="warnState">0</td>
   </xsl:when>
   <xsl:when test="@waiting">
     <!-- alarm color -->
-    <td bgcolor="#ff7f7f">0</td>
+    <td class="alarmState">0</td>
   </xsl:when>
   <xsl:otherwise>
     <!-- warn color -->
-    <td bgcolor="#ffff7f">0</td>
+    <td class="warnState">0</td>
   </xsl:otherwise>
   </xsl:choose>
 

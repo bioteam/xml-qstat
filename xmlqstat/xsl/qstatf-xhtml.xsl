@@ -138,11 +138,11 @@
 <!-- DIFFERENT CSS STYLE DEPENDING ON USER COOKIE PREFERENCE PARAM(s) -->
 <!-- hide activeJobTable (depending on cookie value) -->
 <xsl:if test="$useJavaScript = 'yes' and $activeJobTable = 'no'" >
-  .activeJobTable { visibility: hidden; display: none; }
+  #activeJobTable { visibility: hidden; display: none; }
 </xsl:if>
 <!-- hide pendingJobTable (depending on cookie value) -->
 <xsl:if test="$useJavaScript = 'yes' and $pendingJobTable = 'no'" >
-  .pendingJobTable { visibility: hidden; display: none; }
+  #pendingJobTable { visibility: hidden; display: none; }
 </xsl:if>
 <!-- END COOKIE DEPENDENT VARIABLE CSS STYLE OUTPUT -->
 <xsl:text>
@@ -340,7 +340,7 @@
 <xsl:when test="$renderMode='full'">
   <!-- queue instances: -->
   <blockquote>
-  <table class="qstat" width="100%">
+  <table class="listing">
     <tr valign="middle">
       <td>
         <!-- NB: slots_total reported actually includes slots_used -->
@@ -354,8 +354,8 @@
             select="($valueUsed div $valueTotal)*100"
             />
 
-        <div class="tableDescriptorElement">Queue Instance Information</div>
-        <div class="tableDescriptorElement" id="summaryGraph">
+        <div class="tableCaption">Queue Instance Information</div>
+        <div class="tableCaption" id="summaryGraph">
           <!-- summarize slot usage as percent or absolute value -->
           <xsl:choose>
           <xsl:when test="$showSlotUsage='percent'">
@@ -382,7 +382,7 @@
       </td>
     </tr>
   </table>
-  <div class="queueStatusTable" id="queueStatusTable">
+  <div id="queueStatusTable">
     <xsl:apply-templates select="//queue_info" mode="sortByQueue" />
   </div>
   </blockquote>
@@ -390,15 +390,15 @@
 <xsl:when test="$renderMode='terse'">
   <!-- cluster summary: -->
   <blockquote>
-  <table width="80%" class="qstat">
+  <table class="listing" width="80%">
     <tr valign="middle">
       <td>
-        <div class="tableDescriptorElement">GridEngine Cluster Summary</div>
+        <div class="tableCaption">GridEngine Cluster Summary</div>
       </td>
     </tr>
   </table>
-  <div class="queueStatusTable" id="queueStatusTable">
-    <table class="qstat" width="80%">
+  <div id="queueStatusTable">
+    <table class="listing" width="80%">
     <tr>
       <th>Slot Utilization</th>
       <!-- this element is for icons, reserve a standard width -->
@@ -610,10 +610,10 @@
 <xsl:when test="$AJ_total &gt; 0">
   <!-- active jobs: -->
   <blockquote>
-  <table class="qstat" width="100%">
+  <table class="listing">
     <tr>
     <td valign="middle">
-      <div class="tableDescriptorElement">
+      <div class="tableCaption">
         <xsl:value-of select="$AJ_total"/> active jobs
         <xsl:if test="$filterByUser">
           for <xsl:value-of select="$filterByUser"/>
@@ -629,8 +629,8 @@
     </td>
     </tr>
   </table>
-  <div class="activeJobTable" id="activeJobTable">
-    <table class="qstat" width="100%">
+  <div id="activeJobTable">
+    <table class="listing">
       <tr>
       <th>jobId</th>
       <th>owner</th>
@@ -694,10 +694,10 @@
 <xsl:when test="$PJ_total &gt; 0">
   <!-- pending jobs: -->
   <blockquote>
-  <table class="qstat" width="100%">
+  <table class="listing">
     <tr>
     <td valign="middle">
-      <div class="tableDescriptorElement">
+      <div class="tableCaption">
         <xsl:value-of select="$PJ_total"/> pending jobs
         <xsl:if test="$filterByUser">
           for <xsl:value-of select="$filterByUser"/>
@@ -713,8 +713,8 @@
     </td>
     </tr>
   </table>
-  <div class="pendingJobTable" id="pendingJobTable">
-    <table class="qstat" width="100%">
+  <div id="pendingJobTable">
+    <table class="listing">
       <tr>
       <th>jobId</th>
       <th>owner</th>
@@ -808,21 +808,6 @@
 </xsl:when>
 </xsl:choose>
 
-<!--
-    <span style="cursor: help;">
-     <xsl:element name="acronym">
-      <xsl:attribute name="title">view execd spool messages from this machine</xsl:attribute>
-      <xsl:element name="a">
-       <xsl:attribute name="href">#</xsl:attribute>
-       <xsl:attribute name="oncDebugDetailLayerSpanlick">
-        <xsl:text disable-output-escaping="yes">spoolMessages('execd&amp;h=</xsl:text><xsl:value-of select="name"/>
-        <xsl:text>','')</xsl:text>
-       </xsl:attribute>
-       <img src="images/e_d.gif" border="0"/>
-      </xsl:element>
-     </xsl:element>
-    </span>
--->
     <!-- queue name -->
     <xsl:value-of select="name"/>
    </td>
@@ -1089,7 +1074,7 @@
 -->
 <xsl:template match="//queue_info" mode="sortByQueue">
   <div class="queueInfoDiv" id="queueInfoTable">
-  <table class="qstat" width="100%">
+  <table class="listing">
     <tr>
       <th>queue</th>
       <th>instance</th>
@@ -1291,7 +1276,7 @@
     </xsl:text>
     <tr class="hardRequest">
       <td colspan="8" align="right" class="alarmCode" id="hardRequest">
-        job <xsl:value-of select="JB_job_number"/> hard request:
+        hard request:
         <xsl:apply-templates select="hard_request"/>
       </td>
     </tr>

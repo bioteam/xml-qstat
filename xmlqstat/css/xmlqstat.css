@@ -1,16 +1,13 @@
 /* text/css */
+
 body {
     margin: 10px 20px 0px;
+    background: #dee7ec; /* */
 }
 
 /* a:active { text-decoration: none; } */
 
-a:link {
-    text-decoration: none;
-    color: #00C;
-}
-
-a:visited {
+a:link, a:visited {
     text-decoration: none;
     color: #00C;
 }
@@ -19,54 +16,26 @@ a:hover {
     text-decoration: underline;
 }
 
-#main {
-    border: 1px solid #000;
-    background: #FFF;
-    margin-top: 1px;
-    padding-top: 1px;
-}
-
-#main #menu {
-    background: #DEE7EC;
-    margin: 0px;
-    font-size: 12px;
-    font-family: monospace;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-bottom-color: #000;
-    padding-top: 1px;
-    padding-right: 1px;
-    padding-left: 1px;
+.dividerBarAbove, .dividerBarBelow {
+    margin:  2px;
+    padding: 2px;
+    font-family:  Geneva, Arial, Helvetica, sans-serif;
+    font-size:    10px;
+    font-weight:  normal;
+    font-variant: normal;
+    text-align:   right;
 }
 
 .dividerBarAbove {
-    margin: 2px;
-    padding: 2px;
-    font-size: small;
-    font-family: monospace;
-    font-weight: normal;
-    font-variant: normal;
-    text-align: right;
-    border-bottom-color: #000;
-    border-top-width: 1px;
-    border-top-style: dashed;
+    border-top: 1px dashed #000;
 }
 
 .dividerBarBelow {
-    margin: 2px;
-    padding: 2px;
-    font-size: small;
-    font-family: monospace;
-    font-weight: normal;
-    font-variant: normal;
-    text-align: right;
-    border-bottom-color: #000;
-    border-bottom-width: 1px;
-    border-bottom-style: dashed;
+    border-bottom: 1px dashed #000;
 }
 
 
-p,h1,pre {
+p, h1, pre {
     margin: 0px 10px 10px 10px;
 }
 
@@ -79,17 +48,40 @@ h1 {
     padding-top: 10px;
 }
 
+#main {
+    border: 1px solid #000;
+    background:  #fff;
+    margin-top:  1px;
+    padding-top: 1px;
+}
+
+#menu {
+    background: #dee7ec url("screen/menu_bg.png") repeat-x center right;
+    border-top:    1px solid #999;
+    border-bottom: 1px solid #555;
+    margin-left:  1px;
+    margin-right: 1px;
+    min-height:   16px;
+    font-family:  Geneva, Arial, Helvetica, sans-serif;
+    font-size:    10px;
+    padding-bottom: 1px;
+    text-align:     left;
+}
+
+#menu img {
+    padding: 0px;
+    border: 0px;
+}
+
 #menu p {
-    font-size: 12px;
     font-family: monospace;
+    font-size:   12px;
 }
 
 .ResourceDetailLayer {
-    border-width: thin thin thin thin;
+    border: thin inset #000;
     border-spacing: 2px 2px;
-    border-style: inset;
-    border-color: #000;
-    padding: 4px 4px 4px 4px;
+    padding: 4px;
     margin-top: 10px;
     position: absolute;
     text-align: justify;
@@ -98,7 +90,7 @@ h1 {
     overflow: auto;
     z-index: 3;
     visibility: visible;
-    background: #FFF;
+    background: #fff;
 }
 
 .DebugDetailLayer {
@@ -117,20 +109,16 @@ h1 {
     z-index: 3;
     visibility: hidden;
     display: none;
-    background: #FFF;
+    background: #fff;
 }
 
 .topLogo {
-    margin-top: 1px;
-    border-top: 1px none;
-    border-right: 1px none;
-    border-bottom: 1px solid;
-    border-left: 1px none;
-    font-size: 12px;
-    font-family: monospace;
+    margin: 1px;
+    border-style: none;
+    font-family: Geneva, Arial, Helvetica, sans-serif;
+    font-size:   12px;
+    text-align:  left;
     padding: 1px 1px 0px;
-    margin-bottom: 0px;
-    text-align: left;
 }
 
 code {
@@ -138,143 +126,156 @@ code {
 }
 
 .boldCode {
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
+    font-family:  Geneva, Arial, Helvetica, sans-serif;
+    font-size:    small;
     font-variant: normal;
+    font-weight:  normal;
     color: #000;
-    font-size: small;
 }
 
 /* combined code and boldCode */
 .outputCode {
     font-family: monospace;
+    font-size:   small;
     font-weight: normal;
     font-variant: normal;
     color: #000;
-    font-size: small;
 }
-
 
 .alarmCode {
     font-family: monospace;
-    font-style: italic;
+    font-size:   small;
+    font-style:  italic;
     font-weight: bold;
     color: #666;
-    font-size: small;
 }
+
+
+/* background colors for various states */
+.alarmState   { background-color: #ff7f7f; }
+.errorState   { background-color: #ff7f7f; font-style: italic; }
+.warnState    { background-color: #ffffdd; }
+.disableState { background-color: #dee7ec; }
+.suspendState { background-color: #dee7ec; }
+
 
 #main .infoSectionHead {
     font-family: Geneva, Arial, Helvetica, sans-serif;
-    font-size: .8em;
+    font-size:   0.8em;
 }
 
 #main .infoPara {
     font-family: Geneva, Arial, Helvetica, sans-serif;
-    font-size: 0.7em;
+    font-size:   0.7em;
 }
 
 #main .infoHeading {
     font-family: Geneva, Arial, Helvetica, sans-serif;
-    font-size: 1em;
+    font-size:   1em;
 }
 
 .skipTableFormat {
     font-family: Geneva, Arial, Helvetica, sans-serif;
-    font-size: 14px;
+    font-size:   14px;
     vertical-align: middle;
 }
 
-.visToggleElement {
+/* set padding about toggleVisibility */
+.toggleVisibility {
     font-family: Geneva, Arial, Helvetica, sans-serif;
-    font-size: small;
-    -moz-border-radius: 0px 0px 0px 0px;
-    text-align: right;
+    font-size:   small;
+    text-align:  right;
     margin-left: 0px;
-    border: 0px inset #8CACBB;
+    border-style: hidden;
 }
 
-.tableDescriptorElement {
+.toggleVisibility img {
+    padding: 0px;
+    border:  0px;
+}
+
+
+/* simulate a table caption within a table */
+.tableCaption {
     font-family: Geneva, Arial, Helvetica, sans-serif;
-    font-size: small;
-    -moz-border-radius: 0px 0px 0px 0px;
-    text-align: left;
+    font-size:   small;
+    text-align:  left;
     vertical-align: top;
     margin-right: 0px;
     float: left;
-    border: 0px inset #FFF;
+    border-style: hidden;
 }
 
-table.qstat {
-    border-width: thin thin thin thin;
+/* a table of listings */
+
+table.listing {
+    background-color: #ffffff;
+    border: thin inset #8cacbb;
     border-spacing: 2px 2px;
-    border-style: inset;
-    border-color: #8CACBB;
     border-collapse: collapse;
-    background-color: #FFF;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
+    font-family:  Geneva, Arial, Helvetica, sans-serif;
+    font-size:    small;
+    font-weight:  normal;
     font-variant: normal;
-    font-size: small;
+    width: 100%;
 }
 
-
-table.qstat th {
-    border-width: 1px 1px 1px 1px;
+table.listing th {
+    background-color: #dee7ec;
+    border: 1px inset #8cacbb;
     padding: 2px 4px;
-    border-style: inset;
-    border-color: #8CACBB;
-    -moz-border-radius: 0px 0px 0px 0px;
-    background-color: #DEE7EC;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
+    font-family:  Geneva, Arial, Helvetica, sans-serif;
+    font-size:    small;
     font-variant: normal;
-    font-size: small;
+    font-weight:  normal;
 }
 
-table.qstat td {
-    border-width: 1px 1px 1px 1px;
-    padding: 1px 3px;
-    border-style: inset;
-    border-color: #8CACBB;
-    -moz-border-radius: 0px 0px 0px 0px;
-    margin-right: 3px;
-    margin-left: 3px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: normal;
-    font-variant: normal;
-    font-size: small;
+
+/* vertical tables get a fixed-width header */
+table.fixedTH th {
+    width: 20%;
 }
+
+table.listing tbody {
+    background: #f6f6f6;
+    border-color: #ccc;
+    color: #333;
+}
+
+table.listing tr:hover {
+    background: #eed;
+    color: #000;
+}
+
+table.listing td {
+    border: 1px inset #8cacbb;
+    padding: 1px 3px;
+    margin-right: 3px;
+    margin-left:  3px;
+    font-family:  Geneva, Arial, Helvetica, sans-serif;
+    font-size:    small;
+    font-variant: normal;
+    font-weight:  normal;
+}
+
 
 /* embedded table */
 table.embedded {
-    border-style: hidden;
-    border-spacing: 0px;
+    border-style: none;
     border-collapse: collapse;
+    width: 100%;
 }
 
-table.embedded th {
-    border-style: hidden;
+table.embedded th, table.embedded td {
+    border-style: none;
+    border-collapse: collapse;
     padding: 0px;
-}
-
-table.embedded td {
-    border-style: hidden;
-    padding: 0px;
-}
-
-
-#main .qstat #summaryGraph {
-    padding-top: 2px;
-    padding-bottom: 2px;
-}
-#main .qstat .visToggleElement img {
-    padding-right: 2px;
 }
 
 .bottomBox {
     font-family: "Courier New", Courier, mono;
-    font-size: small;
-    font-style: normal;
+    font-size:   small;
+    font-style:  normal;
     line-height: 50px;
     height: 50px;
     vertical-align: middle;
@@ -284,16 +285,16 @@ table.embedded td {
 .progbarInner {
     height: 10px;
     width:  100%;
-    left:   0;
-    margin: 0;
-    padding: 0;
-    background: #ABB7D6;
+    left:   0px;
+    margin: 0px;
+    padding: 0px;
+    background: #abb7d6;
     text-indent: 2px;
 }
 
 .progbarOuter {
     width: 90%;
-    background: #E7FFFF;
+    background: #e7ffff;
     border: 1px solid #333;
     vertical-align: top;
     margin-left: 0.2em;
@@ -302,39 +303,35 @@ table.embedded td {
 }
 
 .progbarFont {
-    font: 9px Verdana, Arial, sans-serif;
     color: #000;
-    text-align: center;
+    font-family: Geneva, Arial, Helvetica, sans-serif;
+    font-size:   9px;
+    text-align:  center;
     text-indent: 2px;
 }
 
-/* default visibility for activeJobTable */
-.activeJobTable { 
-    visibility: visible; 
-    display:    inline;
+
+#summaryGraph {
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
-/* default visibility for pendingJobTable */
-.pendingJobTable {
+/* default visibility for activeJobTable, pendingJobTable */
+#activeJobTable, #pendingJobTable {
     visibility: visible;
     display:    inline;
 }
 
-#main .qstat tbody     { background: #F6F6F6; border-color: #CCC; color: #333 }
-#main .qstat tr:hover  { background: #EED; color: #000 }
-#main .qstat .odd      { background: #F6F6F6; border-color: #CCC; color: #333 }
-#main .qstat .even     { background: #E7FFFF; border-color: #CEE; color: #099 }
+#main .listing .odd  { background: #f6f6f6; border-color: #ccc; color: #333; }
+#main .listing .even { background: #e7ffff; border-color: #cee; color: #099; }
 
-
-#main #queueStatusTable img {
-    padding-right: 2px;
+#queueStatusTable img {
+    padding-right: 1px;
     vertical-align: text-top;
 }
 
 #main ul {
-    list-style-position: inside;
-    list-style-image: url(images/icons/silk/bullet_blue.png);
-    list-style-type: circle;
+    list-style: square inside url(screen/list_bullet.png);
 }
 
 /* end-of-file */

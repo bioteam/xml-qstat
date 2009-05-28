@@ -71,17 +71,6 @@
 <xsl:text>
 </xsl:text>
 <link href="css/xmlqstat.css"  media="screen" rel="Stylesheet" type="text/css" />
-<link href="css/jobDetail.css" media="screen" rel="Stylesheet" type="text/css" />
-<xsl:text>
-</xsl:text>
-<xsl:comment> Override CSS </xsl:comment>
-<xsl:text>
-</xsl:text>
-<style>
-  #main ul {
-      list-style-image: url(images/icons/silk/bullet_blue.png);
-  }
-</style>
 <xsl:text>
 </xsl:text>
 </head>
@@ -139,17 +128,17 @@
   overview table
 -->
 <blockquote>
-<table class="qstat" width="100%">
+<table class="listing">
   <tr>
     <td>
-      <div class="tableDescriptorElement">Overview</div>
+      <div class="tableCaption">Overview</div>
     </td>
   </tr>
 </table>
 <xsl:text>
 </xsl:text>
-<div class="queueStatusTable" id="queueStatusTable">
-<table class="qstat" width="100%">
+<div id="queueStatusTable">
+<table class="listing">
   <tr>
     <th>jobId</th>
     <th>owner</th>
@@ -188,15 +177,15 @@
   context table
 -->
 <blockquote>
-<table class="qstat" width="100%">
+<table class="listing">
   <tr>
   <td>
-    <div class="tableDescriptorElement">Context</div>
+    <div class="tableCaption">Context</div>
   </td>
   </tr>
 </table>
 <div>
-<table class="qstat" width="100%">
+<table class="listing">
   <th>jobId</th>
   <th>context</th>
   <th>cwd</th>
@@ -247,10 +236,10 @@
   scheduling info
 -->
 <blockquote>
-<table class="qstat" width="100%">
+<table class="listing">
   <tr>
     <td>
-      <div class="tableDescriptorElement">
+      <div class="tableCaption">
       <!-- 6.1: //detailed_job_info/messages/qmaster_response -->
         <xsl:value-of
             select="
@@ -263,7 +252,7 @@
     </td>
   </tr>
 </table>
-<table class="qstat" width="100%">
+<table class="listing">
   <tr>
     <td>
       <!-- 6.1: //detailed_job_info/messages/qmaster_response -->
@@ -281,7 +270,7 @@
 
 <!-- DISABLE FOR NOW
 
-<table width="100%" class="qstat">
+<table class="listing">
 <tr>
   <th>share</th>
   <th>fshare</th>
@@ -324,12 +313,6 @@
     match="//djob_info/element | //djob_info/qmaster_response"
     mode="overview"
 >
-  <xsl:variable name="jobinfo-href">
-    <xsl:choose>
-    <xsl:when test="$menuMode='xmlqstat'">job-<xsl:value-of select="JB_job_number"/>.html</xsl:when>
-    <xsl:otherwise>jobinfo?<xsl:value-of select="JB_job_number"/></xsl:otherwise>
-    </xsl:choose>
-  </xsl:variable>
   <xsl:variable name="jobs-href">
     <xsl:choose>
     <xsl:when test="$menuMode='xmlqstat'">qstat-jobs.html?<xsl:value-of select="JB_owner"/></xsl:when>
@@ -338,12 +321,11 @@
   </xsl:variable>
 
   <tr>
-    <!-- jobId with resource requests -->
-    <!-- link jobId to details: "jobinfo?{jobId}" -->
+    <!-- jobId with link to details listing -->
     <td>
       <xsl:element name="a">
-        <xsl:attribute name="title">details for job <xsl:value-of select="JB_job_number"/></xsl:attribute>
-        <xsl:attribute name="href"><xsl:value-of select="$jobinfo-href"/></xsl:attribute>
+        <xsl:attribute name="title">details <xsl:value-of select="JB_job_number"/></xsl:attribute>
+        <xsl:attribute name="href">#details<xsl:value-of select="JB_job_number"/></xsl:attribute>
         <xsl:value-of select="JB_job_number" />
       </xsl:element>
     </td>
@@ -419,7 +401,13 @@
     mode="context"
 >
 <tr>
-  <td><xsl:value-of select="JB_job_number"/></td>
+  <td>
+    <xsl:element name="a">
+      <xsl:attribute name="title">details <xsl:value-of select="JB_job_number"/></xsl:attribute>
+      <xsl:attribute name="href">#details<xsl:value-of select="JB_job_number"/></xsl:attribute>
+      <xsl:value-of select="JB_job_number" />
+    </xsl:element>
+  </td> 
   <td><xsl:apply-templates select="JB_context/context_list"/></td>
   <td><xsl:value-of select="JB_cwd"/></td>
 </tr>
@@ -435,10 +423,12 @@
 <xsl:template match="//djob_info/element | //djob_info/qmaster_response">
 <xsl:variable name="jobId" select="JB_job_number"/>
 <blockquote>
-<table class="qstat" width="100%">
+<xsl:element name="table">
+  <xsl:attribute name="class">listing</xsl:attribute>
+  <xsl:attribute name="id">details<xsl:value-of select="$jobId"/></xsl:attribute>
   <tr>
     <td>
-      <div class="tableDescriptorElement">Details for job
+      <div class="tableCaption">Details for job
         <strong><xsl:value-of select="$jobId"/></strong>
         <xsl:if test="JB_ja_tasks/ulong_sublist/JAT_master_queue">
           master queue
@@ -449,8 +439,8 @@
       </div>
     </td>
   </tr>
-</table>
-<table class="JDOverview" width="100%">
+</xsl:element>
+<table class="listing fixedTH">
   <tr>
     <th>owner</th>
     <td><xsl:value-of select="JB_owner"/></td>

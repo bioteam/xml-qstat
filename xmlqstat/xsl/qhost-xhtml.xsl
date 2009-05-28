@@ -180,10 +180,10 @@
 <xsl:when test="$renderMode='summary'">
   <!-- summary: -->
   <blockquote>
-  <table class="qstat" width="100%">
+  <table class="listing">
     <tr valign="middle">
       <td>
-        <div class="tableDescriptorElement">Queue Summary</div>
+        <div class="tableCaption">Queue Summary</div>
       </td>
     </tr>
   </table>
@@ -193,10 +193,10 @@
 <xsl:when test="$renderMode='warn'">
   <!-- warnings: -->
   <blockquote>
-  <table class="qstat" width="100%">
+  <table class="listing">
     <tr valign="middle">
       <td>
-        <div class="tableDescriptorElement">Queue Warnings</div>
+        <div class="tableCaption">Queue Warnings</div>
       </td>
     </tr>
   </table>
@@ -206,10 +206,10 @@
 <xsl:otherwise>
   <!-- queue/host information: -->
   <blockquote>
-  <table class="qstat" width="100%">
+  <table class="listing">
     <tr valign="middle">
       <td>
-        <div class="tableDescriptorElement">Queue Information</div>
+        <div class="tableCaption">Queue Information</div>
       </td>
     </tr>
   </table>
@@ -235,7 +235,7 @@
 -->
 <xsl:template match="//qhost" mode="summary">
 <!-- summary: header -->
-<table class="qstat" width="100%">
+<table class="listing">
   <tr>
   <th/>
   <th>total</th>
@@ -355,7 +355,7 @@
         </xsl:when>
         <xsl:otherwise>
           <!-- alarm color -->
-          <td bgcolor="#ff7f7f">0</td>
+          <td class="alarmState">0</td>
         </xsl:otherwise>
         </xsl:choose>
 
@@ -434,7 +434,7 @@
         </xsl:when>
         <xsl:otherwise>
           <!-- warn color -->
-          <td bgcolor="#ffff7f">0</td>
+          <td class="warnState">0</td>
         </xsl:otherwise>
         </xsl:choose>
 
@@ -452,8 +452,8 @@
   queue/host information: header
 -->
 <xsl:template match="//qhost">
-<div class="hostInfoTable" id="hostInfoTable">
-  <table class="qstat" width="100%">
+<div id="hostInfoTable">
+  <table class="listing">
   <thead>
   <tr>
     <th/>
@@ -507,7 +507,7 @@
   <xsl:choose>
   <xsl:when test="count(queue)">
     <td>
-      <table class="embedded" width="100%">
+      <table class="embedded">
       <xsl:for-each select="queue">
         <xsl:apply-templates select="." />
       </xsl:for-each>
@@ -596,7 +596,7 @@
     </xsl:call-template>
 
     <!-- state icon and queue name -->
-    <td>
+    <td align="left">
       <xsl:call-template name="queue-state-icon">
         <xsl:with-param name="state" select="$state"/>
       </xsl:call-template>

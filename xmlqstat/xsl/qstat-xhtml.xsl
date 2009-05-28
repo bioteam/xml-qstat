@@ -95,11 +95,11 @@
 <!-- DIFFERENT CSS STYLE DEPENDING ON USER COOKIE PREFERENCE PARAM(s) -->
 <!-- hide activeJobTable (depending on cookie value) -->
 <xsl:if test="$useJavaScript = 'yes' and $activeJobTable = 'no'" >
-  .activeJobTable { visibility: hidden; display: none; }
+  #activeJobTable { visibility: hidden; display: none; }
 </xsl:if>
 <!-- hide pendingJobTable (depending on cookie value) -->
 <xsl:if test="$useJavaScript = 'yes' and $pendingJobTable = 'no'" >
-  .pendingJobTable { visibility: hidden; display: none; }
+  #pendingJobTable { visibility: hidden; display: none; }
 </xsl:if>
 <!-- END COOKIE DEPENDENT VARIABLE CSS STYLE OUTPUT -->
 <xsl:text>
@@ -195,10 +195,10 @@
 <xsl:when test="$AJ_total &gt; 0">
   <!-- active jobs: -->
   <blockquote>
-  <table class="qstat" width="100%">
+  <table class="listing">
     <tr valign="middle">
     <td>
-      <div class="tableDescriptorElement">
+      <div class="tableCaption">
         <xsl:value-of select="$AJ_total"/> active jobs
         <xsl:if test="$filterByUser">
           for <em><xsl:value-of select="$filterByUser"/></em>
@@ -270,10 +270,10 @@
 <xsl:when test="$PJ_total &gt; 0">
   <!-- pending jobs: -->
   <blockquote>
-  <table class="qstat" width="100%">
+  <table class="listing">
     <tr valign="middle">
     <td>
-      <div class="tableDescriptorElement">
+      <div class="tableCaption">
         <xsl:value-of select="$PJ_total"/> pending jobs
         <xsl:if test="$filterByUser" >
           for <em><xsl:value-of select="$filterByUser"/></em>
@@ -323,8 +323,8 @@
   active jobs: header
  -->
 <xsl:template match="job_info/queue_info">
-  <div class="activeJobTable" id="activeJobTable">
-    <table class="qstat" width="100%">
+  <div id="activeJobTable">
+    <table class="listing">
     <tr>
       <th>jobId</th>
       <th>owner</th>
@@ -430,8 +430,8 @@
   pending jobs: header
  -->
 <xsl:template match="//job_info/job_info">
-  <div class="pendingJobTable" id="pendingJobTable">
-    <table class="qstat" width="100%">
+  <div id="pendingJobTable">
+    <table class="listing">
     <tr>
       <th>jobId</th>
       <th>owner</th>

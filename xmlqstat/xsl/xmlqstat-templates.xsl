@@ -94,7 +94,7 @@
 <xsl:template name="toggleElementVisibility">
   <xsl:param name="name" />
 
-  <div class="visToggleElement">
+  <div class="toggleVisibility">
     <xsl:element name="a">
       <xsl:attribute name="href">#</xsl:attribute>
       <xsl:attribute name="onclick">javascript:setDiv('<xsl:value-of select="$name"/>',false)</xsl:attribute>
@@ -298,36 +298,25 @@
 <xsl:template name="queue-state-style">
   <xsl:param name="state"/>
   <xsl:choose>
-  <!-- 'u' unavailable state : alarm color -->
+  <!-- 'u' unavailable state : alarm state -->
   <xsl:when test="contains($state, 'u')" >
-    <xsl:attribute name="style">
-      background-color: #ff7f7f;
-    </xsl:attribute>
+    <xsl:attribute name="class">alarmState</xsl:attribute>
   </xsl:when>
-  <!-- 'E' error : alarm color -->
+  <!-- 'E' error : error state -->
   <xsl:when test="contains($state, 'E')" >
-    <xsl:attribute name="style">
-      font-style: italic;
-      background-color: #ff7f7f;
-    </xsl:attribute>
+    <xsl:attribute name="class">errorState</xsl:attribute>
   </xsl:when>
   <!-- 'a' alarm state : warn color -->
   <xsl:when test="contains($state, 'a')" >
-    <xsl:attribute name="style">
-      background-color: #ffff7f;
-    </xsl:attribute>
+    <xsl:attribute name="class">warnState</xsl:attribute>
   </xsl:when>
   <!-- 'd' disabled state : empty color -->
   <xsl:when test="contains($state, 'd')" >
-    <xsl:attribute name="style">
-      background-color: #dee7ec;
-    </xsl:attribute>
+    <xsl:attribute name="class">disableState</xsl:attribute>
   </xsl:when>
   <!-- 'S' suspended -->
   <xsl:when test="contains($state, 'S')" >
-    <xsl:attribute name="style">
-      background-color: #dee7ec;
-    </xsl:attribute>
+    <xsl:attribute name="class">suspendState</xsl:attribute>
   </xsl:when>
   </xsl:choose>
 </xsl:template>

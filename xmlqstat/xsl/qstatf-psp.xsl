@@ -178,15 +178,15 @@
 <style type="text/css" media="screen">
   *
   {
-      margin:0;
-      padding:0;
-      list-style-type:none;
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
   }
 
   html, body
   {
-      margin:0;
-      padding:0;
+      margin:  0;
+      padding: 0;
   }
 
   #sidebar
@@ -215,7 +215,7 @@
       background:#f6f6f6;
       padding:2px 5px;
       font:normal normal normal 1em sans-serif;
-      text-align:left;
+      text-align: left;
       text-decoration:none;
   }
 
@@ -225,8 +225,7 @@
       color: #000;
   }
 
-  #content
-  {
+  #content {
       width:350px;
       width:72.5%;
       padding:5px;
@@ -430,7 +429,7 @@
 <xsl:text>
 </xsl:text>
 <div id="logo">
-  <img style="align: center;valign=middle" alt="logo" width="90%"
+  <img style="text-align:center" alt="logo" width="90%"
     src="../images/xml-qstat-logo.png"
   />
 </div>

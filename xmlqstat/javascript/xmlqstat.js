@@ -72,31 +72,6 @@ function processReqChange()
 }
 
 
-function spoolMessages(input, response)
-{
-    if (response != '')
-    {
-        // alert("Result: " + result);
-        // Response mode
-        document.getElementById("DebugDetailLayer1").style.visibility = "visible";
-        document.getElementById("DebugDetailLayer1").style.display    = "inline";
-        message   = document.getElementById("DebugDetailLayerSpan");
-        // need to put results into the DIV element ...
-        // deal with response here
-        var txt = document.createTextNode(result);
-
-        var oldTxt = message.replaceChild(txt,message.firstChild);
-    }
-    else
-    {
-        // input mode
-        result = '';
-        url  = 'spoolDebug.cgi?m=' + input;
-        loadXMLDoc(url);
-    }
-}
-
-
 function resourceList(input, response)
 {
     if (response != '')

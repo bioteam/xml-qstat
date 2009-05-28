@@ -57,7 +57,13 @@
 
 <!-- Top Menu Bar -->
 
-<div id="menu" style="text-align:left;">
+<div id="menu">
+  <img alt="*" src="images/icons/silk/bullet_blue.png" />
+  <a href="#" title="clusters"><img border="0"
+      src="images/icons/silk/house.png"
+      alt="[home]"
+  /></a>
+
   <img alt="*" src="images/icons/silk/bullet_blue.png" />
   <a href="config" title="config"><img border="0"
       src="images/icons/silk/folder_wrench.png"
@@ -68,6 +74,12 @@
   <a href="sitemap.xmap" title="sitemap"><img border="0"
       src="images/icons/silk/wrench.png"
       alt="[sitemap]"
+  /></a>
+
+  <img alt="*" src="images/icons/silk/bullet_blue.png" />
+  <a href="info/about.html" title="about"><img border="0"
+      src="images/icons/silk/information.png"
+      alt="[about]"
   /></a>
 
   <img alt="*" src="images/icons/silk/bullet_blue.png" />
@@ -88,10 +100,10 @@
 
 <!-- cluster selection -->
 <blockquote>
-<table class="qstat" width="100%">
+<table class="listing">
   <tr valign="middle">
     <td>
-      <div class="tableDescriptorElement">Clusters</div>
+      <div class="tableCaption">Clusters</div>
     </td>
   </tr>
 </table>
@@ -118,24 +130,22 @@
 
 
 <!--
-  active jobs: header
+  list of available clusters
  -->
 <xsl:template match="//config/clusters">
-  <div class="activeJobTable" style="text-align:left;">
-    <table class="qstat" width="100%">
-    <tr>
-      <th colspan="2">name</th>
-      <th>root</th>
-      <th>cell</th>
-      <th>cache</th>
-    </tr>
-    <xsl:for-each select="cluster">
-      <!-- sorted by job number and task -->
-      <xsl:sort select="name"/>
-      <xsl:apply-templates select="."/>
-    </xsl:for-each>
-    </table>
-  </div>
+  <table class="listing" style="text-align:left;">
+  <tr>
+    <th colspan="2">name</th>
+    <th>root</th>
+    <th>cell</th>
+    <th>cache</th>
+  </tr>
+  <xsl:for-each select="cluster">
+    <!-- sorted by job number and task -->
+    <xsl:sort select="name"/>
+    <xsl:apply-templates select="."/>
+  </xsl:for-each>
+  </table>
 </xsl:template>
 
 <xsl:template match="//cluster">
@@ -203,6 +213,18 @@
       />
     </xsl:element>
 
+    <!-- job details -->
+    <!-- disabled for now: can be fairly resource-intensive
+    <xsl:text> </xsl:text>
+    <xsl:element name="a">
+      <xsl:attribute name="title">job details</xsl:attribute>
+      <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/jobinfo</xsl:attribute>
+      <img border="0"
+          src="images/icons/silk/magnifier_zoom_in.png"
+          alt="[job details]"
+      />
+    </xsl:element>
+    -->
   </td>
   <td>
       <xsl:value-of select="@root"/>

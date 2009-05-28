@@ -43,14 +43,6 @@
 <link href="../css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
 <xsl:text>
 </xsl:text>
-<xsl:comment>Locally override some CSS settings ...</xsl:comment>
-<xsl:text>
-</xsl:text>
-<style type="text/css">
-  #main ul {
-      list-style-image: url(../images/icons/silk/bullet_blue.png);
-  }
-</style>
 </head>
 <body>
 
@@ -67,7 +59,7 @@
 <xsl:text>
 </xsl:text>
 <!-- Top Menu Bar -->
-<div id="menu" style="text-align:middle;">
+<div id="menu">
   <img alt="*" src="../images/icons/silk/bullet_blue.png" />
   <a href="../" title="home"><img border="0"
       src="../images/icons/silk/house.png"
@@ -88,7 +80,7 @@
       src="../images/icons/silk/report.png"
       alt="[cluster summary]"
   /></a>
-  <img alt="*"  src="../images/icons/silk/bullet_blue.png" />
+  <img alt="*" src="../images/icons/silk/bullet_blue.png" />
   <a href="../info/about.html" title="about"><img border="0"
       src="../images/icons/silk/information.png"
       alt="[about]"
@@ -110,17 +102,19 @@
       src="../images/icons/silk/arrow_refresh_small.png"
       alt="[reload]"
   /></a>
-  <img alt="*"  src="../images/icons/silk/bullet_blue.png" />
+  <img alt="*" src="../images/icons/silk/bullet_blue.png" />
 </div>
 
 <xsl:text>
 </xsl:text>
+<!--
 <xsl:comment> Top dotted line bar</xsl:comment>
 <xsl:text>
 </xsl:text>
     <div class="dividerBarBelow"><xsl:text> </xsl:text></div>
 <xsl:text>
 </xsl:text>
+-->
 
 <!-- stuff above is XHTML boilerplate for the basic page layout-->
 

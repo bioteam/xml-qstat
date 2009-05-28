@@ -76,7 +76,7 @@
   <xsl:param name="hostinfo" />
   <xsl:param name="queueinfo" />
 
-  <div id="menu" style="text-align:left;">
+  <div id="menu">
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <a href="../../" title="clusters"><img border="0"
         src="images/icons/silk/house.png"
@@ -164,7 +164,7 @@
 <xsl:template name="xmlqstatMenu">
   <xsl:param name="path" />
 
-  <div id="menu" style="text-align:middle;">
+  <div id="menu">
     <img alt="*" src="images/icons/silk/bullet_blue.png" />
     <a href="./" title="home"><img border="0"
         src="images/icons/silk/house.png"

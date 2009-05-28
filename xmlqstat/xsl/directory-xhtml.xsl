@@ -25,12 +25,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="Refresh" content="60" />
 <link rel="icon" type="image/png" href="images/icons/silk/folder.png"/>
+<link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
 <title>dir - <xsl:value-of select="$dir"/></title>
+
+<xsl:comment> Load CSS from a file </xsl:comment>
+<xsl:text>
+</xsl:text>
+<link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
 
 <xsl:text>
 </xsl:text>
 </head><body>
-<div class="main">
+<div id="main">
 <strong>directory contents: <xsl:value-of select="$dir"/></strong>
 <blockquote>
   <xsl:choose>
