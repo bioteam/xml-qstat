@@ -1,43 +1,60 @@
 #!/bin/sh
+# Simple start/stop script for the perl daemon that caches
+# GridEngine XML status data for the "xml-qstat" web application
 
-## Simple start/stop script for the perl daemon that caches
-## Grid Engine XML status data for the "xml-qstat" web application
-
-## CUSTOMIZE AS NEEDED
-: ${SGE_ROOT:=/opt/grid}
-: ${SGE_CELL:=default}
-
-CACHE_SGE_XML_HOME=/opt/xml-qstat/scripts
-
-export SGE_ROOT SGE_CELL CACHE_SGE_XML_HOME
-
-##
-## System start scripts typically run as root user,
-## downgrade to a non-root user account. Adjust as needed
-##
-runas_user=cfdadmin
-# -----------------------------------------------------------------------------
-# this script should run as 'runas_user'
+# 0. Define safe path
+PATH=/bin:/usr/bin
 #
-if [ "$UID" -eq 0 -a "${runas_user:=root}" != root ]
+## CUSTOMIZE AS NEEDED
+#
+# 1. Downgrade to a non-root user account (adjust as required)
+runAs=cfdadmin
+
+# 2. Location of the script
+CACHER_HOME=/opt/xml-qstat/scripts
+
+# 3. Require GridEngine for later queries
+SGE_ROOT=/opt/grid
+SGE_CELL=default
+
+#---------------------------------------------------------------------------
+# The following lines provide the necessary info for adding a startup script
+# according to the Linux Standard Base Specification (LSB).
+#
+### BEGIN INIT INFO
+# Provides:       xmlqstat.cacher
+# Required-Start: $network $remote_fs
+# Should-Start:   network-remotefs
+# Required-Stop:
+# Default-Start:  3 5
+# Default-Stop: 0 1 2 6
+# Description:  start xmlqstat cacher
+### END INIT INFO
+#---------------------------------------------------------------------------
+
+# this script should run as 'runAs'
+if [ "$UID" -eq 0 -a "${runAs:=root}" != root ]
 then
-    exec sudo -S -u $runas_user $0 $@
+    exec sudo -S -u $runAs $0 $@
     exitcode=$?       # retain exitcode
 
     [ "$exitcode" == 0 ] || {
-        echo "could not change to $runas_user"
+        echo "could not change to $runAs"
         exit $exitcode
     }
 fi
 
-## Init the Grid Engine path/environment variables
-## so our script can access Grid Engine commands
+# Init GridEngine path/environment variables
 if [ -f $SGE_ROOT/$SGE_CELL/common/settings.sh ]
 then
+    export SGE_ROOT SGE_CELL
     . $SGE_ROOT/$SGE_CELL/common/settings.sh
+else
+    unset SGE_ROOT SGE_CELL
 fi
 
-daemon=$CACHE_SGE_XML_HOME/xmlqstat-cacher.pl
+
+daemon=$CACHER_HOME/xmlqstat-cacher.pl
 name=xmlqstat-cacher
 desc="GridEngine XML Status Caching Daemon"
 
@@ -59,11 +76,18 @@ stop)
     echo "$name"
     ;;
 
+
+restart)
+    ## Stop (if running) and start anew
+    $0 stop
+    $0 start
+    ;;
+
 *)
-    echo "Usage: $0 {start|stop}" >&2
+    echo "Usage: $0 {start|stop|restart}" >&2
     exit 1
     ;;
 esac
 
 exit 0
-# ------------------------------------------------------------- end-of-file
+# -------------------------------------------------------------- end-of-file

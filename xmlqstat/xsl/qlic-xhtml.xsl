@@ -35,6 +35,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="Refresh" content="30" />
+
 <link rel="icon" type="image/png" href="images/icons/silk/database_key.png"/>
 <title> resources
   <xsl:if test="//query/cluster/@name">
@@ -162,12 +163,10 @@
   <td align="left">
     <xsl:choose>
     <xsl:when test="@served">
-      <span style="cursor:help;">
       <xsl:element name="acronym">
         <xsl:attribute name="title"><xsl:value-of select="$annotation"/></xsl:attribute>
         <xsl:value-of select="@name" />
       </xsl:element>
-      </span>
     </xsl:when>
     <xsl:otherwise>
       <xsl:value-of select="@name" />
@@ -198,14 +197,14 @@
     <xsl:choose>
     <xsl:when test="$valueUsed &gt; 0 and ($valueUsed &gt;= $valueTotal)">
       <xsl:call-template name="progressBar">
-        <xsl:with-param name="label" select="concat($valueUsed, '/', $valueTotal)" />
+        <xsl:with-param name="label"   select="concat($valueUsed, '/', $valueTotal)" />
         <xsl:with-param name="percent" select="100"/>
-        <xsl:with-param name="background" select="'#ffffdd'" />
+        <xsl:with-param name="class"   select="'warnBar'"/>
       </xsl:call-template>
     </xsl:when>
     <xsl:when test="$valueUsed &gt; 0">
       <xsl:call-template name="progressBar">
-        <xsl:with-param name="label" select="concat($valueUsed, '/', $valueTotal)" />
+        <xsl:with-param name="label"   select="concat($valueUsed, '/', $valueTotal)" />
         <xsl:with-param name="percent" select="($valueUsed div $valueTotal)*100"/>
       </xsl:call-template>
     </xsl:when>
@@ -234,7 +233,6 @@
   <xsl:choose>
   <xsl:when test="@extern">
     <td>
-      <span style="cursor:help;">
       <xsl:element name="acronym">
         <xsl:attribute name="title">
           <xsl:for-each select="user[@type = 'extern']">
@@ -242,9 +240,8 @@
             <xsl:text> </xsl:text>
           </xsl:for-each>
         </xsl:attribute>
-      <xsl:value-of select="@extern" />
+        <xsl:value-of select="@extern" />
       </xsl:element>
-      </span>
     </td>
   </xsl:when>
   <xsl:when test="@type = 'intern'">
@@ -259,7 +256,6 @@
   <xsl:choose>
   <xsl:when test="@intern">
     <td>
-      <span style="cursor:help;">
       <xsl:element name="acronym">
         <xsl:attribute name="title">
           <xsl:for-each select="user[@type = 'intern']">
@@ -267,9 +263,8 @@
             <xsl:text> </xsl:text>
           </xsl:for-each>
         </xsl:attribute>
-      <xsl:value-of select="@intern" />
+        <xsl:value-of select="@intern" />
       </xsl:element>
-      </span>
     </td>
   </xsl:when>
   <xsl:when test="@type = 'track'">
@@ -282,7 +277,6 @@
   </xsl:choose>
   <!-- waiting: display users -->
   <td>
-    <span style="cursor:help;">
     <xsl:element name="acronym">
       <xsl:attribute name="title">
         <xsl:for-each select="user[@type = 'waiting']">
@@ -290,9 +284,8 @@
           <xsl:text> </xsl:text>
         </xsl:for-each>
       </xsl:attribute>
-    <xsl:value-of select="@waiting" />
+      <xsl:value-of select="@waiting" />
     </xsl:element>
-    </span>
   </td>
   <xsl:choose>
   <!-- free: display warn/alarm when exhausted -->

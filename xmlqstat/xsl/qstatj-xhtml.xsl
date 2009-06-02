@@ -349,23 +349,18 @@
 
     <!-- Exec file / script -->
     <td>
-      <span style="cursor: help;">
-        <xsl:element name="acronym">
-          <xsl:attribute name="title">script=<xsl:value-of select="JB_script_file" /></xsl:attribute>
-          <xsl:value-of select="JB_exec_file" />
-        </xsl:element>
-      </span>
+      <xsl:element name="acronym">
+        <xsl:attribute name="title">script=<xsl:value-of select="JB_script_file" /></xsl:attribute>
+        <xsl:value-of select="JB_exec_file" />
+      </xsl:element>
     </td>
 
     <!-- POSIX: group / gid -->
     <td>
-      <span style="cursor: help;">
-        <xsl:element name="acronym">
-          <xsl:attribute name="title">gid <xsl:value-of select="JB_gid"/>
-          </xsl:attribute>
-          <xsl:value-of select="JB_group" />
-        </xsl:element>
-      </span>
+      <xsl:element name="acronym">
+        <xsl:attribute name="title">gid <xsl:value-of select="JB_gid"/></xsl:attribute>
+        <xsl:value-of select="JB_group" />
+      </xsl:element>
     </td>
 
     <!-- state: different state XPath for active and pending/held jobs -->
@@ -407,7 +402,7 @@
       <xsl:attribute name="href">#details<xsl:value-of select="JB_job_number"/></xsl:attribute>
       <xsl:value-of select="JB_job_number" />
     </xsl:element>
-  </td> 
+  </td>
   <td><xsl:apply-templates select="JB_context/context_list"/></td>
   <td><xsl:value-of select="JB_cwd"/></td>
 </tr>
@@ -422,6 +417,7 @@
 -->
 <xsl:template match="//djob_info/element | //djob_info/qmaster_response">
 <xsl:variable name="jobId" select="JB_job_number"/>
+
 <blockquote>
 <xsl:element name="table">
   <xsl:attribute name="class">listing</xsl:attribute>
@@ -858,19 +854,19 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
 
 <xsl:template name="stateTranslation">
   <xsl:param name="state" />
-  <span style="cursor: help;">
-    <xsl:element name="acronym">
-      <xsl:attribute name="title">
-        <!-- this lookup translates JAT_state to something more readable -->
-        <xsl:value-of
-            select="$codeFile/config/status[@bitmask=$state]/long"
-        />. The raw JAT_state bitmask code = <xsl:value-of select="$state"/>
-      </xsl:attribute>
+
+  <xsl:element name="acronym">
+    <xsl:attribute name="title">
+      <!-- this lookup translates JAT_state to something more readable -->
       <xsl:value-of
-          select="$codeFile/config/status[@bitmask=$state]/translation"
-      />
-    </xsl:element>
-  </span>
+          select="$codeFile/config/status[@bitmask=$state]/long"
+      />. The raw JAT_state bitmask code = <xsl:value-of select="$state"/>
+    </xsl:attribute>
+    <xsl:value-of
+        select="$codeFile/config/status[@bitmask=$state]/translation"
+    />
+  </xsl:element>
+
 </xsl:template>
 
 </xsl:stylesheet>

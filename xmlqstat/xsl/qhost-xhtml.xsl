@@ -176,10 +176,10 @@
 <xsl:text>
 </xsl:text>
 
+<blockquote>
 <xsl:choose>
 <xsl:when test="$renderMode='summary'">
   <!-- summary: -->
-  <blockquote>
   <table class="listing">
     <tr valign="middle">
       <td>
@@ -188,11 +188,9 @@
     </tr>
   </table>
   <xsl:apply-templates select="//qhost" mode="summary"/>
-  </blockquote>
 </xsl:when>
 <xsl:when test="$renderMode='warn'">
   <!-- warnings: -->
-  <blockquote>
   <table class="listing">
     <tr valign="middle">
       <td>
@@ -201,11 +199,9 @@
     </tr>
   </table>
   <xsl:apply-templates select="//qhost"/>
-  </blockquote>
 </xsl:when>
 <xsl:otherwise>
   <!-- queue/host information: -->
-  <blockquote>
   <table class="listing">
     <tr valign="middle">
       <td>
@@ -214,9 +210,9 @@
     </tr>
   </table>
   <xsl:apply-templates select="//qhost"/>
-  </blockquote>
 </xsl:otherwise>
 </xsl:choose>
+</blockquote>
 
 <!-- bottom status bar with rendered time -->
 <xsl:call-template name="bottomStatusBar">
@@ -241,20 +237,10 @@
   <th>total</th>
   <th>used</th>
   <th>
-    <span style="cursor:help;">
-      <xsl:element name="acronym">
-        <xsl:attribute name="title">a(larm) C(alendar) S(ubordinate)</xsl:attribute>
-        <xsl:value-of select="'warnings'" />
-      </xsl:element>
-    </span>
+    <acronym title="a(larm) C(alendar) S(ubordinate)">warnings</acronym>
   </th>
   <th>
-    <span style="cursor:help;">
-      <xsl:element name="acronym">
-        <xsl:attribute name="title">d(isabled) s(uspended) u(nknown) E(rror)</xsl:attribute>
-        <xsl:value-of select="'errors'" />
-      </xsl:element>
-    </span>
+    <acronym title="d(isabled) s(uspended) u(nknown) E(rror)">errors</acronym>
   </th>
   <th>free</th>
   </tr>
@@ -400,7 +386,7 @@
             <xsl:with-param name="title"   select="''" />
             <xsl:with-param name="label"   select="$valueUsed" />
             <xsl:with-param name="percent" select="$valuePercent" />
-            <xsl:with-param name="background" select="'#ffff7f'" />
+            <xsl:with-param name="class"   select="'warnBar'" />
           </xsl:call-template>
         </td>
 
@@ -423,7 +409,7 @@
             <xsl:with-param name="title"   select="''" />
             <xsl:with-param name="label"   select="$valueUsed" />
             <xsl:with-param name="percent" select="$valuePercent" />
-            <xsl:with-param name="background" select="'#ff7f7f'" />
+            <xsl:with-param name="class"   select="'alarmBar'" />
           </xsl:call-template>
         </td>
 
@@ -458,7 +444,10 @@
   <tr>
     <th/>
     <th>load</th>
-    <th>queue information</th>
+    <th>
+      queue
+      <acronym title="B(atch), I(nteractive), P(arallel)">information</acronym>
+    </th>
     <th>cpu</th>
     <th>jobs</th>
     <th>mem</th>
@@ -521,14 +510,10 @@
 
   <!-- ncpu (w/o dash for missing values) with arch -->
   <td>
-    <span style="cursor:help;">
-      <xsl:element name="acronym">
-        <xsl:attribute name="title">
-          arch = <xsl:value-of select="hostvalue[@name='arch_string']"/>
-        </xsl:attribute>
-        <xsl:value-of select="translate(hostvalue[@name='num_proc'], '-', ' ')"/>
-      </xsl:element>
-    </span>
+    <xsl:element name="acronym">
+      <xsl:attribute name="title">arch = <xsl:value-of select="hostvalue[@name='arch_string']"/></xsl:attribute>
+      <xsl:value-of select="translate(hostvalue[@name='num_proc'], '-', ' ')"/>
+    </xsl:element>
   </td>
 
   <!-- jobs -->
@@ -585,9 +570,7 @@
   <tr>
     <!-- 'S' suspend state : alter font-style -->
     <xsl:if test="contains($state, 'S')">
-      <xsl:attribute name="style">
-        font-style: italic;
-      </xsl:attribute>
+      <xsl:attribute name="style">font-style: italic;</xsl:attribute>
     </xsl:if>
 
     <!-- font style, background color based on queue(s) status -->
@@ -600,37 +583,19 @@
       <xsl:call-template name="queue-state-icon">
         <xsl:with-param name="state" select="$state"/>
       </xsl:call-template>
-
-      <xsl:choose>
-      <xsl:when test="string-length($state)">
-        <span style="cursor:help;">
-          <xsl:element name="acronym">
-            <xsl:attribute name="title"><xsl:value-of select="$state"/></xsl:attribute>
-            <xsl:value-of select="@name"/>
-          </xsl:element>
-        </span>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="@name"/>
-      </xsl:otherwise>
-      </xsl:choose>
+      <xsl:value-of select="@name"/>
     </td>
 
     <!-- queue type B(atch), I(nteractive), P(arallel) -->
     <td align="right">
-      <span style="cursor:help;">
-        <xsl:element name="acronym">
-          <xsl:attribute name="title">B(atch), I(nteractive), P(arallel)</xsl:attribute>
-          <xsl:value-of select="queuevalue[@name='qtype_string']"/>
-        </xsl:element>
-      </span>
+      <xsl:value-of select="queuevalue[@name='qtype_string']"/>
     </td>
 
     <!-- slider showing slot usage -->
     <td width="100px" align="left">
       <xsl:if test="$valueUsed &gt; -1">
         <xsl:call-template name="progressBar">
-          <xsl:with-param name="label" select="concat($valueUsed, '/', $valueTotal)" />
+          <xsl:with-param name="label"   select="concat($valueUsed, '/', $valueTotal)" />
           <xsl:with-param name="percent" select="($valueUsed div $valueTotal)*100"/>
         </xsl:call-template>
       </xsl:if>

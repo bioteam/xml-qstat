@@ -1,51 +1,69 @@
 #!/bin/sh
-#
 # Simple start script for the Cocoon server engine
+#
+# 0. Define safe path
+PATH=/bin:/usr/bin
 #
 ## CUSTOMIZE AS REQUIRED
 #
-# require GridEngine information for later queries
-# (only required when using the command-generator)
-: ${SGE_ROOT:=/opt/grid}
-: ${SGE_CELL:=default}
+# 1. Downgrade to a non-root user account (adjust as required)
+runAs=cfdadmin
 
-JAVA_HOME=/usr/lib/jvm/java
+# 2. Location of cocoon server and java
 COCOON_HOME=/data/app/cocoon
+JAVA_HOME=/usr/lib/jvm/java
 
-export SGE_ROOT SGE_CELL JAVA_HOME COCOON_HOME
+# 3. Might require GridEngine information for later queries
+#    (only required when using the command-generator)
+SGE_ROOT=/opt/grid
+SGE_CELL=default
 
-## Init the Grid Engine path/environment variables
-## so our script can access Grid Engine commands
+# 4. Extra path(s) for anything we wish to use via the java CommandGenerator
+for d in /data/app/bin
+do
+    [ -d $d ] && PATH=$PATH:$d
+done
+
+export COCOON_HOME JAVA_HOME PATH
+unset DISPLAY  # safety
+
+#---------------------------------------------------------------------------
+# The following lines provide the necessary info for adding a startup script
+# according to the Linux Standard Base Specification (LSB).
+#
+### BEGIN INIT INFO
+# Provides:       xmlqstat.cocoon
+# Required-Start: $network $remote_fs
+# Should-Start:   network-remotefs
+# Required-Stop:
+# Default-Start:  3 5
+# Default-Stop: 0 1 2 6
+# Description:  start cocoon for xmlqstat
+### END INIT INFO
+#---------------------------------------------------------------------------
+
+# this script should run as 'runAs'
+if [ "$UID" -eq 0 -a "${runAs:=root}" != root ]
+then
+    exec sudo -S -u $runAs $0 $@
+    exitcode=$?       # retain exitcode
+
+    [ "$exitcode" == 0 ] || {
+        echo "could not change to $runAs"
+        exit $exitcode
+    }
+fi
+
+# Init GridEngine path/environment variables
+# to allow webserver access to GridEngine commands
 if [ -f $SGE_ROOT/$SGE_CELL/common/settings.sh ]
 then
+    export SGE_ROOT SGE_CELL
     . $SGE_ROOT/$SGE_CELL/common/settings.sh
 else
     unset SGE_ROOT SGE_CELL
 fi
 
-# extra path for anything we wish to use via the java CommandGenerator
-PATH=$PATH:/data/app/bin
-
-unset DISPLAY  # a bit extra safety
-
-##
-## System start scripts typically run as root user,
-## downgrade to a non-root user account. Adjust as required
-##
-runas_user=cfdadmin
-# -------------------------------------------------------------------------
-# this script should run as 'runas_user'
-#
-if [ "$UID" -eq 0 -a "${runas_user:=root}" != root ]
-then
-    exec sudo -S -u $runas_user $0 $@
-    exitcode=$?       # retain exitcode
-
-    [ "$exitcode" == 0 ] || {
-       echo "could not change to $runas_user"
-       exit $exitcode
-    }
-fi
 
 daemon=$COCOON_HOME/cocoon.sh
 name=cocoon
@@ -70,13 +88,14 @@ start)
     ;;
 
 stop)
-    echo "Stopping $desc: $name"
+    echo -n "Stopping $desc: "
     # get pid
-    pid=`ps -f -C java | awk '{if (/cocoon/) print $2}'`
+    pid=`ps aux | awk '{if (/java/ && /cocoon/ && !/awk/) print $2}'`
     if [ -z "$pid" ]
     then
         echo "process not found"
     else
+        echo "sending TERM signal"
         kill -15 $pid
     fi
     ;;
@@ -92,5 +111,6 @@ restart)
     exit 1
     ;;
 esac
+
 exit 0
-# ------------------------------------------------------------- end-of-file
+# -------------------------------------------------------------- end-of-file

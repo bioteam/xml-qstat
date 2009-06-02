@@ -15,7 +15,7 @@ my %config = (
     ## or override on the command-line
     ## Set to an empty string to suppress the query and the output.
     qstatf =>
-      "/opt/grid/default/site/xml-qstat/xmlqstat/xml/qstatf-cached.xml",
+      "/opt/grid/default/site/xml-qstat/xmlqstat/cache/qstatf.xml",
     qstat   => "",
     qhost   => "",
     delay   => 30,
@@ -102,9 +102,6 @@ if ( $opt{w} ) {
     kill_daemon 10;    # USR1
     exit 0;
 }
-
-# create readonly files to prevent other processes from monkeying with them
-umask( 0222 | umask );
 
 # extract command-line parameters of the form param=value
 # we can only overwrite the default config

@@ -458,7 +458,7 @@
         <!-- bar graph of availability -->
         <xsl:call-template name="progressBar">
           <xsl:with-param name="title"
-              select="concat($unavailableQueueInstanceCount, ' out of ',
+              select="concat($unavailableQueueInstanceCount, ' / ',
               $queueInstances, ' queue instances are unavailable')"
           />
           <xsl:with-param name="label"
@@ -471,7 +471,7 @@
         <xsl:variable name="unavailableSlots" select="count($nodeSet-loadAlarmQueues)"/>
         <xsl:call-template name="progressBar">
           <xsl:with-param name="title"
-              select="concat($unavailableSlots, ' out of ',
+              select="concat($unavailableSlots, ' / ',
               $queueInstances, ' queue instances unavailable for LOAD related reasons')"
           />
           <xsl:with-param name="label"
@@ -484,7 +484,7 @@
         <xsl:variable name="unavailableSlots" select="count($nodeSet-dEauQueues)"/>
         <xsl:call-template name="progressBar">
           <xsl:with-param name="title"
-              select="concat($unavailableSlots, ' out of ',
+              select="concat($unavailableSlots, ' / ',
               $queueInstances, ' queue instances unavailable for ALARM, ERROR or ADMIN related reasons')"
           />
           <xsl:with-param name="label"
@@ -606,10 +606,10 @@
 <xsl:text>
 </xsl:text>
 
+<blockquote>
 <xsl:choose>
 <xsl:when test="$AJ_total &gt; 0">
   <!-- active jobs: -->
-  <blockquote>
   <table class="listing">
     <tr>
     <td valign="middle">
@@ -665,21 +665,19 @@
       </xsl:for-each>
     </table>
   </div>
-</blockquote>
 </xsl:when>
 <xsl:otherwise>
   <!-- no active jobs -->
   <div class="skipTableFormat">
-    <blockquote>
-      <img alt="*" src="images/icons/silk/bullet_blue.png" />
-      no active jobs
-      <xsl:if test="$filterByUser">
-        for user <em><xsl:value-of select="$filterByUser"/></em>
-      </xsl:if>
-    </blockquote>
+    <img alt="*" src="images/icons/silk/bullet_blue.png" />
+    no active jobs
+    <xsl:if test="$filterByUser">
+      for user <em><xsl:value-of select="$filterByUser"/></em>
+    </xsl:if>
   </div>
 </xsl:otherwise>
 </xsl:choose>
+</blockquote>
 </xsl:if>
 
 
@@ -690,10 +688,10 @@
 <xsl:text>
 </xsl:text>
 
+<blockquote>
 <xsl:choose>
 <xsl:when test="$PJ_total &gt; 0">
   <!-- pending jobs: -->
-  <blockquote>
   <table class="listing">
     <tr>
     <td valign="middle">
@@ -732,21 +730,19 @@
     </xsl:for-each>
     </table>
   </div>
-  </blockquote>
 </xsl:when>
 <xsl:otherwise>
   <!-- no pending jobs -->
   <div class="skipTableFormat">
-    <blockquote>
-      <img alt="*" src="images/icons/silk/bullet_blue.png" />
-      no pending jobs
-      <xsl:if test="$filterByUser">
-        for user <em><xsl:value-of select="$filterByUser"/></em>
-      </xsl:if>
-    </blockquote>
+    <img alt="*" src="images/icons/silk/bullet_blue.png" />
+    no pending jobs
+    <xsl:if test="$filterByUser">
+      for user <em><xsl:value-of select="$filterByUser"/></em>
+    </xsl:if>
   </div>
 </xsl:otherwise>
 </xsl:choose>
+</blockquote>
 </xsl:if>
 
 
@@ -791,8 +787,7 @@
    queue resources
 <xsl:choose>
 <xsl:when test="$enableResourceQueries='yes'">
-    <span style="cursor: help;">
-     <xsl:element name="acronym">
+    <xsl:element name="acronym">
       <xsl:attribute name="title">view ALL queue resources</xsl:attribute>
       <xsl:element name="a">
        <xsl:attribute name="href">#</xsl:attribute>
@@ -802,8 +797,7 @@
        </xsl:attribute>
        <img src="images/r_d.gif" border="0"/>
       </xsl:element>
-     </xsl:element>
-    </span>
+    </xsl:element>
     <xsl:text> </xsl:text>
 </xsl:when>
 </xsl:choose>
@@ -815,68 +809,58 @@
 </xsl:text>
    <!-- QUEUE TYPE -->
    <td class="boldCode">
-    <span style="cursor:help;">
-     <xsl:element name="acronym">
-      <xsl:attribute name="title">Defines if the queue supports (B)atch, (I)nteractive or (P)arallel job types</xsl:attribute>
+    <acronym title="Defines if the queue supports (B)atch, (I)nteractive or (P)arallel job types">
       <span style="font-size:smaller;"><xsl:value-of select="qtype"/></span>
-     </xsl:element>
-    </span>
+    </acronym>
    </td>
 <xsl:text>
 </xsl:text>
    <!-- QUEUE SLOTS -->
    <!-- Slots used/total inside one TD table element-->
    <xsl:choose>
-<xsl:when test='slots_used=0'>
-     <td class="boldCode"> <div class="progbarOuter">
-       <div class="progbarInner" style="width:0%;">
-       <div class="progbarFont">
-        <span style="cursor:help;">
-        <xsl:choose>
-         <xsl:when test="$showSlotUsage='percent'">
-           <xsl:element name="acronym">
-           <xsl:attribute name="title"><xsl:value-of select="slots_used"/> of <xsl:value-of select="slots_total"/> slots in use</xsl:attribute>
-            0%
-           </xsl:element>
-         </xsl:when>
-         <xsl:otherwise>
-          <xsl:element name="acronym">
-           <xsl:attribute name="title">0%</xsl:attribute>
-           <xsl:value-of select="slots_used"/>/<xsl:value-of select="slots_total"/>
-          </xsl:element>
-         </xsl:otherwise>
-         </xsl:choose>
-        </span>
-       </div></div></div>
-     </td>
-<xsl:text>
-</xsl:text>
-</xsl:when>
-    <xsl:when test='slots_total=slots_used'>
+   <xsl:when test='slots_used=0'>
      <td class="boldCode">
       <div class="progbarOuter">
-       <div class="progbarInner" style="width:100%;">
-       <div class="progbarFont">
-        <span style="cursor:help;">
-         <xsl:element name="acronym">
+       <div class="progbarInner" style="width:0%;">
+        <xsl:element name="acronym">
           <xsl:choose>
-           <xsl:when test="$showSlotUsage='percent'">
+          <xsl:when test="$showSlotUsage='percent'">
             <xsl:attribute name="title"><xsl:value-of select="slots_used"/> of <xsl:value-of select="slots_total"/> slots in use</xsl:attribute>
-            100%
-           </xsl:when>
-           <xsl:otherwise>
-            <xsl:attribute name="title">100%</xsl:attribute>
+            0%
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:attribute name="title">0%</xsl:attribute>
             <xsl:value-of select="slots_used"/>/<xsl:value-of select="slots_total"/>
-           </xsl:otherwise>
+          </xsl:otherwise>
           </xsl:choose>
-          </xsl:element>
-        </span>
-       </div></div></div>
+        </xsl:element>
+       </div></div>
      </td>
 <xsl:text>
 </xsl:text>
-    </xsl:when>
-    <xsl:otherwise>
+   </xsl:when>
+   <xsl:when test='slots_total=slots_used'>
+    <td class="boldCode">
+     <div class="progbarOuter">
+      <div class="progbarInner" style="width:100%;">
+        <xsl:element name="acronym">
+         <xsl:choose>
+          <xsl:when test="$showSlotUsage='percent'">
+           <xsl:attribute name="title"><xsl:value-of select="slots_used"/> of <xsl:value-of select="slots_total"/> slots in use</xsl:attribute>
+           100%
+          </xsl:when>
+          <xsl:otherwise>
+           <xsl:attribute name="title">100%</xsl:attribute>
+           <xsl:value-of select="slots_used"/>/<xsl:value-of select="slots_total"/>
+          </xsl:otherwise>
+         </xsl:choose>
+        </xsl:element>
+      </div></div>
+    </td>
+<xsl:text>
+</xsl:text>
+   </xsl:when>
+   <xsl:otherwise>
      <xsl:variable name="QIslotsUsed"  select="slots_used"/>
      <xsl:variable name="QIslotsTotal" select="slots_total"/>
      <xsl:variable name="QIslotsPercent" select="($QIslotsUsed div $QIslotsTotal)*100"/>
@@ -887,22 +871,18 @@
        <xsl:element name="div">
         <xsl:attribute name="class">progbarInner</xsl:attribute>
         <xsl:attribute name="style">width:<xsl:value-of select="$QIslotsPercent"/>%;</xsl:attribute>
-        <div class="progbarFont">
-        <span style="cursor:help;">
-         <xsl:element name="acronym">
+        <xsl:element name="acronym">
           <xsl:choose>
-           <xsl:when test="$showSlotUsage='percent'">
+          <xsl:when test="$showSlotUsage='percent'">
             <xsl:attribute name="title"><xsl:value-of select="slots_used"/> of <xsl:value-of select="slots_total"/> slots in use</xsl:attribute>
             <xsl:value-of select="$QIslotsPercent"/>%
-           </xsl:when>
-           <xsl:otherwise>
+          </xsl:when>
+          <xsl:otherwise>
             <xsl:attribute name="title"><xsl:value-of select="format-number($QIslotsPercent,'##0.#') "/>%</xsl:attribute>
             <xsl:value-of select="slots_used"/>/<xsl:value-of select="slots_total"/>
-           </xsl:otherwise>
+          </xsl:otherwise>
           </xsl:choose>
-         </xsl:element>
-        </span>
-        </div>
+        </xsl:element>
        </xsl:element>
       </div>
       <!-- end bar graph of job slot usage -->
@@ -962,24 +942,19 @@
         <xsl:attribute name="style">width:<xsl:value-of select="$alarmPercent"/>%;</xsl:attribute>
         </xsl:if>
         <xsl:if test="$alarmPercent &gt;= 100">
-                <xsl:attribute name="style">width:100%;background-color:#FF6600;</xsl:attribute>
+          <xsl:attribute name="style">width:100%; background-color:#FF6600;</xsl:attribute>
         </xsl:if>
-        <div class="progbarFont">
-        <span style="cursor:help;">
-         <xsl:element name="acronym">
-          <xsl:attribute name="title">CPU normalized load: <xsl:value-of select="$load"/> vs. configured alarm threshold:  <xsl:value-of select="$thresh"/></xsl:attribute>
-        <xsl:choose>
-        <xsl:when test="$thresh = 0.0">
-        100%
-        </xsl:when>
-        <xsl:otherwise>
-        <xsl:value-of select="format-number($alarmPercent,'##0.#') "/>%
-        </xsl:otherwise>
-        </xsl:choose>
+        <xsl:element name="acronym">
+          <xsl:attribute name="title">CPU-normalized load: <xsl:value-of select="$load"/> vs. configured alarm threshold: <xsl:value-of select="$thresh"/></xsl:attribute>
+          <xsl:choose>
+          <xsl:when test="$thresh = 0.0">
+            100%
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="format-number($alarmPercent,'##0.#') "/>%
+          </xsl:otherwise>
+          </xsl:choose>
         </xsl:element>
-
-        </span>
-        </div>
        </xsl:element><xsl:text> </xsl:text>
       </div>
       <!-- end bar graph of load alarm ratio -->
@@ -997,7 +972,7 @@
    <!-- SYSTEM ARCH for QUEUE -->
 <xsl:text>
 </xsl:text>
-   <td class="boldCode" >
+   <td class="boldCode">
    <span style="font-size:smaller;"><xsl:value-of select="arch"/></span>
    </td>
 
@@ -1005,51 +980,50 @@
 <xsl:text>
 </xsl:text>
    <!-- had to remove id=statecolumn need to fix in CSS, maybe special boldCode .. -->
-   <td class="boldCode"  >
+   <td class="boldCode">
     <xsl:element name="code">
      <!-- Embedd a mouseover popup that lists the contents of any load-alarm-reason data we've recieved -->
      <xsl:choose>
      <xsl:when test="load-alarm-reason">
-       <span style="cursor: help;">
-        <xsl:element name="acronym">
+       <xsl:element name="acronym">
          <xsl:attribute name="title">STATE=(<xsl:value-of select="state"/>) <xsl:value-of select="load-alarm-reason"/></xsl:attribute>
 <!--         <xsl:value-of select="state"/>  -->
          <img alt="" width="14" src="images/icons/silk/error.png" />
-        </xsl:element><xsl:text> </xsl:text><xsl:value-of select="state"/>
-       </span>
+         <xsl:text> </xsl:text><xsl:value-of select="state"/>
+        </xsl:element>
       </xsl:when>
       <xsl:otherwise>
        <xsl:choose>
         <xsl:when test="state">
          <xsl:choose>
-          <!-- Note: This block is never used because state au comes with load_alarm_reason which we test for above... -->
-          <xsl:when test="state='au'">
-              <span style="cursor:help;">
-               <acronym title="This queue instance is in ALARM/UNREACHABLE state. Is SGE running on this node?"> <img alt="" width="14" src="images/icons/silk/link_error.png" /> </acronym><xsl:text> </xsl:text><xsl:value-of select="state"/>
-              </span>
-          </xsl:when>
-          <xsl:when test="state='S'">
-              <span style="cursor:help;">
-               <acronym title="Queue is (S)uspended"> <img alt="" width="14" src="images/icons/silk/error.png" /> </acronym><xsl:text> </xsl:text><xsl:value-of select="state"/>
-              </span>
-          </xsl:when>
-          <xsl:when test="state='d'">
-              <span style="cursor:help;">
-               <acronym title="This queue has been disabled by a grid administrator"> <img width="14" src="images/icons/silk/cancel.png" alt="" /> </acronym><xsl:text> </xsl:text><xsl:value-of select="state"/>
-              </span>
-          </xsl:when>
-          <xsl:otherwise>
-           <xsl:value-of select="state"/>
-          </xsl:otherwise>
-         </xsl:choose>
+         <!-- Note: This block is never used because state au comes with load_alarm_reason which we test for above... -->
+         <xsl:when test="state='au'">
+           <acronym title="This queue instance is in ALARM/UNREACHABLE state. Is SGE running on this node?">
+             <img alt="" width="14" src="images/icons/silk/link_error.png" />
+           </acronym>
+           <xsl:text> </xsl:text><xsl:value-of select="state"/>
+         </xsl:when>
+         <xsl:when test="state='S'">
+           <acronym title="Queue is (S)uspended">
+             <img alt="" width="14" src="images/icons/silk/error.png" />
+           </acronym>
+           <xsl:text> </xsl:text><xsl:value-of select="state"/>
+         </xsl:when>
+         <xsl:when test="state='d'">
+           <acronym title="This queue has been disabled by a grid administrator">
+             <img width="14" src="images/icons/silk/cancel.png" alt="" />
+           </acronym>
+           <xsl:text> </xsl:text><xsl:value-of select="state"/>
+         </xsl:when>
+         <xsl:otherwise>
+         <xsl:value-of select="state"/>
+        </xsl:otherwise>
+        </xsl:choose>
         </xsl:when>
         <xsl:otherwise>
-
-
-<span style="cursor:help;">
-<acronym title="Queue instance is in normal state"> <img width="14" src="images/icons/silk/accept.png" alt="" /> </acronym>
-</span>
-
+          <acronym title="Queue instance is in normal state">
+            <img width="14" src="images/icons/silk/accept.png" alt="" />
+          </acronym>
         </xsl:otherwise>
        </xsl:choose>
       </xsl:otherwise>
@@ -1079,11 +1053,9 @@
       <th>queue</th>
       <th>instance</th>
       <th>
-        <span style="cursor:help;">
-          <acronym
-              title="Defines if the queue supports (B)atch, (I)nteractive or (P)arallel job types"
-          >type</acronym>
-        </span>
+        <acronym
+            title="Defines if the queue supports (B)atch, (I)nteractive or (P)arallel job types"
+        >type</acronym>
       </th>
       <th>usage</th>
       <th>load</th>
@@ -1171,8 +1143,8 @@
 
  <xsl:template match="Queue-List/resource">
   <xsl:element name="code">
-  <xsl:value-of select="@name"/>=<xsl:value-of select="."/>
-  <br/>
+    <xsl:value-of select="@name"/>=<xsl:value-of select="."/>
+    <br/>
   </xsl:element>
  </xsl:template>
 
@@ -1249,16 +1221,14 @@
 <!-- disable icons in pending state column until we can make them smaller
       <xsl:choose>
       <xsl:when test="state='qw'">
-        <span style="cursor:help;">
-          <acronym title="Pending (qw)">
-          <img src="images/icons/silk/time.png" /></acronym>
-        </span>
+        <acronym title="Pending (qw)">
+          <img src="images/icons/silk/time.png" />
+        </acronym>
       </xsl:when>
       <xsl:when test="state='hqw'">
-        <span style="cursor:help;">
-          <acronym title="Pending with hold state (hqw)">
-          <img src="images/icons/silk/time_add.png" /></acronym>
-        </span>
+        <acronym title="Pending with hold state (hqw)">
+          <img src="images/icons/silk/time_add.png" />
+        </acronym>
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="state"/>
@@ -1375,21 +1345,19 @@
       <xsl:choose>
       <xsl:when test="$nInstances &gt; 1">
         <xsl:element name="code">
-        <span style="cursor:help;">
          <xsl:element name="acronym">
-            <xsl:attribute name="title">
-              <xsl:for-each select="../../Queue-List/name[../job_list/JB_job_number = $jobId]">
-                <xsl:call-template name="unqualifiedQueue">
-                  <xsl:with-param name="queue" select="."/>
-                </xsl:call-template>
-                <xsl:text> </xsl:text>
-              </xsl:for-each>
-            </xsl:attribute>
-            <xsl:call-template name="unqualifiedQueue">
-              <xsl:with-param name="queue" select="../name"/>
-            </xsl:call-template>
+           <xsl:attribute name="title">
+             <xsl:for-each select="../../Queue-List/name[../job_list/JB_job_number = $jobId]">
+               <xsl:call-template name="unqualifiedQueue">
+                 <xsl:with-param name="queue" select="."/>
+               </xsl:call-template>
+               <xsl:text> </xsl:text>
+             </xsl:for-each>
+           </xsl:attribute>
+           <xsl:call-template name="unqualifiedQueue">
+             <xsl:with-param name="queue" select="../name"/>
+           </xsl:call-template>
          </xsl:element>
-        </span>
         </xsl:element>
       </xsl:when>
       <xsl:otherwise>
@@ -1436,10 +1404,9 @@
         <xsl:choose>
         <xsl:when test="state='r'">r</xsl:when>
         <xsl:when test="state='S'">
-          <span style="cursor:help;">
-            <acronym title="Job in (S)ubordinate suspend state">
-            <img alt="" src="images/icons/silk/error.png" /></acronym>
-          </span>
+          <acronym title="Job in (S)ubordinate suspend state">
+            <img alt="" src="images/icons/silk/error.png" />
+          </acronym>
         </xsl:when>
         <xsl:otherwise>
           <xsl:value-of select="state"/>

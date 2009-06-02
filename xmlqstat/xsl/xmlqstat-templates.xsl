@@ -125,34 +125,25 @@
   <xsl:param name="title" />
   <xsl:param name="label" />
   <xsl:param name="percent" />
-  <xsl:param name="background" />
+  <xsl:param name="class" />
 
   <div class="progbarOuter" style="width:100px;">
     <xsl:element name="div">
       <xsl:if test="$percent &gt; 0">
-        <xsl:attribute name="class">progbarInner</xsl:attribute>
-        <xsl:attribute name="style">
-          width: <xsl:value-of select="format-number($percent,'##0.#')"/>%;
-          <xsl:if test="$background">
-            background: <xsl:value-of select="$background"/>;
-          </xsl:if>
-        </xsl:attribute>
+        <xsl:attribute name="class">progbarInner <xsl:if test="$class"><xsl:value-of select="$class"/></xsl:if></xsl:attribute>
+        <xsl:attribute name="style">width:<xsl:value-of select="format-number($percent,'##0.#')"/>%;</xsl:attribute>
       </xsl:if>
-      <div class="progbarFont">
-        <xsl:choose>
-        <xsl:when test="$title">
-          <span style="cursor:help;">
-            <xsl:element name="acronym">
-              <xsl:attribute name="title"><xsl:value-of select="$title"/></xsl:attribute>
-              <xsl:value-of select="$label" />
-            </xsl:element>
-          </span>
-        </xsl:when>
-        <xsl:otherwise>
+      <xsl:choose>
+      <xsl:when test="$title">
+        <xsl:element name="acronym">
+          <xsl:attribute name="title"><xsl:value-of select="$title"/></xsl:attribute>
           <xsl:value-of select="$label" />
-        </xsl:otherwise>
-        </xsl:choose>
-      </div>
+        </xsl:element>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$label" />
+      </xsl:otherwise>
+      </xsl:choose>
     </xsl:element>
   </div>
 </xsl:template>
@@ -297,25 +288,21 @@
 -->
 <xsl:template name="queue-state-style">
   <xsl:param name="state"/>
+
   <xsl:choose>
-  <!-- 'u' unavailable state : alarm state -->
-  <xsl:when test="contains($state, 'u')" >
+  <xsl:when test="contains($state, 'u')">
     <xsl:attribute name="class">alarmState</xsl:attribute>
   </xsl:when>
-  <!-- 'E' error : error state -->
-  <xsl:when test="contains($state, 'E')" >
+  <xsl:when test="contains($state, 'E')">
     <xsl:attribute name="class">errorState</xsl:attribute>
   </xsl:when>
-  <!-- 'a' alarm state : warn color -->
-  <xsl:when test="contains($state, 'a')" >
+  <xsl:when test="contains($state, 'a')">
     <xsl:attribute name="class">warnState</xsl:attribute>
   </xsl:when>
-  <!-- 'd' disabled state : empty color -->
-  <xsl:when test="contains($state, 'd')" >
+  <xsl:when test="contains($state, 'd')">
     <xsl:attribute name="class">disableState</xsl:attribute>
   </xsl:when>
-  <!-- 'S' suspended -->
-  <xsl:when test="contains($state, 'S')" >
+  <xsl:when test="contains($state, 'S')">
     <xsl:attribute name="class">suspendState</xsl:attribute>
   </xsl:when>
   </xsl:choose>
@@ -327,32 +314,20 @@
 -->
 <xsl:template name="queue-state-icon">
   <xsl:param name="state"/>
-  <xsl:choose>
-  <!-- 'u' unavailable state : alarm color -->
-  <xsl:when test="contains($state, 'u')" >
-    <img alt="(u)" src="images/icons/silk/exclamation.png"/>
-  </xsl:when>
-  <xsl:when test="contains($state, 'E')" >
-    <img alt="(E)" src="images/icons/silk/exclamation.png"/>
-  </xsl:when>
-  <!-- 'a' alarm state : warn color -->
-  <xsl:when test="contains($state, 'a')" >
-    <img alt="(a)" src="images/icons/silk/error.png"/>
-  </xsl:when>
-  <!-- 'd' disabled state : empty color -->
-  <xsl:when test="contains($state, 'd')" >
-    <img alt="(d)" src="images/icons/silk/cancel.png" />
-  </xsl:when>
-  <!-- 'S' suspended -->
-  <xsl:when test="contains($state, 'S')" >
-    <img alt="(S)" src="images/icons/silk/control_pause.png" />
-  </xsl:when>
-  <!-- default -->
-  <xsl:otherwise>
-    <!-- <img alt="" src="images/icons-silk-empty.png" /> -->
-    <img alt="(ok)" src="images/icons/silk/tick.png" />
-  </xsl:otherwise>
-  </xsl:choose>
+
+  <xsl:element name="img">
+    <xsl:attribute name="title"><xsl:value-of select="$state"/></xsl:attribute>
+    <xsl:attribute name="alt">(<xsl:value-of select="$state"/>) </xsl:attribute>
+    <xsl:attribute name="src">images/icons/silk/<xsl:choose>
+      <xsl:when test="contains($state, 'u')">exclamation.png</xsl:when>
+      <xsl:when test="contains($state, 'E')">exclamation.png</xsl:when>
+      <xsl:when test="contains($state, 'a')">error.png</xsl:when>
+      <xsl:when test="contains($state, 'd')">cancel.png</xsl:when>
+      <xsl:when test="contains($state, 'S')">control_pause.png</xsl:when>
+      <xsl:otherwise>tick.png</xsl:otherwise>
+      </xsl:choose>
+    </xsl:attribute>
+  </xsl:element>
 </xsl:template>
 
 
@@ -365,43 +340,33 @@
   <xsl:choose>
   <!-- 'u' unavailable state : alarm color -->
   <xsl:when test="contains($state, 'u')" >
-    <span style="cursor:help;">
-      <acronym title="This queue instance is in ALARM/UNREACHABLE state. Is SGE running on this node?">
-        <xsl:value-of select="$state"/>
-      </acronym>
-    </span>
+    <acronym title="This queue instance is in ALARM/UNREACHABLE state. Is SGE running on this node?">
+      <xsl:value-of select="$state"/>
+    </acronym>
   </xsl:when>
   <!-- 'E' error : alarm color -->
   <xsl:when test="contains($state, 'E')" >
-    <span style="cursor:help;">
-      <acronym title="This queue instance is in ERROR state. Check node!">
-        <xsl:value-of select="$state"/>
-      </acronym>
-    </span>
+    <acronym title="This queue instance is in ERROR state. Check node!">
+      <xsl:value-of select="$state"/>
+    </acronym>
   </xsl:when>
   <!-- 'a' alarm state : warn color -->
   <xsl:when test="contains($state, 'a')" >
-    <span style="cursor:help;">
-      <acronym title="This queue instance is in ALARM state.">
-        <xsl:value-of select="$state"/>
-      </acronym>
-    </span>
+    <acronym title="This queue instance is in ALARM state.">
+      <xsl:value-of select="$state"/>
+    </acronym>
   </xsl:when>
   <!-- 'd' disabled state : empty color -->
   <xsl:when test="contains($state, 'd')" >
-    <span style="cursor:help;">
-      <acronym title="This queue has been disabled by a grid administrator">
-        <xsl:value-of select="$state"/>
-      </acronym>
-    </span>
+    <acronym title="This queue has been disabled by a grid administrator">
+      <xsl:value-of select="$state"/>
+    </acronym>
   </xsl:when>
   <!-- 'S' suspended -->
   <xsl:when test="contains($state, 'S')" >
-    <span style="cursor:help;">
-      <acronym title="Queue is (S)uspended">
-        <xsl:value-of select="$state"/>
-      </acronym>
-    </span>
+    <acronym title="Queue is (S)uspended">
+      <xsl:value-of select="$state"/>
+    </acronym>
   </xsl:when>
   <!-- default -->
   <xsl:otherwise>
@@ -453,14 +418,12 @@
 
   <xsl:choose>
   <xsl:when test="string-length($name) &gt; $length">
-    <span style="cursor:help;">
     <xsl:element name="acronym">
       <xsl:attribute name="title">
         <xsl:value-of select="$name" />
       </xsl:attribute>
       <xsl:value-of select="substring($name,0,$length)" /> ...
     </xsl:element>
-    </span>
   </xsl:when>
   <xsl:otherwise>
     <xsl:value-of select="$name" />

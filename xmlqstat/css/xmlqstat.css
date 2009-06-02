@@ -2,7 +2,13 @@
 
 body {
     margin: 10px 20px 0px;
-    background: #dee7ec; /* */
+    background: #dee7ec;
+}
+
+acronym {
+    cursor: help;
+    border-bottom: 1px dashed;
+    font-variant: normal;
 }
 
 /* a:active { text-decoration: none; } */
@@ -63,7 +69,7 @@ h1 {
     margin-right: 1px;
     min-height:   16px;
     font-family:  Geneva, Arial, Helvetica, sans-serif;
-    font-size:    10px;
+    font-size:    12px;
     padding-bottom: 1px;
     text-align:     left;
 }
@@ -149,14 +155,6 @@ code {
     font-weight: bold;
     color: #666;
 }
-
-
-/* background colors for various states */
-.alarmState   { background-color: #ff7f7f; }
-.errorState   { background-color: #ff7f7f; font-style: italic; }
-.warnState    { background-color: #ffffdd; }
-.disableState { background-color: #dee7ec; }
-.suspendState { background-color: #dee7ec; }
 
 
 #main .infoSectionHead {
@@ -282,33 +280,57 @@ table.embedded th, table.embedded td {
     border: 2px none;
 }
 
+.progbarOuter {
+    width: 90%;
+    background: #e7ffff;
+    border: 1px solid #7f7f7f;
+    vertical-align: top;
+    margin-left: 5px;
+    margin-top:  1px;
+    margin-bottom: 1px;
+    margin-right: 5px;
+    font-family: Geneva, Arial, Helvetica, sans-serif;
+    font-size:   9px;
+    text-align:  center;
+    text-indent: 2px;
+}
+
 .progbarInner {
     height: 10px;
     width:  100%;
     left:   0px;
     margin: 0px;
     padding: 0px;
-    background: #abb7d6;
     text-indent: 2px;
+    background-repeat:   repeat-x;
+    background-position: center left;
 }
 
-.progbarOuter {
-    width: 90%;
-    background: #e7ffff;
-    border: 1px solid #333;
-    vertical-align: top;
-    margin-left: 0.2em;
-    margin-top: 0.1em;
-    margin-right: 0.5em;
+
+/* progress bar backgrounds for various states */
+
+.progbarInner, .normalBar {
+    background-color:  #abb7d6;
+    background-image:  url("screen/progress_normal.png");
 }
 
-.progbarFont {
-    color: #000;
-    font-family: Geneva, Arial, Helvetica, sans-serif;
-    font-size:   9px;
-    text-align:  center;
-    text-indent: 2px;
+.alarmBar {
+    background-color:  #ff7f7f;
+    background-image:  url("screen/progress_alarm.png");
 }
+
+.warnBar {
+    background-color:  #e6e699;
+    background-image:  url("screen/progress_warn.png");
+}
+
+
+/* background colors for various states */
+.alarmState   { background-color: #ff7f7f; }
+.errorState   { background-color: #ff7f7f; font-style: italic; }
+.warnState    { background-color: #e6e699; }
+.disableState { background-color: #dee7ec; }
+.suspendState { background-color: #dee7ec; }
 
 
 #summaryGraph {

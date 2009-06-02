@@ -24,9 +24,7 @@ Requirements
 
 Weaknesses
 ~~~~~~~~~~
-  - The cocoon script can only START cocoon, not stop or restart it, for
-    that you'll have to manually kill the java process until someone improves
-    the code
+  - Stopping/restarting is clunky, but should work
 
 WARNING
 ~~~~~~~
@@ -37,4 +35,4 @@ WARNING
     account you pick for this should probably the account you have
     been installing the application with.
 
-2009-03-31
+2009-06-02

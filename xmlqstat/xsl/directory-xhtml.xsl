@@ -18,6 +18,8 @@
 <xsl:param name="dir"/>
 <xsl:param name="prefix"/>
 
+<!-- Import our uniform masthead -->
+<xsl:include href="xmlqstat-masthead.xsl"/>
 
 <xsl:template match="/" >
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -37,7 +39,19 @@
 </xsl:text>
 </head><body>
 <div id="main">
-<strong>directory contents: <xsl:value-of select="$dir"/></strong>
+<!-- Topomost Logo Div -->
+<xsl:call-template name="topLogo"/>
+
+<xsl:text>
+</xsl:text>
+
+<!-- Top Menu Bar -->
+<div id="menu">
+  <img alt="*" src="images/icons/silk/folder.png" />
+  <xsl:text> </xsl:text>
+  <strong><xsl:value-of select="$dir"/>/</strong>
+</div>
+
 <blockquote>
   <xsl:choose>
   <xsl:when test="/dir:directory">

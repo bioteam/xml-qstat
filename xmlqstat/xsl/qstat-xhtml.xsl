@@ -191,10 +191,10 @@
   </xsl:choose>
 </xsl:variable>
 
+<blockquote>
 <xsl:choose>
 <xsl:when test="$AJ_total &gt; 0">
   <!-- active jobs: -->
-  <blockquote>
   <table class="listing">
     <tr valign="middle">
     <td>
@@ -215,21 +215,19 @@
     </tr>
   </table>
   <xsl:apply-templates select="//job_info/queue_info" />
-  </blockquote>
 </xsl:when>
 <xsl:otherwise>
   <!-- no active jobs -->
   <div class="skipTableFormat">
-    <blockquote>
-      <img alt="*" src="images/icons/silk/bullet_blue.png" />
-      no active jobs
-      <xsl:if test="$filterByUser">
-        for <em><xsl:value-of select="$filterByUser"/></em>
-      </xsl:if>
-    </blockquote>
+    <img alt="*" src="images/icons/silk/bullet_blue.png" />
+    no active jobs
+    <xsl:if test="$filterByUser">
+      for <em><xsl:value-of select="$filterByUser"/></em>
+    </xsl:if>
   </div>
 </xsl:otherwise>
 </xsl:choose>
+</blockquote>
 
 <xsl:text>
 </xsl:text>
@@ -266,10 +264,10 @@
   </xsl:choose>
 </xsl:variable>
 
+<blockquote>
 <xsl:choose>
 <xsl:when test="$PJ_total &gt; 0">
   <!-- pending jobs: -->
-  <blockquote>
   <table class="listing">
     <tr valign="middle">
     <td>
@@ -290,21 +288,19 @@
     </tr>
   </table>
   <xsl:apply-templates select="//job_info/job_info" />
-  </blockquote>
 </xsl:when>
 <xsl:otherwise>
   <!-- no pending jobs -->
   <div class="skipTableFormat">
-    <blockquote>
-      <img alt="*" src="images/icons/silk/bullet_blue.png" />
-      no pending jobs
-      <xsl:if test="$filterByUser" >
-        for user <em><xsl:value-of select="$filterByUser"/></em>
-      </xsl:if>
-    </blockquote>
+    <img alt="*" src="images/icons/silk/bullet_blue.png" />
+    no pending jobs
+    <xsl:if test="$filterByUser" >
+      for user <em><xsl:value-of select="$filterByUser"/></em>
+    </xsl:if>
   </div>
 </xsl:otherwise>
 </xsl:choose>
+</blockquote>
 </xsl:if>
 
 <!-- bottom status bar with rendered time -->
@@ -378,21 +374,9 @@
   </td>
   <!-- name and full name -->
   <td>
-    <xsl:choose>
-    <xsl:when test="string-length(full_job_name) &gt; 24">
-      <span style="cursor:help;">
-      <xsl:element name="acronym">
-        <xsl:attribute name="title">
-          <xsl:value-of select="full_job_name" />
-        </xsl:attribute>
-        <xsl:value-of select="substring(full_job_name,0,24)" /> ...
-      </xsl:element>
-      </span>
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:value-of select="full_job_name" />
-    </xsl:otherwise>
-    </xsl:choose>
+    <xsl:call-template name="shortName">
+      <xsl:with-param name="name" select="full_job_name"/>
+    </xsl:call-template>
   </td>
   <!-- slots -->
   <td>
@@ -485,21 +469,9 @@
   </td>
   <!-- name and full name -->
   <td>
-    <xsl:choose>
-    <xsl:when test="string-length(full_job_name) &gt; 24">
-      <span style="cursor:help;">
-      <xsl:element name="acronym">
-        <xsl:attribute name="title">
-          <xsl:value-of select="full_job_name" />
-        </xsl:attribute>
-        <xsl:value-of select="substring(full_job_name,0,24)" /> ...
-      </xsl:element>
-      </span>
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:value-of select="full_job_name" />
-    </xsl:otherwise>
-    </xsl:choose>
+    <xsl:call-template name="shortName">
+      <xsl:with-param name="name" select="full_job_name"/>
+    </xsl:call-template>
   </td>
   <!-- slots -->
   <td>
@@ -520,14 +492,12 @@
   </td>
   <!-- priority with submissionTime-->
   <td>
-    <span style="cursor:help;">
-      <xsl:element name="acronym">
-        <xsl:attribute name="title">
-          <xsl:value-of select="JB_submission_time"/>
-        </xsl:attribute>
-      <xsl:value-of select="JAT_prio" />
-      </xsl:element>
-    </span>
+    <xsl:element name="acronym">
+      <xsl:attribute name="title">
+        <xsl:value-of select="JB_submission_time"/>
+      </xsl:attribute>
+    <xsl:value-of select="JAT_prio" />
+    </xsl:element>
   </td>
   <!-- state -->
   <td>

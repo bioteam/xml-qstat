@@ -56,7 +56,6 @@
 <xsl:call-template name="topLogo"/>
 
 <!-- Top Menu Bar -->
-
 <div id="menu">
   <img alt="*" src="images/icons/silk/bullet_blue.png" />
   <a href="#" title="clusters"><img border="0"
@@ -239,7 +238,7 @@
       <xsl:attribute name="title">cache</xsl:attribute>
       <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/cache</xsl:attribute>
       <img border="0"
-          src="images/icons/silk/folder_explore.png"
+          src="images/icons/silk/folder_page.png"
           alt="[cache]"
       />
     </xsl:element>

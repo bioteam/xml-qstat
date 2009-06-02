@@ -1,40 +1,51 @@
 #!/bin/sh
-#
 # Simple start script for the httpi web-server
+
+# 0. Define safe path
+PATH=/bin:/usr/bin
 #
 ## CUSTOMIZE AS REQUIRED
 #
-# maybe require GridEngine information for later queries
-: ${SGE_ROOT:=/opt/grid}
+# 1. Downgrade to a non-root user account (adjust as required)
+runAs=nobody
 
+# 2. Location of httpi server
 HTTPI_HOME=/data/app/httpi
-PATH=/bin:/usr/bin:$SGE_ROOT/bin/`$SGE_ROOT/util/arch`
 
-# extra path for anything we wish to but don't want to add to the
-# cgi scripts ourselves
-PATH=$PATH:/data/app/bin
+# 3. Extra path(s) for anything we wish to have but don't want to add to the
+#    cgi scripts ourselves
+for d in /data/app/bin
+do
+    [ -d $d ] && PATH=$PATH:$d
+done
 
-export SGE_ROOT PATH
-unset DISPLAY   # a bit extra safety
+export PATH
+unset SGE_ROOT DISPLAY   # a bit extra safety
 
-[ -d "$SGE_ROOT" ] || unset SGE_ROOT
-
-##
-## System start scripts typically run as root user,
-## downgrade to a non-root user account. Adjust as needed
-##
-runas_user=nobody
-# -------------------------------------------------------------------------
-# this script should run as 'runas_user'
+#---------------------------------------------------------------------------
+# The following lines provide the necessary info for adding a startup script
+# according to the Linux Standard Base Specification (LSB).
 #
-if [ "$UID" -eq 0 -a "${runas_user:=root}" != root ]
+### BEGIN INIT INFO
+# Provides:       xmlqstat.httpi
+# Required-Start: $network $remote_fs
+# Should-Start:   network-remotefs
+# Required-Stop:
+# Default-Start:  3 5
+# Default-Stop: 0 1 2 6
+# Description:  start httpi for extra xmlqstat support
+### END INIT INFO
+#---------------------------------------------------------------------------
+
+# this script should run as 'runAs'
+if [ "$UID" -eq 0 -a "${runAs:=root}" != root ]
 then
-    exec sudo -S -u $runas_user $0 $@
+    exec sudo -S -u $runAs $0 $@
     exitcode=$?       # retain exitcode
 
     [ "$exitcode" == 0 ] || {
-       echo "could not change to $runas_user"
-       exit $exitcode
+        echo "could not change to $runAs"
+        exit $exitcode
     }
 fi
 
@@ -61,13 +72,14 @@ start)
     ;;
 
 stop)
-    echo "Stopping $desc: $name"
+    echo -n "Stopping $desc: "
     # get pid
-    pid=`ps aux | grep dhttpi | awk '{if (/dhhtpi:/) print $2}'`
+    pid=`ps aux | awk '{if (/dhttpi:/ && !/awk/) print $2}'`
     if [ -z "$pid" ]
     then
         echo "process not found"
     else
+        echo "sending TERM signal"
         kill -15 $pid
     fi
     ;;
@@ -83,5 +95,6 @@ restart)
     exit 1
     ;;
 esac
+
 exit 0
-# ------------------------------------------------------------- end-of-file
+# -------------------------------------------------------------- end-of-file
