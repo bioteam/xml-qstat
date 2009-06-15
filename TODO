@@ -1,5 +1,6 @@
 command-generator caching needs attention
 
 command-generator needs environ
-- this would allow us to pass SGE_ROOT etc and query different clusters
-
+ - this would allow us to pass SGE_ROOT etc and query different clusters
+ - use qhost.sh and qstat.sh as workarounds
+ 

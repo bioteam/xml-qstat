@@ -17,6 +17,9 @@
 *.so
 *.jar
 
+# except jar files in the main directory
+!/*.jar
+
 # source packages - anywhere
 *.tar.bz2
 *.tar.gz
@@ -28,5 +31,8 @@
 # ignore caches
 /xmlqstat/cache
 /xmlqstat/cache-*
+
+# ignore misc build directories
+/build-*/
 
 # end-of-file

@@ -2,73 +2,121 @@
 
 # Chris Dagdigian (dag@sonsorol.org)
 #
-# This script can be used to compile and package the xml-qstat.jar file required
-# by Apache Cocoon for direct XML queries to the SGE Qmaster.
+# This script can be used to compile and package the xml-qstat.jar file
+# required by Apache Cocoon for direct XML queries to the SGE qmaster.
 #
 # Instructions:
 #
-#  1. Run this script, fix as needed until it runs properly to completion
+#  1. Run this script, fix as required until it runs properly to completion
 #
 #  2. Copy (or symlink) the resulting xml-qstat.jar file to your Cocoon
 #     build/webapp/WEB-INF/lib/ directory (before starting cocoon)
-#
+# -----------------------------------------------------------------------------
 
+## YOU MUST EDIT THIS BLOCK TO MATCH YOUR LOCAL INSTALL:
 
-## YOU WILL NEED TO EDIT THIS BLOCK TO MATCH YOUR LOCAL INSTALL
-MyCocoonBase="/data/app/cocoon-2.1.10/build"
+cocoonBase="/data/app/cocoon-2.1.11/build"
 
-MYCLASSPATH="$MyCocoonBase/cocoon/cocoon.jar:\
-$MyCocoonBase/webapp/WEB-INF/lib/commons-lang-2.2.jar:\
-$MyCocoonBase/webapp/WEB-INF/lib/avalon-framework-api-4.3.jar:\
-$MyCocoonBase/webapp/WEB-INF/lib/avalon-framework-impl-4.3.jar:\
-$MyCocoonBase/webapp/WEB-INF/lib/xml-apis-1.3.04.jar:\
-$MyCocoonBase/webapp/WEB-INF/lib/excalibur-pool-api-2.1.jar:\
-$MyCocoonBase/webapp/WEB-INF/lib/excalibur-datasource-2.1.jar:\
-$MyCocoonBase/webapp/WEB-INF/lib/excalibur-xmlutil-2.1.jar:\
-$MyCocoonBase/webapp/WEB-INF/lib/excalibur-sourceresolve-2.1.jar\
+case "$cocoonBase" in
+
+*cocoon-2.1.10*)
+MYCLASSPATH="$cocoonBase/cocoon/cocoon.jar:\
+$cocoonBase/webapp/WEB-INF/lib/commons-lang-2.2.jar:\
+$cocoonBase/webapp/WEB-INF/lib/avalon-framework-api-4.3.jar:\
+$cocoonBase/webapp/WEB-INF/lib/excalibur-pool-api-2.1.jar:\
+$cocoonBase/webapp/WEB-INF/lib/excalibur-sourceresolve-2.1.jar:\
+$cocoonBase/webapp/WEB-INF/lib/excalibur-xmlutil-2.1.jar\
 "
+;;
 
-## -- should not need to make changes below but if so the code should be pretty clear -- ##
+*cocoon-2.1.11*)
+MYCLASSPATH="$cocoonBase/cocoon/cocoon.jar:\
+$cocoonBase/webapp/WEB-INF/lib/commons-lang-2.3.jar:\
+$cocoonBase/webapp/WEB-INF/lib/avalon-framework-api-4.3.jar:\
+$cocoonBase/webapp/WEB-INF/lib/excalibur-pool-api-2.1.jar:\
+$cocoonBase/webapp/WEB-INF/lib/excalibur-sourceresolve-2.2.3.jar:\
+$cocoonBase/webapp/WEB-INF/lib/excalibur-xmlutil-2.1.jar\
+"
+;;
 
-echo "[STATUS] Entering the xmlqstat generator directory"
-cd java/org/xmlqstat/generator/
+*)
+echo
+echo "[ERROR] unidentified cocoon version:"
+echo "        $cocoonBase"
+echo
+exit 1
+;;
 
-echo "[STATUS] Will try to run this command:"
-echo "javac -classpath $MYCLASSPATH CommandGenerator.java "
+esac
 
-if  javac -classpath $MYCLASSPATH CommandGenerator.java; then
-   echo "\n[STATUS] The javac command seems to have worked. Continuing ..."
- else
-   echo "\n[STATUS] ** The javac command failed. No point in continuing..."
-   exit 1
+## END OF EDITABLE SECTION
+# -----------------------------------------------------------------------------
+## -- should not need changes below -- ##
+
+[ -d "$cocoonBase" ] || {
+    echo
+    echo "[ERROR] cocoon directory does not exist:"
+    echo "        $cocoonBase"
+    echo
+    exit 1
+}
+
+echo
+echo "[STATUS] Changing to xmlqstat generator directory and trying this command:"
+echo "--------"
+echo "         javac -classpath $MYCLASSPATH CommandGenerator.java"
+echo "--------"
+
+if
+(
+    cd java/org/xmlqstat/generator/ && \
+    javac -classpath $MYCLASSPATH CommandGenerator.java
+)
+then
+    echo "[STATUS] Compiled java -> class files"
+else
+    echo
+    echo "[ERROR] The javac compilation failed"
+    echo
+    exit 1
 fi
 
+## Make a clean java/org/xmlqstat/generator/ tree
+## (free of ".svn/*" and .java files) and use that to create a jar archive
 
-echo "\n[STATUS] Java compiled into .class files; now we need to make a clean .jar archive ..."
-
-cd ../../../../
-
-## We need to make a copy of our java/org/xmlqstat/generator/ tree that is free
-## from ".svn/*" files and also does not contain the .java file. From that
-## clean directory we can make a nice jar archive
-
-if [ -d jarbuilder ]; then
-   echo "\n[STATUS] Moving existing jarbuilder folder to jarbuilder.old"
-   mv -f jarbuilder jarbuilder.old
+if [ -d build-jar ]
+then
+    rm -rf build-jar.old 2>/dev/null
+    mv -f build-jar build-jar.old
+    echo "[STATUS] Moved existing build-jar/ folder to build-jar.old/"
 fi
 
-echo "\n[STATUS] Making a clean jarbuilder directory"
-mkdir jarbuilder
-cd ./jarbuilder/
+echo "[STATUS] Creating clean build-jar/ directory with the org/xmlqstat/generator"
+echo "         directory structure and moving the compiled .class files into it"
+mkdir -p build-jar/org/xmlqstat/generator
+mv -v java/org/xmlqstat/generator/*.class build-jar/org/xmlqstat/generator/
 
-echo "\n[STATUS] Making the org/xmlqstat/generator directory structure"
-mkdir -p org/xmlqstat/generator
+echo
+echo "[STATUS] Creating the build-jar/xml-qstat.jar file"
 
-echo "\n[STATUS] copying compiled .class files into new directory structure"
-cp -v ../java/org/xmlqstat/generator/*.class ./org/xmlqstat/generator/
+if
+(
+    cd build-jar && \
+    jar cvf xml-qstat.jar -C . .
+)
+then
+    echo
+    echo "[STATUS] Done"
+    echo
+    echo "You should copy (or symlink) the 'xml-qstat.jar' file to the"
+    echo "WEB-INF/lib/ directory."
+    echo "eg,"
+    echo "    cp build-jar/xml-qstat.jar $cocoonBase/webapp/WEB-INF/lib/"
+    echo
+else
+    echo
+    echo "[ERROR] Failed to create 'build-jar/xml-qstat.jar' file"
+    echo
+fi
 
-
-echo "\n[STATUS] Making our .jar file"
-jar cvf xml-qstat.jar -C . .
-
-echo "\n[STATUS] Done! Look for a 'xml-qstat.jar' file in the jarbuilder/ folder."
+# ----------------------------------------------------------------- end-of-file
