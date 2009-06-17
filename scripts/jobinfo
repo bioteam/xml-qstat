@@ -45,7 +45,7 @@ my %config = (
 # simple error handling
 sub error {
     print qq{<?xml version="1.0"?>\n};
-    print qq{<cgi_error>@_</cgi_error>\n};
+    print qq{<error>@_</error>\n};
     exit 1;
 }
 
