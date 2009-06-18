@@ -114,7 +114,7 @@
 <!-- bottom links -->
 <div class="bottomBox">
   <img alt="*" src="images/icons-silk-empty.png" />
-  <a href="qstat-jobs.html" title="xmlqstat"><img border="0"
+  <a href="jobs" title="xmlqstat"><img border="0"
       src="images/icons/silk/table_gear.png" alt="[xmlqstat]"
   /></a>
   <xsl:text> </xsl:text>
@@ -124,7 +124,6 @@
 </div>
 
 </body></html>
-
 </xsl:template>
 
 
@@ -134,7 +133,9 @@
 <xsl:template match="//config/clusters">
   <table class="listing" style="text-align:left;">
   <tr>
-    <th colspan="2">name</th>
+    <th>name</th>
+    <th>query cached</th>
+    <th>query direct</th>
     <th>root</th>
     <th>cell</th>
     <th>cache</th>
@@ -159,6 +160,7 @@
   </td>
   <td>
     <!-- jobs -->
+    <xsl:text> </xsl:text>
     <xsl:element name="a">
       <xsl:attribute name="title">jobs</xsl:attribute>
       <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/jobs</xsl:attribute>
@@ -224,6 +226,42 @@
       />
     </xsl:element>
     -->
+  </td>
+
+  <td>
+    <!-- jobs: query qstatf directly -->
+    <xsl:text> </xsl:text>
+    <xsl:element name="a">
+      <xsl:attribute name="title">jobs</xsl:attribute>
+      <xsl:attribute name="href">jobs~<xsl:value-of select="@name"/></xsl:attribute>
+      <img border="0"
+          src="images/icons/silk/table_gear.png"
+          alt="[xmlqstat]"
+      />
+    </xsl:element>
+
+    <!-- queues: query qstatf directly -->
+    <xsl:text> </xsl:text>
+    <xsl:element name="a">
+      <xsl:attribute name="title">queue listing</xsl:attribute>
+      <xsl:attribute name="href">queues~<xsl:value-of select="@name"/></xsl:attribute>
+      <img border="0"
+          src="images/icons/silk/shape_align_left.png"
+          alt="[queue instances]"
+      />
+    </xsl:element>
+
+    <!-- summary: query qstatf directly -->
+    <xsl:text> </xsl:text>
+    <xsl:element name="a">
+      <xsl:attribute name="title">cluster summary</xsl:attribute>
+      <xsl:attribute name="href">summary~<xsl:value-of select="@name"/></xsl:attribute>
+      <img border="0"
+          src="images/icons/silk/sum.png"
+          alt="[cluster summary]"
+      />
+    </xsl:element>
+
   </td>
   <td>
       <xsl:value-of select="@root"/>

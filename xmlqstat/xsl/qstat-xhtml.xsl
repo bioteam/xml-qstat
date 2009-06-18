@@ -328,7 +328,7 @@
       <th>slots</th>
       <th>tasks</th>
       <th>queue</th>
-      <th>startTime</th>
+      <th><acronym title="priority">startTime</acronym></th>
       <th>state</th>
     </tr>
     <xsl:for-each select="job_list[@state='running']">
@@ -392,9 +392,12 @@
       <xsl:with-param name="queue" select="queue_name"/>
     </xsl:call-template>
   </td>
-  <!-- startTime -->
+  <!-- startTime with priority-->
   <td>
-     <xsl:value-of select="JAT_start_time"/>
+    <xsl:element name="acronym">
+      <xsl:attribute name="title"><xsl:value-of select="JAT_prio"/></xsl:attribute>
+      <xsl:value-of select="JAT_start_time" />
+    </xsl:element>
   </td>
   <!-- state : with link to residuals -->
   <td>
@@ -423,7 +426,7 @@
       <th>slots</th>
       <th>tasks</th>
       <th>queue</th>
-      <th>priority</th>
+      <th><acronym title="submissionTime">priority</acronym></th>
       <th>state</th>
     </tr>
     <xsl:for-each select="job_list[@state='pending']">

@@ -61,7 +61,10 @@
 <!-- COUNT UNUSUAL JOB LEVEL STATE INDICATORS -->
 
 <!--
-Build a node set of all queues that are not usable for new or pending jobs                       the intent here is that then we can sum(slots_total) to get the number of job                    slots that are not usable. This is then used to build the adjusted alot availibility percentage
+  Build a node set of all queues that are not usable for new or pending jobs
+  the intent here is that then we can sum(slots_total) to get the number of job
+  slots that are not usable.
+  This is then used to build the adjusted alot availibility percentage
 -->
 
 <xsl:variable name="nodeSet-unusableQueues" select="//job_info/queue_info/Queue-List[state[.='au']] | //job_info/queue_info/Queue-List[state[.='d']] |
@@ -118,8 +121,7 @@ Build a node set of all queues that are not usable for new or pending jobs      
   <entry>
     <title>Grid Engine Cluster Summary</title>
     <xsl:element name="link">
-      <xsl:attribute name="href"><xsl:value-of
-        select="$baseURL"/>qstat-jobs.html</xsl:attribute>
+      <xsl:attribute name="href"><xsl:value-of select="$baseURL"/>jobs</xsl:attribute>
     </xsl:element>
     <!-- we want an unchanging URN with a single ENTRY that
          has its UPDATED timestamp altered. Otherwise we end up
@@ -209,8 +211,7 @@ No unusual Queue Instance states have been detected.
 </xsl:otherwise>
 </xsl:choose>
 Click here for <xsl:element name="a">
-<xsl:attribute name="href"><xsl:value-of
-    select="$baseURL"/>qstat-jobs.html</xsl:attribute>
+<xsl:attribute name="href"><xsl:value-of select="$baseURL"/>jobs</xsl:attribute>
 Detailed information.
 </xsl:element><br/>
 </div>

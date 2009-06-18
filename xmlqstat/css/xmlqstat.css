@@ -1,26 +1,31 @@
 /* text/css */
 
+html {
+    background: #dee7ec;
+}
+
 body {
     margin: 10px 20px 0px;
-    background: #dee7ec;
 }
 
 acronym {
     cursor: help;
-    border-bottom: 1px dashed;
+    border-bottom: 1px dotted;
     font-variant: normal;
+}
+
+a:link, a:visited {
+    color: #00C;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #00F;
+    text-decoration: underline;
 }
 
 /* a:active { text-decoration: none; } */
 
-a:link, a:visited {
-    text-decoration: none;
-    color: #00C;
-}
-
-a:hover {
-    text-decoration: underline;
-}
 
 .dividerBarAbove, .dividerBarBelow {
     margin:  2px;
@@ -62,21 +67,23 @@ h1 {
 }
 
 #menu {
-    background: #dee7ec url("screen/menu_bg.png") repeat-x center right;
-    border-top:    1px solid #999;
-    border-bottom: 1px solid #555;
-    margin-left:  1px;
-    margin-right: 1px;
-    min-height:   16px;
-    font-family:  Geneva, Arial, Helvetica, sans-serif;
-    font-size:    12px;
+    background: #dee7ec url("screen/menu_bg.png") repeat-x center right; 
+    border-top:    1px solid #AAA;
+    border-bottom: 1px solid #888;
+    margin-left:   1px;
+    margin-right:  1px;
+    min-height:    18px;
+    font-family:   Geneva, Arial, Helvetica, sans-serif;
+    font-size:     12px;
     padding-bottom: 1px;
     text-align:     left;
 }
 
 #menu img {
+    border:  1px;
     padding: 0px;
-    border: 0px;
+    margin-top: 1px;
+    vertical-align: middle;
 }
 
 #menu p {
@@ -148,7 +155,8 @@ code {
     color: #000;
 }
 
-.alarmCode {
+
+.emphasisCode {
     font-family: monospace;
     font-size:   small;
     font-style:  italic;
@@ -188,8 +196,8 @@ code {
 }
 
 .toggleVisibility img {
-    padding: 0px;
     border:  0px;
+    padding: 0px;
 }
 
 

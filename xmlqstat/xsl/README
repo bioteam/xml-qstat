@@ -19,20 +19,18 @@ transformation, the naming convention 'SOURCE-MODE-DEST.xsl' is used.
 
   * qhost-xhtml.xsl
   * qlic-xhtml.xsl
-  * qstat-xhtml.xsl
-  * qstatf-xhtml.xsl
   * qstatf-psp.xsl
+  * qstatf-xhtml.xsl
   * qstatj-xhtml.xsl
+  * qstat-xhtml.xsl
 
 
 For general actions, no particular convention has been used:
 
   * config-jobinfo.xsl
+  * config-query.xsl
   * directory-xhtml.xsl
-  * extract-query.xsl
+  * feed-atom-overview.xsl
   * index-xhtml.xsl
   * info-to-xhtml.xsl
-
-  * rss.xml
-  * feed-atom-overview.xsl
 

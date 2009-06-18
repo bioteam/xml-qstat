@@ -32,12 +32,19 @@
 <xsl:include href="xmlqstat-templates.xsl"/>
 
 <!-- XSL Parameters   -->
+<xsl:param name="clusterName"/>
 <xsl:param name="timestamp"/>
 <xsl:param name="menuMode"/>
 
 <!-- get specific configuration parameters -->
 <xsl:param name="viewfileProgram" select="//config/programs/viewfile" />
 <xsl:param name="viewlogProgram" select="//config/programs/viewlog" />
+
+<!-- possibly append ~{clusterName} to urls -->
+<xsl:param name="clusterSuffix">
+  <xsl:if test="$clusterName">~<xsl:value-of select="$clusterName"/></xsl:if>
+</xsl:param>
+
 
 <xsl:param name="cgiParams">
   <xsl:if
@@ -87,7 +94,10 @@
 <xsl:choose>
 <xsl:when test="$menuMode='xmlqstat'">
   <xsl:call-template name="xmlqstatLogo"/>
-  <xsl:call-template name="xmlqstatMenu"/>
+  <xsl:call-template name="xmlqstatMenu">
+    <xsl:with-param name="clusterSuffix" select="$clusterSuffix"/>
+    <xsl:with-param name="jobinfo" select="'less'"/>
+  </xsl:call-template>
 </xsl:when>
 <xsl:otherwise>
   <xsl:call-template name="topLogo"/>
@@ -97,9 +107,9 @@
 </xsl:otherwise>
 </xsl:choose>
 
+<!-- Top dotted line bar (holds the cluster name) -->
 <xsl:choose>
 <xsl:when test="//config/cluster">
-  <xsl:comment> Top dotted line bar (holds the cluster name) </xsl:comment>
   <div class="dividerBarBelow">
     <!-- cluster/cell name -->
     <xsl:value-of select="//config/cluster/@name"/>
@@ -110,7 +120,6 @@
 </xsl:when>
 <xsl:when test="//query/host">
   <div class="dividerBarBelow">
-    <xsl:comment> Top dotted line bar (holds the qmaster host and update time) </xsl:comment>
     [<xsl:value-of select="//query/host"/>]
     <!-- remove 'T' in dateTime for easier reading -->
     <xsl:value-of select="translate(//query/time, 'T', ' ')"/>
@@ -315,7 +324,9 @@
 >
   <xsl:variable name="jobs-href">
     <xsl:choose>
-    <xsl:when test="$menuMode='xmlqstat'">qstat-jobs.html?<xsl:value-of select="JB_owner"/></xsl:when>
+    <xsl:when test="$menuMode='xmlqstat'">
+      jobs<xsl:value-of select="$clusterSuffix"/>?<xsl:value-of select="JB_owner"/>
+    </xsl:when>
     <xsl:otherwise>jobs?user=<xsl:value-of select="JB_owner"/></xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
@@ -458,20 +469,34 @@
   <tr>
     <th>stdout</th>
     <td>
+      <xsl:variable name="PN_path" select="JB_stdout_path_list/path_list/PN_path" />
       <xsl:choose>
       <xsl:when test="$viewfileProgram">
         <xsl:element name="a">
         <xsl:attribute name="title">view stdout</xsl:attribute>
         <xsl:attribute name="href"><xsl:value-of
             select="$viewfileProgram"/>?jobid=<xsl:value-of
-            select="JB_job_number"/><xsl:text>&amp;</xsl:text>file=<xsl:value-of
-            select="JB_cwd"/>/<xsl:value-of
-            select="JB_stdout_path_list/path_list/PN_path"/></xsl:attribute>
-          <xsl:value-of select="JB_stdout_path_list/path_list/PN_path"/>
+            select="JB_job_number"/><xsl:text>&amp;</xsl:text>file=<xsl:choose>
+            <xsl:when test='starts-with($PN_path,"/")' >
+              <!-- absolute path -->
+              <xsl:value-of select="$PN_path"/>
+            </xsl:when>
+            <xsl:when test='starts-with($PN_path,"$HOME/")' >
+              <!-- $HOME/path -->
+              <xsl:value-of select="JB_env_list/job_sublist[VA_variable='__SGE_PREFIX__O_HOME']/VA_value" />
+              <xsl:value-of select='substring($PN_path, 6)' />
+            </xsl:when>
+            <xsl:otherwise>
+              <!-- relative path -->
+            <xsl:value-of select="JB_cwd"/>/<xsl:value-of select="$PN_path"/>
+          </xsl:otherwise>
+          </xsl:choose>
+        </xsl:attribute>
+        <xsl:value-of select="$PN_path"/>
         </xsl:element>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:value-of select="JB_stdout_path_list/path_list/PN_path"/>
+        <xsl:value-of select="$PN_path"/>
       </xsl:otherwise>
       </xsl:choose>
     </td>
@@ -525,9 +550,9 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
     </tr>
     </xsl:if>
 <!--
-   //
-   // does not seem terribly useful for us
-   //
+    //
+    // does not seem terribly useful for us
+    //
     <tr>
       <th>tickets</th>
       <td>

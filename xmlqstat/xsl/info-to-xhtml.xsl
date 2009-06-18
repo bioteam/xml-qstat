@@ -66,21 +66,6 @@
       alt="[home]"
   /></a>
   <img alt="*" src="../images/icons/silk/bullet_blue.png" />
-  <a href="../qstat-jobs.html" title="jobs"><img border="0"
-      src="../images/icons/silk/lorry_flatbed.png"
-      alt="[jobs]"
-  /></a>
-  <img alt="*" src="../images/icons/silk/bullet_blue.png" />
-  <a href="../qstat-full.html" title="queue instances"><img border="0"
-      src="../images/icons/silk/chart_bar.png"
-      alt="[queue instances]"
-  /></a>
-  <img alt="*" src="../images/icons/silk/bullet_blue.png" />
-  <a href="../qstat-terse.html" title="cluster summary"><img border="0"
-      src="../images/icons/silk/report.png"
-      alt="[cluster summary]"
-  /></a>
-  <img alt="*" src="../images/icons/silk/bullet_blue.png" />
   <a href="../info/about.html" title="about"><img border="0"
       src="../images/icons/silk/information.png"
       alt="[about]"
@@ -153,14 +138,16 @@
 <xsl:text>
 </xsl:text>
 <div class="bottomBox">
-  <a href="../psp/qstat.html" title="format for Sony PSP web browser"><img alt="XHTML-PSP" src="../images/sonyPSP.png" border="0" /></a>
+  <a href="../info/rss-feeds.html" title="list RSS feeds"><img border="0"
+      src="../images/icons/silk/feed.png" alt="[rss feeds]"
+  /></a>
   <xsl:text> </xsl:text>
-  <a href="../info/rss-feeds.html" title="list RSS feeds"><img alt="RSS-Feeds" src="../images/rssAvailable.png" border="0" /></a>
+  <a href="../psp/qstat.html" title="format for Sony PSP web browser"><img border="0"
+      src="../images/icons/silk/controller.png" alt="[psp]"
+  /></a>
 </div>
-<xsl:text>
-</xsl:text>
-</body>
-</html>
+
+</body></html>
 </xsl:template>
 
 <xsl:template match="section" mode="toc">

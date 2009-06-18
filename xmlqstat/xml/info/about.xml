@@ -336,7 +336,7 @@ Installation Process:
 <li>
   The web interface should be ready for testing.
   Point a web browser at the URL
-  <em>http://{yourServerName}:8888/xmlqstat/qstat-jobs.html</em>
+  <em>http://{yourServerName}:8888/xmlqstat/jobs</em>
 </li>
 </ol>
 ]]></para>
@@ -373,8 +373,8 @@ Many Unix servers already have an Apache webserver running on on the system.
 If you have administrative access to this server you can proxy the Cocoon
 application server behind Apache. The primary benefit is removing the
 browser requirement to connect to TCP port 8888. The URL changes from
-<em>http://{yourServerName}:8888/xmlqstat/XXX.html</em> to
-<em>http://{yourServerName}/xmlqstat/XXX.html</em>.
+<em>http://{yourServerName}:8888/xmlqstat/XXX</em> to
+<em>http://{yourServerName}/xmlqstat/XXX</em>.
 This also allows firewall administrators to seal port 8888 closed against
 all connections not coming from the apache server. The Apache configuration
 directives to do this would be:
