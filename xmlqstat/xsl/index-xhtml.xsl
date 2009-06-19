@@ -1,6 +1,7 @@
 <xsl:stylesheet version="1.0"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:dir="http://apache.org/cocoon/directory/2.0"
     xmlns:dt="http://xsltsl.org/date-time"
     xmlns:str="http://xsltsl.org/string"
     exclude-result-prefixes="dt str"
@@ -57,37 +58,35 @@
 
 <!-- Top Menu Bar -->
 <div id="menu">
-  <img alt="*" src="images/icons/silk/bullet_blue.png" />
-  <a href="#" title="clusters"><img border="0"
+  <a href="#" title="clusters"><img class="firstIcon"
       src="images/icons/silk/house.png"
       alt="[home]"
   /></a>
 
-  <img alt="*" src="images/icons/silk/bullet_blue.png" />
-  <a href="config" title="config"><img border="0"
+  <img alt=" | " src="css/screen/icon_divider.png" />
+  <a href="config" title="config"><img
       src="images/icons/silk/folder_wrench.png"
       alt="[config]"
   /></a>
 
-  <img alt="*" src="images/icons/silk/bullet_blue.png" />
-  <a href="sitemap.xmap" title="sitemap"><img border="0"
+  <img alt=" | " src="css/screen/icon_divider.png" />
+  <a href="sitemap.xmap" title="sitemap"><img
       src="images/icons/silk/wrench.png"
       alt="[sitemap]"
   /></a>
 
-  <img alt="*" src="images/icons/silk/bullet_blue.png" />
-  <a href="info/about.html" title="about"><img border="0"
+  <img alt=" | " src="css/screen/icon_divider.png" />
+  <a href="info/about.html" title="about"><img
       src="images/icons/silk/information.png"
       alt="[about]"
   /></a>
 
-  <img alt="*" src="images/icons/silk/bullet_blue.png" />
-  <a href="" title="reload"><img border="0"
+  <img alt=" | " src="css/screen/icon_divider.png" />
+  <a href="" title="reload"><img
       src="images/icons/silk/arrow_refresh_small.png"
       alt="[reload]"
   /></a>
 
-  <img alt="*" src="images/icons/silk/bullet_blue.png" />
 </div>
 
 <!-- <div class="dividerBarBelow">
@@ -113,7 +112,6 @@
 
 <!-- bottom links -->
 <div class="bottomBox">
-  <img alt="*" src="images/icons-silk-empty.png" />
   <a href="jobs" title="xmlqstat"><img border="0"
       src="images/icons/silk/table_gear.png" alt="[xmlqstat]"
   /></a>
@@ -149,6 +147,12 @@
 </xsl:template>
 
 <xsl:template match="//cluster">
+
+  <xsl:param name="cacheDir">cache-<xsl:value-of select="@name"/></xsl:param>
+  <xsl:param name="hasCache">
+     <xsl:if test="//dir:directory[@name=$cacheDir]">true</xsl:if>
+  </xsl:param>
+
   <tr>
   <!-- cluster name -->
   <td>
@@ -159,73 +163,80 @@
     </xsl:element>
   </td>
   <td>
-    <!-- jobs -->
-    <xsl:text> </xsl:text>
-    <xsl:element name="a">
-      <xsl:attribute name="title">jobs</xsl:attribute>
-      <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/jobs</xsl:attribute>
-      <img border="0"
-          src="images/icons/silk/lorry_flatbed.png"
-          alt="[jobs]"
-      />
-    </xsl:element>
+    <xsl:choose>
+    <xsl:when test="$hasCache='true'">
+      <!-- jobs -->
+      <xsl:text> </xsl:text>
+      <xsl:element name="a">
+        <xsl:attribute name="title">jobs</xsl:attribute>
+        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/jobs</xsl:attribute>
+        <img border="0"
+            src="images/icons/silk/lorry_flatbed.png"
+            alt="[jobs]"
+        />
+      </xsl:element>
 
-    <!-- queues?summary -->
-    <xsl:text> </xsl:text>
-    <xsl:element name="a">
-      <xsl:attribute name="title">queue summary</xsl:attribute>
-      <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/queues?summary</xsl:attribute>
-      <img border="0"
-          src="images/icons/silk/chart_bar.png"
-          alt="[queue instances]"
-      />
-    </xsl:element>
+      <!-- queues?summary -->
+      <xsl:text> </xsl:text>
+      <xsl:element name="a">
+        <xsl:attribute name="title">queue summary</xsl:attribute>
+        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/queues?summary</xsl:attribute>
+        <img border="0"
+            src="images/icons/silk/chart_bar.png"
+            alt="[queue instances]"
+        />
+      </xsl:element>
 
-    <!-- queues -->
-    <xsl:text> </xsl:text>
-    <xsl:element name="a">
-      <xsl:attribute name="title">queue listing</xsl:attribute>
-      <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/queues</xsl:attribute>
-      <img border="0"
-          src="images/icons/silk/chart_bar_add.png"
-          alt="[queue instances]"
-      />
-    </xsl:element>
+      <!-- queues -->
+      <xsl:text> </xsl:text>
+      <xsl:element name="a">
+        <xsl:attribute name="title">queue listing</xsl:attribute>
+        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/queues</xsl:attribute>
+        <img border="0"
+            src="images/icons/silk/chart_bar_add.png"
+            alt="[queue instances]"
+        />
+      </xsl:element>
 
-    <!-- queues?warn -->
-    <xsl:text> </xsl:text>
-    <xsl:element name="a">
-      <xsl:attribute name="title">queue warnings</xsl:attribute>
-      <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/queues?warn</xsl:attribute>
-      <img border="0"
-          src="images/icons/silk/chart_bar_error.png"
-          alt="[warn queue]"
-      />
-    </xsl:element>
+      <!-- queues?warn -->
+      <xsl:text> </xsl:text>
+      <xsl:element name="a">
+        <xsl:attribute name="title">queue warnings</xsl:attribute>
+        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/queues?warn</xsl:attribute>
+        <img border="0"
+            src="images/icons/silk/chart_bar_error.png"
+            alt="[warn queue]"
+        />
+      </xsl:element>
 
-    <!-- resources -->
-    <xsl:text> </xsl:text>
-    <xsl:element name="a">
-      <xsl:attribute name="title">resources</xsl:attribute>
-      <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/resources</xsl:attribute>
-      <img border="0"
-          src="images/icons/silk/database_key.png"
-          alt="[resources]"
-      />
-    </xsl:element>
+      <!-- resources -->
+      <xsl:text> </xsl:text>
+      <xsl:element name="a">
+        <xsl:attribute name="title">resources</xsl:attribute>
+        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/resources</xsl:attribute>
+        <img border="0"
+            src="images/icons/silk/database_key.png"
+            alt="[resources]"
+        />
+      </xsl:element>
 
-    <!-- job details -->
-    <!-- disabled for now: can be fairly resource-intensive
-    <xsl:text> </xsl:text>
-    <xsl:element name="a">
-      <xsl:attribute name="title">job details</xsl:attribute>
-      <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/jobinfo</xsl:attribute>
-      <img border="0"
-          src="images/icons/silk/magnifier_zoom_in.png"
-          alt="[job details]"
-      />
-    </xsl:element>
-    -->
+      <!-- job details -->
+      <!-- disabled for now: can be fairly resource-intensive
+      <xsl:text> </xsl:text>
+      <xsl:element name="a">
+        <xsl:attribute name="title">job details</xsl:attribute>
+        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/jobinfo</xsl:attribute>
+        <img border="0"
+            src="images/icons/silk/lorry_add.png"
+            alt="[job details]"
+        />
+      </xsl:element>
+      -->
+    </xsl:when>
+    <xsl:otherwise>
+    no cache
+    </xsl:otherwise>
+    </xsl:choose>
   </td>
 
   <td>
@@ -262,6 +273,18 @@
       />
     </xsl:element>
 
+    <!-- raw qstatf xml -->
+    <xsl:text> </xsl:text>
+    <xsl:element name="a">
+      <xsl:attribute name="title">qstat -f -xml</xsl:attribute>
+      <xsl:attribute name="href">qstatf~<xsl:value-of select="@name"/>.xml</xsl:attribute>
+      <img border="0"
+          src="images/icons/silk/tag.png"
+          alt="[raw xml]"
+      />
+    </xsl:element>
+
+
   </td>
   <td>
       <xsl:value-of select="@root"/>
@@ -270,24 +293,27 @@
       <xsl:value-of select="@cell"/>
   </td>
   <td>
-    <!-- list cache files -->
-    <xsl:text> </xsl:text>
-    <xsl:element name="a">
-      <xsl:attribute name="title">cache</xsl:attribute>
-      <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/cache</xsl:attribute>
-      <img border="0"
-          src="images/icons/silk/folder_page.png"
-          alt="[cache]"
-      />
-    </xsl:element>
+    <xsl:choose>
+    <xsl:when test="$hasCache='true'">
+      <!-- list cache files -->
+      <xsl:text> </xsl:text>
+      <xsl:element name="a">
+        <xsl:attribute name="title">cache</xsl:attribute>
+        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/cache</xsl:attribute>
+        <img border="0"
+            src="images/icons/silk/folder_page.png"
+            alt="[cache]"
+        />
+      </xsl:element>
+    </xsl:when>
+    <xsl:otherwise>
+      none
+    </xsl:otherwise>
+    </xsl:choose>
   </td>
 
   </tr>
 </xsl:template>
-
-<!--
-  active jobs: contents
- -->
 
 
 </xsl:stylesheet>

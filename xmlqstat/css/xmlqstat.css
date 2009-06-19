@@ -8,6 +8,11 @@ body {
     margin: 10px 20px 0px;
 }
 
+blockquote {
+    margin-left:  20px;
+    margin-right: 20px;
+}
+
 acronym {
     cursor: help;
     border-bottom: 1px dotted;
@@ -38,11 +43,11 @@ a:hover {
 }
 
 .dividerBarAbove {
-    border-top: 1px dashed #000;
+    border-top: 1px dashed #AAA;
 }
 
 .dividerBarBelow {
-    border-bottom: 1px dashed #000;
+    border-bottom: 1px dashed #AAA;
 }
 
 
@@ -67,7 +72,7 @@ h1 {
 }
 
 #menu {
-    background: #dee7ec url("screen/menu_bg.png") repeat-x center right; 
+    background: #dee7ec url(screen/menu_bg.png) repeat-x center right;
     border-top:    1px solid #AAA;
     border-bottom: 1px solid #888;
     margin-left:   1px;
@@ -80,7 +85,7 @@ h1 {
 }
 
 #menu img {
-    border:  1px;
+    border:  0px;
     padding: 0px;
     margin-top: 1px;
     vertical-align: middle;
@@ -90,6 +95,17 @@ h1 {
     font-family: monospace;
     font-size:   12px;
 }
+
+/* extra padding before the first icon (eg, in the menu) */
+#menu .firstIcon, .firstIcon  {
+    padding-left: 8px;
+}
+
+/* extra padding after the last icon */
+#menu .lastIcon, .lastIcon  {
+    padding-right: 8px;
+}
+
 
 .ResourceDetailLayer {
     border: thin inset #000;
@@ -319,23 +335,23 @@ table.embedded th, table.embedded td {
 
 .progbarInner, .normalBar {
     background-color:  #abb7d6;
-    background-image:  url("screen/progress_normal.png");
+    background-image:  url(screen/progress_normal.png);
 }
 
 .alarmBar {
     background-color:  #ff7f7f;
-    background-image:  url("screen/progress_alarm.png");
+    background-image:  url(screen/progress_alarm.png);
 }
 
 .warnBar {
     background-color:  #e6e699;
-    background-image:  url("screen/progress_warn.png");
+    background-image:  url(screen/progress_warn.png);
 }
 
 
 /* background colors for various states */
-.alarmState   { background-color: #ff7f7f; }
-.errorState   { background-color: #ff7f7f; font-style: italic; }
+.alarmState   { background-color: #ffbbbb; }
+.errorState   { background-color: #ffbbbb; font-style: italic; }
 .warnState    { background-color: #e6e699; }
 .disableState { background-color: #dee7ec; }
 .suspendState { background-color: #dee7ec; }

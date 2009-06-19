@@ -84,6 +84,15 @@
     <map:serialize type="xml"/>
   </map:match>
 
+  <map:match pattern="caches">
+    <!-- the list of possible cache-* directories -->
+    <map:generate type="directory"  src=".">
+      <map:parameter name="depth"   value="1"/>
+      <map:parameter name="include" value="cache-.*$"/>
+    </map:generate>
+    <map:serialize type="xml"/>
+  </map:match>
+
   <!--
      | use qhost.sh helper script instead of qhost directly
      | this avoid the namespace problem:
@@ -180,7 +189,10 @@
        index of clusters
        -->
   <map:match pattern="cluster">
-    <map:generate  src="cocoon:/config" />
+    <map:aggregate element="aggregated">
+      <map:part src="cocoon:/config" />
+      <map:part src="cocoon:/caches" strip-root="yes" />
+    </map:aggregate>
     <map:transform src="xsl/index-xhtml.xsl">
       <map:parameter name="timestamp"  value="{date: yyyy-MM-dd_HH:mm:ss}"/>
     </map:transform>
@@ -285,7 +297,7 @@
 
   <!-- Catch people going to http://<server>/xmlqstat/psp/  -->
   <map:match pattern="psp/">
-    <map:redirect-to uri="default.html"/>
+    <map:redirect-to uri="summary.html"/>
   </map:match>
 
   <!-- Catch people going to http://<server>/xmlqstat/feed/  -->

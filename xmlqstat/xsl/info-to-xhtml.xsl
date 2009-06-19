@@ -60,34 +60,32 @@
 </xsl:text>
 <!-- Top Menu Bar -->
 <div id="menu">
-  <img alt="*" src="../images/icons/silk/bullet_blue.png" />
-  <a href="../" title="home"><img border="0"
+  <a href="../" title="home"><img class="firstIcon"
       src="../images/icons/silk/house.png"
       alt="[home]"
   /></a>
-  <img alt="*" src="../images/icons/silk/bullet_blue.png" />
-  <a href="../info/about.html" title="about"><img border="0"
+  <img alt=" | " src="../css/screen/icon_divider.png" />
+  <a href="../info/about.html" title="about"><img
       src="../images/icons/silk/information.png"
       alt="[about]"
   /></a>
   <!-- not yet written
-  <img alt="*" src="../images/icons/silk/bullet_blue.png" />
-  <a href="../info/help.html" title="help"><img border="0"
+  <img alt=" | " src="../css/screen/icon_divider.png" />
+  <a href="../info/help.html" title="help"><img
       src="../images/icons/silk/help.png"
       alt="[help]"
   /></a>
-  <img alt="*" src="../images/icons/silk/bullet_blue.png" />
-  <a href="../info/participate.html" title="participate"><img border="0"
+  <img alt=" | " src="../css/screen/icon_divider.png" />
+  <a href="../info/participate.html" title="participate"><img
       src="../images/icons/silk/page_white_edit.png"
       alt="[notes]"
   /></a>
   -->
-  <img alt="*" src="../images/icons/silk/bullet_blue.png" />
-  <a href="" title="reload"><img border="0"
+  <img alt=" | " src="../css/screen/icon_divider.png" />
+  <a href="" title="reload"><img
       src="../images/icons/silk/arrow_refresh_small.png"
       alt="[reload]"
   /></a>
-  <img alt="*" src="../images/icons/silk/bullet_blue.png" />
 </div>
 
 <xsl:text>

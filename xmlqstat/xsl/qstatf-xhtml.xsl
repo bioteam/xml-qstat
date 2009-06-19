@@ -95,53 +95,56 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="alternate" type="application/atom+xml" href="feed/overview" title="xmlqstat" />
+
 <xsl:choose>
 <xsl:when test="$renderMode='full'">
   <link rel="icon" type="image/png" href="images/icons/silk/shape_align_left.png"/>
-  <title>queue instances</title>
+  <title>
+    queue instances
+    <xsl:if test="$clusterName">- <xsl:value-of select="$clusterName"/></xsl:if>
+  </title>
 </xsl:when>
 <xsl:when test="$renderMode='terse'">
   <link rel="icon" type="image/png" href="images/icons/silk/sum.png"/>
-  <title>cluster summary</title>
+  <title>
+    cluster summary
+    <xsl:if test="$clusterName">- <xsl:value-of select="$clusterName"/></xsl:if>
+  </title>
 </xsl:when>
 <xsl:otherwise>
   <link rel="icon" type="image/png" href="images/icons/silk/table_gear.png"/>
-  <title>jobs</title>
+  <title>
+    jobs
+    <xsl:if test="$clusterName">- <xsl:value-of select="$clusterName"/></xsl:if>
+  </title>
 </xsl:otherwise>
 </xsl:choose>
-
-<xsl:text>
-</xsl:text>
-<link rel="alternate" type="application/atom+xml" href="feed/overview" title="xmlqstat" />
 
 <xsl:text>
 </xsl:text>
 <xsl:comment> useJavaScript = '<xsl:value-of select="$useJavaScript"/>' </xsl:comment>
 <xsl:text>
 </xsl:text>
-<!-- NB: <script> .. </script> needs some (any) content -->
 <xsl:if test="$useJavaScript = 'yes'" >
-<script src="javascript/cookie.js" type="text/javascript">
-  // Dortch cookies
-</script>
-<script src="javascript/xmlqstat.js" type="text/javascript">
-  // display altering code
-</script>
-<xsl:text>
-</xsl:text>
+  <!-- NB: <script> .. </script> needs some (any) content -->
+  <script src="javascript/cookie.js" type="text/javascript">
+    // Dortch cookies
+  </script>
+  <script src="javascript/xmlqstat.js" type="text/javascript">
+    // display altering code
+  </script>
+  <xsl:text>
+  </xsl:text>
 </xsl:if>
 
-<xsl:comment> Load CSS from a file </xsl:comment>
+<xsl:text>
+</xsl:text>
+<xsl:comment> define css (from file) and with overrides </xsl:comment>
 <xsl:text>
 </xsl:text>
 <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
-
-<xsl:text>
-</xsl:text>
-<xsl:comment>Override CSS </xsl:comment>
-<xsl:text>
-</xsl:text>
- <style type="text/css">
+<style type="text/css">
 <!-- DIFFERENT CSS STYLE DEPENDING ON USER COOKIE PREFERENCE PARAM(s) -->
 <!-- hide activeJobTable (depending on cookie value) -->
 <xsl:if test="$useJavaScript = 'yes' and $activeJobTable = 'no'" >
@@ -155,11 +158,6 @@
 <xsl:text>
 </xsl:text>
 </style>
-<xsl:text>
-</xsl:text>
-<xsl:comment>End Override CSS</xsl:comment>
-<xsl:text>
-</xsl:text>
 </head>
 <xsl:text>
 </xsl:text>
@@ -680,7 +678,7 @@
 <xsl:otherwise>
   <!-- no active jobs -->
   <div class="skipTableFormat">
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
+    <img alt="*" src="css/screen/list_bullet.png" />
     no active jobs
     <xsl:if test="$filterByUser">
       for user <em><xsl:value-of select="$filterByUser"/></em>
@@ -744,7 +742,7 @@
 <xsl:otherwise>
   <!-- no pending jobs -->
   <div class="skipTableFormat">
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
+    <img alt="*" src="css/screen/list_bullet.png" />
     no pending jobs
     <xsl:if test="$filterByUser">
       for user <em><xsl:value-of select="$filterByUser"/></em>

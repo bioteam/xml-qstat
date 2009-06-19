@@ -79,29 +79,28 @@
   <xsl:param name="hostinfo" />
   <xsl:param name="queueinfo" />
   <div id="menu">
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    <a href="../../" title="clusters"><img border="0"
+    <a href="../../" title="clusters"><img class="firstIcon"
         src="images/icons/silk/house.png"
         alt="[home]"
     /></a>
 
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    <a href="jobs" title="jobs"><img border="0"
+    <img alt=" | " src="css/screen/icon_divider.png" />
+    <a href="jobs" title="jobs"><img
         src="images/icons/silk/lorry_flatbed.png"
         alt="[jobs]"
     /></a>
 
     <!-- queueinfo: toggle between default/more views -->
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
+    <img alt=" | " src="css/screen/icon_divider.png" />
     <xsl:choose>
     <xsl:when test="$queueinfo = 'more'">
-      <a href="queues" title="all queue"><img border="0"
+      <a href="queues" title="all queue"><img
           src="images/icons/silk/chart_bar_add.png"
           alt="[queues]"
       /></a>
     </xsl:when>
     <xsl:otherwise>
-      <a href="queues?summary" title="queue summary"><img border="0"
+      <a href="queues?summary" title="queue summary"><img
           src="images/icons/silk/chart_bar.png"
           alt="[queue summary]"
       /></a>
@@ -109,16 +108,16 @@
     </xsl:choose>
 
     <!-- hostinfo: toggle between default/warn views -->
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
+    <img alt=" | " src="css/screen/icon_divider.png" />
     <xsl:choose>
     <xsl:when test="$hostinfo = 'more'">
-      <a href="queues" title="all queues"><img border="0"
+      <a href="queues" title="all queues"><img
           src="images/icons/silk/chart_bar_add.png"
           alt="[queues]"
       /></a>
     </xsl:when>
     <xsl:otherwise>
-      <a href="queues?warn" title="warn queues"><img border="0"
+      <a href="queues?warn" title="warn queues"><img
           src="images/icons/silk/chart_bar_error.png"
           alt="[warn queues]"
       /></a>
@@ -126,36 +125,35 @@
     </xsl:choose>
 
   <xsl:if test="$config_qlicserver = 'yes'">
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    <a href="resources" title="resources" ><img border="0"
+    <img alt=" | " src="css/screen/icon_divider.png" />
+    <a href="resources" title="resources" ><img
         src="images/icons/silk/database_key.png"
         alt="[resources]"
     /></a>
   </xsl:if>
 
     <!-- jobinfo: toggle between more/less views -->
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
+    <img alt=" | " src="css/screen/icon_divider.png" />
     <xsl:choose>
     <xsl:when test="$jobinfo = 'less'">
-      <a href="jobs" title="jobs"><img border="0"
+      <a href="jobs" title="jobs"><img
           src="images/icons/silk/magnifier_zoom_out.png"
           alt="[jobs]"
       /></a>
     </xsl:when>
     <xsl:otherwise>
-      <a href="jobinfo" title="job details"><img border="0"
+      <a href="jobinfo" title="job details"><img
           src="images/icons/silk/magnifier_zoom_in.png"
           alt="[job details]"
       /></a>
     </xsl:otherwise>
     </xsl:choose>
 
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    <a href="" title="reload"><img border="0"
+    <img alt=" | " src="css/screen/icon_divider.png" />
+    <a href="" title="reload"><img
         src="images/icons/silk/arrow_refresh_small.png"
         alt="[reload]"
     /></a>
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
   </div>
 </xsl:template>
 
@@ -170,50 +168,49 @@
   <xsl:param name="path" />
 
   <div id="menu">
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    <a href="./" title="home"><img border="0"
+    <a href="./" title="home"><img class="firstIcon"
         src="images/icons/silk/house.png"
         alt="[home]"
     /></a>
 
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
+    <img alt=" | " src="css/screen/icon_divider.png" />
     <xsl:element name="a">
       <xsl:attribute name="title">jobs</xsl:attribute>
       <xsl:attribute name="href">jobs<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
-      <img border="0"
+      <img
         src="images/icons/silk/table_gear.png"
         alt="[jobs]"
       />
     </xsl:element>
 
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
+    <img alt=" | " src="css/screen/icon_divider.png" />
     <xsl:element name="a">
       <xsl:attribute name="title">queue instances</xsl:attribute>
       <xsl:attribute name="href">queues<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
-      <img border="0"
+      <img
         src="images/icons/silk/shape_align_left.png"
         alt="[queue instances]"
       />
     </xsl:element>
 
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
+    <img alt=" | " src="css/screen/icon_divider.png" />
     <xsl:element name="a">
       <xsl:attribute name="title">cluster summary</xsl:attribute>
       <xsl:attribute name="href">summary<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
-      <img border="0"
+      <img
         src="images/icons/silk/sum.png"
         alt="[cluster summary]"
       />
     </xsl:element>
 
     <!-- jobinfo: toggle between more/less views -->
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
+    <img alt=" | " src="css/screen/icon_divider.png" />
     <xsl:choose>
     <xsl:when test="$jobinfo = 'less'">
       <xsl:element name="a">
         <xsl:attribute name="title">jobs</xsl:attribute>
         <xsl:attribute name="href">jobs<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
-        <img border="0"
+        <img
           src="images/icons/silk/magnifier_zoom_out.png"
           alt="[jobs]"
         />
@@ -223,7 +220,7 @@
       <xsl:element name="a">
         <xsl:attribute name="title">job details</xsl:attribute>
         <xsl:attribute name="href">jobinfo<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
-        <img border="0"
+        <img
           src="images/icons/silk/magnifier_zoom_in.png"
           alt="[jobs]"
         />
@@ -231,31 +228,30 @@
     </xsl:otherwise>
     </xsl:choose>
 
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    <a href="info/about.html" title="about"><img border="0"
+    <img alt=" | " src="css/screen/icon_divider.png" />
+    <a href="info/about.html" title="about"><img
         src="images/icons/silk/information.png"
         alt="[about]"
     /></a>
 
     <!-- not yet written
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    <a href="info/help.html" title="help"><img border="0"
+    <img alt=" | " src="css/screen/icon_divider.png" />
+    <a href="info/help.html" title="help"><img
         src="images/icons/silk/help.png"
         alt="[help]"
     /></a>
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    <a href="info/participate.html" title="participate"><img border="0"
+    <img alt=" | " src="css/screen/icon_divider.png" />
+    <a href="info/participate.html" title="participate"><img
         src="images/icons/silk/page_white_edit.png"
         alt="[notes]"
     /></a>
     -->
 
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
-    <a href="" title="reload"><img border="0"
+    <img alt=" | " src="css/screen/icon_divider.png" />
+    <a href="" title="reload"><img
         src="images/icons/silk/arrow_refresh_small.png"
         alt="[reload]"
     /></a>
-    <img alt="*" src="images/icons/silk/bullet_blue.png" />
   </div>
 </xsl:template>
 

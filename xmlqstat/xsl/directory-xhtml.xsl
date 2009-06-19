@@ -38,6 +38,9 @@
 <xsl:text>
 </xsl:text>
 </head><body>
+
+<xsl:text>
+</xsl:text>
 <div id="main">
 <!-- Topomost Logo Div -->
 <xsl:call-template name="topLogo"/>
@@ -47,21 +50,23 @@
 
 <!-- Top Menu Bar -->
 <div id="menu">
-  <img alt="*" src="images/icons/silk/folder.png" />
-  <xsl:text> </xsl:text>
+  <img class="firstIcon lastIcon"
+      src="images/icons/silk/folder.png"
+      alt="[folder]"
+  />
   <strong><xsl:value-of select="$dir"/>/</strong>
 </div>
 
-<blockquote>
+<ul>
   <xsl:choose>
   <xsl:when test="/dir:directory">
     <xsl:apply-templates select="/dir:directory" />
   </xsl:when>
   <xsl:otherwise>
-    directory does not exist or is empty
+    <li>directory does not exist or is empty</li>
   </xsl:otherwise>
   </xsl:choose>
-</blockquote>
+</ul>
 <xsl:text>
 </xsl:text>
 </div>
@@ -70,8 +75,6 @@
 
 
 <xsl:template match="/dir:directory">
-  <xsl:element name="ul">
-
   <xsl:for-each select="dir:file">
     <xsl:element name="li">
       <xsl:element name="a">
@@ -83,8 +86,6 @@
       </xsl:element>
     </xsl:element>
   </xsl:for-each>
-
-  </xsl:element>
 </xsl:template>
 
 </xsl:stylesheet>
