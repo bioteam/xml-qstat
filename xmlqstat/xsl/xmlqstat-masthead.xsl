@@ -76,55 +76,49 @@
 -->
 <xsl:template name="topMenu">
   <xsl:param name="jobinfo" />
-  <xsl:param name="hostinfo" />
-  <xsl:param name="queueinfo" />
   <div id="menu">
-    <a href="../../" title="clusters"><img class="firstIcon"
+    <a href="../../" title="clusters" class="leftSpace"><img
         src="images/icons/silk/house.png"
         alt="[home]"
     /></a>
 
+    <!-- jobs -->
     <img alt=" | " src="css/screen/icon_divider.png" />
     <a href="jobs" title="jobs"><img
         src="images/icons/silk/lorry_flatbed.png"
         alt="[jobs]"
     /></a>
 
-    <!-- queueinfo: toggle between default/more views -->
+    <!-- queues?summary -->
     <img alt=" | " src="css/screen/icon_divider.png" />
-    <xsl:choose>
-    <xsl:when test="$queueinfo = 'more'">
-      <a href="queues" title="all queue"><img
-          src="images/icons/silk/chart_bar_add.png"
-          alt="[queues]"
-      /></a>
-    </xsl:when>
-    <xsl:otherwise>
-      <a href="queues?summary" title="queue summary"><img
-          src="images/icons/silk/chart_bar.png"
-          alt="[queue summary]"
-      /></a>
-    </xsl:otherwise>
-    </xsl:choose>
+    <a href="queues?summary" title="queue summary"><img
+        src="images/icons/silk/sum.png"
+        alt="[queues summary]"
+    /></a>
 
-    <!-- hostinfo: toggle between default/warn views -->
+    <!-- queues?free -->
     <img alt=" | " src="css/screen/icon_divider.png" />
-    <xsl:choose>
-    <xsl:when test="$hostinfo = 'more'">
-      <a href="queues" title="all queues"><img
-          src="images/icons/silk/chart_bar_add.png"
-          alt="[queues]"
-      /></a>
-    </xsl:when>
-    <xsl:otherwise>
-      <a href="queues?warn" title="warn queues"><img
-          src="images/icons/silk/chart_bar_error.png"
-          alt="[warn queues]"
-      /></a>
-    </xsl:otherwise>
-    </xsl:choose>
+    <a href="queues?free" title="queues free"><img
+        src="images/icons/silk/tick.png"
+        alt="[queues free]"
+    /></a>
+
+    <!-- queues?warn -->
+    <img alt=" | " src="css/screen/icon_divider.png" />
+    <a href="queues?warn" title="warn queues"><img
+        src="images/icons/silk/error.png"
+        alt="[warn queues]"
+    /></a>
+
+    <!-- queues -->
+    <img alt=" | " src="css/screen/icon_divider.png" />
+    <a href="queues" title="queue instances"><img
+        src="images/icons/silk/shape_align_left.png"
+        alt="[queues]"
+    /></a>
 
   <xsl:if test="$config_qlicserver = 'yes'">
+    <!-- resources -->
     <img alt=" | " src="css/screen/icon_divider.png" />
     <a href="resources" title="resources" ><img
         src="images/icons/silk/database_key.png"
@@ -168,7 +162,7 @@
   <xsl:param name="path" />
 
   <div id="menu">
-    <a href="./" title="home"><img class="firstIcon"
+    <a href="./" title="home" class="leftSpace"><img
         src="images/icons/silk/house.png"
         alt="[home]"
     /></a>
@@ -234,18 +228,11 @@
         alt="[about]"
     /></a>
 
-    <!-- not yet written
     <img alt=" | " src="css/screen/icon_divider.png" />
-    <a href="info/help.html" title="help"><img
-        src="images/icons/silk/help.png"
+    <a href="info/links.html" title="links"><img
+        src="images/icons/silk/link.png"
         alt="[help]"
     /></a>
-    <img alt=" | " src="css/screen/icon_divider.png" />
-    <a href="info/participate.html" title="participate"><img
-        src="images/icons/silk/page_white_edit.png"
-        alt="[notes]"
-    /></a>
-    -->
 
     <img alt=" | " src="css/screen/icon_divider.png" />
     <a href="" title="reload"><img

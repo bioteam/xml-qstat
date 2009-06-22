@@ -50,7 +50,7 @@
 
 <!-- Top Menu Bar -->
 <div id="menu">
-  <img class="firstIcon lastIcon"
+  <img class="leftSpace rightSpace"
       src="images/icons/silk/folder.png"
       alt="[folder]"
   />

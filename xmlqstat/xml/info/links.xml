@@ -1,0 +1,186 @@
+<?xml version='1.0'?>
+<content>
+<title>Related links</title>
+<heading>Related links</heading>
+
+<!-- section -->
+<section>
+<sectionHead>Third Party Resources</sectionHead>
+<para><![CDATA[
+<ul>
+  <li>
+  The <a href="http://cocoon.apache.org/2.1/">Apache Cocoon (2.1)</a> framework.
+  </li>
+  <li>
+  The <a href="http://www.floodgap.com/httpi/">httpi</a> webserver.
+  </li>
+  <li>
+  The <a href="http://www.famfamfam.com/lab/icons/silk/">silk icons</a>.
+  </li>
+</ul>
+]]></para>
+</section>
+
+
+<!-- section -->
+<section>
+<sectionHead>Information</sectionHead>
+<para><![CDATA[
+<ul>
+  <li>
+  The <a href="http://xml-qstat.org/">xml-qstat website</a>
+  </li>
+  <li>
+  Compiling the
+  <a href="http://wiki.gridengine.info/wiki/index.php/Xml-qstat-1.0">CommandGenerator</a>
+  </li>
+  <li>
+  <a href="http://wiki.gridengine.info/wiki/index.php/Olesen-FLEXlm-Integration"
+  >FlexLM Integration</a> and its
+  <a href="http://wiki.gridengine.info/wiki/index.php/Olesen-FLEXlm-Configuration"
+  >Configuration</a>
+  </li>
+  <li>
+  Some documentation about the
+  <a href="http://wiki.gridengine.info/wiki/index.php/GridEngine_XML">GridEngine XML</a>.
+  </li>
+  <li>
+  A roundup of
+  <a href="http://www.rubyinside.com/git-and-ruby-git-tutorials-articles-and-links-for-rubyists-860.html">git tutorials</a>.
+  </li>
+</ul>
+]]></para>
+</section>
+
+<!-- section -->
+<section>
+<sectionHead>Starting with git</sectionHead>
+<para><![CDATA[
+
+Go to a clean starting place (eg, your home directory):
+<pre>
+$ cd $HOME
+</pre>
+
+Clone the repository without checking out anything just yet and we'll also
+specify 'github' as the name of the remote repository that we'll be tracking:
+<pre>
+$ git clone --no-checkout --origin github http://github.com/bioteam/xml-qstat.git
+</pre>
+
+We now change to the newly created directory:
+<pre>
+$ cd xml-qstat/
+</pre>
+
+Since we haven't checked out any files, the only thing in the directory
+will be the <b>.git/</b> hidden directory:
+<pre>
+$ ls -a
+./  ../  .git/
+</pre>
+
+Listing all of the git branches should look like this ('<b>*</b>';
+indicates the currently active branch):
+<pre>
+$ git branch -l -a
+* master
+  github/HEAD
+  github/master
+</pre>
+
+
+Now we are ready to start our own branch, which we'll
+setup <b>without tracking</b> the remote branch.
+<u>This is an important point.</u>
+By creating a non-tracked branch, we can avoid worrying about clobbering any
+of our custom settings with future updates.
+<pre>
+$ git checkout --no-track -b site github/master
+</pre>
+
+For general cleanliness, we'll also remove the tracked branch <em>master</em>,
+but it can always be reinstated later if desired:
+<pre>
+$ git branch -d master
+Deleted branch master.
+</pre>
+
+We can now check that everything is as it should be:
+<pre>
+$ git status
+# On branch site
+nothing to commit (working directory clean)
+</pre>
+
+Since we are on our own branch (<em>site</em>), we can make changes
+independent of the upstream branches (<em>github/master</em>).
+]]></para>
+
+<para><![CDATA[
+The first thing we'll do is adjust the paths to suit our installation.
+Depending upon your final configuration, you may not need to adjust all
+of the following files:
+
+<pre>
+  build-xmlqstat-jar.sh
+  init-scripts/cocoon
+  init-scripts/httpi
+  init-scripts/xmlqstat-cacher
+  scripts/jobinfo
+  scripts/xmlqstat-cacher.pl
+</pre>
+
+You should also adjust the <b>xmlqstat/config/config.xml</b> to
+reflect your site (perhaps with your own logo image).
+If you are using the FlexLM integration (qlicserver), you should also
+symlink the cache directories at this time under
+<b>xmlqstat/cache-{clusterName}</b>.
+]]></para>
+
+<para><![CDATA[
+To preserve these initial edit ting changes thus far,
+some of the following commands will be useful.
+<dl style="margin-left: 2em">
+  <dt>git status</dt>
+  <dd>check the current of things</dd>
+  <dt>git add -u</dt>
+  <dd>stage updated files for the next commit</dd>
+  <dt>git add file1 .. fileN</dt>
+  <dd>stage new files for the next commit</dd>
+  <dt>git commit</dt>
+  <dd>commit the changes</dd>
+  <dt>git commit --amend</dt>
+  <dd>amend to the previous commit</dd>
+  <dt>git log</dt>
+  <dd>view the commit log</dd>
+</dl>
+
+
+At any time we can also fetch the newest version, without affecting our
+working directory whatsoever:
+<dl style="margin-left: 2em">
+  <dt>git fetch github</dt>
+  <dd>fetch the lastest version</dd>
+  <dt>git log --stat --no-merges github/master ^HEAD</dt>
+  <dd>view the changes in github/master but not in our branch</dd>
+</dl>
+
+Provided that our working directory is clean (no uncommitted changes),
+we can merge in any upstream changes:
+<pre>
+$ git merge github/master
+</pre>
+
+This normally merges without problems, except when you have changed exactly
+the same lines as have been changed in the <em>github/master</em>.
+You'll need to resolve such conflicts by hand (git can't really tell who
+should be right in this situation) and commit the finally resolved versions.
+
+]]></para>
+</section>
+
+
+
+</content>
+

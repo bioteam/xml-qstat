@@ -60,32 +60,35 @@
 </xsl:text>
 <!-- Top Menu Bar -->
 <div id="menu">
-  <a href="../" title="home"><img class="firstIcon"
+  <a href="../" title="home" class="leftSpace"><img
       src="../images/icons/silk/house.png"
       alt="[home]"
   /></a>
+
   <img alt=" | " src="../css/screen/icon_divider.png" />
   <a href="../info/about.html" title="about"><img
       src="../images/icons/silk/information.png"
       alt="[about]"
   /></a>
-  <!-- not yet written
+
   <img alt=" | " src="../css/screen/icon_divider.png" />
-  <a href="../info/help.html" title="help"><img
-      src="../images/icons/silk/help.png"
-      alt="[help]"
+  <a href="../info/links.html" title="links"><img
+      src="../images/icons/silk/link.png"
+      alt="[links]"
   /></a>
+
   <img alt=" | " src="../css/screen/icon_divider.png" />
-  <a href="../info/participate.html" title="participate"><img
-      src="../images/icons/silk/page_white_edit.png"
-      alt="[notes]"
+  <a href="http://github.com/bioteam/xml-qstat/tree/master"
+      title="github repo"><img border="0"
+      src="../css/screen/git-icon.png" alt="[git]"
   /></a>
-  -->
+
   <img alt=" | " src="../css/screen/icon_divider.png" />
   <a href="" title="reload"><img
       src="../images/icons/silk/arrow_refresh_small.png"
       alt="[reload]"
   /></a>
+
 </div>
 
 <xsl:text>
@@ -123,46 +126,39 @@
 
 <!-- stuff below is XHTML boilerplate for the basic page layout -->
 
-<!-- bottom status bar with rendered time -->
-<xsl:call-template name="bottomStatusBar">
-  <xsl:with-param name="timestamp" select="$timestamp" />
-</xsl:call-template>
 <xsl:text>
 </xsl:text>
 </div> <xsl:comment>This is the end of main content </xsl:comment>
 <xsl:text>
-
-</xsl:text><xsl:comment>bottom box section </xsl:comment>
-<xsl:text>
 </xsl:text>
-<div class="bottomBox">
-  <a href="../info/rss-feeds.html" title="list RSS feeds"><img border="0"
-      src="../images/icons/silk/feed.png" alt="[rss feeds]"
-  /></a>
-  <xsl:text> </xsl:text>
-  <a href="../psp/qstat.html" title="format for Sony PSP web browser"><img border="0"
-      src="../images/icons/silk/controller.png" alt="[psp]"
-  /></a>
-</div>
 
 </body></html>
 </xsl:template>
 
 <xsl:template match="section" mode="toc">
-  <li><xsl:element name="a"><xsl:attribute name="href">#<xsl:value-of select="position()"/></xsl:attribute><xsl:value-of select="sectionHead"/></xsl:element></li>
+  <li>
+    <xsl:element name="a">
+      <xsl:attribute name="href">#<xsl:value-of select="position()"/></xsl:attribute>
+      <xsl:value-of select="sectionHead"/>
+    </xsl:element>
+  </li>
 </xsl:template>
 
 <!-- create a name anchor we can use if we ever get around to
      automatically makinga table of contents
 -->
 <xsl:template match="section">
-  <xsl:element name="a"><xsl:attribute name="name"><xsl:value-of select="position()"/></xsl:attribute></xsl:element>
-  <h3 class="infoSectionHead"><xsl:value-of select="sectionHead"/></h3>
+  <xsl:element name="a">
+    <xsl:attribute name="name">
+      <xsl:value-of select="position()"/>
+    </xsl:attribute>
+    <h3 class="infoSectionHead"><xsl:value-of select="sectionHead"/></h3>
+  </xsl:element>
   <xsl:apply-templates select="./para"/>
 </xsl:template>
 
 <xsl:template match="para">
-  <div class="infoPara"><br/>
+  <div class="infoPara">
     <xsl:value-of select="." disable-output-escaping="yes"/>
   </div>
 </xsl:template>

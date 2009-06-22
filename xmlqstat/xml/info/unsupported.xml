@@ -4,6 +4,7 @@
 <heading>Sorry!</heading>
 
 
+<!-- section -->
 <section>
 <sectionHead>Unsupported Browser Warning</sectionHead>
 <para>
@@ -15,18 +16,16 @@ Currently our XHTML output is incompatable with the browser you are using.
 <br/>
 Supported browsers include modern versions of the following:<br/>
 <ul>
-<li>Safari</li>
-<li>Mozilla </li>
-<li>Firefox </li>
-<li>Opera</li>
-<li>Sony Playstation Portable Embedded Browser</li>
+  <li>Safari</li>
+  <li>Firefox</li>
+  <li>Mozilla</li>
+  <li>Konqueror</li>
+  <li>Opera</li>
+  <li>Sony Playstation Portable Embedded Browser</li>
 </ul>
 </div>
-]]>
-</para>
+]]></para>
 </section>
-
-
 
 
 </content>

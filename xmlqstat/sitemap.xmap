@@ -316,9 +316,7 @@
   <!-- documentation rendering for url path /info/ -->
   <map:match pattern="info/*.html">
     <map:generate  src="xml/info/{1}.xml" />
-    <map:transform src="xsl/info-to-xhtml.xsl">
-      <map:parameter name="timestamp"  value="{date: yyyy-MM-dd_HH:mm:ss}"/>
-    </map:transform>
+    <map:transform src="xsl/info-to-xhtml.xsl"/>
     <map:serialize type="xhtml"/>
   </map:match>
 
@@ -700,7 +698,7 @@
     <map:transform src="xsl/qstatf-xhtml.xsl">
       <map:parameter name="clusterName"     value="{1}" />
       <map:parameter name="timestamp"       value="{date: yyyy-MM-dd_HH:mm:ss}"/>
-      <map:parameter name="renderMode"      value="terse"/>
+      <map:parameter name="renderMode"      value="summary"/>
       <map:parameter name="menuMode"        value="xmlqstat"/>
     </map:transform>
     <map:serialize type="xhtml"/>

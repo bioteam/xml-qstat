@@ -11,7 +11,7 @@
    | to produce
    |   1) a list of active and pending jobs (the default)
    |   2) a detailed list of the queue instances (renderMode = full)
-   |   3) a queue summary (renderMode = terse)
+   |   3) a queue summary (renderMode = summary)
    |
 -->
 
@@ -105,7 +105,7 @@
     <xsl:if test="$clusterName">- <xsl:value-of select="$clusterName"/></xsl:if>
   </title>
 </xsl:when>
-<xsl:when test="$renderMode='terse'">
+<xsl:when test="$renderMode='summary'">
   <link rel="icon" type="image/png" href="images/icons/silk/sum.png"/>
   <title>
     cluster summary
@@ -397,7 +397,7 @@
   </div>
   </blockquote>
 </xsl:when>
-<xsl:when test="$renderMode='terse'">
+<xsl:when test="$renderMode='summary'">
   <!-- cluster summary: -->
   <blockquote>
   <table class="listing" width="80%">
@@ -771,7 +771,7 @@
   <a href="info/rss-feeds.html" title="list RSS feeds"><img border="0"
       src="images/icons/silk/feed.png" alt="[rss feeds]"
   /></a>
-  <xsl:text> </xsl:text>
+  <img alt=" | " src="css/screen/icon_divider.png" />
   <a href="psp/qstat.html" title="format for Sony PSP web browser"><img border="0"
       src="images/icons/silk/controller.png" alt="[psp]"
   /></a>

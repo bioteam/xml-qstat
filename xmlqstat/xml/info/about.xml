@@ -3,7 +3,7 @@
 <title>about xml-qstat</title>
 <heading>About xml-qstat</heading>
 
-
+<!-- section -->
 <section>
 <sectionHead>What is xml-qstat?</sectionHead>
 <para><![CDATA[
@@ -18,8 +18,8 @@ crudely parsed and wrapped into simple web CGI's:
 Yielded ...
 <a href="../images/screenshot/xmlqstat_013.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_013_thumb.png"/></a>
 </div>
-]]>
-</para>
+]]></para>
+
 <para>
 At its heart, xml-qstat consists of a collection of stylesheets written in
 XSL. The stylesheets can be used with a XSLT transformation engine to change
@@ -28,23 +28,27 @@ the grid data has been mapulated into XHTML we can then apply other web
 technologies such as CSS, DHTML and Javascrip to create fairly sophisticated
 web based tools for GridEngine status reporting and monitoring.
 </para>
-<para>
-<![CDATA[The current version of this software has been developed to run under the <a href="http://cocoon.apache.org/2.1/">Apache Cocoon</a> XML publishing framework.]]>
-</para>
+<para><![CDATA[
+The current version of this software has been developed to run under the
+<a href="http://cocoon.apache.org/2.1/">Apache Cocoon (2.1)</a> XML
+publishing framework.
+]]></para>
 </section>
 
+
+<!-- section -->
 <section>
 <sectionHead>History</sectionHead>
 
-<para>
+<para><![CDATA[
 This is a 3rd generation codebase of a project that was begun in mid-2005.
-<![CDATA[Early versions of this program used Xalan-C++
+Early versions of this program used Xalan-C++
 (<a href="http://xml.apache.org/xalan-c/">http://xml.apache.org/xalan-c/</a>)
 but that package turned out to be difficult to build on various Linux and
 Apple OS X systems.  The 2nd generation xml-qstat programs and CGIs used the
-very nice perl modules
+very nice Perl modules
 <strong>XML::LibXML</strong> and <strong>XML::LibXSLT</strong>.
-Those modules provided perl intefaces to the Gnome Project's excellent
+Those modules provided Perl intefaces to the Gnome Project's excellent
 <strong>libxml2</strong> (<a href="http://www.xmlsoft.org">http://www.xmlsoft.org</a>/)
 and <strong>libxslt</strong>
 (<a href="http://xmlsoft.org/XSLT/">http://xmlsoft.org/XSLT/</a>)
@@ -52,22 +56,22 @@ code libraries. The 2nd generation code was abandoned when
 <a href="http://cocoon.apache.org/2.1/">Apache Cocoon</a> was discovered
 - the Cocoon framework functions out of the box on just about any Java
 enabled system and there are no requirements to download and build various
-dependent XML libraries and perl modules.
+dependent XML libraries and Perl modules.
 
 <br/><br/>
 This is what generation 2 (pure Perl) looked like:
 <div><a href="../images/screenshot/Mozillaxml_qstat_001.jpg"><img border="0" alt="*" src="../images/screenshot/Mozillaxml_qstat_001.thumb.jpg"/></a>
 <a href="../images/screenshot/Mozillaxml_qstat_002.jpg"><img border="0" alt="*" src="../images/screenshot/Mozillaxml_qstat_002.thumb.jpg"/></a>
 </div>
-]]>
-</para>
+]]></para>
 </section>
 
 
+<!-- section -->
 <section>
 <sectionHead>Current Screenshots</sectionHead>
-<para>Current screenshots showing various features:
-<![CDATA[
+<para><![CDATA[
+Current screenshots showing various features:
 <div>
 <a href="../images/screenshot/xmlqstat_001.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_001_thumb.png"/></a>
 <a href="../images/screenshot/xmlqstat_002.png"><img border="0" alt="*" src="../images/screenshot/xmlqstat_002_thumb.png"/></a>
@@ -96,9 +100,14 @@ browsers:
 ]]></para>
 </section>
 
+
+<!-- section -->
 <section>
 <sectionHead>Requirements</sectionHead>
-<para><![CDATA[The functional requirements are very basic. Root level access to a system is not required. Key dependencies include:
+<para><![CDATA[
+The functional requirements are very basic.
+Root level access to a system is not required.
+Key dependencies include:
 <ul>
 <li>A recent version of Java</li>
 <li>A recent version of Perl</li>
@@ -110,13 +119,14 @@ browsers:
 </section>
 
 
+<!-- section -->
 <section>
 <sectionHead>Package Overview</sectionHead>
 <para><![CDATA[
 The code is organized in the following manner:
 <pre>
 $ ls -l /opt/xml-qstat/
-drwxr-xr-x    cocoon-2.1.8/
+drwxr-xr-x    cocoon-2.1.11/
 drwxr-xr-x    java/
 drwxr-xr-x    httpi/
 drwxr-xr-x    scripts/
@@ -152,13 +162,20 @@ output, or to serve bitmap images of system loads, solution convergence,
 etc.
 
 <br/><br/>
-The <b>scripts/</b> directory currently contains 1 shell script and
-3 perl scripts.
+The <b>scripts/</b> directory currently contains 2 shell scripts and
+3 Perl scripts.
 
 <ol>
 <li>
   The <b>qhost.sh</b> shell script is a quick fix for issue
   <a href="http://gridengine.sunsource.net/issues/show_bug.cgi?id=2515">2515</a>.
+  Place it somewhere in your path to use instead of using qhost directly.
+</li>
+<li>
+  The <b>qstat.sh</b> shell script contains a quick fix for issue
+  <a href="http://gridengine.sunsource.net/issues/show_bug.cgi?id=3057">3057</a>,
+  but more importantly it can process SGE_CELL and SGE_ROOT as initial
+  command-line parameters.
   Place it somewhere in your path to use instead of using qhost directly.
 </li>
 <li>
@@ -175,14 +192,13 @@ The <b>scripts/</b> directory currently contains 1 shell script and
   using the <em>CommandGenerator</em> or not caching information via the
   <em>qlicerver</em> (FlexLM + GridEngine integration).
 
-  This Perl daemon script constantly and periodically refreshes the cached
-  GridEngine XML status data. This cached data is what cocoon uses to
-  generate various views and interfaces. The default setting for this daemon
-  is to refresh Grid Data every 30 seconds (this value is user
-  configurable). The perl daemon is used so that Cocoon does not call
-  "qstat -f -xml" every time a user hits the web page. The caching mechanism
-  greatly reduces the load on the SGE qmaster and the Cocoon application
-  server.
+  This Perl daemon script periodically refreshes the cached GridEngine XML
+  status data. This cached data is what cocoon uses to generate various
+  views and interfaces. The default setting for this daemon is to refresh
+  data every 30 seconds (this value is user configurable). The Perl
+  daemon is used so that Cocoon does not call "qstat -f -xml" every time a
+  user hits the web page. The caching mechanism greatly reduces the load on
+  the SGE qmaster and the Cocoon application server.
 </li>
 <li>
   The <b>create-threshold-config.pl</b> is <em>optional</em>
@@ -194,7 +210,7 @@ The <b>scripts/</b> directory currently contains 1 shell script and
   customized graphical "load ratio" reports within the web interface.
 </li>
 </ol>
-The <b>scripts/init-scripts/</b> directory contains a few roughed out
+The <b>init-scripts/</b> directory contains a few roughed out
 initialization scripts for the various applications.
 
 <br/><br/>
@@ -257,6 +273,7 @@ alternative input sources (cached or from <em>CommandGenerator</em>).
 </section>
 
 
+<!-- section -->
 <section>
 <sectionHead>Installation</sectionHead>
 <para><![CDATA[
@@ -323,7 +340,7 @@ Installation Process:
   </li>
   <li>
     Start caching grid data! If your SGE environment has been set up (you can
-    run 'qstat' via the command line) then starting the perl caching daemon
+    run 'qstat' via the command line) then starting the Perl caching daemon
     should be as simple as entering the scripts/ directory and issuing the
     command "./xmlqstat-cacher.pl -d". To stop the daemon, issue the command
     "./xmlqstat-cacher.pl -k". To verify that the daemon is working, check the
@@ -342,6 +359,8 @@ Installation Process:
 ]]></para>
 </section>
 
+
+<!-- section -->
 <section>
 <sectionHead>Caveat</sectionHead>
 <para><![CDATA[
@@ -366,6 +385,8 @@ Installation Process:
 ]]></para>
 </section>
 
+
+<!-- section -->
 <section>
 <sectionHead>Advanced Installation: Cocoon behind Apache Proxies</sectionHead>
 <para><![CDATA[
@@ -389,7 +410,7 @@ directives to do this would be:
 </section>
 
 
-
+<!-- section -->
 <section>
 <sectionHead>Creating mount-table.xml</sectionHead>
 <para><![CDATA[
@@ -424,6 +445,7 @@ request the URI-prefix of "/xmlqstat".
 </section>
 
 
+<!-- section -->
 <section>
 <sectionHead>Customizing config.xml</sectionHead>
 <para><![CDATA[
@@ -485,10 +507,14 @@ simple process to edit. The following configuration questions are asked:
 </section>
 
 
+<!-- section -->
 <section>
 <sectionHead>Unintended Benefits</sectionHead>
 <para><![CDATA[
-During development of this project, I was able to find and document three unique cases where GridEngine does not produce well-formed XML. The three problems are documented in 2 bug reports I have filed with the developers:
+During development of this project, I was able to find and document three
+unique cases where GridEngine does not produce well-formed XML.
+The three problems are documented in 2 bug reports I have filed with the
+developers:
 <ul>
 <li><a href="http://gridengine.sunsource.net/issues/show_bug.cgi?id=1949">http://gridengine.sunsource.net/issues/show_bug.cgi?id=1949</a></li>
 <li><a href="http://gridengine.sunsource.net/issues/show_bug.cgi?id=1957">http://gridengine.sunsource.net/issues/show_bug.cgi?id=1957</a></li>
@@ -498,6 +524,7 @@ During development of this project, I was able to find and document three unique
 </section>
 
 
+<!-- section -->
 <section>
 <sectionHead>Feature Highlights</sectionHead>
 <para><![CDATA[
@@ -528,13 +555,19 @@ A basic overview of some of the built-in features:
 </section>
 
 
+<!-- section -->
 <section>
 <sectionHead>Discussion List</sectionHead>
 <para><![CDATA[
-A mailing list has been set up for xml-qstat discussion. More information about the list including instructions on how to join or access the list archives can be found online at <a href="http://bioteam.net/mailman/listinfo/xml-qstat-d">http://bioteam.net/mailman/listinfo/xml-qstat-d</a>
+A mailing list has been set up for xml-qstat discussion. More information about
+the list including instructions on how to join or access the list archives can
+be found online at
+<a href="http://bioteam.net/mailman/listinfo/xml-qstat-d">http://bioteam.net/mailman/listinfo/xml-qstat-d</a>
 ]]></para>
 </section>
 
+
+<!-- section -->
 <section>
 <sectionHead>Resources</sectionHead>
 <para><![CDATA[
@@ -543,8 +576,7 @@ interested in is actually pretty easy. The hardest part of this project is
 actually the web design and interface aspects. The following references were
 invaluable during the course of initial experiments and the eventual code:
 <ul>
-  <li><strong>&quot;Learning XSLT&quot; by Michael Fitzgerald, 2nd ed. (2004), O'Reilly</strong></li>
-
+  <li><b>&quot;Learning XSLT&quot; by Michael Fitzgerald, 2nd ed. (2004), O'Reilly</b></li>
   <li>&quot;Javascript &amp; DHTML Cookbook&quot; by Danny Goodman, 1st ed (2003), O'Reilly</li>
   <li>&quot;Javascript Bible&quot; by Danny Goodman with Michael Morrison, 5th ed. (2003), Wiley</li>
   <li>&quot;Web Designers Reference: An integrated approach to web design with XHTML and CSS&quot; by Craig Grannel, 2005, friendsof</li>
@@ -560,5 +592,4 @@ I've also started a wiki page here that will serve to document SGE XML internals
 </section>
 
 </content>
-
 

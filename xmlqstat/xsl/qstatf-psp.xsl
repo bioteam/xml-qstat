@@ -190,26 +190,22 @@
 <xsl:text>
 </xsl:text>
 <style type="text/css" media="screen">
-  *
-  {
+  * {
       margin:  0;
       padding: 0;
       list-style-type: none;
   }
 
-  html, body
-  {
+  html, body {
       margin:  0;
       padding: 0;
   }
 
-  h1
-  {
+  h1 {
       font-size: 1.5em;
   }
 
-  #sidebar
-  {
+  #sidebar {
       width:     25%;
       min-width: 120px;
       background: pink;
@@ -217,8 +213,7 @@
       float:   left;
   }
 
-  #sidebarBottom
-  {
+  #sidebarBottom {
       width:        25%;
       min-width:    120px;
       background:   #FFF;
@@ -227,8 +222,8 @@
       font: normal normal normal 0.8em sans-serif;
   }
 
-  #sidebar a, #sidebar a:visited
-  {
+  #sidebar a,
+  #sidebar a:visited {
       display:    block;
       color:      #900;
       background: #f6f6f6;
@@ -238,14 +233,14 @@
       text-decoration: none;
   }
 
-  #sidebar a:hover, #sidebar a:focus, #content div:hover
-  {
+  #sidebar a:hover,
+  #sidebar a:focus,
+  #content div:hover {
       background: #eed;
       color:  #000;
   }
 
   #content {
-      width:  350px;
       width:  72.5%;
       padding: 5px;
       border:  0;

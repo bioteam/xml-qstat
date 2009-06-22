@@ -106,8 +106,8 @@
       <img border="0" src="images/icons/silk/bullet_toggle_plus.png" alt="[show]" title="show" />
     </xsl:element>
   </div>
-
 </xsl:template>
+
 
 <!--
    | progressBar with size 'percent'
@@ -141,34 +141,25 @@
 </xsl:template>
 
 
-
 <!--
    | simple means of handling memory with a 'G', 'M' and 'K' suffix
    | and displaying a progressBar (slider)
    -->
-<xsl:template name="memoryCalculate">
-  <xsl:param name="memUsed" />
-  <xsl:param name="memTotal" />
+<xsl:template name="memoryUsed">
+  <xsl:param name="used" />
+  <xsl:param name="total" />
 
   <xsl:param name="memoryUsed">
     <xsl:choose>
-      <xsl:when test="contains($memUsed, '-')">
-        0
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="$memUsed" />
-      </xsl:otherwise>
+    <xsl:when test="contains($used, '-')">0</xsl:when>
+    <xsl:otherwise><xsl:value-of select="$used" /></xsl:otherwise>
     </xsl:choose>
   </xsl:param>
 
   <xsl:param name="memoryTotal">
     <xsl:choose>
-      <xsl:when test="contains($memTotal, '-')">
-        0
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="$memTotal" />
-      </xsl:otherwise>
+    <xsl:when test="contains($total, '-')">0</xsl:when>
+    <xsl:otherwise><xsl:value-of select="$total" /></xsl:otherwise>
     </xsl:choose>
   </xsl:param>
 
@@ -189,9 +180,7 @@
     <xsl:when test="contains($rawSuffix, 'K')">
       <xsl:value-of select="$rawSuffix"/>
     </xsl:when>
-    <xsl:otherwise>
-      0
-    </xsl:otherwise>
+    <xsl:otherwise>0</xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
 
@@ -211,9 +200,7 @@
     <xsl:when test="contains($rawSuffix, 'K')">
       <xsl:value-of select="$rawSuffix"/>
     </xsl:when>
-    <xsl:otherwise>
-      0
-    </xsl:otherwise>
+    <xsl:otherwise>0</xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
 
@@ -255,7 +242,9 @@
       />
     </xsl:call-template>
   </xsl:when>
-  <xsl:when test="($suffixTotal = 'G' and $suffixUsed = 'M') or ($suffixTotal = 'M' and $suffixUsed = 'K')">
+  <xsl:when test="
+      ($suffixTotal = 'G' and $suffixUsed = 'M') or
+      ($suffixTotal = 'M' and $suffixUsed = 'K')">
     <xsl:call-template name="progressBar">
       <xsl:with-param name="title" select="concat($memoryUsed,' used')" />
       <xsl:with-param name="label" select="$memoryTotal" />
@@ -330,38 +319,38 @@
   <xsl:param name="state"/>
 
   <xsl:choose>
-  <!-- 'u' unavailable state : alarm color -->
   <xsl:when test="contains($state, 'u')" >
+    <!-- 'u' unavailable state : alarm color -->
     <acronym title="This queue instance is in ALARM/UNREACHABLE state. Is SGE running on this node?">
       <xsl:value-of select="$state"/>
     </acronym>
   </xsl:when>
-  <!-- 'E' error : alarm color -->
   <xsl:when test="contains($state, 'E')" >
+    <!-- 'E' error : alarm color -->
     <acronym title="This queue instance is in ERROR state. Check node!">
       <xsl:value-of select="$state"/>
     </acronym>
   </xsl:when>
-  <!-- 'a' alarm state : warn color -->
   <xsl:when test="contains($state, 'a')" >
+    <!-- 'a' alarm state : warn color -->
     <acronym title="This queue instance is in ALARM state.">
       <xsl:value-of select="$state"/>
     </acronym>
   </xsl:when>
-  <!-- 'd' disabled state : empty color -->
   <xsl:when test="contains($state, 'd')" >
+    <!-- 'd' disabled state : empty color -->
     <acronym title="This queue has been disabled by a grid administrator">
       <xsl:value-of select="$state"/>
     </acronym>
   </xsl:when>
-  <!-- 'S' suspended -->
   <xsl:when test="contains($state, 'S')" >
+    <!-- 'S' suspended -->
     <acronym title="Queue is (S)uspended">
       <xsl:value-of select="$state"/>
     </acronym>
   </xsl:when>
-  <!-- default -->
   <xsl:otherwise>
+    <!-- default -->
     <xsl:value-of select="$state"/>
   </xsl:otherwise>
   </xsl:choose>

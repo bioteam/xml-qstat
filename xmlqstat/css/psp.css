@@ -1,7 +1,7 @@
 /* text/css */
 
 * {
-    margin: 0;
+    margin:  0;
     padding: 0;
     list-style-type: none;
 }
@@ -11,15 +11,21 @@ html, body {
     padding: 0;
 }
 
-#sidebar {
-    background: pink;
-    border: 1px solid red;
-    float: left;
-    width: 118px;
-    width: 25%;
+h1 {
+    font-size: 1.5em;
 }
 
-#sidebar a, #sidebar a:visited {
+#sidebar {
+    width:     25%;
+    min-width: 120px;
+    background: pink;
+    border:  1px solid #8CACBB;
+    float:   left;
+}
+
+
+#sidebar a,
+#sidebar a:visited {
     display: block;
     color: #900;
     background: #f8fbd0;
@@ -29,14 +35,21 @@ html, body {
     text-decoration: none;
 }
 
-#sidebar a:hover, #sidebar a:focus
-{
+#sidebar a:hover,
+#sidebar a:focus {
     background: #fc9;
 }
 
-#content
-{
-    width: 348px;
+#sidebarBottom {
+    width:        25%;
+    min-width:    120px;
+    background:   #FFF;
+    padding-left: 1.5%;
+    border:  0px solid #8CACBB;
+    font: normal normal normal 0.8em sans-serif;
+}
+
+#content {
     width: 72.5%;
     padding: 5px;
     border: 1px solid blue;
