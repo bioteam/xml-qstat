@@ -39,10 +39,10 @@
     <xsl:attribute name="href">
     <xsl:value-of select="$jobinfo"/>?<xsl:if
       test="string-length($request)"><xsl:value-of
-      select="$request"/>&amp;</xsl:if>SGE_ROOT=<xsl:value-of
+      select="$request"/>&amp;</xsl:if>ROOT=<xsl:value-of
       select="@root"/><xsl:if
       test="@cell != 'default'"
-      ><xsl:text>&amp;</xsl:text>SGE_CELL=<xsl:value-of select="@cell"
+      ><xsl:text>&amp;</xsl:text>CELL=<xsl:value-of select="@cell"
       /></xsl:if>
     </xsl:attribute>
   </xsl:element>

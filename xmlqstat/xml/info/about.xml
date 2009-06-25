@@ -174,8 +174,8 @@ The <b>scripts/</b> directory currently contains 2 shell scripts and
 <li>
   The <b>qstat.sh</b> shell script contains a quick fix for issue
   <a href="http://gridengine.sunsource.net/issues/show_bug.cgi?id=3057">3057</a>,
-  but more importantly it can process SGE_CELL and SGE_ROOT as initial
-  command-line parameters.
+  but more importantly it can process CELL and ROOT as initial command-line
+  parameters, which are interpreted as SGE_CELL and SGE_ROOT, respectively.
   Place it somewhere in your path to use instead of using qhost directly.
 </li>
 <li>

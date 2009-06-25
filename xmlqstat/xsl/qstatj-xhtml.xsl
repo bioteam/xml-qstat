@@ -48,10 +48,10 @@
 
 <xsl:param name="cgiParams">
   <xsl:if
-    test="//config/cluster">&amp;SGE_ROOT=<xsl:value-of
+    test="//config/cluster">&amp;ROOT=<xsl:value-of
     select="//config/cluster/@root"/><xsl:if
     test="//config/cluster/@cell != 'default'"
-    >&amp;SGE_CELL=<xsl:value-of
+    >&amp;CELL=<xsl:value-of
     select="//config/cluster/@cell"/></xsl:if>
   </xsl:if>
 </xsl:param>

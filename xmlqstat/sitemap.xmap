@@ -111,7 +111,7 @@
      | Using the 'qstat.sh' wrapper instead of 'qstat' allows logging
      | to '/tmp/commandlog-qstat' for DEBUGGING purposes
      | eg, find out how well the cocoon cache is performing.
-     | It also allows use to add a SGE_ROOT=.. initial parameter for
+     | It also allows use to add a ROOT=.. initial parameter for
      | addressing different clusters
      -->
   <map:match pattern="qstat">
@@ -229,7 +229,7 @@
   <map:match pattern="qstatf.xml/~*/**">
     <map:generate
         type="commandGenerator"
-        src="qstat.sh SGE_CELL={1} SGE_ROOT=/{2} -u * -xml -r -f -explain aAcE"
+        src="qstat.sh CELL={1} ROOT=/{2} -u * -xml -r -f -explain aAcE"
         />
     <map:serialize type="xml"/>
   </map:match>
@@ -241,7 +241,7 @@
   <map:match pattern="qstatf.xml/**">
     <map:generate
         type="commandGenerator"
-        src="qstat.sh SGE_ROOT=/{1} -u * -xml -r -f -explain aAcE"
+        src="qstat.sh ROOT=/{1} -u * -xml -r -f -explain aAcE"
         />
     <map:serialize type="xml"/>
   </map:match>
@@ -278,7 +278,7 @@
   <map:match pattern="qstatj-*.xml/~*/**">
     <map:generate
         type="commandGenerator"
-        src="qstat.sh SGE_CELL={2} SGE_ROOT=/{3} -xml -j {1}"
+        src="qstat.sh CELL={2} ROOT=/{3} -xml -j {1}"
         />
     <map:serialize type="xml"/>
   </map:match>
@@ -290,7 +290,7 @@
   <map:match pattern="qstatj-*.xml/**">
     <map:generate
         type="commandGenerator"
-        src="qstat.sh SGE_ROOT=/{2} -xml -j {1}"
+        src="qstat.sh ROOT=/{2} -xml -j {1}"
         />
     <map:serialize type="xml"/>
   </map:match>

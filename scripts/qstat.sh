@@ -3,14 +3,13 @@
 # For example, to track how often a command is 'hit' from a webserver request.
 #
 # But the wrapper also interprets these initial parameters:
-#     SGE_CELL
-#     SGE_ROOT (should be an absolute path)
+#     CELL=... (interpret as SGE_CELL)
+#     ROOT=... (interpret as SGE_ROOT - should be an absolute path)
 #
-# and also supplies a quick fix for issue
+# It also provides a quick fix for issue
 #     http://gridengine.sunsource.net/issues/show_bug.cgi?id=2515
-# for older installations (don't rely on the exit code)
-#
-# as well as a quick fix for issue
+#     for older installations (don't rely on the exit code)
+# and for issue
 #     http://gridengine.sunsource.net/issues/show_bug.cgi?id=3057
 #
 # -----------------------------------------------------------------------------
@@ -42,18 +41,19 @@ error()
 }
 
 
-# find initial SGE_* parameters
-unset settings
+# adjust the GridEngine environment based on the leading parameters:
+#    CELL (SGE_CELL), ROOT (SGE_ROOT)
+unset abspath
 while [ "$#" -gt 0 ]
 do
     case "$1" in
-    SGE_CELL=*)
-        export SGE_CELL="${1##SGE_CELL=}"
+    CELL=*)
+        export SGE_CELL="${1##CELL=}"
         shift
         ;;
-    SGE_ROOT=*)
-        export SGE_ROOT="${1##SGE_ROOT=}"
-        settings=true
+    ROOT=*)
+        export SGE_ROOT="${1##ROOT=}"
+        abspath=/
         shift
         ;;
     *)
@@ -72,14 +72,14 @@ done
     error "invalid SGE_CELL directory '$SGE_ROOT/${SGE_CELL:-default}'"
 
 
-# this is the essential bit from settings.sh,
-# but SGE_ROOT might be different
-if [ ${settings:-false} = true ]
+# Expand the path $SGE_ROOT/bin/<ARCH>/ (the essential bit from settings.sh).
+# We need this for handling different SGE_ROOT values.
+# NB: works on Linux and SunOS without adjusting LD_LIBRARY_PATH
+if [ "$abspath" = / ]
 then
     if [ -x "$SGE_ROOT/util/arch" ]
     then
-        PATH=$SGE_ROOT/bin/$($SGE_ROOT/util/arch):$PATH
-        export PATH
+        abspath=$SGE_ROOT/bin/$($SGE_ROOT/util/arch)/
     else
         error "'$SGE_ROOT/util/arch' not found"
     fi
@@ -88,10 +88,10 @@ fi
 
 case "$cmd" in
 qhost)
-    $cmd "$@" | sed -e 's@xmlns=@xmlns:xsd=@'
+    $abspath$cmd "$@" | sed -e 's@xmlns=@xmlns:xsd=@'
     ;;
 *)
-    $cmd "$@" | sed -e 's@</*>@@g'
+    $abspath$cmd "$@" | sed -e 's@</*>@@g'
     ;;
 esac
 

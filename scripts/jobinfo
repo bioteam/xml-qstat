@@ -3,8 +3,8 @@ use strict;
 
 # CUSTOMIZE THESE SETTINGS TO MATCH YOUR REQUIREMENTS:
 my %config = (
-    SGE_ROOT => "/opt/grid",
-    SGE_CELL => "default",
+    ROOT => "/opt/grid",
+    CELL => "default",
 );
 
 # -----------------------------------------------------------------------------
@@ -17,7 +17,7 @@ my %config = (
 #
 # To get it working:
 # ------------------
-# 1. Adjust the SGE_ROOT, SGE_CELL environment settings to match your system,
+# 1. Adjust the ROOT, CELL environment settings to match your system,
 #    or pass them on the parameter list
 # 2. Install the script in a cgi-bin directory somewhere on your webserver
 # 3. Edit the sitemap.xmap file to insert the proper URL that points to this CGI
@@ -78,14 +78,16 @@ for (@params) {
 #
 # GridEngine environment from params, env or config
 #
-for (qw( SGE_ROOT SGE_CELL )) {
+for (qw( CELL ROOT )) {
     if ( exists $param{$_} ) {
-        $ENV{$_} = $param{$_};
+        $ENV{"SGE_$_"} = $param{$_};
     }
-    else {
-        $ENV{$_} ||= $config{$_};
+    else
+    {
+        $ENV{"SGE_$_"} ||= $config{$_};
     }
 }
+
 
 # finalize GridEngine environment, call directly (don't adjust path)
 my @qstat;
