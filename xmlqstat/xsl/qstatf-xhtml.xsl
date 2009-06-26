@@ -1163,11 +1163,11 @@
 <xsl:text>
 </xsl:text>
   <tr>
-    <!-- jobId: link owner names to "jobinfo-{jobId}" -->
+    <!-- jobId: link owner names to "jobinfo?jobId" -->
     <td>
       <xsl:element name="a">
         <xsl:attribute name="href">
-          jobinfo<xsl:value-of select="$clusterSuffix"/>-<xsl:value-of select="JB_job_number"/>
+          jobinfo<xsl:value-of select="$clusterSuffix"/>?<xsl:value-of select="JB_job_number"/>
         </xsl:attribute>
         <xsl:attribute name="title">details for job <xsl:value-of select="JB_job_number"/></xsl:attribute>
         <xsl:value-of select="JB_job_number"/>
@@ -1309,11 +1309,11 @@
   </xsl:variable>
 
   <tr>
-    <!-- jobId: link owner names to "jobinfo-{jobId}" -->
+    <!-- jobId: link owner names to "jobinfo?jobId" -->
     <td>
       <xsl:element name="a">
         <xsl:attribute name="href">
-          jobinfo<xsl:value-of select="$clusterSuffix"/>-<xsl:value-of select="JB_job_number"/>
+          jobinfo<xsl:value-of select="$clusterSuffix"/>?<xsl:value-of select="JB_job_number"/>
         </xsl:attribute>
         <xsl:attribute name="title">details for job <xsl:value-of select="JB_job_number"/></xsl:attribute>
         <xsl:value-of select="JB_job_number"/>

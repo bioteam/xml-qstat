@@ -37,8 +37,8 @@
 <xsl:param name="menuMode"/>
 
 <!-- get specific configuration parameters -->
-<xsl:param name="viewfileProgram" select="//config/programs/viewfile" />
-<xsl:param name="viewlogProgram" select="//config/programs/viewlog" />
+<xsl:param name="viewfile" select="//config/programs/viewfile" />
+<xsl:param name="viewlog"  select="//config/programs/viewlog" />
 
 <!-- possibly append ~{clusterName} to urls -->
 <xsl:param name="clusterSuffix">
@@ -336,7 +336,7 @@
     <td>
       <xsl:element name="a">
         <xsl:attribute name="title">details <xsl:value-of select="JB_job_number"/></xsl:attribute>
-        <xsl:attribute name="href">#details<xsl:value-of select="JB_job_number"/></xsl:attribute>
+        <xsl:attribute name="href">#<xsl:value-of select="JB_job_number"/></xsl:attribute>
         <xsl:value-of select="JB_job_number" />
       </xsl:element>
     </td>
@@ -381,7 +381,7 @@
         <xsl:call-template name="stateTranslation">
           <xsl:with-param name="state" select="JB_ja_tasks/ulong_sublist/JAT_status" />
         </xsl:call-template>
-        <xsl:if test="$viewlogProgram">
+        <xsl:if test="string-length($viewlog)">
           <xsl:apply-templates select="JB_hard_resource_list" mode="viewlog"/>
         </xsl:if>
       </xsl:when>
@@ -410,7 +410,7 @@
   <td>
     <xsl:element name="a">
       <xsl:attribute name="title">details <xsl:value-of select="JB_job_number"/></xsl:attribute>
-      <xsl:attribute name="href">#details<xsl:value-of select="JB_job_number"/></xsl:attribute>
+      <xsl:attribute name="href">#<xsl:value-of select="JB_job_number"/></xsl:attribute>
       <xsl:value-of select="JB_job_number" />
     </xsl:element>
   </td>
@@ -432,7 +432,7 @@
 <blockquote>
 <xsl:element name="table">
   <xsl:attribute name="class">listing</xsl:attribute>
-  <xsl:attribute name="id">details<xsl:value-of select="$jobId"/></xsl:attribute>
+  <xsl:attribute name="id"><xsl:value-of select="$jobId"/></xsl:attribute>
   <tr>
     <td>
       <div class="tableCaption">Details for job
@@ -471,11 +471,11 @@
     <td>
       <xsl:variable name="PN_path" select="JB_stdout_path_list/path_list/PN_path" />
       <xsl:choose>
-      <xsl:when test="$viewfileProgram">
+      <xsl:when test="string-length($viewfile)">
         <xsl:element name="a">
         <xsl:attribute name="title">view stdout</xsl:attribute>
         <xsl:attribute name="href"><xsl:value-of
-            select="$viewfileProgram"/>?jobid=<xsl:value-of
+            select="$viewfile"/>?jobid=<xsl:value-of
             select="JB_job_number"/><xsl:text>&amp;</xsl:text>file=<xsl:choose>
             <xsl:when test='starts-with($PN_path,"/")' >
               <!-- absolute path -->
@@ -829,7 +829,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
   <xsl:element name="a">
     <xsl:attribute name="title">viewlog</xsl:attribute>
     <xsl:attribute name="href"><xsl:value-of
-        select="$viewlogProgram"/>?<xsl:value-of
+        select="$viewlog"/>?<xsl:value-of
         select="$request"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
     <img alt="[v]" src="images/icons/silk/page_find.png" border="0" />
   </xsl:element>
@@ -838,7 +838,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
   <xsl:element name="a">
     <xsl:attribute name="title">plotlog</xsl:attribute>
     <xsl:attribute name="href"><xsl:value-of
-        select="$viewlogProgram"/>?action=plot<xsl:text>&amp;</xsl:text><xsl:value-of
+        select="$viewlog"/>?action=plot<xsl:text>&amp;</xsl:text><xsl:value-of
         select="$request"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
     <img alt="[p]" src="images/icons/silk/chart_curve.png" border="0" />
   </xsl:element>
@@ -847,7 +847,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
   <xsl:element name="a">
     <xsl:attribute name="title">plotlogs</xsl:attribute>
     <xsl:attribute name="href"><xsl:value-of
-        select="$viewlogProgram"/>?action=plot<xsl:text>&amp;</xsl:text>owner=<xsl:value-of
+        select="$viewlog"/>?action=plot<xsl:text>&amp;</xsl:text>owner=<xsl:value-of
         select="../JB_owner"/><xsl:text>&amp;</xsl:text>resources=<xsl:value-of
         select="$resources"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
     <img alt="[P]" src="images/icons/silk/chart_curve_add.png" border="0" />

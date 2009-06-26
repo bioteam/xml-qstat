@@ -7,11 +7,12 @@
 #     ROOT=... (interpret as SGE_ROOT - should be an absolute path)
 #
 # It also provides a quick fix for issue
-#     http://gridengine.sunsource.net/issues/show_bug.cgi?id=2515
-#     for older installations (don't rely on the exit code)
+#     http://gridengine.sunsource.net/issues/show_bug.cgi?id=1949
 # and for issue
-#     http://gridengine.sunsource.net/issues/show_bug.cgi?id=3057
+#     http://gridengine.sunsource.net/issues/show_bug.cgi?id=2515
+#     [for older installations]
 #
+# don't rely on the exit code
 # -----------------------------------------------------------------------------
 
 # The command is basename w/o trailing .sh

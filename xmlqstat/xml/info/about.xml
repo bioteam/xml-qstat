@@ -113,7 +113,7 @@ Key dependencies include:
 <li>A recent version of Perl</li>
 <li>Apache Cocoon version 2.1.8 or higher</li>
 <li>GridEngine version 6.0u7 or higher (6.1u3 or later strongly encouraged)</li>
-<li>Mozilla, Safari, Firefox, Sony PSP or Opera web browser (Internet Explorer is not currently supported)</li>
+<li>Mozilla, Safari, Firefox, Konqueror, Sony PSP or Opera web browser (Internet Explorer is not currently supported)</li>
 </ul>
 ]]></para>
 </section>
@@ -126,9 +126,10 @@ Key dependencies include:
 The code is organized in the following manner:
 <pre>
 $ ls -l /opt/xml-qstat/
-drwxr-xr-x    cocoon-2.1.11/
+drwxr-xr-x    cocoon/
 drwxr-xr-x    java/
 drwxr-xr-x    httpi/
+drwxr-xr-x    init-scripts/
 drwxr-xr-x    scripts/
 drwxr-xr-x    xmlqstat/
 </pre>
@@ -148,8 +149,8 @@ The <b>httpi/</b> directory is <em>optional</em> and contains a tiny, fast and
 secure pure-Perl webserver known as
 <a href="http://www.floodgap.com/httpi/">httpi</a>.
 
-This webserver can be used to generate dynamic XML when the cached data is
-not suitable or if the user prefers not to use the pure-Java
+This webserver can be used to generate dynamic XML when the cached data
+is unsuitable or if the user prefers not to use the pure-Java
 <em>CommandGenerator</em>.
 
 The original use of the second webserver was to service requests for
@@ -159,7 +160,7 @@ raw XML results from the <code>"qstat -j -xml"</code> query.
 There remains, however, many other places in which the second webserver can
 be of use. For example, to wrap existing system tools that don't have an xml
 output, or to serve bitmap images of system loads, solution convergence,
-etc.
+etc. Also, see note below in the <b>jobinfo</b> description.
 
 <br/><br/>
 The <b>scripts/</b> directory currently contains 2 shell scripts and
@@ -186,6 +187,11 @@ The <b>scripts/</b> directory currently contains 2 shell scripts and
   <pre>
      curl http://SERVER:PORT/xmlqstat/jobinfo
      curl http://SERVER:PORT/xmlqstat/jobinfo?JOBID</pre>
+  <b>NB:</b> Under some circumstances &ndash; notably when executing
+  <code>"qstat -xml -j *"</code> with a query to the second GridEngine
+  cluster installation &ndash; the CommandGenerator method locks up when
+  calling the qstat command. The source of the problem is not readily
+  evident, but the CGI script doesn't seem to exhibit this misbehaviour.
 </li>
 <li>
   The <b>xmlqstat-cacher.pl</b> is <em>only</em> required if you are not
@@ -257,17 +263,31 @@ If you are using file caching (eg, with the qlicerver code), the names of the
 cache directories must correspond to the cluster named. For example:
 <pre>
 $ ls -lF cache-*
-lrwxrwxrwx   cache-cluster01 -&gt; ../../grid/default/site/cache/
-lrwxrwxrwx   cache-cluster02 -&gt; ../../n1ge6/default/site/cache/
+lrwxrwxrwx   cache-cluster01 -&gt; ../../grid01/default/site/cache/
+lrwxrwxrwx   cache-cluster02 -&gt; ../../grid02/default/site/cache/
 </pre>
 With this mechanism, it is possible to monitor several cluster installations
 or cluster cells, provided that the cache contents can be directly mounted
 into the file system.
 
+If the <b>xmlqstat-cacher.pl</b> is being used instead, a single cache
+directory is used:
+<pre>
+$ ls -lF cache/*
+lrwxrwxrwx   cache/qstatf.xml -&gt; ../../grid/default/site/cache/qstatf.xml
+</pre>
+
+To monitor several cluster installations or cluster cells, the cache names
+have this form:
+<pre>
+$ ls -lF cache/*
+lrwxrwxrwx   cache/qstatf~cluster01.xml -&gt; ../../grid01/default/site/cache/qstatf.xml
+lrwxrwxrwx   cache/qstatf~cluster02.xml -&gt; ../../grid02/default/site/cache/qstatf.xml
+</pre>
 
 In some cases, it may be necessary to edit <b>sitemap.xmap</b> to make minor
-configuration changes. For example, to select
-alternative input sources (cached or from <em>CommandGenerator</em>).
+configuration changes. For example, to select alternative input sources
+(cached or from <em>CommandGenerator</em>).
 
 ]]></para>
 </section>
@@ -309,8 +329,8 @@ Installation Process:
 <li>
   <em>optional:</em>
   Download
-  <a href="http://www.floodgap.com/httpi/">httpi</a> into the xml-qstat/
-  directory (or elsewhere).
+  <a href="http://www.floodgap.com/httpi/">httpi</a> &ndash;
+  into the xml-qstat/ directory or elsewhere.
   <br/>
   NB: This is only necessary if you want to use CGI
   scripts and/or do not wish to use the <em>CommandGenerator</em> for
@@ -353,7 +373,7 @@ Installation Process:
 <li>
   The web interface should be ready for testing.
   Point a web browser at the URL
-  <em>http://{yourServerName}:8888/xmlqstat/jobs</em>
+  <em>http://{yourServerName}:8888/xmlqstat/</em>
 </li>
 </ol>
 ]]></para>
@@ -422,12 +442,14 @@ the example:
 <pre>
 
 $ ls -l /opt/xml-qstat/
-drwxr-xr-x    cocoon-2.1.8/
+drwxr-xr-x    cocoon/
 drwxr-xr-x    httpi/
+drwxr-xr-x    init-scripts/
 drwxr-xr-x    scripts/
 drwxr-xr-x    xmlqstat/
 </pre>
-Then you would simply create a file called <b>cocoon-2.1.8/mount-table.xml</b> with contents that looked like this:
+Then you would simply create a file called <b>cocoon/mount-table.xml</b>
+with contents that looked like this:
 <pre>
 
   &lt;mount-table&gt;

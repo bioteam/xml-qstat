@@ -47,28 +47,34 @@
     - the jobId, etc. are passed via the queryString
 -->
 <programs>
+  <!--
+      specify an external program for obtaining the qstat -j information
+      - leave empty if you don't have such a program, or if you wish
+        to use the CommandGenerator
+  -->
   <jobinfo>http://dealog01:8080/xmlqstat/jobinfo</jobinfo>
 
   <!--
       specify an external program for viewing the stdout files
-      - the jobId, filenames, etc. are passed via the queryString
-      leave empty if you don't have such a program
+      (jobId, filenames, etc. are passed via the queryString)
+      - leave empty if you don't have such a program
   -->
   <viewfile>http://dealog01:8080/xmlqstat/viewfile</viewfile>
 
   <!--
       specify an external program for finding and viewing the log files
-      - the jobId, filenames, etc. are passed via the queryString
-      leave empty if you don't have such a program
+      (jobId, filenames, etc. are passed via the queryString)
+      - leave empty if you don't have such a program
   -->
   <viewlog>http://dealog01:8080/xmlqstat/logview</viewlog>
+
 </programs>
 
 <!--
     define a logo for all of the pages and the link location
     <topLogo src="images/xml-qstat-logo.png" width="150" />
 -->
-<topLogo src="images/emconLogo.png" width="225" href="http://dealog01:8080"/>
+<topLogo src="images/emconLogo.png" width="225" href="http://dealog01:8080" />
 
 <!-- define cluster settings -->
 <clusters>

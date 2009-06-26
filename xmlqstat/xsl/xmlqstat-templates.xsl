@@ -369,11 +369,17 @@
   </xsl:when>
   <xsl:when test="contains($queue, '@')">
     <!-- change queue@host.domain.name to queue@host -->
-    <xsl:value-of
-        select="substring-before($queue, '@')"
-    />@<xsl:value-of
-        select="substring-before(substring-after($queue,'@'),'.')"
-    />
+    <xsl:value-of select="substring-before($queue, '@')"/>
+    <xsl:text>@</xsl:text>
+    <xsl:variable name="trailing" select="substring-after($queue,'@')"/>
+    <xsl:choose>
+    <xsl:when test="contains($trailing, '.')">
+      <xsl:value-of select="substring-before($trailing,'.')"/>
+    </xsl:when>
+    <xsl:otherwise>
+       <xsl:value-of select="$trailing"/>
+    </xsl:otherwise>
+    </xsl:choose>
   </xsl:when>
   <xsl:otherwise>
     <xsl:value-of select="$queue"/>
@@ -387,7 +393,14 @@
 -->
 <xsl:template name="unqualifiedHost">
   <xsl:param name="host" />
-  <xsl:value-of select="substring-before($host,'.')"/>
+  <xsl:choose>
+  <xsl:when test="contains($host, '.')">
+    <xsl:value-of select="substring-before($host,'.')"/>
+  </xsl:when>
+  <xsl:otherwise>
+    <xsl:value-of select="$host"/>
+  </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 <!--
@@ -395,7 +408,7 @@
 -->
 <xsl:template name="shortName">
   <xsl:param name="name" />
-  <xsl:param name="length" select="24"/>
+  <xsl:param name="length" select="32"/>
 
   <xsl:choose>
   <xsl:when test="string-length($name) &gt; $length">

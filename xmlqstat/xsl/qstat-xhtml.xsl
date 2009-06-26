@@ -37,10 +37,7 @@
     name="useJavaScript"
     select="document('../config/config.xml')/config/useJavaScript"
     />
-<xsl:param
-    name="viewlogProgram"
-    select="//config/programs/viewlog"
-    />
+<xsl:param name="viewlog"  select="//config/programs/viewlog" />
 
 <xsl:param name="cgiParams">
   <xsl:if
@@ -391,7 +388,7 @@
   <!-- state : with link to residuals -->
   <td>
     <xsl:value-of select="state" />
-    <xsl:if test="$viewlogProgram">
+    <xsl:if test="string-length($viewlog)">
       <xsl:apply-templates select="." mode="viewlog"/>
     </xsl:if>
   </td>
@@ -526,7 +523,7 @@
   <xsl:element name="a">
     <xsl:attribute name="title">viewlog</xsl:attribute>
     <xsl:attribute name="href"><xsl:value-of
-        select="$viewlogProgram"/>?<xsl:value-of
+        select="$viewlog"/>?<xsl:value-of
         select="$request"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
     <img src="images/icons/silk/page_find.png" alt="[v]" border="0" />
   </xsl:element>
@@ -535,7 +532,7 @@
   <xsl:element name="a">
     <xsl:attribute name="title">plotlog</xsl:attribute>
     <xsl:attribute name="href"><xsl:value-of
-        select="$viewlogProgram"/>?action=plot<xsl:text>&amp;</xsl:text><xsl:value-of
+        select="$viewlog"/>?action=plot<xsl:text>&amp;</xsl:text><xsl:value-of
         select="$request"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
     <img src="images/icons/silk/chart_curve.png" alt="[p]" border="0" />
   </xsl:element>
@@ -544,7 +541,7 @@
   <xsl:element name="a">
     <xsl:attribute name="title">plotlogs</xsl:attribute>
     <xsl:attribute name="href"><xsl:value-of
-        select="$viewlogProgram"/>?action=plot<xsl:text>&amp;</xsl:text>owner=<xsl:value-of
+        select="$viewlog"/>?action=plot<xsl:text>&amp;</xsl:text>owner=<xsl:value-of
         select="JB_owner"/><xsl:text>&amp;</xsl:text>resources=<xsl:value-of
         select="$resources"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
     <img src="images/icons/silk/chart_curve_add.png" alt="[P]" border="0" />
