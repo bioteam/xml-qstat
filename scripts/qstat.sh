@@ -28,7 +28,12 @@ then
     chmod 0666 $logfile 2>/dev/null
 fi
 
-echo "$(date --rfc-3339=s) $USER@$HOST: $cmd $@" >> $logfile 2>/dev/null
+### Mac OS X Note: ("date --rfc-3339") is not a valid option for Mac OS X
+###      Uncomment this line if you like on systems that support it
+#
+#  echo "$(date --rfc-3339=s) $USER@$HOST: $cmd $@" >> $logfile 2>/dev/null
+
+
 
 #
 # NB: using CDATA in the error messages doesn't seem to help with bad characters

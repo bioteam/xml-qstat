@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl 
 # avoid starter method here - otherwise we cannot kill the daemon
 use strict;
 use POSIX qw();
@@ -14,8 +14,7 @@ my %config = (
     ## Decide where your cached XML files will be stored
     ## or override on the command-line
     ## Set to an empty string to suppress the query and the output.
-    qstatf =>
-      "/opt/grid/default/site/xml-qstat/xmlqstat/cache/qstatf.xml",
+    qstatf =>  "/opt/xml-qstat/xml-qstat/xmlqstat/cache-laptop/qstatf.xml",
     qstat   => "",
     qhost   => "",
     delay   => 30,
@@ -296,7 +295,7 @@ sub qstatfCacher {
     my $caller    = shift;
     my $cacheFile = shift or return;
 
-    my $lines = Sge->bin( qstat => qw( -u * -xml -r -f -explain aAcE ) )
+    my $lines = Sge->bin( qstat => qw( '-u * -xml -r -F np_load_avg,load_avg -f -explain aAcE' ) )
       or return;
 
     Sge->writeCache( $cacheFile, $lines );
