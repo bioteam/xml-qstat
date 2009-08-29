@@ -512,7 +512,7 @@
 
   <!-- load (w/o dash for missing values) -->
   <td>
-    <xsl:value-of select="translate(hostvalue[@name='load_avg'], '-', ' ')"/>
+   <xsl:value-of select="translate(hostvalue[@name='load_avg'], '-', ' ')"/>
   </td>
 
   <!-- queue instance information -->
@@ -606,7 +606,8 @@
       <xsl:call-template name="queue-state-icon">
         <xsl:with-param name="state" select="$state"/>
       </xsl:call-template>
-      <xsl:value-of select="@name"/>
+      <!-- the concat inserts a space as padding between icon and text -->
+      <xsl:value-of select="concat(' ',@name)"/>
     </td>
 
     <!-- queue type B(atch), I(nteractive), P(arallel) -->

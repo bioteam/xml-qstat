@@ -107,7 +107,7 @@
 <table class="listing">
   <tr valign="middle">
     <td>
-      <div class="tableCaption">Clusters</div>
+      <div class="tableCaption">Grid Engine Clusters</div>
     </td>
   </tr>
 </table>
@@ -118,12 +118,8 @@
 
 <!-- bottom links -->
 <div class="bottomBox">
-  <a href="jobs" title="xmlqstat"><img border="0"
+  <a href="jobs" title="Multi-cluster Job Summary"><img border="0"
       src="images/icons/silk/table_gear.png" alt="[xmlqstat]"
-  /></a>
-  <img alt=" | " src="css/screen/icon_divider.png" />
-  <a href="psp/" title="sony psp"><img border="0"
-      src="images/icons/silk/controller.png" alt="[psp]"
   /></a>
 </div>
 
@@ -137,12 +133,12 @@
 <xsl:template match="//config/clusters">
   <table class="listing" style="text-align:left;">
   <tr>
-    <th>name</th>
-    <th>query cached</th>
-    <th>query direct</th>
+    <th>Name</th>
+    <th><acronym title="Using cached SGE data is more efficient on large clusters or systems with tens of thousands of active jobs. A central cache will also put less of a load on the qmaster daemon if the web application is popular. This is an optional feature and requires a standalone XML caching cronjob or daemon.">query cached status</acronym></th>
+    <th><acronym title="Directly query SGE to get real-time information. Each page view generates a live SGE qstat query.">live query</acronym></th>
     <th>root</th>
     <th>cell</th>
-    <th>cache</th>
+    <th><acronym title="If enabled, this feature allows for direct viewing of the cached XML data.">cache</acronym></th>
   </tr>
   <xsl:for-each select="cluster">
     <!-- sorted by job number and task -->
@@ -163,8 +159,8 @@
   <!-- cluster name -->
   <td>
     <xsl:element name="a">
-      <xsl:attribute name="title">jobs</xsl:attribute>
-      <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/jobs</xsl:attribute>
+      <xsl:attribute name="title">Summary</xsl:attribute>
+      <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/summary</xsl:attribute>
       <xsl:value-of select="@name"/>
     </xsl:element>
   </td>
