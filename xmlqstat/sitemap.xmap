@@ -20,18 +20,6 @@
   <map:readers default="resource" />
 
   <map:serializers default="xhtml">
-    <!-- Our custom XHTML output serializer for Sony PSP browsers -->
-    <map:serializer
-      name="xhtml-psp"
-      src="org.apache.cocoon.serialization.XMLSerializer"
-      mime-type="text/html; charset=ISO-8859-1"
-      >
-      <omit-xml-declaration>yes</omit-xml-declaration>
-      <omit-namespaces>yes</omit-namespaces>
-      <encoding>UTF-8</encoding>
-      <doctype-public>-//W3C//DTD XHTML 1.0 Strict//EN</doctype-public>
-      <doctype-system>http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd</doctype-system>
-    </map:serializer>
 
     <!-- ATOM 1.0 Feed Serialzer -->
     <map:serializer
@@ -49,7 +37,6 @@
       src="org.apache.cocoon.selection.BrowserSelector"
       >
       <browser name="explorer" useragent="MSIE"/>
-      <browser name="sonyPSP"  useragent="PlayStation Portable"/>
     </map:selector>
 
     <map:selector name="resource-exists"
@@ -190,7 +177,7 @@
     <map:otherwise>
     <map:generate
         type="commandGenerator"
-        src="qstat.sh -u * -xml -r -f -explain aAcE"
+        src="qstat.sh -u * -xml -r -f -F np_load_avg,load_avg -explain aAcE"
         />
     </map:otherwise>
     </map:select>
@@ -232,7 +219,7 @@
   <map:match pattern="qstatf.xml/~*/**">
     <map:generate
         type="commandGenerator"
-        src="qstat.sh CELL={1} ROOT=/{2} -u * -xml -r -f -explain aAcE"
+        src="qstat.sh CELL={1} ROOT=/{2} -u * -xml -r -F np_load_avg,load_avg -f -explain aAcE"
         />
     <map:serialize type="xml"/>
   </map:match>
@@ -244,7 +231,7 @@
   <map:match pattern="qstatf.xml/**">
     <map:generate
         type="commandGenerator"
-        src="qstat.sh ROOT=/{1} -u * -xml -r -f -explain aAcE"
+        src="qstat.sh ROOT=/{1} -u * -xml -r -F np_load_avg,load_avg -f -explain aAcE"
         />
     <map:serialize type="xml"/>
   </map:match>
@@ -319,11 +306,6 @@
 
 
 
-  <!-- Catch people going to http://<server>/xmlqstat/psp/  -->
-  <map:match pattern="psp/">
-    <map:redirect-to uri="summary.html"/>
-  </map:match>
-
   <!-- Catch people going to http://<server>/xmlqstat/feed/  -->
   <map:match pattern="feed/">
     <map:redirect-to uri="overview"/>
@@ -344,15 +326,7 @@
     <map:serialize type="xhtml"/>
   </map:match>
 
-  <!-- MOBILE PSP rendering for url path /psp/ -->
-  <map:match pattern="psp/*.html">
-    <map:generate  src="cocoon:/qstatf"/>
-    <map:transform src="xsl/qstatf-psp.xsl">
-      <map:parameter name="timestamp"  value="{date: yyyy-MM-dd_HH:mm:ss}"/>
-      <map:parameter name="renderMode" value="{1}"/>
-    </map:transform>
-    <map:serialize type="xhtml-psp"/>
-  </map:match>
+
 
   <!-- atom xml feed.
        The timezone offset for the iso8601 timestamp from config/config.xml file
@@ -379,7 +353,7 @@
     <map:redirect-to uri="../cluster"/>
   </map:match>
 
-  <!-- Redirect "/xmlqstat/cluster/{clusterName}"
+     <!-- Redirect "/xmlqstat/cluster/{clusterName}"
             and "/xmlqstat/cluster/{clusterName}/"
        to "/xmlqstat/cluster/{clusterName}/jobs"
        -->
@@ -449,7 +423,7 @@
     <map:when test="cache-{1}">
       <map:aggregate element="aggregated">
         <map:part src="cocoon:/paths~{1}.xml" strip-root="yes" />
-        <map:part src="cache-{1}/qlicserver.xml" />
+  <!--      <map:part src="cache-{1}/qlicserver.xml" /> -->
         <map:part src="cache-{1}/qstat.xml" />
       </map:aggregate>
     </map:when>
@@ -574,7 +548,7 @@
     <map:serialize type="xml"/>
   </map:match>
 
-  <!-- intercept unsupported browsers and SonyPSP user-agents -->
+  <!-- intercept unsupported browsers user-agents -->
   <map:match pattern="*">
     <map:select type="browser">
       <map:when test="explorer">
