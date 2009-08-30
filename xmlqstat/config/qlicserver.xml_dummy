@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+
+This is a dummy XML file meant to live in the XML cache directory
+at sites where Olesen's qlicserver program is not in actual use.
+
+This is a workaround because currently the xmlqstat sitemap.xmap file
+contains hard coded references to a cached qlicserver.xml file and if
+this file is not present in the XML cache directory, web application
+erors will occur.
+
+This file will be removed from the repository once we fix the issue
+concerning the implicit assumption that qliceserver.xml is present.
+
+This file should be renamed "qlicserver.xml" and copied into the
+cache location. Edit as necessary. 
+
+-->
+<qlicserver releaseDate="2009-05-26">
+<!-- adjustment:
+     qconf -mattr exechost complex_values NONE global
+-->
+ <query>
+  <cluster name="laptop" root="/opt/sge" cell="default"/>
+  <host>dag-static.local</host>
+  <user>dag</user>
+  <time epoch="1251646176">2009-08-30T11:29:36</time>
+ </query>
+ <parameters>
+  <env name="SGE_ROOT">/opt/sge</env>
+  <env name="SGE_CELL">default</env>
+  <env name="LM_LICENSE_FILE"></env>
+  <param name="dir">/opt/xml-qstat/xml-qstat/xmlqstat/cache-laptop/</param>
+  <param name="output">qlicserver.xml</param>
+  <param name="qhost">qhost.xml</param>
+  <param name="qstat">qstat.xml</param>
+ </parameters>
+ <resources>
+  <resource name="External License Resource" total="0" note="Placeholder Resource"/>
+ </resources>
+</qlicserver>
