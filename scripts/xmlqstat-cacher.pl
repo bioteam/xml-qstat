@@ -15,8 +15,8 @@ my %config = (
     ## or override on the command-line
     ## Set to an empty string to suppress the query and the output.
     qstatf =>  "/opt/xml-qstat/xml-qstat/xmlqstat/cache-laptop/qstatf.xml",
-    qstat   => "",
-    qhost   => "",
+    qstat   => "/opt/xml-qstat/xml-qstat/xmlqstat/cache-laptop/qstat.xml",
+    qhost   => "/opt/xml-qstat/xml-qstat/xmlqstat/cache-laptop/qhost.xml",,
     delay   => 30,
     timeout => 10,
 );
@@ -295,8 +295,16 @@ sub qstatfCacher {
     my $caller    = shift;
     my $cacheFile = shift or return;
 
-    my $lines = Sge->bin( qstat => qw( '-u * -xml -r -F np_load_avg,load_avg -f -explain aAcE' ) )
+    #-- disabled --
+    #my $lines = Sge->bin( qstat => qw( '-u * -xml -r -F np_load_avg,load_avg -f -explain aAcE' ) )
+    #----
+    # Ugly hack follows, had to disable line above because perl can't deal with the comma
+    # separated "np_load_avg,load_avg" command in the context of a qw() block ...
+
+    my $lines = `qstat -u * -xml -r -F np_load_avg,load_avg -f -explain aAcE`
       or return;
+    #----
+
 
     Sge->writeCache( $cacheFile, $lines );
 }
