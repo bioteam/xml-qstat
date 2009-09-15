@@ -771,10 +771,6 @@
   <a href="info/rss-feeds.html" title="list RSS feeds"><img border="0"
       src="images/icons/silk/feed.png" alt="[rss feeds]"
   /></a>
-  <img alt=" | " src="css/screen/icon_divider.png" />
-  <a href="psp/qstat.html" title="format for Sony PSP web browser"><img border="0"
-      src="images/icons/silk/controller.png" alt="[psp]"
-  /></a>
 </div>
 
 </body></html>

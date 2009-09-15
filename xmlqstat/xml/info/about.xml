@@ -113,7 +113,7 @@ Key dependencies include:
 <li>A recent version of Perl</li>
 <li>Apache Cocoon version 2.1.8 or higher</li>
 <li>GridEngine version 6.0u7 or higher (6.1u3 or later strongly encouraged)</li>
-<li>Mozilla, Safari, Firefox, Konqueror, Sony PSP or Opera web browser (Internet Explorer is not currently supported)</li>
+<li>Mozilla, Safari, Firefox, Konqueror or Opera web browser (Internet Explorer is not currently supported)</li>
 </ul>
 ]]></para>
 </section>
@@ -553,7 +553,6 @@ developers:
 A basic overview of some of the built-in features:
 <ul>
 <li>Automatic detection of unsupported browser types</li>
-<li>Automatic detection and redirect for Sony PSP browser agents</li>
 <li>Valid Atom 1.0 syndication feed</li>
 <li>XSL driven documentation framework</li>
 <li>
@@ -563,14 +562,6 @@ A basic overview of some of the built-in features:
 <li>
   Three primary views: Job listing (user or all jobs), queue instance
   listing or summary.
-</li>
-<li>
-  Custom view for Sony Playstation Portable web browsers. The PSP browser
-  supports almost all of the XHTML and CSS1,CSS2 standards as well as
-  XHTML-MP. For the current view, simple XHTML is used with highly
-  customized layout and CSS to fit the widescreen PSP layout. Given the
-  massive amount of Grid Data available, it was more sensible to choose the
-  PSP as my targeted "mobile" device.
 </li>
 </ul>
 ]]></para>

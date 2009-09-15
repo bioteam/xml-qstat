@@ -19,7 +19,6 @@ transformation, the naming convention 'SOURCE-MODE-DEST.xsl' is used.
 
   * qhost-xhtml.xsl
   * qlic-xhtml.xsl
-  * qstatf-psp.xsl
   * qstatf-xhtml.xsl
   * qstatj-xhtml.xsl
   * qstat-xhtml.xsl

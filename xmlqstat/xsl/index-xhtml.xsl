@@ -121,10 +121,6 @@
   <a href="jobs" title="xmlqstat"><img border="0"
       src="images/icons/silk/table_gear.png" alt="[xmlqstat]"
   /></a>
-  <img alt=" | " src="css/screen/icon_divider.png" />
-  <a href="psp/" title="sony psp"><img border="0"
-      src="images/icons/silk/controller.png" alt="[psp]"
-  /></a>
 </div>
 
 </body></html>

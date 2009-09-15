@@ -20,19 +20,6 @@
   <map:readers default="resource" />
 
   <map:serializers default="xhtml">
-    <!-- Our custom XHTML output serializer for Sony PSP browsers -->
-    <map:serializer
-      name="xhtml-psp"
-      src="org.apache.cocoon.serialization.XMLSerializer"
-      mime-type="text/html; charset=ISO-8859-1"
-      >
-      <omit-xml-declaration>yes</omit-xml-declaration>
-      <omit-namespaces>yes</omit-namespaces>
-      <encoding>UTF-8</encoding>
-      <doctype-public>-//W3C//DTD XHTML 1.0 Strict//EN</doctype-public>
-      <doctype-system>http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd</doctype-system>
-    </map:serializer>
-
     <!-- ATOM 1.0 Feed Serialzer -->
     <map:serializer
       name="atom-xml"
@@ -44,12 +31,11 @@
   </map:serializers>
 
   <map:selectors default="browser">
-    <!-- Need to auto-detect MS and PSP browers -->
+    <!-- Need to auto-detect MS browers -->
     <map:selector name="browser"
       src="org.apache.cocoon.selection.BrowserSelector"
       >
       <browser name="explorer" useragent="MSIE"/>
-      <browser name="sonyPSP"  useragent="PlayStation Portable"/>
     </map:selector>
 
     <map:selector name="resource-exists"
@@ -319,11 +305,6 @@
 
 
 
-  <!-- Catch people going to http://<server>/xmlqstat/psp/  -->
-  <map:match pattern="psp/">
-    <map:redirect-to uri="summary.html"/>
-  </map:match>
-
   <!-- Catch people going to http://<server>/xmlqstat/feed/  -->
   <map:match pattern="feed/">
     <map:redirect-to uri="overview"/>
@@ -342,16 +323,6 @@
     <map:generate  src="xml/info/{1}.xml" />
     <map:transform src="xsl/info-to-xhtml.xsl"/>
     <map:serialize type="xhtml"/>
-  </map:match>
-
-  <!-- MOBILE PSP rendering for url path /psp/ -->
-  <map:match pattern="psp/*.html">
-    <map:generate  src="cocoon:/qstatf"/>
-    <map:transform src="xsl/qstatf-psp.xsl">
-      <map:parameter name="timestamp"  value="{date: yyyy-MM-dd_HH:mm:ss}"/>
-      <map:parameter name="renderMode" value="{1}"/>
-    </map:transform>
-    <map:serialize type="xhtml-psp"/>
   </map:match>
 
   <!-- atom xml feed.
@@ -574,7 +545,7 @@
     <map:serialize type="xml"/>
   </map:match>
 
-  <!-- intercept unsupported browsers and SonyPSP user-agents -->
+  <!-- intercept unsupported browsers -->
   <map:match pattern="*">
     <map:select type="browser">
       <map:when test="explorer">
