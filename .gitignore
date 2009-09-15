@@ -32,6 +32,9 @@
 /xmlqstat/cache
 /xmlqstat/cache-*
 
+# ignore site-specific config files
+/xmlqstat/config/alarm-threshold.xml
+
 # ignore misc build directories
 /build-*/
 

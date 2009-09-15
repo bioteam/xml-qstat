@@ -91,7 +91,7 @@
      | addressing different clusters
      |
      | also,
-     | use qhost.sh helper script instead of qhost directly
+     | use the qhost.sh helper script instead of qhost directly
      | this avoid the namespace problem:
      | http://gridengine.sunsource.net/issues/show_bug.cgi?id=2515
      -->
@@ -176,7 +176,7 @@
     <map:otherwise>
     <map:generate
         type="commandGenerator"
-        src="qstat.sh -u * -xml -r -f -explain aAcE"
+        src="qstat.sh -u * -xml -r -f -F load_avg,num_proc -explain aAcE"
         />
     </map:otherwise>
     </map:select>
@@ -218,7 +218,7 @@
   <map:match pattern="qstatf.xml/~*/**">
     <map:generate
         type="commandGenerator"
-        src="qstat.sh CELL={1} ROOT=/{2} -u * -xml -r -f -explain aAcE"
+        src="qstat.sh CELL={1} ROOT=/{2} -u * -xml -r -f -F load_avg,num_proc -explain aAcE"
         />
     <map:serialize type="xml"/>
   </map:match>
@@ -230,7 +230,7 @@
   <map:match pattern="qstatf.xml/**">
     <map:generate
         type="commandGenerator"
-        src="qstat.sh ROOT=/{1} -u * -xml -r -f -explain aAcE"
+        src="qstat.sh ROOT=/{1} -u * -xml -r -f -F load_avg,num_proc -explain aAcE"
         />
     <map:serialize type="xml"/>
   </map:match>

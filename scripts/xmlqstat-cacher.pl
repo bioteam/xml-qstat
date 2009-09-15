@@ -14,13 +14,13 @@ my %config = (
     ## Decide where your cached XML files will be stored
     ## or override on the command-line
     ## Set to an empty string to suppress the query and the output.
-    dir        => "/opt/grid/default/site/xml-qstat/xmlqstat/cache",
-    qstatf     => "qstatf.xml",
-    qstat      => "",
-    qhost      => "",
-    qlicserver => "",
-    delay      => 30,
-    timeout    => 10,
+    dir     => "/opt/grid/default/site/xml-qstat/xmlqstat/cache",
+    qstatf  => "qstatf.xml",
+    qstat   => "",
+    qhost   => "",
+    qlic    => "",
+    delay   => 30,
+    timeout => 10,
 );
 
 #
@@ -306,7 +306,7 @@ sub writeCache {
     @_ or return;
 
     my $tmpFile = $cacheFile;
-    if ( $cacheFile ne "-" ) { # catch "-" STDOUT alias
+    if ( $cacheFile ne "-" ) {    # catch "-" STDOUT alias
         $tmpFile .= ".TMP";
         unlink $tmpFile;
     }
@@ -317,7 +317,7 @@ sub writeCache {
         print FILE $_;
     }
 
-    close FILE;    # explicitly close before rename
+    close FILE;                   # explicitly close before rename
     if ( $tmpFile ne $cacheFile ) {
         chmod 0444      => $tmpFile;      # output cache is readonly
         rename $tmpFile => $cacheFile;    # atomic
@@ -330,7 +330,10 @@ sub qstatfCacher {
     my $caller    = shift;
     my $cacheFile = shift or return;
 
-    my $lines = Sge->bin( qstat => qw( -u * -xml -r -f -explain aAcE ) )
+    my $lines = Sge->bin(
+        qstat    => qw( -u * -xml -r -f -explain aAcE ),
+        -F       => "load_avg,num_proc",
+      )
       or return;
 
     Sge->writeCache( $cacheFile, $lines );
@@ -340,7 +343,7 @@ sub qstatCacher {
     my $caller    = shift;
     my $cacheFile = shift or return;
 
-    my $lines = Sge->bin( qstat => qw( -u * -xml -r -s prs) ) or return;
+    my $lines = Sge->bin( qstat => qw( -u * -xml -r -s prs ) ) or return;
 
     Sge->writeCache( $cacheFile, $lines );
 }
@@ -381,7 +384,7 @@ sub qhostCacher {
 ###
 ##-----------------------------------------------------------
 ##   NOTE:
-##         copyright (c) 2003-08 <Mark.Olesen\@emconTechnologies.com>
+##         copyright (c) 2003-09 <Mark.Olesen\@emconTechnologies.com>
 ##
 ##         Licensed and distributed under the Creative Commons
 ##         Attribution-NonCommercial-ShareAlike 2.5 License.

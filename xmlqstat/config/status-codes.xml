@@ -1,5 +1,3 @@
-<config>
-
 <!--
 
   SGE 6.0u7 and later use raw bitmasked status codes in XML output
@@ -13,17 +11,16 @@
   http://gridengine.info/articles/2005/11/03/gridengine-xml-translating-jat_state-values-into-useful-information
 
 -->
+<statusCodes>
 
-<status bitmask="128">
-  <translation>r</translation>
-  <desc>Running</desc>
-  <long>This task is running</long>
-</status>
+  <status bitmask="128" state="r">
+    <desc>running</desc>
+    <long>This task is running</long>
+  </status>
 
-<status bitmask="2112">
-  <translation>qw</translation>
-  <desc>queued/waiting</desc>
-  <long>This task is pending in queued/waiting state</long>
-</status>
+  <status bitmask="2112" state="qw">
+    <desc>queued/waiting</desc>
+    <long>This task is pending in queued/waiting state</long>
+  </status>
 
-</config>
+</statusCodes>

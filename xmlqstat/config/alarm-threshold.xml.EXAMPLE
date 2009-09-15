@@ -1,0 +1,19 @@
+<!-- XML-QSTAT alarm-threshold configuration file -->
+<!--
+   | This file caches site-specific SGE queue alarm thresholds so
+   | that the xmlqstat interface can compare the set alarm value with
+   | the dynamically reported load averages.
+   | This allows us to take action or render the HTML differently
+   | if a load average is close to exceeding the load alarm threshold.
+   -->
+<alarmThreshold>
+
+  <q name="alarm.q" np_load_avg="0.3" />
+  <q name="all.q" np_load_avg="3.75" />
+  <q name="disabled.q" np_load_avg="1.75" />
+
+  <!-- an example of using 'qi' values too -->
+  <q name="subordinate-01.q" np_load_avg="1.75" />
+  <qi name="subordinate-01.q@chrisdag.local" np_load_avg="1.5" />
+
+</alarmThreshold>

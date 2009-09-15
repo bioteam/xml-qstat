@@ -66,7 +66,6 @@
 
 <!-- absolute or percent -->
 <xsl:param name="showSlotUsage" select="'absolute'"/>
-<xsl:param name="useAlarmThresholds" select="$configFile/config/use-alarm-threshold"/>
 
 <!-- possibly append ~{clusterName} to urls -->
 <xsl:param name="clusterSuffix">
@@ -393,7 +392,7 @@
     </tr>
   </table>
   <div id="queueStatusTable">
-    <xsl:apply-templates select="//queue_info" mode="sortByQueue" />
+    <xsl:apply-templates select="//queue_info" />
   </div>
   </blockquote>
 </xsl:when>
@@ -778,277 +777,9 @@
 
 
 <!--
- THIS LARGE BLOCK DOES THE INDIVIDUAL ROWS WITHIN THE INITIAL QUEUE STATUS TABLE -->
-
-<!-- When sortByQueue is active, this entire block is ununsed -->
-
-<xsl:template match="Queue-List">
-<xsl:comment>begin-queue-overview-row</xsl:comment>
-<xsl:text>
-</xsl:text>
-  <tr>
-<xsl:text>
-</xsl:text>
-   <!-- QUEUE NAME -->
-   <td colspan="2">
-   queue resources
-<xsl:choose>
-<xsl:when test="$enableResourceQueries='yes'">
-    <xsl:element name="acronym">
-      <xsl:attribute name="title">view ALL queue resources</xsl:attribute>
-      <xsl:element name="a">
-       <xsl:attribute name="href">#</xsl:attribute>
-       <xsl:attribute name="onclick">
-        <xsl:text>resourceList('</xsl:text><xsl:value-of select="name"/>
-        <xsl:text>','')</xsl:text>
-       </xsl:attribute>
-       <img src="images/r_d.gif" border="0"/>
-      </xsl:element>
-    </xsl:element>
-    <xsl:text> </xsl:text>
-</xsl:when>
-</xsl:choose>
-
-    <!-- queue name -->
-    <xsl:value-of select="name"/>
-   </td>
-<xsl:text>
-</xsl:text>
-   <!-- QUEUE TYPE -->
-   <td>
-    <acronym title="Defines if the queue supports (B)atch, (I)nteractive or (P)arallel job types">
-      <span style="font-size:smaller;"><xsl:value-of select="qtype"/></span>
-    </acronym>
-   </td>
-<xsl:text>
-</xsl:text>
-   <!-- QUEUE SLOTS -->
-   <!-- Slots used/total inside one TD table element-->
-   <xsl:choose>
-   <xsl:when test='slots_used=0'>
-     <td>
-      <div class="progbarOuter">
-       <div class="progbarInner" style="width:0%;">
-        <xsl:element name="acronym">
-          <xsl:choose>
-          <xsl:when test="$showSlotUsage='percent'">
-            <xsl:attribute name="title"><xsl:value-of select="slots_used"/> of <xsl:value-of select="slots_total"/> slots in use</xsl:attribute>
-            0%
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:attribute name="title">0%</xsl:attribute>
-            <xsl:value-of select="slots_used"/>/<xsl:value-of select="slots_total"/>
-          </xsl:otherwise>
-          </xsl:choose>
-        </xsl:element>
-       </div></div>
-     </td>
-<xsl:text>
-</xsl:text>
-   </xsl:when>
-   <xsl:when test='slots_total=slots_used'>
-    <td>
-     <div class="progbarOuter">
-      <div class="progbarInner" style="width:100%;">
-        <xsl:element name="acronym">
-         <xsl:choose>
-          <xsl:when test="$showSlotUsage='percent'">
-           <xsl:attribute name="title"><xsl:value-of select="slots_used"/> of <xsl:value-of select="slots_total"/> slots in use</xsl:attribute>
-           100%
-          </xsl:when>
-          <xsl:otherwise>
-           <xsl:attribute name="title">100%</xsl:attribute>
-           <xsl:value-of select="slots_used"/>/<xsl:value-of select="slots_total"/>
-          </xsl:otherwise>
-         </xsl:choose>
-        </xsl:element>
-      </div></div>
-    </td>
-<xsl:text>
-</xsl:text>
-   </xsl:when>
-   <xsl:otherwise>
-     <xsl:variable name="QIslotsUsed"  select="slots_used"/>
-     <xsl:variable name="QIslotsTotal" select="slots_total"/>
-     <xsl:variable name="QIslotsPercent" select="($QIslotsUsed div $QIslotsTotal)*100"/>
-
-     <!-- This does the bar graph of job slot usage when values are not 0% or 100% -->
-     <td>
-      <div class="progbarOuter">
-       <xsl:element name="div">
-        <xsl:attribute name="class">progbarInner</xsl:attribute>
-        <xsl:attribute name="style">width:<xsl:value-of select="$QIslotsPercent"/>%;</xsl:attribute>
-        <xsl:element name="acronym">
-          <xsl:choose>
-          <xsl:when test="$showSlotUsage='percent'">
-            <xsl:attribute name="title"><xsl:value-of select="slots_used"/> of <xsl:value-of select="slots_total"/> slots in use</xsl:attribute>
-            <xsl:value-of select="$QIslotsPercent"/>%
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:attribute name="title"><xsl:value-of select="format-number($QIslotsPercent,'##0.#') "/>%</xsl:attribute>
-            <xsl:value-of select="slots_used"/>/<xsl:value-of select="slots_total"/>
-          </xsl:otherwise>
-          </xsl:choose>
-        </xsl:element>
-       </xsl:element>
-      </div>
-      <!-- end bar graph of job slot usage -->
-     </td>
-<xsl:text>
-</xsl:text>
-    </xsl:otherwise>
-   </xsl:choose>
-<!--
-    When queues are in state 'au' there is NO <load_avg/> element in the xml output.
-    this screws up our table formatting because arch ends up in the wrong
-    table column
-
-    so below we have a conditional XSL statement within the arch pattern match
-    ..
-    if no load_avg element is detected, an extra <td></td> placeholder is
-    inserted in the HTML table to fix the layout
--->
-   <xsl:choose>
-    <xsl:when test="load_avg">
-     <!-- When load_avg is reported, output as usual -->
-     <td>
-      <xsl:value-of select="load_avg"/>
-     </td>
-    </xsl:when>
-    <xsl:otherwise>
-     <!-- otherwise, add a placeholder table entry for missing load_avg -->
-     <td class="emphasisCode">unknown</td>
-    </xsl:otherwise>
-   </xsl:choose>
-
-<!-- CONDITIONAL: USE LOAD THRESHOLD ALARM DATA ? -->
-<xsl:if test="$useAlarmThresholds = 'yes'" >
-
-<!-- set some variables; compute a percentage -->
-<xsl:variable name="qname"><xsl:value-of select="name"/></xsl:variable>
-<xsl:variable name="thresh"><xsl:value-of select="$loadAlarmFile/config/load_alarm_threshold/qi[@name=$qname]/@np_load_alarm" /></xsl:variable>
-<xsl:variable name="load"><xsl:value-of select="load_avg"/></xsl:variable>
-<xsl:variable name="alarmPercent" select="($load div $thresh)*100"/>
- <td>
- <xsl:choose>
- <xsl:when test="load_avg">
- <!-- this test is needed because load_avg does not exist when queues are
-      in state 'au' or otherwise unreachable ...
-
-      Debug:
-       (<xsl:value-of select="$thresh" />)
-       (<xsl:value-of select="$alarmPercent"/>)
-
- -->
-       <div class="progbarOuter">
-       <xsl:element name="div">
-        <xsl:attribute name="class">progbarInner</xsl:attribute>
-        <xsl:if test="$alarmPercent &lt; 100">
-        <xsl:attribute name="style">width:<xsl:value-of select="$alarmPercent"/>%;</xsl:attribute>
-        </xsl:if>
-        <xsl:if test="$alarmPercent &gt;= 100">
-          <xsl:attribute name="style">width:100%; background-color:#FF6600;</xsl:attribute>
-        </xsl:if>
-        <xsl:element name="acronym">
-          <xsl:attribute name="title">CPU-normalized load: <xsl:value-of select="$load"/> vs. configured alarm threshold: <xsl:value-of select="$thresh"/></xsl:attribute>
-          <xsl:choose>
-          <xsl:when test="$thresh = 0.0">
-            100%
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:value-of select="format-number($alarmPercent,'##0.#') "/>%
-          </xsl:otherwise>
-          </xsl:choose>
-        </xsl:element>
-       </xsl:element><xsl:text> </xsl:text>
-      </div>
-      <!-- end bar graph of load alarm ratio -->
-   </xsl:when>
-   <xsl:otherwise>
-    <!-- do nothing for now, no sense in displaying the threshold
-         if no load_avg data is being reported ...
-    -->
-   </xsl:otherwise>
-   </xsl:choose>
- </td>
-</xsl:if>
-
-
-   <!-- SYSTEM ARCH for QUEUE -->
-<xsl:text>
-</xsl:text>
-   <td>
-   <span style="font-size:smaller;"><xsl:value-of select="arch"/></span>
-   </td>
-
-   <!-- QUEUE STATE -->
-<xsl:text>
-</xsl:text>
-   <!-- had to remove id=statecolumn need to fix in CSS, maybe special formatting? .. -->
-   <td>
-     <!-- Embed a mouseover popup that lists the contents of any load-alarm-reason data we've received -->
-     <xsl:choose>
-     <xsl:when test="load-alarm-reason">
-       <xsl:element name="acronym">
-         <xsl:attribute name="title">STATE=(<xsl:value-of select="state"/>) <xsl:value-of select="load-alarm-reason"/></xsl:attribute>
-<!--         <xsl:value-of select="state"/>  -->
-         <img alt="" width="14" src="images/icons/silk/error.png" />
-         <xsl:text> </xsl:text><xsl:value-of select="state"/>
-       </xsl:element>
-     </xsl:when>
-     <xsl:otherwise>
-       <xsl:choose>
-       <xsl:when test="state">
-       <xsl:choose>
-         <!-- Note: This block is never used because state au comes with load_alarm_reason which we test for above... -->
-         <xsl:when test="state='au'">
-           <acronym title="This queue instance is in ALARM/UNREACHABLE state. Is SGE running on this node?">
-             <img alt="" width="14" src="images/icons/silk/link_error.png" />
-           </acronym>
-           <xsl:text> </xsl:text><xsl:value-of select="state"/>
-         </xsl:when>
-         <xsl:when test="state='S'">
-           <acronym title="Queue is (S)uspended">
-             <img alt="" width="14" src="images/icons/silk/error.png" />
-           </acronym>
-           <xsl:text> </xsl:text><xsl:value-of select="state"/>
-         </xsl:when>
-         <xsl:when test="state='d'">
-           <acronym title="This queue has been disabled by a grid administrator">
-             <img width="14" src="images/icons/silk/cancel.png" alt="" />
-           </acronym>
-           <xsl:text> </xsl:text><xsl:value-of select="state"/>
-         </xsl:when>
-         <xsl:otherwise>
-         <xsl:value-of select="state"/>
-       </xsl:otherwise>
-       </xsl:choose>
-       </xsl:when>
-       <xsl:otherwise>
-         <acronym title="Queue instance is in normal state">
-           <img width="14" src="images/icons/silk/accept.png" alt="" />
-         </acronym>
-       </xsl:otherwise>
-       </xsl:choose>
-     </xsl:otherwise>
-     </xsl:choose>
-   </td>
-<xsl:text>
-</xsl:text>
-  </tr>
-<xsl:text>
-</xsl:text>
-  <xsl:comment>end-queue-overview-row</xsl:comment>
-<xsl:text>
-</xsl:text>
-</xsl:template>
- <!-- END BLOCK DEALING WITH ROWS OF QUEUE STATUS INFO -->
-
-
-<!--
   host information: header
 -->
-<xsl:template match="//queue_info" mode="sortByQueue">
+<xsl:template match="//queue_info">
   <div class="queueInfoDiv" id="queueInfoTable">
   <table class="listing">
     <tr>
@@ -1060,13 +791,15 @@
         >type</acronym>
       </th>
       <th>usage</th>
-      <th>load</th>
+      <th><acronym title="normalized cpu load">load</acronym></th>
       <th>system</th>
       <th>status</th>
     </tr>
   <xsl:for-each select="./Queue-List">
+    <!-- for unsorted queue instances: comment-out this xsl:sort -->
     <xsl:sort select="name"/>
-    <xsl:variable name="qname" select="substring-before(name,'@')"/>
+    <xsl:variable name="qinstance" select="name"/>
+    <xsl:variable name="qname"     select="substring-before(name,'@')"/>
 
     <tr>
       <!-- queue -->
@@ -1100,7 +833,72 @@
       </td>
 
       <!-- load -->
-      <td class="emphasisCode">unknown</td>
+      <!-- CPU normalized load average and (optional) graph load vs alarm threshold -->
+      <xsl:choose>
+      <xsl:when test="resource[@name='load_avg'] and resource[@name='num_proc']">
+        <!-- load_avg and num_proc available: calculate np_load_avg -->
+        <xsl:variable name="valueUsed"
+            select="format-number(
+                (resource[@name='load_avg'] div resource[@name='num_proc']),
+                '##0.00')
+            "
+        />
+
+        <!-- get alarm threshold for this queue or queue instance -->
+        <xsl:variable
+            name="qiThresh"
+            select="$loadAlarmFile/alarmThreshold/qi[@name=$qinstance]/@np_load_avg"
+        />
+        <xsl:variable
+            name="qThresh"
+            select="$loadAlarmFile/alarmThreshold/q[@name=$qname]/@np_load_avg"
+        />
+
+        <xsl:variable name="valueTotal">
+          <xsl:choose>
+          <xsl:when test="$qiThresh"><xsl:value-of select="$qiThresh"/></xsl:when>
+          <xsl:when test="$qThresh"><xsl:value-of select="$qThresh"/></xsl:when>
+          <xsl:otherwise>0</xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+
+        <xsl:choose>
+        <xsl:when test="$valueTotal &gt; 0">
+          <xsl:variable name="alarmPercent" select="($valueUsed div $valueTotal)*100"/>
+
+          <td width="100px" align="center">
+            <xsl:choose>
+            <xsl:when test="$alarmPercent &gt;= 100">
+            <xsl:call-template name="progressBar">
+              <xsl:with-param name="title"   select="concat('threshold=',$valueTotal)" />
+              <xsl:with-param name="label"   select="$valueUsed" />
+              <xsl:with-param name="percent" select="100"/>
+              <xsl:with-param name="class"   select="'alarmBar'"/>
+            </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+            <xsl:call-template name="progressBar">
+              <xsl:with-param name="title"   select="concat('threshold=',$valueTotal)" />
+              <xsl:with-param name="label"   select="$valueUsed" />
+              <xsl:with-param name="percent" select="$alarmPercent"/>
+            </xsl:call-template>
+            </xsl:otherwise>
+            </xsl:choose>
+          </td>
+
+        </xsl:when>
+        <xsl:otherwise>
+          <!-- no threshold for this queue instance -->
+          <td width="100px" align="center"><xsl:value-of select="$valueUsed"/></td>
+        </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+        <!-- missing load_avg or num_proc -->
+        <td class="emphasisCode" align="center">unknown</td>
+      </xsl:otherwise>
+      </xsl:choose>
+
 
       <!-- arch -->
       <td>
@@ -1131,24 +929,10 @@
 
 
 
- <!-- Commenting out the separate row for alarm reasons since we now have -->
- <!-- that info contained in a mouseover popup thingie...                 -->
- <!--                                                                     -->
- <xsl:template match="Queue-List/load-alarm-reason">
- <!--
-     <tr class="emphasisCode" >
-       <td colspan="8" align="right">
-         <xsl:apply-templates/>
-       </td>
-     </tr>
-  -->
- </xsl:template>
-
-
- <xsl:template match="Queue-List/resource">
-   <xsl:value-of select="@name"/>=<xsl:value-of select="."/>
-   <br/>
- </xsl:template>
+<xsl:template match="Queue-List/resource">
+  <xsl:value-of select="@name"/>=<xsl:value-of select="."/>
+  <br/>
+</xsl:template>
 
 
 <xsl:template match="job_list[@state='pending']">
@@ -1256,7 +1040,7 @@
 <xsl:template match="Queue-List/job_list" mode="summary">
 <xsl:if test="not($filterByUser) or JB_owner=$filterByUser">
 
-  <xsl:variable name="jobId" select="JB_job_number" />
+  <xsl:variable name="jobId"  select="JB_job_number" />
   <xsl:variable name="taskId" select="tasks" />
   <xsl:variable name="nodeList">
     <xsl:choose>

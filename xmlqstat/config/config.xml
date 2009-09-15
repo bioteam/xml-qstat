@@ -22,15 +22,6 @@
 <UTC_TZ_offset>+01:00</UTC_TZ_offset>
 
 <!--
-    BROKEN AT THE MOMENT:
-    Set this to 'yes' if you have created the load alarm
-    threshold configuration file 'config/alarm-threshold.xml'
-    file and want the xmlqstat interface to take this data into
-    consideration.
--->
-<use-alarm-threshold>no</use-alarm-threshold>
-
-<!--
     Set this to 'yes' if you have the qlicserver program
     and wish to view the resource allocation
 -->

@@ -446,7 +446,7 @@
   <thead>
   <tr>
     <th/>
-    <th>load</th>
+    <th><acronym title="non-normalized cpu load">load</acronym></th>
     <th>
       queue
       <acronym title="B(atch), I(nteractive), P(arallel)">information</acronym>
@@ -586,9 +586,9 @@
   process host queue information
 -->
 <xsl:template match="host/queue">
-  <xsl:variable name="valueUsed"    select="queuevalue[@name='slots_used']"/>
-  <xsl:variable name="valueTotal"   select="queuevalue[@name='slots']"/>
-  <xsl:variable name="state"        select="queuevalue[@name='state_string']"/>
+  <xsl:variable name="valueUsed"  select="queuevalue[@name='slots_used']"/>
+  <xsl:variable name="valueTotal" select="queuevalue[@name='slots']"/>
+  <xsl:variable name="state"      select="queuevalue[@name='state_string']"/>
 
   <tr>
     <!-- 'S' suspend state : alter font-style -->

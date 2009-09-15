@@ -378,16 +378,16 @@
     <td>
       <xsl:choose>
       <xsl:when test="JB_ja_tasks">
-        <xsl:call-template name="stateTranslation">
-          <xsl:with-param name="state" select="JB_ja_tasks/ulong_sublist/JAT_status" />
+        <xsl:call-template name="statusTranslation">
+          <xsl:with-param name="status" select="JB_ja_tasks/ulong_sublist/JAT_status" />
         </xsl:call-template>
         <xsl:if test="string-length($viewlog)">
           <xsl:apply-templates select="JB_hard_resource_list" mode="viewlog"/>
         </xsl:if>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:call-template name="stateTranslation">
-          <xsl:with-param name="state" select="JB_ja_template/ulong_sublist/JAT_state" />
+        <xsl:call-template name="statusTranslation">
+          <xsl:with-param name="status" select="JB_ja_template/ulong_sublist/JAT_state" />
         </xsl:call-template>
       </xsl:otherwise>
       </xsl:choose>
@@ -877,18 +877,18 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
 </xsl:template>
 
 
-<xsl:template name="stateTranslation">
-  <xsl:param name="state" />
+<xsl:template name="statusTranslation">
+  <xsl:param name="status" />
 
   <xsl:element name="acronym">
     <xsl:attribute name="title">
       <!-- this lookup translates JAT_state to something more readable -->
       <xsl:value-of
-          select="$codeFile/config/status[@bitmask=$state]/long"
-      />. The raw JAT_state bitmask code = <xsl:value-of select="$state"/>
+          select="$codeFile/statusCodes/status[@bitmask=$status]/long"
+      />. The raw JAT_status bitmask code = <xsl:value-of select="$status"/>
     </xsl:attribute>
     <xsl:value-of
-        select="$codeFile/config/status[@bitmask=$state]/translation"
+        select="$codeFile/statusCodes/status[@bitmask=$status]/@state"
     />
   </xsl:element>
 

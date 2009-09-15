@@ -208,7 +208,7 @@ The <b>scripts/</b> directory currently contains 2 shell scripts and
 </li>
 <li>
   The <b>create-threshold-config.pl</b> is <em>optional</em>
-  and is a helper script that can query GridEngine to learn the
+  and is a helper script that can query GridEngine to determine the
   configured load alarm thresholds for each queue.
   Since GridEngine only reports current load values
   (and not the configured alarm thresholds) this helper script can create
@@ -483,18 +483,6 @@ simple process to edit. The following configuration questions are asked:
   timestamps. Configuring this value allows the user to adjust for local
   timezones. The RFC3339 timestamp uses UTC time which can be offset to
   match a local timezone.
-</li>
-<li>
-  <b>use-alarm-threshold</b>
-  <em>optional (and possibly broken at the moment).</em>
-
-  If you run the <b>scripts/create-threshold-config.pl</b> helper script,
-  an additional XML configuration file (config/alarm-threshold.xml) will be
-  created that lists the GridEngine load alarm threshold values for each
-  queue instance. These values can then be compared to the real-time load
-  data reported by GridEngine. When enabled, this feature will show a
-  graphical "Load Ratio" column in the web interface. When the value is set
-  to "no", the Load Ratio column data is not displayed.
 </li>
 <li>
   <b>qlicserver</b>
