@@ -14,6 +14,7 @@
 # -----------------------------------------------------------------------------
 
 ## YOU MUST EDIT THIS BLOCK TO MATCH YOUR LOCAL INSTALL:
+## Include full path to the build/ subfolder in your cocoon install
 
 cocoonBase="/data/app/cocoon-2.1.11/build"
 
