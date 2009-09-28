@@ -76,15 +76,16 @@
   /></a>
 
   <img alt=" | " src="css/screen/icon_divider.png" />
-  <a href="info/about.html" title="about"><img
+  <a href="http://olesenm.github.com/xml-qstat/index.html"
+      title="about"><img
       src="images/icons/silk/information.png"
       alt="[about]"
   /></a>
 
   <img alt=" | " src="css/screen/icon_divider.png" />
-  <a href="info/links.html" title="links"><img
-      src="images/icons/silk/link.png"
-      alt="[links]"
+  <a href="http://github.com/bioteam/xml-qstat/tree/master"
+      title="github repo"><img border="0"
+      src="css/screen/git-icon.png" alt="[git]"
   /></a>
 
   <img alt=" | " src="css/screen/icon_divider.png" />
@@ -138,7 +139,6 @@
     <th>query direct</th>
     <th>root</th>
     <th>cell</th>
-    <th>cache</th>
   </tr>
   <xsl:for-each select="cluster">
     <!-- sorted by job number and task -->
@@ -154,6 +154,12 @@
   <xsl:param name="hasCache">
      <xsl:if test="//dir:directory[@name=$cacheDir]">true</xsl:if>
   </xsl:param>
+
+<!--
+  <xsl:param name="qstatfCached">
+     <xsl:if test="//dir:directory[@name='cache']">true</xsl:if>
+  </xsl:param>
+-->
 
   <tr>
   <!-- cluster name -->
@@ -245,6 +251,18 @@
         />
       </xsl:element>
       -->
+
+      <!-- list cache files -->
+      <xsl:text> </xsl:text>
+      <xsl:element name="a">
+        <xsl:attribute name="title">cached files</xsl:attribute>
+        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/cache</xsl:attribute>
+        <img border="0"
+            src="images/icons/silk/folder_page.png"
+            alt="[cache]"
+        />
+      </xsl:element>
+
     </xsl:when>
     <xsl:otherwise>
     no cache
@@ -297,36 +315,18 @@
       />
     </xsl:element>
 
-
   </td>
+
+  <!-- sge root -->
   <td>
       <xsl:value-of select="@root"/>
   </td>
+  <!-- sge cell -->
   <td>
       <xsl:value-of select="@cell"/>
-  </td>
-  <td>
-    <xsl:choose>
-    <xsl:when test="$hasCache='true'">
-      <!-- list cache files -->
-      <xsl:text> </xsl:text>
-      <xsl:element name="a">
-        <xsl:attribute name="title">cache</xsl:attribute>
-        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/cache</xsl:attribute>
-        <img border="0"
-            src="images/icons/silk/folder_page.png"
-            alt="[cache]"
-        />
-      </xsl:element>
-    </xsl:when>
-    <xsl:otherwise>
-      none
-    </xsl:otherwise>
-    </xsl:choose>
   </td>
 
   </tr>
 </xsl:template>
-
 
 </xsl:stylesheet>

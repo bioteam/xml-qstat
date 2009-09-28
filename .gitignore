@@ -38,4 +38,7 @@
 # ignore misc build directories
 /build-*/
 
+# in case we want our gh-pages branch close at hand
+/gh-pages
+
 # end-of-file

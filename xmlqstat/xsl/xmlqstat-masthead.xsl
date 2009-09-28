@@ -144,6 +144,19 @@
     </xsl:choose>
 
     <img alt=" | " src="css/screen/icon_divider.png" />
+    <a href="http://olesenm.github.com/xml-qstat/index.html"
+        title="about"><img
+        src="images/icons/silk/information.png"
+        alt="[about]"
+    /></a>
+
+    <img alt=" | " src="css/screen/icon_divider.png" />
+    <a href="http://github.com/bioteam/xml-qstat/tree/master"
+        title="github repo"><img border="0"
+        src="css/screen/git-icon.png" alt="[git]"
+    /></a>
+
+    <img alt=" | " src="css/screen/icon_divider.png" />
     <a href="" title="reload"><img
         src="images/icons/silk/arrow_refresh_small.png"
         alt="[reload]"
@@ -223,15 +236,16 @@
     </xsl:choose>
 
     <img alt=" | " src="css/screen/icon_divider.png" />
-    <a href="info/about.html" title="about"><img
+    <a href="http://olesenm.github.com/xml-qstat/index.html"
+        title="about"><img
         src="images/icons/silk/information.png"
         alt="[about]"
     /></a>
 
     <img alt=" | " src="css/screen/icon_divider.png" />
-    <a href="info/links.html" title="links"><img
-        src="images/icons/silk/link.png"
-        alt="[help]"
+    <a href="http://github.com/bioteam/xml-qstat/tree/master"
+        title="github repo"><img border="0"
+        src="css/screen/git-icon.png" alt="[git]"
     /></a>
 
     <img alt=" | " src="css/screen/icon_divider.png" />

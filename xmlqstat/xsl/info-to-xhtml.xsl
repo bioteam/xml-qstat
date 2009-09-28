@@ -66,7 +66,8 @@
   /></a>
 
   <img alt=" | " src="../css/screen/icon_divider.png" />
-  <a href="../info/about.html" title="about"><img
+  <a href="http://olesenm.github.com/xml-qstat/index.html"
+      title="about"><img
       src="../images/icons/silk/information.png"
       alt="[about]"
   /></a>
