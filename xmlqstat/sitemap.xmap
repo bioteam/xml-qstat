@@ -70,12 +70,31 @@
     <map:serialize type="xml"/>
   </map:match>
 
-  <map:match pattern="caches">
-    <!-- the list of possible cache-* directories -->
+  <map:match pattern="cache-dirs">
+    <!-- list of possible cache, cache-* directories -->
     <map:generate type="directory"  src=".">
       <map:parameter name="depth"   value="1"/>
-      <map:parameter name="include" value="cache-.*$"/>
+      <map:parameter name="include" value="^cache(-.+)?$"/>
     </map:generate>
+    <map:serialize type="xml"/>
+  </map:match>
+
+  <map:match pattern="cached-qstatf">
+    <!-- list of possible cache/qstat.xml and cache/qstat~{clusterName}.xml -->
+    <map:select type="resource-exists">
+    <map:when test="cache">
+    <map:generate type="directory"  src="cache">
+      <map:parameter name="depth"   value="1"/>
+      <map:parameter name="include" value="^qstatf(~.+)?\.xml$"/>
+    </map:generate>
+    </map:when>
+    <map:otherwise>
+    <map:generate type="directory"  src=".">
+      <map:parameter name="depth"   value="2"/>
+      <map:parameter name="include" value="^cache$"/>
+    </map:generate>
+    </map:otherwise>
+    </map:select>
     <map:serialize type="xml"/>
   </map:match>
 
@@ -149,7 +168,8 @@
   <map:match pattern="cluster">
     <map:aggregate element="aggregated">
       <map:part src="cocoon:/config" />
-      <map:part src="cocoon:/caches" strip-root="yes" />
+      <map:part src="cocoon:/cache-dirs" />
+      <map:part src="cocoon:/cached-qstatf" />
     </map:aggregate>
     <map:transform src="xsl/index-xhtml.xsl">
       <map:parameter name="timestamp"  value="{date: yyyy-MM-dd_HH:mm:ss}"/>
@@ -165,7 +185,7 @@
 
   <!-- url: "/xmlqstat/qstatf~.xml"
        qstatf w/o cluster name
-       get cached value (cache/qstatf.xml)
+       1. use cached value (cache/qstatf.xml)
        or redirected query to CommandGenerator/cgi-script
        -->
   <map:match pattern="qstatf~.xml">
@@ -186,7 +206,9 @@
 
   <!-- url: "/xmlqstat/qstatf~{clusterName}.xml"
        qstatf for a particular cluster name
-       get cached value (cache/qstatf~{clusterName}.xml)
+       get cached value
+       1. cache/qstatf~{clusterName}.xml
+       2. cache-{clusterName}/qstatf.xml
        or redirected query to CommandGenerator/cgi-script
        -->
   <map:match pattern="qstatf~*.xml">
@@ -195,6 +217,12 @@
       <map:aggregate element="aggregated">
       <map:part src="cocoon:/paths~{1}.xml" strip-root="yes" />
       <map:part src="cocoon:/cache/qstatf~{1}.xml"/>
+      </map:aggregate>
+    </map:when>
+    <map:when test="cache-{1}/qstatf.xml">
+      <map:aggregate element="aggregated">
+      <map:part src="cocoon:/paths~{1}.xml" strip-root="yes" />
+      <map:part src="cache-{1}/qstatf.xml"/>
       </map:aggregate>
     </map:when>
     <map:otherwise>

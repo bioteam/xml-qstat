@@ -185,7 +185,7 @@
       <xsl:attribute name="title">jobs</xsl:attribute>
       <xsl:attribute name="href">jobs<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
       <img
-        src="images/icons/silk/table_gear.png"
+        src="images/icons/silk/lorry.png"
         alt="[jobs]"
       />
     </xsl:element>

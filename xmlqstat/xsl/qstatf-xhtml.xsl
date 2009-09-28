@@ -112,7 +112,7 @@
   </title>
 </xsl:when>
 <xsl:otherwise>
-  <link rel="icon" type="image/png" href="images/icons/silk/table_gear.png"/>
+  <link rel="icon" type="image/png" href="images/icons/silk/lorry.png"/>
   <title>
     jobs
     <xsl:if test="$clusterName">- <xsl:value-of select="$clusterName"/></xsl:if>
