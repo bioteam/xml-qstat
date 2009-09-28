@@ -15,13 +15,6 @@
     doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
 />
 
-<!-- get specific configuration parameters -->
-<xsl:variable name="config_qlicserver">
-<xsl:if
-    test="document('../config/config.xml')/config/qlicserver = 'yes'"
-    >yes</xsl:if>
-</xsl:variable>
-
 <!-- Import our uniform masthead -->
 <xsl:include href="xmlqstat-masthead.xsl"/>
 
@@ -79,9 +72,10 @@
   /></a>
 
   <img alt=" | " src="../css/screen/icon_divider.png" />
-  <a href="http://github.com/bioteam/xml-qstat/tree/master"
-      title="github repo"><img border="0"
-      src="../css/screen/git-icon.png" alt="[git]"
+  <a href="../info/rss-feeds.html"
+      title="rss-feeds"><img
+      src="../images/icons/silk/feed.png"
+      alt="[rss feeds]"
   /></a>
 
   <img alt=" | " src="../css/screen/icon_divider.png" />

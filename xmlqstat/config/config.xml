@@ -22,8 +22,8 @@
 <UTC_TZ_offset>+01:00</UTC_TZ_offset>
 
 <!--
-    Set this to 'yes' if you have the qlicserver program
-    and wish to view the resource allocation
+    Set this to 'yes' if you wish to view the resource allocation
+    reported by the qlicserver program
 -->
 <qlicserver>yes</qlicserver>
 
@@ -34,7 +34,7 @@
 <useJavaScript>yes</useJavaScript>
 
 <!--
-    specify an external program for querying the the jobinfo
+    specify an external program for querying the jobinfo
     - the jobId, etc. are passed via the queryString
 -->
 <programs>

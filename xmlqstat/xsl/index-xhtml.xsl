@@ -16,6 +16,15 @@
     doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
 />
 
+<!-- get specific configuration parameters -->
+<xsl:variable name="config_qlicserver">
+<xsl:if
+    test="document('../config/config.xml')/config/qlicserver = 'yes'"
+    >yes</xsl:if>
+</xsl:variable>
+
+
+
 <!-- Import the XSLTL library method -->
 <xsl:include href="xsltl/stdlib.xsl"/>
 
@@ -83,6 +92,17 @@
   /></a>
 
   <img alt=" | " src="css/screen/icon_divider.png" />
+  <a href="info/links.html" title="links"><img
+      src="images/icons/silk/link.png"
+      alt="[links]"
+  /></a>
+
+  <img alt=" | " src="css/screen/icon_divider.png" />
+  <a href="info/rss-feeds.html" title="RSS feeds (under development)"><img border="0"
+      src="images/icons/silk/feed.png" alt="[rss feeds]"
+  /></a>
+
+  <img alt=" | " src="css/screen/icon_divider.png" />
   <a href="http://github.com/bioteam/xml-qstat/tree/master"
       title="github repo"><img border="0"
       src="css/screen/git-icon.png" alt="[git]"
@@ -122,6 +142,7 @@
 <div class="bottomBox">
 
   <!-- jobs: using qstat -f output (cached or direct) -->
+  <xsl:text> </xsl:text>
   <a href="jobs" title="jobs"><img border="0"
       src="images/icons/silk/lorry.png" alt="[jobs]"
   /></a>
@@ -285,15 +306,17 @@
       </xsl:element>
 
       <!-- resources -->
-      <xsl:text> </xsl:text>
-      <xsl:element name="a">
-        <xsl:attribute name="title">resources</xsl:attribute>
-        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/resources</xsl:attribute>
-        <img border="0"
-            src="images/icons/silk/database_key.png"
-            alt="[resources]"
-        />
-      </xsl:element>
+      <xsl:if test="$config_qlicserver = 'yes'">
+        <xsl:text> </xsl:text>
+        <xsl:element name="a">
+          <xsl:attribute name="title">resources</xsl:attribute>
+          <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/resources</xsl:attribute>
+          <img border="0"
+              src="images/icons/silk/database_key.png"
+              alt="[resources]"
+          />
+        </xsl:element>
+      </xsl:if>
 
       <!-- job details -->
       <!-- disabled for now: can be fairly resource-intensive

@@ -762,15 +762,6 @@
 </xsl:text>
 </div><xsl:comment>This is the end of main content </xsl:comment>
 
-<xsl:text>
-</xsl:text><xsl:comment>bottom box section</xsl:comment>
-<xsl:text>
-</xsl:text>
-<div class="bottomBox">
-  <a href="info/rss-feeds.html" title="list RSS feeds"><img border="0"
-      src="images/icons/silk/feed.png" alt="[rss feeds]"
-  /></a>
-</div>
 
 </body></html>
 </xsl:template>

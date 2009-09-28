@@ -358,7 +358,7 @@
        The baseURL must be passed through
        -->
   <map:match pattern="feed/*">
-    <map:generate  src="cocoon:/qstatf"/>
+    <map:generate  src="cocoon:/qstatf~.xml"/>
     <map:transform src="xsl/feed-atom-{1}.xsl">
       <map:parameter name="isoTimestamp" value="{date:yyyy-MM-dd'T'HH:mm:ss}"/>
       <map:parameter name="baseURL"
