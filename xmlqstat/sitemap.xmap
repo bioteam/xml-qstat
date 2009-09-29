@@ -573,19 +573,6 @@
     <map:serialize type="xml"/>
   </map:match>
 
-  <!-- intercept unsupported browsers -->
-  <map:match pattern="*">
-    <map:select type="browser">
-      <map:when test="explorer">
-        <map:redirect-to uri="info/unsupported.html"/>
-      </map:when>
-      <map:otherwise>
-      <!-- do nothing, continue flow -->
-      </map:otherwise>
-    </map:select>
-  </map:match>
-
-
   <!-- url: "/xmlqstat/config"
        list config files
        -->
