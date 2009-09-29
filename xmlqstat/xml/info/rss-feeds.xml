@@ -5,17 +5,20 @@
 
 
 <section>
-<sectionHead>Note</sectionHead>
-<para>
-Feed generation is still heavily under construction. Send in your suggestions for the type and layout of feeds that you would find useful. Given the rapid progress that the <![CDATA[ <a href="http://www.ietf.org/rfc/rfc4287">Atom RFC</a> ]]> is making through the IETF standards track,  development will probably concentrate around Atom 1.0 compliance. Per-user feeds are the next item on the "to-do" list. 
-</para>
-</section>
-
-<section>
 <sectionHead>Available Feeds</sectionHead>
 <para>
+Note: Feed generation is still heavily under construction. Send in your
+suggestions for the type and layout of feeds that you would find useful.
+Given the rapid progress that the
+<![CDATA[ <a href="http://www.ietf.org/rfc/rfc4287">Atom RFC</a> ]]>
+is making through the IETF standards track, development will probably
+concentrate around Atom 1.0 compliance.  Per-user feeds are the next item on
+the "to-do" list.
+</para>
+<para>
 <![CDATA[
-<a href="../feed/overview"><img border="0" align="top" src="../images/atom-rss.png" alt="Atom 1.0 Feed"/></a> - <a href="../feed/overview">Overview Feed</a> (beta)
+  <a href="../feed/overview">
+  <img border="0" align="top" src="../images/atom-rss.png" alt="Atom 1.0 Feed"/></a> &ndash; <a href="../feed/overview">Overview Feed</a> (beta)
 ]]>
 </para>
 </section>

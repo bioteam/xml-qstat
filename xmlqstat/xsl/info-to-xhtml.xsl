@@ -66,12 +66,6 @@
   /></a>
 
   <img alt=" | " src="../css/screen/icon_divider.png" />
-  <a href="../info/links.html" title="links"><img
-      src="../images/icons/silk/link.png"
-      alt="[links]"
-  /></a>
-
-  <img alt=" | " src="../css/screen/icon_divider.png" />
   <a href="../info/rss-feeds.html"
       title="rss-feeds"><img
       src="../images/icons/silk/feed.png"
