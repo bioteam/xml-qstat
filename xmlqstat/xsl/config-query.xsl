@@ -8,20 +8,22 @@
    | the xi:include can be expanded (or not) later
 -->
 
-<!-- output declarations -->
-<xsl:output method="xml" version="1.0" encoding="UTF-8"/>
-
-<!-- XSL Parameters  -->
+<!-- ======================== Passed Parameters =========================== -->
 <xsl:param name="clusterName"/>
 <xsl:param name="redirect"/>
 <xsl:param name="request"/>
 <xsl:param name="mode"/>
 
-<!-- get specific configuration parameters -->
+<!-- ======================= Internal Parameters ========================== -->
+<!-- configuration parameters -->
 <xsl:param name="clusterNode" select="//clusters/cluster[@name=$clusterName]"/>
 <xsl:param name="jobinfo" select="//config/programs/jobinfo"/>
 
+<!-- ======================= Output Declaration =========================== -->
+<xsl:output method="xml" version="1.0" encoding="UTF-8"/>
 
+
+<!-- ============================ Matching ================================ -->
 <xsl:template match="/">
   <!-- mimic an aggregated structure -->
   <xsl:element name="aggregated">

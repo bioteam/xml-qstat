@@ -8,37 +8,44 @@
    | to create a list of hyperlinks
 -->
 
-<!-- output declarations -->
-<xsl:output method="xml" indent="yes" version="1.0" encoding="UTF-8"
+<!-- ============================= Imports ================================ -->
+<!-- Import our masthead -->
+<xsl:import href="xmlqstat-masthead.xsl"/>
+
+
+<!-- ======================== Passed Parameters =========================== -->
+<xsl:param name="dir"/>
+<xsl:param name="prefix"/>
+
+
+<!-- ======================= Output Declaration =========================== -->
+<xsl:output method="xhtml" indent="yes" version="1.0" encoding="UTF-8"
     doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
     doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
 />
 
-<!-- XSL Parameters  -->
-<xsl:param name="dir"/>
-<xsl:param name="prefix"/>
 
-<!-- Import our uniform masthead -->
-<xsl:include href="xmlqstat-masthead.xsl"/>
-
+<!-- ============================ Matching ================================ -->
 <xsl:template match="/" >
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Refresh" content="60" />
-<link rel="icon" type="image/png" href="images/icons/silk/folder.png"/>
-<link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
-<title>dir - <xsl:value-of select="$dir"/></title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Refresh" content="60" />
+  <link rel="icon" type="image/png" href="images/icons/silk/folder.png"/>
+  <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
+  <title>dir - <xsl:value-of select="$dir"/></title>
 
-<xsl:comment> Load CSS from a file </xsl:comment>
-<xsl:text>
-</xsl:text>
-<link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
+  <xsl:comment> Load CSS from a file </xsl:comment>
+  <xsl:text>
+  </xsl:text>
+  <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
 
-<xsl:text>
-</xsl:text>
-</head><body>
+  <xsl:text>
+  </xsl:text>
+</head>
 
+<!-- begin body -->
+<body>
 <xsl:text>
 </xsl:text>
 <div id="main">
@@ -71,6 +78,7 @@
 </xsl:text>
 </div>
 </body></html>
+<!-- end body/html -->
 </xsl:template>
 
 

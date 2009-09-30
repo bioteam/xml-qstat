@@ -3,29 +3,38 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 >
 
-<!-- output declarations -->
-<xsl:output method="xml" indent="yes" version="4.01" encoding="ISO-8859-1"/>
+<!-- ============================= Imports ================================ -->
+<!-- NONE -->
 
-<!-- XSL Parameters -->
+<!-- ======================== Passed Parameters =========================== -->
 <xsl:param name="isoTimestamp"/>
 <xsl:param name="baseURL"/>
 
-<!-- Read in our configuration XML file -->
-<xsl:variable name="configFile" select="document('../config/config.xml')" />
-<xsl:variable name="TZ_offset"  select="$configFile/config/UTC_TZ_offset"/>
 
-<xsl:variable name="atom-timestamp">
+<!-- ======================= Internal Parameters ========================== -->
+<!-- Read in our configuration XML file -->
+<xsl:param name="configFile" select="document('../config/config.xml')" />
+<xsl:param name="TZ_offset"  select="$configFile/config/UTC_TZ_offset"/>
+
+<xsl:param name="atom-timestamp">
   <xsl:value-of select="$isoTimestamp"/>
   <xsl:value-of select="$configFile/config/UTC_TZ_offset"/>
-</xsl:variable>
+</xsl:param>
 
-<!-- define sorting keys -->
+
+<!-- ========================== Sorting Keys ============================== -->
 <xsl:key
     name="jstate"
     match="job_list"
     use="normalize-space(state)"
 />
 
+
+<!-- ======================= Output Declaration =========================== -->
+<xsl:output method="xml" indent="yes" version="1.0" encoding="UTF-8"/>
+
+
+<!-- ============================ Matching ================================ -->
 <xsl:template match="/">
 
 <!-- CALCULATE TOTAL PERCENTAGE OF JOB SLOTS IN USE CLUSTER-WIDE -->

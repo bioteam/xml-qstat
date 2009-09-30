@@ -1,48 +1,37 @@
 <xsl:stylesheet version="1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:dt="http://xsltsl.org/date-time"
-    xmlns:str="http://xsltsl.org/string"
-    exclude-result-prefixes="dt str"
 >
 <!--
    | Logo and uniform naviation buttons that can be customized as required
 -->
 
-<!-- output declarations -->
-<xsl:output method="xml" indent="yes" version="1.0" encoding="UTF-8"
-    doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
-    doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
-/>
+<!-- ======================= Internal Parameters ========================== -->
 
-<!-- get specific configuration parameters -->
-<xsl:variable name="config_qlicserver">
-<xsl:if
-    test="document('../config/config.xml')/config/qlicserver = 'yes'"
-    >yes</xsl:if>
-</xsl:variable>
-
+<!-- ========================= Named Templates ============================ -->
 
 <!-- define a standard (corporate, institutional) logo to use -->
 <xsl:template name="topLogo">
   <xsl:param name="relPath" />
+  <xsl:param name="configFile" select="document('../config/config.xml')" />
+
   <div class="topLogo" style="clear:both; text-align:left;">
     <!-- getting the image info (brute-force): -->
-    <xsl:if test="document('../config/config.xml')/config/topLogo/@src">
+    <xsl:if test="$configFile/config/topLogo/@src">
     <p>
       <xsl:element name="a">
-        <xsl:if test="document('../config/config.xml')/config/topLogo/@href">
-          <xsl:attribute name="href"><xsl:value-of select="document('../config/config.xml')/config/topLogo/@href"/></xsl:attribute>
+        <xsl:if test="$configFile/config/topLogo/@href">
+          <xsl:attribute name="href"><xsl:value-of select="$configFile/config/topLogo/@href"/></xsl:attribute>
         </xsl:if>
         <xsl:element name="img">
           <xsl:attribute name="src">
             <xsl:if test="$relPath">
               <xsl:value-of select="$relPath"/>
             </xsl:if>
-            <xsl:value-of select="document('../config/config.xml')/config/topLogo/@src"/>
+            <xsl:value-of select="$configFile/config/topLogo/@src"/>
           </xsl:attribute>
-          <xsl:if test="document('../config/config.xml')/config/topLogo/@width">
-            <xsl:attribute name="width"><xsl:value-of select="document('../config/config.xml')/config/topLogo/@width"/></xsl:attribute>
+          <xsl:if test="$configFile/config/topLogo/@width">
+            <xsl:attribute name="width"><xsl:value-of select="$configFile/config/topLogo/@width"/></xsl:attribute>
           </xsl:if>
           <xsl:attribute name="alt">logo</xsl:attribute>
           <xsl:attribute name="border">0</xsl:attribute>
@@ -54,7 +43,7 @@
 </xsl:template>
 
 
-<!-- define a default xmlqstat local -->
+<!-- define a default xmlqstat logo -->
 <xsl:template name="xmlqstatLogo">
   <xsl:param name="relPath" />
   <div class="topLogo" style="clear:both; text-align:left;">
@@ -76,6 +65,12 @@
 -->
 <xsl:template name="topMenu">
   <xsl:param name="jobinfo" />
+
+  <xsl:param name="configFile" select="document('../config/config.xml')" />
+  <xsl:param name="qlicserverOk">
+    <xsl:if test="$configFile/config/qlicserver = 'yes'">yes</xsl:if>
+  </xsl:param>
+
   <div id="menu">
     <a href="../../" title="clusters" class="leftSpace"><img
         src="images/icons/silk/house.png"
@@ -117,7 +112,7 @@
         alt="[queues]"
     /></a>
 
-  <xsl:if test="$config_qlicserver = 'yes'">
+  <xsl:if test="$qlicserverOk = 'yes'">
     <!-- resources -->
     <img alt=" | " src="css/screen/icon_divider.png" />
     <a href="resources" title="resources" ><img
@@ -233,7 +228,7 @@
 
 <!-- bottom status bar with timestamp -->
 <xsl:template name="bottomStatusBar">
-<xsl:param name="timestamp" />
+  <xsl:param name="timestamp" />
 
   <xsl:text>
   </xsl:text>

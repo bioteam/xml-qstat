@@ -1,8 +1,13 @@
+<!DOCTYPE stylesheet [
+<!ENTITY  space   "<xsl:text> </xsl:text>">
+<!ENTITY  newline "<xsl:text>
+</xsl:text>">
+]>
+
 <xsl:stylesheet version="1.0"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:date="http://exslt.org/dates-and-times"
-    xmlns:datetime="http://exslt.org/dates-and-times"
     extension-element-prefixes="date"
 >
 <!--
@@ -14,37 +19,34 @@
 -->
 
 
-<!-- output declarations -->
-<xsl:output method="xhtml" indent="yes" version="4.01" encoding="ISO-8859-1"
-    doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
-    doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
-/>
+<!-- ============================= Imports ================================ -->
+<!-- Import exslt templates -->
+<xsl:import href="exslt-templates/date.add-duration.function.xsl"/>
+<xsl:import href="exslt-templates/date.add.template.xsl"/>
+<xsl:import href="exslt-templates/date.duration.template.xsl"/>
 
-<!-- Import the XSLTL library methods -->
-<xsl:include href="exslt-templates/date.add-duration.function.xsl"/>
-<xsl:include href="exslt-templates/date.add.template.xsl"/>
-<xsl:include href="exslt-templates/date.duration.template.xsl"/>
 
-<!-- Import our uniform masthead -->
-<xsl:include href="xmlqstat-masthead.xsl"/>
+<!-- Import our masthead and templates -->
+<xsl:import href="xmlqstat-masthead.xsl"/>
+<xsl:import href="xmlqstat-templates.xsl"/>
 
-<!-- Import our templates -->
-<xsl:include href="xmlqstat-templates.xsl"/>
 
-<!-- XSL Parameters   -->
+<!-- ======================== Passed Parameters =========================== -->
 <xsl:param name="clusterName"/>
 <xsl:param name="timestamp"/>
 <xsl:param name="menuMode"/>
 
-<!-- get specific configuration parameters -->
+
+<!-- ======================= Internal Parameters ========================== -->
+<!-- configuration parameters -->
 <xsl:param name="viewfile" select="//config/programs/viewfile" />
 <xsl:param name="viewlog"  select="//config/programs/viewlog" />
+
 
 <!-- possibly append ~{clusterName} to urls -->
 <xsl:param name="clusterSuffix">
   <xsl:if test="$clusterName">~<xsl:value-of select="$clusterName"/></xsl:if>
 </xsl:param>
-
 
 <xsl:param name="cgiParams">
   <xsl:if
@@ -56,38 +58,36 @@
   </xsl:if>
 </xsl:param>
 
-
 <!-- Read in our bitmask translation XML config file -->
-<xsl:variable name="codeFile" select="document('../config/status-codes.xml')" />
+<xsl:param name="codeFile" select="document('../config/status-codes.xml')" />
 
 
+<!-- ======================= Output Declaration =========================== -->
+<xsl:output method="xhtml" indent="yes" version="1.0" encoding="UTF-8"
+    doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+    doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
+/>
+
+
+<!-- ============================ Matching ================================ -->
 <xsl:template match="/">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="icon" type="image/png" href="images/icons/silk/lorry.png"/>
-<title> job details
-  <xsl:if test="//config/cluster/@name">
-  - <xsl:value-of select="//config/cluster/@name"/>
-  </xsl:if>
-</title>
-<xsl:text>
-</xsl:text>
-
-<xsl:comment> Load CSS from a file </xsl:comment>
-<xsl:text>
-</xsl:text>
-<link href="css/xmlqstat.css"  media="screen" rel="Stylesheet" type="text/css" />
-<xsl:text>
-</xsl:text>
+&newline;<xsl:comment> head </xsl:comment>&newline;
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="icon" type="image/png" href="images/icons/silk/magnifier_zoom_in.png"/>
+  &newline;
+  <title> job details <xsl:call-template name="append-clusterName"/> </title>
+  &newline;
+  <!-- Load CSS from a file -->
+  <link href="css/xmlqstat.css"  media="screen" rel="Stylesheet" type="text/css" />
 </head>
-<body>
-<xsl:text>
-</xsl:text>
+&newline;
 
-<xsl:comment> Main body content </xsl:comment>
-<xsl:text>
-</xsl:text>
+
+<!-- begin body -->
+<body>
+&newline;<xsl:comment> Main body content </xsl:comment>&newline;
 
 <div id="main">
 <!-- Topomost Logo Div and Top Menu Bar -->
@@ -127,11 +127,7 @@
 </xsl:when>
 </xsl:choose>
 
-<xsl:text>
-</xsl:text>
-<xsl:comment> Overview table </xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;<xsl:comment> Overview table </xsl:comment>&newline;
 
 <!--
   overview table
@@ -144,8 +140,7 @@
     </td>
   </tr>
 </table>
-<xsl:text>
-</xsl:text>
+&newline;
 <div id="queueStatusTable">
 <table class="listing">
   <tr>
@@ -157,8 +152,7 @@
     <th>group</th>
     <th>state</th>
   </tr>
-<xsl:text>
-</xsl:text>
+&newline;
   <!-- 6.1: //detailed_job_info/djob_info/qmaster_response -->
   <!-- running jobs first -->
   <xsl:apply-templates
@@ -179,8 +173,7 @@
 </table>
 </div>
 </blockquote>
-<xsl:text>
-</xsl:text>
+&newline;
 
 <!--
   context table
@@ -274,8 +267,7 @@
     </td>
   </tr>
 </table>
-<xsl:text>
-</xsl:text>
+&newline;
 
 <!-- DISABLE FOR NOW
 
@@ -308,10 +300,10 @@
   <xsl:with-param name="timestamp" select="$timestamp" />
 </xsl:call-template>
 
-<xsl:text>
-</xsl:text>
+&newline;
 </div>
 </body></html>
+<!-- end body/html -->
 </xsl:template>
 
 <!--
@@ -393,8 +385,7 @@
       </xsl:choose>
     </td>
   </tr>
-<xsl:text>
-</xsl:text>
+&newline;
 </xsl:template>
 
 
@@ -417,8 +408,7 @@
   <td><xsl:apply-templates select="JB_context/context_list"/></td>
   <td><xsl:value-of select="JB_cwd"/></td>
 </tr>
-<xsl:text>
-</xsl:text>
+&newline;
 </xsl:template>
 
 
@@ -528,8 +518,7 @@
           <xsl:apply-templates
               select="JB_ja_tasks/ulong_sublist/JAT_granted_pe"
           />
-<xsl:text>
-</xsl:text>
+&newline;
           <xsl:value-of
 select="sum(JB_ja_tasks/ulong_sublist/JAT_granted_destin_identifier_list/element/JG_slots
 or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
@@ -579,8 +568,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
         <th>pe requested</th>
         <td>
           <xsl:value-of select="JB_pe"/>
-<xsl:text>
-</xsl:text>
+&newline;
           <xsl:value-of select="JB_pe_range/ranges/RN_max"/>
         </td>
       </tr>
@@ -592,8 +580,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
             select="JB_jid_predecessor_list/job_predecessors/JRE_job_number"
         >
           <xsl:value-of select="." />
-<xsl:text>
-</xsl:text>
+&newline;
         </xsl:for-each>
       </td>
     </tr>
@@ -682,8 +669,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
   </xsl:if>
 </table>
 </blockquote>
-<xsl:text>
-</xsl:text>
+&newline;
 </xsl:template>
 
 <!-- (scaled) usage -->
@@ -700,14 +686,11 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
 <!-- path aliases -->
 <xsl:template match="JB_path_aliases/PathAliases">
   <xsl:value-of select="PA_origin"/>
-<xsl:text>
-</xsl:text>
+&newline;
   <xsl:value-of select="PA_submit_host"/>
-<xsl:text>
-</xsl:text>
+&newline;
   <xsl:value-of select="PA_exec_host"/>
-<xsl:text>
-</xsl:text>
+&newline;
   <xsl:value-of select="PA_translation"/>
   <br/>
 </xsl:template>
@@ -812,8 +795,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
 -->
 <xsl:template match="JB_hard_resource_list" mode="viewlog">
 <xsl:if test="count(qstat_l_requests/CE_name)">
-  <xsl:text>
-  </xsl:text>
+  &newline;
 
   <xsl:variable name="resources">
     <xsl:for-each
@@ -855,6 +837,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
 </xsl:if>
 </xsl:template>
 
+
 <!-- these nodes might contain the epoch instead of the proper date/time -->
 <xsl:template match="JB_submission_time | JAT_start_time">
   <xsl:choose>
@@ -862,20 +845,31 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
     <xsl:value-of select="."/>
   </xsl:when>
   <xsl:otherwise>
-    <!-- convert epoch to dateTime -->
-    <xsl:variable name="duration">
-      <xsl:call-template name="date:duration">
-        <xsl:with-param name="seconds" select="." />
-      </xsl:call-template>
-    </xsl:variable>
-    <xsl:call-template name="date:add">
-      <xsl:with-param name="date-time" select="'1970-01-01T00:00:00'" />
-      <xsl:with-param name="duration"  select="$duration" />
+    <xsl:call-template name="epochToDate">
+      <xsl:with-param name="epoch" select="." />
     </xsl:call-template>
   </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
 
+
+<!-- ========================= Named Templates ============================ -->
+
+<!-- convert Unix epoch (seconds since 1970-01-01T00:00:00') to dateTime -->
+<xsl:template name="epochToDate">
+  <xsl:param name="epoch" />
+  <xsl:param name="begin" select="'1970-01-01T00:00:00'" />
+
+  <xsl:variable name="duration">
+    <xsl:call-template name="date:duration">
+      <xsl:with-param name="seconds" select="$epoch" />
+    </xsl:call-template>
+  </xsl:variable>
+  <xsl:call-template name="date:add">
+    <xsl:with-param name="date-time" select="$begin" />
+    <xsl:with-param name="duration"  select="$duration" />
+  </xsl:call-template>
+</xsl:template>
 
 <xsl:template name="statusTranslation">
   <xsl:param name="status" />
@@ -891,7 +885,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
         select="$codeFile/statusCodes/status[@bitmask=$status]/@state"
     />
   </xsl:element>
-
 </xsl:template>
+
 
 </xsl:stylesheet>

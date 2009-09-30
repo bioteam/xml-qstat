@@ -1,20 +1,19 @@
 <xsl:stylesheet version="1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:dt="http://xsltsl.org/date-time"
-    xmlns:str="http://xsltsl.org/string"
-    exclude-result-prefixes="dt str"
 >
 <!--
-   | A collection of named templates with various useful
-   | functions
+   | A collection of Named Templates with various useful functions
 -->
 
-<!-- output declarations -->
-<xsl:output method="xml" indent="yes" version="1.0" encoding="UTF-8"
-    doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
-    doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
-/>
+
+<!-- ========================= Named Templates ============================ -->
+
+<xsl:template name="append-clusterName">
+  <xsl:if
+    test="//config/cluster/@name"
+  > - <xsl:value-of select="//config/cluster/@name"/></xsl:if>
+</xsl:template>
 
 <!--
    |
@@ -24,12 +23,13 @@
 <xsl:template name="count-tokens">
   <xsl:param name="string"/>
   <xsl:param name="delim"/>
+
   <xsl:choose>
   <xsl:when test="contains($string, $delim)">
     <xsl:variable name="summation">
       <xsl:call-template name="count-tokens">
         <xsl:with-param name="string" select="substring-after($string, $delim)" />
-        <xsl:with-param name="delim" select="$delim" />
+        <xsl:with-param name="delim"  select="$delim" />
       </xsl:call-template>
     </xsl:variable>
     <xsl:value-of select="1 + $summation"/>
@@ -40,11 +40,35 @@
 
 <!--
    |
+   | count the number of jobs
+   | use string-length as a cheap hack to summarize the values
+   |
+   -->
+<xsl:template name="count-jobs">
+  <xsl:param name="nodeList"/>
+
+  <xsl:variable name="count">
+    <xsl:for-each select="$nodeList">
+      <xsl:variable name="jobId" select="JB_job_number"/>
+      <xsl:variable name="thisNode" select="generate-id(.)"/>
+      <xsl:variable name="allNodes" select="key('job-summary', $jobId)"/>
+      <xsl:variable name="firstNode" select="generate-id($allNodes[1])"/>
+      <xsl:choose>
+      <xsl:when test="$thisNode = $firstNode">1</xsl:when>
+      </xsl:choose>
+    </xsl:for-each>
+  </xsl:variable>
+  <xsl:value-of select="string-length($count)"/>
+</xsl:template>
+
+<!--
+   |
    | count the number of slots multiplied by the task information
    |
    -->
 <xsl:template name="count-slots">
   <xsl:param name="nodeList"/>
+
   <xsl:choose>
   <xsl:when test="count($nodeList)">
     <xsl:variable name="first" select="$nodeList[1]"/>
@@ -59,9 +83,9 @@
       <xsl:choose>
       <xsl:when test="contains($tasks, ':')">
         <!-- handle n-m:s -->
-        <xsl:variable name="min"  select="substring-before($tasks,'-')"/>
-        <xsl:variable name="max"  select="substring-before(substring-after($tasks,'-'), ':')"/>
-        <xsl:variable name="step" select="substring-after($tasks,':')"/>
+        <xsl:variable name="min"  select="number(substring-before($tasks,'-'))"/>
+        <xsl:variable name="max"  select="number(substring-before(substring-after($tasks,'-'), ':'))"/>
+        <xsl:variable name="step" select="number(substring-after($tasks,':'))" />
         <xsl:choose>
         <xsl:when test="$step &gt; 1">
           <!-- eg 2-6:2 = 3 -->
@@ -362,6 +386,7 @@
 -->
 <xsl:template name="unqualifiedQueue">
   <xsl:param name="queue" />
+
   <xsl:choose>
   <xsl:when test="contains($queue, '@@')">
     <!-- change queue@@hostgroup untouched -->
@@ -393,6 +418,7 @@
 -->
 <xsl:template name="unqualifiedHost">
   <xsl:param name="host" />
+
   <xsl:choose>
   <xsl:when test="contains($host, '.')">
     <xsl:value-of select="substring-before($host,'.')"/>

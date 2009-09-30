@@ -3,8 +3,7 @@ This directory contains XSLT transformations.
 Third-party transformations are included in subdirectories:
 
   * exslt-templates/
-  * xsltl/
-
+    used for converting epoch values to date/times
 
 Boilerplate and templates with named transforms are prefixed with 'xmlqstat-':
 

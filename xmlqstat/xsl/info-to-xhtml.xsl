@@ -9,34 +9,46 @@
    |
 -->
 
-<!-- output declarations -->
-<xsl:output method="xhtml" indent="yes" version="4.01" encoding="ISO-8859-1"
+<!-- ============================= Imports ================================ -->
+<!-- Import our masthead -->
+<xsl:import href="xmlqstat-masthead.xsl"/>
+<xsl:import href="xmlqstat-templates.xsl"/>
+
+
+<!-- ======================== Passed Parameters =========================== -->
+<xsl:param name="timestamp"/>
+
+
+<!-- ======================= Internal Parameters ========================== -->
+<!-- NONE -->
+
+
+<!-- ======================= Output Declaration =========================== -->
+<xsl:output method="xhtml" indent="yes" version="1.0" encoding="UTF-8"
     doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
     doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
 />
 
-<!-- Import our uniform masthead -->
-<xsl:include href="xmlqstat-masthead.xsl"/>
 
-<!-- XSL Parameters -->
-<xsl:param name="timestamp"/>
-
+<!-- ============================ Matching ================================ -->
 <xsl:template match="/">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="icon" type="image/png" href="../images/icons/silk/information.png"/>
-<title><xsl:value-of select="/content/title"/></title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="icon" type="image/png" href="../images/icons/silk/information.png"/>
+  <title><xsl:value-of select="/content/title"/></title>
 
-<xsl:text>
-</xsl:text>
-<xsl:comment>Load our CSS from a file now ...</xsl:comment>
-<xsl:text>
-</xsl:text>
-<link href="../css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
-<xsl:text>
-</xsl:text>
+  <xsl:text>
+  </xsl:text>
+  <xsl:comment>Load our CSS from a file now ...</xsl:comment>
+  <xsl:text>
+  </xsl:text>
+  <link href="../css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
+  <xsl:text>
+  </xsl:text>
 </head>
+
+<!-- begin body -->
 <body>
 
 <xsl:text>
@@ -122,7 +134,9 @@
 </xsl:text>
 
 </body></html>
+<!-- end body/html -->
 </xsl:template>
+
 
 <xsl:template match="section" mode="toc">
   <li>
