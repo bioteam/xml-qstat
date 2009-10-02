@@ -10,6 +10,10 @@ Boilerplate and templates with named transforms are prefixed with 'xmlqstat-':
   * xmlqstat-masthead.xsl
   * xmlqstat-templates.xsl
 
+Utility templates
+
+  * pi-param.xsl
+    extract mozilla-style processing instructions.
 
 In general, the naming convention 'SOURCE-DEST.xsl' is chosen.
 If a particular rendering mode cannot be easily dealt within the same

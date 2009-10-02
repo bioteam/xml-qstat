@@ -142,7 +142,7 @@
      Grid Engine Status.
     </summary>
 
-    <content type="xhtml">
+    <content type="xml">
 
 <div xmlns="http://www.w3.org/1999/xhtml" >
 <hr width="80%" />

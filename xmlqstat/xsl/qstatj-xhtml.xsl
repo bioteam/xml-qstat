@@ -63,7 +63,7 @@
 
 
 <!-- ======================= Output Declaration =========================== -->
-<xsl:output method="xhtml" indent="yes" version="1.0" encoding="UTF-8"
+<xsl:output method="xml" indent="yes" version="1.0" encoding="UTF-8"
     doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
     doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
 />

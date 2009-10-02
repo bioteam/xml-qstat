@@ -45,7 +45,15 @@
     </map:selector>
   </map:selectors>
 
-  <map:matchers default="wildcard"/>
+  <map:matchers default="wildcard">
+    <map:matcher
+      name="wildcard"
+      src="org.apache.cocoon.matching.WildcardURIMatcher"/>
+    <map:matcher
+      name="regexp"
+      src="org.apache.cocoon.matching.RegexpURIMatcher"
+      />
+  </map:matchers>
 
 </map:components>
 
@@ -152,6 +160,20 @@
   </map:match>
   <map:match pattern="**/*.jpg">
     <map:read mime-type="image/jpg" src="{1}/{2}.jpg" />
+  </map:match>
+
+  <!-- static config, xml, xsl files -->
+  <map:match pattern="config/*.xml">
+    <map:read mime-type="text/xml" src="config/{1}.xml" />
+  </map:match>
+  <map:match pattern="xml/*.xml">
+    <map:read mime-type="text/xml" src="xml/{1}.xml" />
+  </map:match>
+  <map:match pattern="xsl/*.xsl">
+    <map:read mime-type="text/xml" src="xsl/{1}.xsl" />
+  </map:match>
+  <map:match pattern="xsl/exslt-templates/*.xsl">
+    <map:read mime-type="text/xml" src="xsl/exslt-templates/{1}.xsl" />
   </map:match>
 
   <!-- Catch people going to http://<server>/xmlqstat/
@@ -406,11 +428,10 @@
     </map:otherwise>
     </map:select>
     <map:transform src="xsl/directory-xhtml.xsl">
-      <map:parameter name="dir" value="{1}" />
+      <map:parameter name="prefix" value="" />
     </map:transform>
     <map:serialize type="xhtml"/>
   </map:match>
-
 
   <!-- url: "/xmlqstat/cluster/paths~{clusterName}.xml?jobNumber"
        get paths for this particular cluster
@@ -573,41 +594,19 @@
     <map:serialize type="xml"/>
   </map:match>
 
-  <!-- url: "/xmlqstat/config"
-       list config files
-       -->
-  <map:match pattern="config">
-    <map:generate type="directory"  src="config">
+  <!--
+     | list directory contents:
+     | "/xmlqstat/config"
+     | "/xmlqstat/xsl"
+     | "/xmlqstat/xsl"
+     -->
+  <map:match pattern="^(config|xsl|xml)$" type="regexp">
+    <map:generate type="directory"  src="{1}">
       <map:parameter name="depth"   value="1"/>
-      <map:parameter name="include" value="\.xml$"/>
+      <map:parameter name="include" value="\.(xml|xsl)$"/>
     </map:generate>
-    <map:transform src="xsl/directory-xhtml.xsl">
-      <map:parameter name="dir"    value="config"/>
-      <map:parameter name="prefix" value="config"/>
-    </map:transform>
+    <map:transform src="xsl/directory-xhtml.xsl"/>
     <map:serialize type="xhtml"/>
-  </map:match>
-
-  <!-- url: "/xmlqstat/config/*.xml"
-       view xml config files directly
-       -->
-  <map:match pattern="config/*.xml">
-    <map:select type="resource-exists">
-    <map:when test="config/{1}.xml">
-      <map:generate src="config/{1}.xml"/>
-    </map:when>
-    <map:otherwise>
-      <map:generate src="xml/notFound.xml"/>
-    </map:otherwise>
-    </map:select>
-    <map:serialize type="xml"/>
-  </map:match>
-
-
-  <!-- fallback - catch errors -->
-  <map:match pattern="config/**">
-    <map:generate src="xml/notFound.xml"/>
-    <map:serialize type="xml"/>
   </map:match>
 
   <!-- url: "/xmlqstat/qstat.xml"
