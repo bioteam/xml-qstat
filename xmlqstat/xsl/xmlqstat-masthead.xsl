@@ -1,7 +1,13 @@
+<!DOCTYPE stylesheet [
+<!ENTITY  newline "<xsl:text>&#x0a;</xsl:text>">
+<!ENTITY  space   "<xsl:text> </xsl:text>">
+]>
+
 <xsl:stylesheet version="1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns="http://www.w3.org/1999/xhtml"
 >
+
 <!--
    | Logo and uniform naviation buttons that can be customized as required
 -->
@@ -15,6 +21,9 @@
   <xsl:param name="relPath" />
   <xsl:param name="configFile" select="document('../config/config.xml')" />
 
+  &newline;
+  <xsl:comment> define standard (corporate/institutional) logo </xsl:comment>
+  &newline;
   <div class="topLogo" style="clear:both; text-align:left;">
     <!-- getting the image info (brute-force): -->
     <xsl:if test="$configFile/config/topLogo/@src">
@@ -40,6 +49,8 @@
     </p>
     </xsl:if>
   </div>
+  &newline;
+
 </xsl:template>
 
 

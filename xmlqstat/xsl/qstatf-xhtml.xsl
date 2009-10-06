@@ -1,3 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE stylesheet [
+<!ENTITY  newline "<xsl:text>&#x0a;</xsl:text>">
+<!ENTITY  space   "<xsl:text> </xsl:text>">
+<!ENTITY  nbsp    "&#xa0;">
+]>
 <xsl:stylesheet version="1.0"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -20,10 +26,10 @@
    ============================================================================
 -->
 
-<!-- ============================= Imports ================================ -->
-<!-- Import our masthead and templates -->
-<xsl:import href="xmlqstat-masthead.xsl"/>
-<xsl:import href="xmlqstat-templates.xsl"/>
+<!-- ======================= Imports / Includes =========================== -->
+<!-- Include our masthead and templates -->
+<xsl:include href="xmlqstat-masthead.xsl"/>
+<xsl:include href="xmlqstat-templates.xsl"/>
 
 
 <!-- ======================== Passed Parameters =========================== -->
@@ -111,11 +117,10 @@
 </xsl:otherwise>
 </xsl:choose>
 
-<xsl:text>
-</xsl:text>
+&newline;
 <xsl:comment> useJavaScript = '<xsl:value-of select="$useJavaScript"/>' </xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
+
 <xsl:if test="$useJavaScript = 'yes'" >
   <!-- NB: <script> .. </script> needs some (any) content -->
   <script src="javascript/cookie.js" type="text/javascript">
@@ -124,15 +129,13 @@
   <script src="javascript/xmlqstat.js" type="text/javascript">
     // display altering code
   </script>
-  <xsl:text>
-  </xsl:text>
+  &newline;
 </xsl:if>
 
-<xsl:text>
-</xsl:text>
+&newline;
 <xsl:comment> define css (from file) and with overrides </xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
+
 <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
 <style type="text/css">
 <!-- DIFFERENT CSS STYLE DEPENDING ON USER COOKIE PREFERENCE PARAM(s) -->
@@ -145,12 +148,10 @@
   #pendingJobTable { visibility: hidden; display: none; }
 </xsl:if>
 <!-- END COOKIE DEPENDENT VARIABLE CSS STYLE OUTPUT -->
-<xsl:text>
-</xsl:text>
+&newline;
 </style>
 </head>
-<xsl:text>
-</xsl:text>
+&newline;
 
 <!--
    | count active jobs/slots for user or everyone
@@ -294,11 +295,11 @@
 
 <!-- begin body -->
 <body>
-<xsl:text>
-</xsl:text>
+
+&newline;
 <xsl:comment>Main body content</xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
+
 <div id="main">
 <!-- Topomost Logo Div and Top Menu Bar -->
 <xsl:choose>
@@ -314,8 +315,7 @@
 </xsl:otherwise>
 </xsl:choose>
 
-<xsl:text>
-</xsl:text>
+&newline;
 <!-- Top dotted line bar (holds the qmaster host and update time) -->
 <xsl:choose>
 <xsl:when test="//query/host">
@@ -332,11 +332,10 @@
 </xsl:when>
 </xsl:choose>
 
-<xsl:text>
-</xsl:text>
+&newline;
 <xsl:comment> Queue Instance Information or Cluster Summary </xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
+
 <xsl:choose>
 <xsl:when test="$renderMode='full'">
   <!-- queue instances: -->
@@ -601,11 +600,9 @@
 </xsl:choose>
 
 <xsl:if test="not($renderMode)">
-<xsl:text>
-</xsl:text>
+&newline;
 <xsl:comment> Active Jobs </xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
 
 <blockquote>
 <xsl:choose>
@@ -682,11 +679,9 @@
 
 
 <xsl:if test="not($renderMode)">
-<xsl:text>
-</xsl:text>
+&newline;
 <xsl:comment> Pending Jobs </xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
 
 <blockquote>
 <xsl:choose>
@@ -750,8 +745,7 @@
   <xsl:with-param name="timestamp" select="$timestamp" />
 </xsl:call-template>
 
-<xsl:text>
-</xsl:text>
+&newline;
 </div><xsl:comment>This is the end of main content </xsl:comment>
 
 
@@ -895,7 +889,7 @@
         <xsl:call-template name="queue-state-icon">
           <xsl:with-param name="state" select="$state"/>
         </xsl:call-template>
-        <xsl:text> </xsl:text>
+        &space;
         <xsl:call-template name="queue-state-explain">
           <xsl:with-param name="state" select="$state"/>
         </xsl:call-template>
@@ -922,10 +916,7 @@
 <xsl:template match="job_list[@state='pending']">
 <!-- per user sort: BEGIN -->
 <xsl:if test="not($filterByUser) or JB_owner=$filterByUser">
-<xsl:text>
-</xsl:text><xsl:comment>Begin Pending Job Row</xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline; <xsl:comment>Begin Pending Job Row</xsl:comment> &newline;
   <tr>
     <!-- jobId: link owner names to "jobinfo?jobId" -->
     <td>
@@ -1001,8 +992,7 @@
 
   <!-- output info about any resources that were specifically requested ... -->
   <xsl:if test="hard_request">
-    <xsl:text>
-    </xsl:text>
+    &newline;
     <tr class="emphasisCode">
       <td colspan="8" align="right">
         hard request:
@@ -1018,7 +1008,7 @@
 <!-- Hard Resource Request Strings -->
 <xsl:template match="hard_request">
   <xsl:value-of select="@name"/>=<xsl:value-of select="."/>
-  <xsl:text> </xsl:text>
+  &space;
 </xsl:template>
 
 <xsl:template match="Queue-List/job_list" mode="summary">
@@ -1122,7 +1112,7 @@
               <xsl:call-template name="unqualifiedQueue">
                 <xsl:with-param name="queue" select="."/>
               </xsl:call-template>
-              <xsl:text> </xsl:text>
+              &space;
             </xsl:for-each>
           </xsl:attribute>
           <xsl:call-template name="unqualifiedQueue">

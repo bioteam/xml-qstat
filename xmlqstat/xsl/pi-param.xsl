@@ -12,10 +12,11 @@
    |   <?xml-stylesheet type="text/xml" href="foo.xsl"?>
    |
    | in stylesheet:
-   |   <xsl:import href="xslt-param.xsl"/>
+   |   <xsl:include href="pi-param.xsl"/>
    |   <xsl:param name="title">
    |     <xsl:call-template name="pi-param">
-   |       <xsl:with-param  name="name" select="'title'"/>
+   |       <xsl:with-param  name="name"    select="'title'"/>
+   |       <xsl:with-param  name="default" select="'default title'"/>
    |     </xsl:call-template>
    |   </xsl:param>
 -->
@@ -49,8 +50,10 @@
   <xsl:param name="pis" select="processing-instruction('xslt-param')" />
   <xsl:param name="name" />
   <xsl:param name="count">1</xsl:param>
+  <xsl:param name="default" />
 
-  <xsl:if test="$count &lt;= count($pis)">
+  <xsl:choose>
+  <xsl:when test="$count &lt;= count($pis)">
     <xsl:variable
         name="text"
         select="concat(' ', normalize-space($pis[position()=$count]))"
@@ -75,10 +78,16 @@
         <xsl:with-param name="pis"   select="$pis" />
         <xsl:with-param name="name"  select="$name" />
         <xsl:with-param name="count" select="$count + 1" />
+        <xsl:with-param name="default" select="$default" />
       </xsl:call-template>
     </xsl:otherwise>
     </xsl:choose>
-  </xsl:if>
+  </xsl:when>
+  <xsl:otherwise>
+     <!-- nothing found: return the default -->
+     <xsl:value-of select="$default"/>
+  </xsl:otherwise>
+  </xsl:choose>
 </xsl:template>
 
 

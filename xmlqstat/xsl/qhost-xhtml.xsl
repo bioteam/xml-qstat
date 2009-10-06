@@ -1,3 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE stylesheet [
+<!ENTITY  newline "<xsl:text>&#x0a;</xsl:text>">
+<!ENTITY  space   "<xsl:text> </xsl:text>">
+<!ENTITY  nbsp    "&#xa0;">
+]>
 <xsl:stylesheet version="1.0"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -10,17 +16,37 @@
    |   2) queue summary (renderMode = summary)
    |   3) list of queues with slots free (renderMode = free)
    |   4) list of queues with warnings (renderMode = warn)
+   |
+   | expected input:
+   | aggregated input from
+   |  - config.xml
+   |  - qlicserver.xml
+   |  - qhost.xml
 -->
 
-<!-- ============================= Imports ================================ -->
-<!-- Import our masthead and templates -->
-<xsl:import href="xmlqstat-masthead.xsl"/>
-<xsl:import href="xmlqstat-templates.xsl"/>
+<!-- ======================= Imports / Includes =========================== -->
+<!-- Include our masthead and templates -->
+<xsl:include href="xmlqstat-masthead.xsl"/>
+<xsl:include href="xmlqstat-templates.xsl"/>
+<!-- Include processor-instruction parsing -->
+<xsl:include href="pi-param.xsl"/>
 
 
 <!-- ======================== Passed Parameters =========================== -->
+<!--
 <xsl:param name="timestamp"/>
 <xsl:param name="renderMode"/>
+-->
+<xsl:param name="timestamp">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'timestamp'"/>
+  </xsl:call-template>
+</xsl:param>
+<xsl:param name="renderMode">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'renderMode'"/>
+  </xsl:call-template>
+</xsl:param>
 
 
 <!-- ======================= Internal Parameters ========================== -->
@@ -73,17 +99,13 @@
 </xsl:otherwise>
 </xsl:choose>
 
-<xsl:text>
-</xsl:text>
+&newline;
 <xsl:comment> Load CSS from a file </xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
 <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
-<xsl:text>
-</xsl:text>
+&newline;
 </head>
-<xsl:text>
-</xsl:text>
+&newline;
 
 <!-- CALCULATE TOTALS -->
 
@@ -98,21 +120,17 @@
 
 <!-- begin body -->
 <body>
-<xsl:text>
-</xsl:text>
+&newline;
 <xsl:comment> Main body content </xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
 
 <div id="main">
 <!-- Topomost Logo Div -->
 <xsl:call-template name="topLogo"/>
-<xsl:text>
-</xsl:text>
+&newline;
 <!-- Top Menu Bar -->
 <xsl:call-template name="topMenu"/>
-<xsl:text>
-</xsl:text>
+&newline;
 
 <xsl:comment> Top dotted line bar (holds the cluster/qmaster names and update time) </xsl:comment>
 <div class="dividerBarBelow">
@@ -124,9 +142,9 @@
       select="//config/cluster/@cell"/>
   </xsl:if>
   <xsl:if test="//query/host">@<xsl:value-of select="//query/host"/>
-  <xsl:text> </xsl:text>
+  &space;
   <!-- replace 'T' in dateTime for easier reading -->
-  [<xsl:value-of select="translate(//query/time, 'T', '_')"/>]
+  [<xsl:value-of select="translate(//query/time, 'T', '&nbsp;')"/>]
   </xsl:if>
 </xsl:when>
 <xsl:otherwise>
@@ -148,11 +166,9 @@
 </xsl:choose>
 </div>
 
-<xsl:text>
-</xsl:text>
+&newline;
 <xsl:comment> Host or Queue Instance Information </xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
 
 <blockquote>
 <xsl:choose>
@@ -208,8 +224,7 @@
   <xsl:with-param name="timestamp" select="$timestamp" />
 </xsl:call-template>
 
-<xsl:text>
-</xsl:text>
+&newline;
 </div>
 </body></html>
 <!-- end body/html -->
@@ -415,8 +430,7 @@
         </xsl:choose>
 
       </tr>
-<xsl:text>
-</xsl:text>
+&newline;
     </xsl:if>
   </xsl:for-each>
 
@@ -563,8 +577,7 @@
   </td>
 
   </tr>
-<xsl:text>
-</xsl:text>
+&newline;
 </xsl:if>
 </xsl:template>
 

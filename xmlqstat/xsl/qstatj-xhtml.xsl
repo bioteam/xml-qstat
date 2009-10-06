@@ -1,9 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE stylesheet [
+<!ENTITY  newline "<xsl:text>&#x0a;</xsl:text>">
 <!ENTITY  space   "<xsl:text> </xsl:text>">
-<!ENTITY  newline "<xsl:text>
-</xsl:text>">
+<!ENTITY  nbsp    "&#xa0;">
 ]>
-
 <xsl:stylesheet version="1.0"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -19,16 +19,15 @@
 -->
 
 
-<!-- ============================= Imports ================================ -->
+<!-- ======================= Imports / Includes =========================== -->
 <!-- Import exslt templates -->
 <xsl:import href="exslt-templates/date.add-duration.function.xsl"/>
 <xsl:import href="exslt-templates/date.add.template.xsl"/>
 <xsl:import href="exslt-templates/date.duration.template.xsl"/>
 
-
-<!-- Import our masthead and templates -->
-<xsl:import href="xmlqstat-masthead.xsl"/>
-<xsl:import href="xmlqstat-templates.xsl"/>
+<!-- Include our masthead and templates -->
+<xsl:include href="xmlqstat-masthead.xsl"/>
+<xsl:include href="xmlqstat-templates.xsl"/>
 
 
 <!-- ======================== Passed Parameters =========================== -->
@@ -73,7 +72,7 @@
 <xsl:template match="/">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-&newline;<xsl:comment> head </xsl:comment>&newline;
+  &newline;<xsl:comment> head </xsl:comment>&newline;
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="icon" type="image/png" href="images/icons/silk/magnifier_zoom_in.png"/>
   &newline;

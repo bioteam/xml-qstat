@@ -1,3 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE stylesheet [
+<!ENTITY  newline "<xsl:text>&#x0a;</xsl:text>">
+<!ENTITY  space   "<xsl:text> </xsl:text>">
+<!ENTITY  nbsp    "&#xa0;">
+]>
 <xsl:stylesheet version="1.0"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -9,10 +15,10 @@
    |
 -->
 
-<!-- ============================= Imports ================================ -->
-<!-- Import our masthead -->
-<xsl:import href="xmlqstat-masthead.xsl"/>
-<xsl:import href="xmlqstat-templates.xsl"/>
+<!-- ======================= Imports / Includes =========================== -->
+<!-- Include our masthead -->
+<xsl:include href="xmlqstat-masthead.xsl"/>
+<xsl:include href="xmlqstat-templates.xsl"/>
 
 
 <!-- ======================== Passed Parameters =========================== -->
@@ -38,31 +44,25 @@
   <link rel="icon" type="image/png" href="../images/icons/silk/information.png"/>
   <title><xsl:value-of select="/content/title"/></title>
 
-  <xsl:text>
-  </xsl:text>
+  &newline;
   <xsl:comment>Load our CSS from a file now ...</xsl:comment>
-  <xsl:text>
-  </xsl:text>
+  &newline;
   <link href="../css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
-  <xsl:text>
-  </xsl:text>
+  &newline;
 </head>
 
 <!-- begin body -->
 <body>
 
-<xsl:text>
-</xsl:text>
+&newline;
 <xsl:comment>Main body content</xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
 <div id="main">
 <!-- Topomost Logo Div -->
   <xsl:call-template name="xmlqstatLogo">
     <xsl:with-param name="relPath" select="'../'" />
   </xsl:call-template>
-<xsl:text>
-</xsl:text>
+&newline;
 <!-- Top Menu Bar -->
 <div id="menu">
   <a href="../" title="home" class="leftSpace"><img
@@ -92,15 +92,12 @@
 
 </div>
 
-<xsl:text>
-</xsl:text>
+&newline;
 <!--
 <xsl:comment> Top dotted line bar</xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
     <div class="dividerBarBelow"><xsl:text> </xsl:text></div>
-<xsl:text>
-</xsl:text>
+&newline;
 -->
 
 <!-- stuff above is XHTML boilerplate for the basic page layout-->
@@ -127,11 +124,9 @@
 
 <!-- stuff below is XHTML boilerplate for the basic page layout -->
 
-<xsl:text>
-</xsl:text>
+&newline;
 </div> <xsl:comment>This is the end of main content </xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
 
 </body></html>
 <!-- end body/html -->

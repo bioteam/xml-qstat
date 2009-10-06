@@ -1,9 +1,14 @@
+<!DOCTYPE stylesheet [
+<!ENTITY  newline "<xsl:text>&#x0a;</xsl:text>">
+<!ENTITY  space   "<xsl:text> </xsl:text>">
+]>
+
 <xsl:stylesheet version="1.0"
     xmlns="http://www.w3.org/2005/Atom"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 >
 
-<!-- ============================= Imports ================================ -->
+<!-- ======================= Imports / Includes =========================== -->
 <!-- NONE -->
 
 <!-- ======================== Passed Parameters =========================== -->
@@ -175,33 +180,38 @@ Slots Available/Unavailable: <xsl:value-of select="$slotsTotal - $unusableSlotCo
 </div>
 
 <xsl:if test="$QI_state_au &gt; 0">
-<div><xsl:text> </xsl:text>Queue Info: <xsl:value-of select="$QI_state_au"/> alarm/unreachable state 'au'</div>
+&newline;
+<div>Queue Info: <xsl:value-of select="$QI_state_au"/> alarm/unreachable state 'au'</div>
 </xsl:if>
 
 <xsl:if test="$QI_state_adu &gt; 0">
-<div><xsl:text> </xsl:text>Queue Info: <xsl:value-of select="$QI_state_adu"/> alarm/unreachable/disabled alarm state 'adu'</div>
+&newline;
+<div>Queue Info: <xsl:value-of select="$QI_state_adu"/> alarm/unreachable/disabled alarm state 'adu'</div>
 </xsl:if>
 
 <xsl:if test="$QI_state_a &gt; 0">
-<div><xsl:text> </xsl:text>Queue Info: <xsl:value-of select="$QI_state_a"/> load threshold alarm state 'a'</div>
+&newline;
+<div>Queue Info: <xsl:value-of select="$QI_state_a"/> load threshold alarm state 'a'</div>
 </xsl:if>
 
 <xsl:if test="$QI_state_d &gt; 0">
-<div><xsl:text> </xsl:text>Queue Info: <xsl:value-of select="$QI_state_d"/> admin disabled state 'd'</div>
+&newline;
+<div>Queue Info: <xsl:value-of select="$QI_state_d"/> admin disabled state 'd'</div>
 </xsl:if>
 
 <xsl:if test="$QI_state_S &gt; 0">
-<div><xsl:text> </xsl:text>Queue Info: <xsl:value-of select="$QI_state_S"/> subordinate state 'S' </div>
+&newline;
+<div>Queue Info: <xsl:value-of select="$QI_state_S"/> subordinate state 'S' </div>
 </xsl:if>
 
 <!-- GENERATE A UNIQUE LIST OF ACTIVE JOB STATES THAT MAY BE OF INTEREST -->
 <xsl:for-each select="/job_info/queue_info/Queue-List/job_list [generate-id() = generate-id( key('jstate',normalize-space(state))[1] )]">
-<!-- Skip state=running (because its boring and OK, we want other states) -->
-<xsl:if test="./state != 'r'">
-<div class="sentence">
-Job Info: At least 1 job is reporting state=<xsl:value-of select="./state"/>
-</div>
-</xsl:if>
+  <!-- Skip state=running (because its boring and OK, we want other states) -->
+  <xsl:if test="./state != 'r'">
+    <div class="sentence">
+      Job Info: At least 1 job is reporting state=<xsl:value-of select="./state"/>
+    </div>
+  </xsl:if>
 </xsl:for-each>
 
 </blockquote>

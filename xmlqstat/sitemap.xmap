@@ -78,31 +78,12 @@
     <map:serialize type="xml"/>
   </map:match>
 
-  <map:match pattern="cache-dirs">
-    <!-- list of possible cache, cache-* directories -->
-    <map:generate type="directory"  src=".">
-      <map:parameter name="depth"   value="1"/>
-      <map:parameter name="include" value="^cache(-.+)?$"/>
-    </map:generate>
-    <map:serialize type="xml"/>
-  </map:match>
-
-  <map:match pattern="cached-qstatf">
-    <!-- list of possible cache/qstat.xml and cache/qstat~{clusterName}.xml -->
-    <map:select type="resource-exists">
-    <map:when test="cache">
-    <map:generate type="directory"  src="cache">
-      <map:parameter name="depth"   value="1"/>
-      <map:parameter name="include" value="^qstatf(~.+)?\.xml$"/>
-    </map:generate>
-    </map:when>
-    <map:otherwise>
+  <!-- list of possible cache/*.xml, cache-{clusterName}/*.xml cache files -->
+  <map:match pattern="cache-files">
     <map:generate type="directory"  src=".">
       <map:parameter name="depth"   value="2"/>
-      <map:parameter name="include" value="^cache$"/>
     </map:generate>
-    </map:otherwise>
-    </map:select>
+    <map:transform src="xsl/cache-files-prune.xsl"/>
     <map:serialize type="xml"/>
   </map:match>
 
@@ -188,14 +169,8 @@
        index of clusters
        -->
   <map:match pattern="cluster">
-    <map:aggregate element="aggregated">
-      <map:part src="cocoon:/config" />
-      <map:part src="cocoon:/cache-dirs" />
-      <map:part src="cocoon:/cached-qstatf" />
-    </map:aggregate>
-    <map:transform src="xsl/index-xhtml.xsl">
-      <map:parameter name="timestamp"  value="{date: yyyy-MM-dd_HH:mm:ss}"/>
-    </map:transform>
+    <map:generate  src="cocoon:/cache-files" />
+    <map:transform src="xsl/index-xhtml.xsl"/>
     <map:serialize type="xhtml"/>
   </map:match>
 

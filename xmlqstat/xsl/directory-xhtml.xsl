@@ -1,21 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE stylesheet [
+<!ENTITY  newline "<xsl:text>&#x0a;</xsl:text>">
+<!ENTITY  space   "<xsl:text> </xsl:text>">
+<!ENTITY  nbsp    "&#xa0;">
+]>
 <xsl:stylesheet version="1.0"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:dir="http://apache.org/cocoon/directory/2.0"
 >
 <!--
-   | process the output from a directory generator
-   | to create a list of hyperlinks
--->
+   | process output from a directory generator to create a list of hyperlinks
+   |
+   | expected input:
+   | Apache-style Directory listing
+   -->
 
-<!-- ============================= Imports ================================ -->
-<!-- Import our masthead -->
-<xsl:import href="xmlqstat-masthead.xsl"/>
+<!-- ======================= Imports / Includes =========================== -->
+<!-- Include our masthead -->
+<xsl:include href="xmlqstat-masthead.xsl"/>
+<!-- Include processor-instruction parsing -->
+<xsl:include href="pi-param.xsl"/>
 
 
 <!-- ======================== Passed Parameters =========================== -->
-<xsl:param name="dir" select="/dir:directory/@name"/>
-<xsl:param name="prefix" select="$dir"/>
+<xsl:param name="dir">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'dir'"/>
+    <xsl:with-param  name="default" select="/dir:directory/@name"/>
+  </xsl:call-template>
+</xsl:param>
+
+<xsl:param name="prefix">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'prefix'"/>
+    <xsl:with-param  name="default" select="$dir"/>
+  </xsl:call-template>
+</xsl:param>
 
 
 <!-- ======================= Output Declaration =========================== -->
@@ -28,41 +49,36 @@
 <!-- ============================ Matching ================================ -->
 <xsl:template match="/" >
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
+<head>&newline;
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta http-equiv="Refresh" content="60" />
+  &newline;
   <link rel="icon" type="image/png" href="images/icons/silk/folder.png"/>
   <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
+  &newline;
   <title>dir - <xsl:value-of select="$dir"/></title>
+  &newline;
 
   <xsl:comment> Load CSS from a file </xsl:comment>
-  <xsl:text>
-  </xsl:text>
+  &newline;
   <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
-
-  <xsl:text>
-  </xsl:text>
+  &newline;
 </head>
 
 <!-- begin body -->
 <body>
-<xsl:text>
-</xsl:text>
+&newline;
 <div id="main">
 <!-- Topomost Logo Div -->
 <xsl:call-template name="topLogo"/>
 
-<xsl:text>
-</xsl:text>
-
 <!-- Top Menu Bar -->
+&newline;
 <div id="menu">
-  <img class="leftSpace rightSpace"
-      src="images/icons/silk/folder.png"
-      alt="[folder]"
-  />
+  <img class="leftSpace rightSpace" src="images/icons/silk/folder.png"/>
   <strong><xsl:value-of select="$dir"/>/</strong>
 </div>
+&newline;
 
 <ul>
   <xsl:choose>
@@ -74,9 +90,21 @@
   </xsl:otherwise>
   </xsl:choose>
 </ul>
-<xsl:text>
-</xsl:text>
 </div>
+
+&newline;
+XSLT
+<xsl:value-of select="format-number(number(system-property('xsl:version')), '0.0')" />
+transformed by
+<xsl:element name="a">
+  <xsl:attribute name="href">
+    <xsl:value-of select="system-property('xsl:vendor-url')"/>
+  </xsl:attribute>
+  <xsl:value-of select="system-property('xsl:vendor')"/>
+</xsl:element>
+
+&newline;
+
 </body></html>
 <!-- end body/html -->
 </xsl:template>

@@ -1,3 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE stylesheet [
+<!ENTITY  newline "<xsl:text>&#x0a;</xsl:text>">
+<!ENTITY  space   "<xsl:text> </xsl:text>">
+<!ENTITY  nbsp    "&#xa0;">
+]>
 <xsl:stylesheet version="1.0"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -8,10 +14,10 @@
    | The menuMode only affects the top menu
 -->
 
-<!-- ============================= Imports ================================ -->
-<!-- Import our masthead and templates -->
-<xsl:import href="xmlqstat-masthead.xsl"/>
-<xsl:import href="xmlqstat-templates.xsl"/>
+<!-- ======================= Imports / Includes =========================== -->
+<!-- Include our masthead and templates -->
+<xsl:include href="xmlqstat-masthead.xsl"/>
+<xsl:include href="xmlqstat-templates.xsl"/>
 
 
 <!-- ======================== Passed Parameters =========================== -->
@@ -38,6 +44,7 @@
   <meta http-equiv="Refresh" content="30" />
 
   <link rel="icon" type="image/png" href="images/icons/silk/database_key.png"/>
+  &newline;
   <title> resources
     <xsl:if test="//query/cluster/@name">
     - <xsl:value-of select="//query/cluster/@name"/>
@@ -46,8 +53,7 @@
   <!-- import CSS from a file -->
   <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
 </head>
-<xsl:text>
-</xsl:text>
+&newline;
 
 <!-- CALCULATIONS -->
 
@@ -55,11 +61,9 @@
 
 <!-- begin body -->
 <body>
-<xsl:text>
-</xsl:text>
+&newline;
 <xsl:comment> Main body content </xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
 
 <div id="main">
 <!-- Topomost Logo Div and Top Menu Bar -->
@@ -73,9 +77,9 @@
 </xsl:otherwise>
 </xsl:choose>
 
-<xsl:text>
-</xsl:text>
+&newline;
 <xsl:comment> Top dotted line bar (holds the qmaster host and update time) </xsl:comment>
+&newline;
 <div class="dividerBarBelow">
 <xsl:choose>
 <xsl:when test="//query/cluster and //query/host">
@@ -86,7 +90,7 @@
       select="//query/cluster/@name"
       />/<xsl:value-of
       select="//query/cluster/@cell"/>
-  <xsl:text> </xsl:text>
+  &space;
   <!-- replace 'T' in dateTime for easier reading -->
   [<xsl:value-of select="translate(//query/time, 'T', '_')"/>]
 </xsl:when>
@@ -97,11 +101,9 @@
 </xsl:choose>
 </div>
 
-<xsl:text>
-</xsl:text>
+&newline;
 <xsl:comment> Resources </xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
 
 <!-- resources: -->
 <blockquote>
@@ -120,8 +122,7 @@
   <xsl:with-param name="timestamp" select="$timestamp" />
 </xsl:call-template>
 
-<xsl:text>
-</xsl:text>
+&newline;
 </div>
 </body></html>
 <!-- end body/html -->
@@ -240,7 +241,7 @@
         <xsl:attribute name="title">
           <xsl:for-each select="user[@type = 'extern']">
             <xsl:value-of select="@name"/>@<xsl:value-of select="@host"/>=<xsl:value-of select="."/>
-            <xsl:text> </xsl:text>
+            &space;
           </xsl:for-each>
         </xsl:attribute>
         <xsl:value-of select="@extern" />
@@ -263,7 +264,7 @@
         <xsl:attribute name="title">
           <xsl:for-each select="user[@type = 'intern']">
             <xsl:value-of select="@name"/>@<xsl:value-of select="@host"/>=<xsl:value-of select="."/>
-            <xsl:text> </xsl:text>
+            &space;
           </xsl:for-each>
         </xsl:attribute>
         <xsl:value-of select="@intern" />
@@ -284,7 +285,7 @@
       <xsl:attribute name="title">
         <xsl:for-each select="user[@type = 'waiting']">
           <xsl:value-of select="@name"/>=<xsl:value-of select="."/>
-          <xsl:text> </xsl:text>
+          &space;
         </xsl:for-each>
       </xsl:attribute>
       <xsl:value-of select="@waiting" />
@@ -312,8 +313,7 @@
   </xsl:choose>
 
   </tr>
-<xsl:text>
-</xsl:text>
+&newline;
 </xsl:template>
 
 

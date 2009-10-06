@@ -1,3 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE stylesheet [
+<!ENTITY  newline "<xsl:text>&#x0a;</xsl:text>">
+<!ENTITY  space   "<xsl:text> </xsl:text>">
+<!ENTITY  nbsp    "&#xa0;">
+]>
 <xsl:stylesheet version="1.0"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -8,7 +14,7 @@
    | to produce a list of active and pending jobs
 -->
 
-<!-- ============================= Imports ================================ -->
+<!-- ======================= Imports / Includes =========================== -->
 <!-- Import our masthead and templates -->
 <xsl:include href="xmlqstat-masthead.xsl"/>
 <xsl:include href="xmlqstat-templates.xsl"/>
@@ -58,11 +64,9 @@
     </xsl:if>
   </title>
 
-  <xsl:text>
-  </xsl:text>
+  &newline;
   <xsl:comment> useJavaScript = '<xsl:value-of select="$useJavaScript"/>' </xsl:comment>
-  <xsl:text>
-  </xsl:text>
+  &newline;
   <!-- NB: <script> .. </script> needs some (any) content -->
   <xsl:if test="$useJavaScript = 'yes'" >
     <script src="javascript/cookie.js" type="text/javascript">
@@ -73,11 +77,9 @@
     </script>
   </xsl:if>
 
-  <xsl:text>
-  </xsl:text>
+  &newline;
   <xsl:comment> define css (from file) and with overrides </xsl:comment>
-  <xsl:text>
-  </xsl:text>
+  &newline;
   <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
   <style type="text/css">
   <!-- DIFFERENT CSS STYLE DEPENDING ON USER COOKIE PREFERENCE PARAM(s) -->
@@ -90,12 +92,10 @@
     #pendingJobTable { visibility: hidden; display: none; }
   </xsl:if>
   <!-- END COOKIE DEPENDENT VARIABLE CSS STYLE OUTPUT -->
-  <xsl:text>
-  </xsl:text>
+  &newline;
   </style>
 </head>
-<xsl:text>
-</xsl:text>
+&newline;
 
 <!-- CALCULATE TOTALS -->
 
@@ -103,11 +103,9 @@
 
 <!-- begin body -->
 <body>
-<xsl:text>
-</xsl:text>
+&newline;
 <xsl:comment> Main body content </xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
 
 <div id="main">
 <!-- Topomost Logo Div -->
@@ -115,8 +113,7 @@
 <!-- Top Menu Bar -->
 <xsl:call-template name="topMenu"/>
 
-<xsl:text>
-</xsl:text>
+&newline;
 <xsl:comment> Top dotted line bar (holds the qmaster host and update time) </xsl:comment>
 <div class="dividerBarBelow">
 <xsl:choose>
@@ -127,7 +124,7 @@
       select="//config/cluster/@cell"/>
   </xsl:if>
   <xsl:if test="//query/host">@<xsl:value-of select="//query/host"/>
-  <xsl:text> </xsl:text>
+  &space;
   <!-- replace 'T' in dateTime for easier reading -->
   [<xsl:value-of select="translate(//query/time, 'T', '_')"/>]
   </xsl:if>
@@ -138,12 +135,10 @@
 </xsl:otherwise>
 </xsl:choose>
 </div>
-<xsl:text>
-</xsl:text>
+&newline;
 
 <xsl:comment> Active Jobs </xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
 <xsl:if test="count(//job_info)">
 
 <!--
@@ -213,11 +208,9 @@
 </xsl:choose>
 </blockquote>
 
-<xsl:text>
-</xsl:text>
+&newline;
 <xsl:comment> Pending Jobs </xsl:comment>
-<xsl:text>
-</xsl:text>
+&newline;
 
 <!--
    | count pending jobs/slots for user or everyone
@@ -292,8 +285,7 @@
   <xsl:with-param name="timestamp" select="$timestamp" />
 </xsl:call-template>
 
-<xsl:text>
-</xsl:text>
+&newline;
 </div>
 </body></html>
 <!-- end body/html -->
@@ -341,7 +333,7 @@
       <xsl:attribute name="title">
         <xsl:for-each select="hard_request">
           <xsl:value-of select="@name"/>=<xsl:value-of select="."/>
-          <xsl:text> </xsl:text>
+          &space;
         </xsl:for-each>
       </xsl:attribute>
       <xsl:attribute name="href">jobinfo?<xsl:value-of select="JB_job_number"/></xsl:attribute>
@@ -392,8 +384,7 @@
     </xsl:if>
   </td>
   </tr>
-<xsl:text>
-</xsl:text>
+&newline;
 </xsl:if>
 </xsl:template>
 
@@ -439,7 +430,7 @@
       <xsl:attribute name="title">
         <xsl:for-each select="hard_request">
           <xsl:value-of select="@name"/>=<xsl:value-of select="."/>
-          <xsl:text> </xsl:text>
+          &space;
         </xsl:for-each>
       </xsl:attribute>
       <xsl:attribute name="href">jobinfo?<xsl:value-of select="JB_job_number"/></xsl:attribute>
@@ -475,7 +466,7 @@
       <xsl:call-template name="unqualifiedQueue">
         <xsl:with-param name="queue" select="."/>
       </xsl:call-template>
-      <xsl:text> </xsl:text>
+      &space;
     </xsl:for-each>
   </td>
   <!-- priority with submissionTime-->
@@ -492,8 +483,7 @@
     <xsl:value-of select="state" />
   </td>
   </tr>
-<xsl:text>
-</xsl:text>
+&newline;
 </xsl:if>
 </xsl:template>
 
@@ -502,8 +492,7 @@
   create links for viewlog with plots
 -->
 <xsl:template match="job_list" mode="viewlog">
-<xsl:text>
-</xsl:text>
+&newline;
 
 <xsl:if test="count(hard_request)">
   <xsl:variable name="resources">
