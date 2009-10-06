@@ -84,11 +84,13 @@
     </xsl:choose>
   </xsl:when>
   <xsl:otherwise>
-     <!-- nothing found: return the default -->
-     <xsl:value-of select="$default"/>
+    <!-- nothing found: return the default -->
+    <xsl:value-of select="$default"/>
   </xsl:otherwise>
   </xsl:choose>
 </xsl:template>
 
 
 </xsl:stylesheet>
+
+<!-- =========================== End of File ============================== -->

@@ -19,7 +19,6 @@
    |
    | expected input:
    | aggregated input from
-   |  - config.xml
    |  - qlicserver.xml
    |  - qhost.xml
 -->
@@ -33,10 +32,11 @@
 
 
 <!-- ======================== Passed Parameters =========================== -->
-<!--
-<xsl:param name="timestamp"/>
-<xsl:param name="renderMode"/>
--->
+<xsl:param name="clusterName">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'clusterName'"/>
+  </xsl:call-template>
+</xsl:param>
 <xsl:param name="timestamp">
   <xsl:call-template name="pi-param">
     <xsl:with-param  name="name"    select="'timestamp'"/>
@@ -50,7 +50,13 @@
 
 
 <!-- ======================= Internal Parameters ========================== -->
-<!-- NONE -->
+<!-- configuration parameters -->
+<xsl:variable
+    name="configFile"
+    select="document('../config/config.xml')/config" />
+<xsl:variable
+    name="clusterNode"
+    select="$configFile/clusters/cluster[@name=$clusterName]" />
 
 
 <!-- ========================== Sorting Keys ============================== -->
@@ -83,19 +89,27 @@
 <xsl:choose>
 <xsl:when test="$renderMode='summary'">
   <link rel="icon" type="image/png" href="images/icons/silk/sum.png"/>
-  <title> queue summary <xsl:call-template name="append-clusterName"/> </title>
+  <title> queue summary
+  <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
+  </title>
 </xsl:when>
 <xsl:when test="$renderMode='free'">
   <link rel="icon" type="image/png" href="images/icons/silk/tick.png"/>
-  <title> queues free <xsl:call-template name="append-clusterName"/> </title>
+  <title> queues free
+  <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
+  </title>
 </xsl:when>
 <xsl:when test="$renderMode='warn'">
   <link rel="icon" type="image/png" href="images/icons/silk/error.png"/>
-  <title> queue warnings <xsl:call-template name="append-clusterName"/> </title>
+  <title> queue warnings
+  <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
+  </title>
 </xsl:when>
 <xsl:otherwise>
   <link rel="icon" type="image/png" href="images/icons/silk/shape_align_left.png"/>
-  <title> queue instances <xsl:call-template name="append-clusterName"/> </title>
+  <title> queue instances
+  <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
+  </title>
 </xsl:otherwise>
 </xsl:choose>
 
@@ -135,16 +149,17 @@
 <xsl:comment> Top dotted line bar (holds the cluster/qmaster names and update time) </xsl:comment>
 <div class="dividerBarBelow">
 <xsl:choose>
-<xsl:when test="//config/cluster">
-  <!-- query host, cluster/cell name -->
-  <xsl:value-of select="//config/cluster/@name"/>
-  <xsl:if test="//config/cluster/@cell != 'default'">/<xsl:value-of
-      select="//config/cluster/@cell"/>
+<xsl:when test="$clusterNode">
+  <!-- cluster/cell name -->
+  <xsl:value-of select="$clusterNode/@name"/>
+  <xsl:if test="$clusterNode/@cell != 'default'">/<xsl:value-of
+      select="$clusterNode/@cell"/>
   </xsl:if>
+  <!-- query host info -->
   <xsl:if test="//query/host">@<xsl:value-of select="//query/host"/>
   &space;
   <!-- replace 'T' in dateTime for easier reading -->
-  [<xsl:value-of select="translate(//query/time, 'T', '&nbsp;')"/>]
+  [<xsl:value-of select="translate(//query/time, 'T', '_')"/>]
   </xsl:if>
 </xsl:when>
 <xsl:otherwise>
@@ -628,3 +643,5 @@
 
 
 </xsl:stylesheet>
+
+<!-- =========================== End of File ============================== -->

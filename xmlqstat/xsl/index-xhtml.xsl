@@ -26,12 +26,13 @@
 
 <!-- ======================= Internal Parameters ========================== -->
 <!-- configuration parameters -->
-<xsl:variable name="configFile"
-    select="document('../config/config.xml')/config"
-/>
+<xsl:variable
+    name="configFile"
+    select="document('../config/config.xml')/config" />
 <xsl:variable name="qlicserverOk">
   <xsl:if test="$configFile/qlicserver = 'yes'">yes</xsl:if>
 </xsl:variable>
+
 
 <!-- all the directory nodes -->
 <xsl:variable name="dirNodes" select="//dir:directory"/>
@@ -80,6 +81,12 @@
   <a href="config" title="config"><img
       src="images/icons/silk/folder_wrench.png"
       alt="[config]"
+  /></a>
+
+  <img alt=" | " src="css/screen/icon_divider.png" />
+  <a href="cache" title="cache files"><img
+      src="images/icons/silk/folder_page.png"
+      alt="[cache files]"
   /></a>
 
   <img alt=" | " src="css/screen/icon_divider.png" />
@@ -196,6 +203,16 @@
   />
   </a>
 
+  <!-- resources -->
+  &space;
+  <xsl:if test="$qlicserverOk = 'yes'">
+    <a href="resources" title="resources"><img border="0"
+          src="images/icons/silk/database_key.png"
+          alt="[resources]"
+      />
+    </a>
+  </xsl:if>
+
   <!-- view qstat -f xml: (cached or direct) -->
   &space;
   <xsl:choose>
@@ -235,7 +252,7 @@
      <xsl:if test="$dirNodes[@name=$cacheDir]">true</xsl:if>
   </xsl:param>
 
-  <!-- fixme: This does not yet work, needs sub-dir from cache-{clusterName} -->
+  <!-- qstat -f cache can come from different locations -->
   <xsl:param name="qstatfCached">
     <xsl:if test="
        $dirNodes[@name='cache']/dir:file[@name=$cacheFile]
@@ -315,8 +332,8 @@
       </xsl:element>
 
       <!-- resources -->
+      &space;
       <xsl:if test="$qlicserverOk = 'yes'">
-        &space;
         <xsl:element name="a">
           <xsl:attribute name="title">resources</xsl:attribute>
           <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/resources</xsl:attribute>
@@ -392,6 +409,19 @@
       />
     </xsl:element>
 
+    <!-- resources -->
+    <xsl:if test="$qlicserverOk = 'yes'">
+    &space;
+    <xsl:element name="a">
+      <xsl:attribute name="title">resources</xsl:attribute>
+      <xsl:attribute name="href">resources~<xsl:value-of select="@name"/></xsl:attribute>
+      <img border="0"
+          src="images/icons/silk/database_key.png"
+          alt="[resources]"
+      />
+    </xsl:element>
+    </xsl:if>
+
     <!-- view qstat -f xml : (cached or direct) -->
     &space;
     <xsl:choose>
@@ -433,3 +463,5 @@
 
 
 </xsl:stylesheet>
+
+<!-- =========================== End of File ============================== -->

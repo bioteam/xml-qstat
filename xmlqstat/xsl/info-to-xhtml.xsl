@@ -22,7 +22,7 @@
 
 
 <!-- ======================== Passed Parameters =========================== -->
-<xsl:param name="timestamp"/>
+<!-- NONE -->
 
 
 <!-- ======================= Internal Parameters ========================== -->
@@ -59,7 +59,7 @@
 &newline;
 <div id="main">
 <!-- Topomost Logo Div -->
-  <xsl:call-template name="xmlqstatLogo">
+  <xsl:call-template name="topLogoDefault">
     <xsl:with-param name="relPath" select="'../'" />
   </xsl:call-template>
 &newline;
@@ -161,4 +161,7 @@
   </div>
 </xsl:template>
 
+
 </xsl:stylesheet>
+
+<!-- =========================== End of File ============================== -->

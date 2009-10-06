@@ -9,22 +9,30 @@
 >
 
 <!-- ======================= Imports / Includes =========================== -->
-<!-- NONE -->
+<!-- Include processor-instruction parsing -->
+<xsl:include href="pi-param.xsl"/>
 
 <!-- ======================== Passed Parameters =========================== -->
-<xsl:param name="isoTimestamp"/>
-<xsl:param name="baseURL"/>
+<xsl:param name="isoTimestamp">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'isoTimestamp'"/>
+  </xsl:call-template>
+</xsl:param>
+<xsl:param name="baseURL">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'baseURL'"/>
+  </xsl:call-template>
+</xsl:param>
 
 
 <!-- ======================= Internal Parameters ========================== -->
-<!-- Read in our configuration XML file -->
-<xsl:param name="configFile" select="document('../config/config.xml')" />
-<xsl:param name="TZ_offset"  select="$configFile/config/UTC_TZ_offset"/>
+<!-- Read UTC TimeZone offset from the configuration XML file -->
 
-<xsl:param name="atom-timestamp">
+<xsl:variable name="atom-timestamp">
   <xsl:value-of select="$isoTimestamp"/>
-  <xsl:value-of select="$configFile/config/UTC_TZ_offset"/>
-</xsl:param>
+  <xsl:value-of
+      select="document('../config/config.xml')/config/UTC_TZ_offset"/>
+</xsl:variable>
 
 
 <!-- ========================== Sorting Keys ============================== -->
@@ -252,3 +260,5 @@ Currently, <xsl:value-of select="format-number($unavailable-all-Percent,'##0.#')
 
 </xsl:template>
 </xsl:stylesheet>
+
+<!-- =========================== End of File ============================== -->

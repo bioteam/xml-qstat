@@ -24,7 +24,7 @@ transformation, the naming convention 'SOURCE-MODE-DEST.xsl' is used.
 
 For general actions, no particular convention has been used:
 
-  * config-query.xsl
+  * redirect-query.xsl
   * directory-xhtml.xsl
   * feed-atom-overview.xsl
   * index-xhtml.xsl
@@ -35,7 +35,7 @@ Utility templates
   * pi-param.xsl
     extract mozilla-style processing instructions.
 
-  * cache-files-prune.xsl
+  * prune-cachedir-listing.xsl
     prune directory listing to retain
     cache/*.xml, cache-{clusterName}/*.xml files
 

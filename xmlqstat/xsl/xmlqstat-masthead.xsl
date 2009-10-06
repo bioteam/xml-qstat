@@ -16,58 +16,82 @@
 
 <!-- ========================= Named Templates ============================ -->
 
-<!-- define a standard (corporate, institutional) logo to use -->
+<!--
+   | define a standard (corporate, institutional) logo to use
+   | - extract @src, @width and @href attributes
+-->
 <xsl:template name="topLogo">
   <xsl:param name="relPath" />
-  <xsl:param name="configFile" select="document('../config/config.xml')" />
 
-  &newline;
-  <xsl:comment> define standard (corporate/institutional) logo </xsl:comment>
-  &newline;
-  <div class="topLogo" style="clear:both; text-align:left;">
-    <!-- getting the image info (brute-force): -->
-    <xsl:if test="$configFile/config/topLogo/@src">
+  <xsl:variable
+      name="topLogo"
+      select="document('../config/config.xml')/config/topLogo"
+      />
+
+  <xsl:choose>
+  <xsl:when test="$topLogo/@src">
+    &newline;
+    <xsl:comment> define standard (corporate/institutional) logo </xsl:comment>
+    &newline;
+
+    <div class="topLogo" style="clear:both; text-align:left;">
     <p>
       <xsl:element name="a">
-        <xsl:if test="$configFile/config/topLogo/@href">
-          <xsl:attribute name="href"><xsl:value-of select="$configFile/config/topLogo/@href"/></xsl:attribute>
+        <xsl:if test="$topLogo/@href">
+          <xsl:attribute name="href">
+            <xsl:value-of select="$topLogo/@href"/>
+          </xsl:attribute>
         </xsl:if>
         <xsl:element name="img">
           <xsl:attribute name="src">
-            <xsl:if test="$relPath">
-              <xsl:value-of select="$relPath"/>
-            </xsl:if>
-            <xsl:value-of select="$configFile/config/topLogo/@src"/>
+            <xsl:if test="$relPath"><xsl:value-of select="$relPath"/></xsl:if>
+            <xsl:value-of select="$topLogo/@src"/>
           </xsl:attribute>
-          <xsl:if test="$configFile/config/topLogo/@width">
-            <xsl:attribute name="width"><xsl:value-of select="$configFile/config/topLogo/@width"/></xsl:attribute>
+          <xsl:if test="$topLogo/@width">
+            <xsl:attribute name="width">
+              <xsl:value-of select="$topLogo/@width" />
+            </xsl:attribute>
           </xsl:if>
           <xsl:attribute name="alt">logo</xsl:attribute>
           <xsl:attribute name="border">0</xsl:attribute>
         </xsl:element>
       </xsl:element>
     </p>
-    </xsl:if>
-  </div>
-  &newline;
+    </div>
+    &newline;
+  </xsl:when>
+  <xsl:otherwise>
+    <xsl:call-template name="topLogoDefault">
+      <xsl:with-param name="relPath" select="$relPath" />
+    </xsl:call-template>
+  </xsl:otherwise>
+  </xsl:choose>
 
 </xsl:template>
 
 
 <!-- define a default xmlqstat logo -->
-<xsl:template name="xmlqstatLogo">
+<xsl:template name="topLogoDefault">
   <xsl:param name="relPath" />
+
+  &newline;
+  <xsl:comment> define standard xmlqstat logo </xsl:comment>
+  &newline;
   <div class="topLogo" style="clear:both; text-align:left;">
     <p>
       <xsl:element name="img">
-        <xsl:attribute name="src"><xsl:if
-          test="$relPath"><xsl:value-of
-          select="$relPath"/></xsl:if>images/xml-qstat-logo.png</xsl:attribute>
+        <xsl:attribute name="src">
+          <xsl:if test="$relPath"><xsl:value-of select="$relPath"/></xsl:if>
+          <xsl:text>images/xml-qstat-logo.png</xsl:text>
+        </xsl:attribute>
         <xsl:attribute name="width">150</xsl:attribute>
         <xsl:attribute name="alt">logo</xsl:attribute>
+        <xsl:attribute name="border">0</xsl:attribute>
       </xsl:element>
     </p>
   </div>
+  &newline;
+
 </xsl:template>
 
 
@@ -77,10 +101,9 @@
 <xsl:template name="topMenu">
   <xsl:param name="jobinfo" />
 
-  <xsl:param name="configFile" select="document('../config/config.xml')" />
-  <xsl:param name="qlicserverOk">
-    <xsl:if test="$configFile/config/qlicserver = 'yes'">yes</xsl:if>
-  </xsl:param>
+  <xsl:variable name="qlicserverOk">
+    <xsl:if test="document('../config/config.xml')/config/qlicserver = 'yes'">yes</xsl:if>
+  </xsl:variable>
 
   <div id="menu">
     <a href="../../" title="clusters" class="leftSpace"><img
@@ -165,7 +188,11 @@
 <xsl:template name="xmlqstatMenu">
   <xsl:param name="clusterSuffix" />
   <xsl:param name="jobinfo" />
-  <xsl:param name="path" />
+
+  <xsl:variable name="qlicserverOk">
+    <xsl:if test="document('../config/config.xml')/config/qlicserver = 'yes'">yes</xsl:if>
+  </xsl:variable>
+
 
   <div id="menu">
     <a href="./" title="home" class="leftSpace"><img
@@ -202,6 +229,19 @@
         alt="[cluster summary]"
       />
     </xsl:element>
+
+  <xsl:if test="$qlicserverOk = 'yes'">
+    <!-- resources -->
+    <img alt=" | " src="css/screen/icon_divider.png" />
+    <xsl:element name="a">
+      <xsl:attribute name="title">resources</xsl:attribute>
+      <xsl:attribute name="href">resources<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
+      <img
+        src="images/icons/silk/database_key.png"
+        alt="[resources]"
+      />
+    </xsl:element>
+  </xsl:if>
 
     <!-- jobinfo: toggle between more/less views -->
     <img alt=" | " src="css/screen/icon_divider.png" />
@@ -256,3 +296,5 @@
 </xsl:template>
 
 </xsl:stylesheet>
+
+<!-- =========================== End of File ============================== -->

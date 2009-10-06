@@ -20,45 +20,65 @@
 
 
 <!-- ======================= Imports / Includes =========================== -->
-<!-- Import exslt templates -->
-<xsl:import href="exslt-templates/date.add-duration.function.xsl"/>
-<xsl:import href="exslt-templates/date.add.template.xsl"/>
-<xsl:import href="exslt-templates/date.duration.template.xsl"/>
+<!-- Include exslt templates -->
+<xsl:include href="exslt-templates/date.add-duration.function.xsl"/>
+<xsl:include href="exslt-templates/date.add.template.xsl"/>
+<xsl:include href="exslt-templates/date.duration.template.xsl"/>
 
 <!-- Include our masthead and templates -->
 <xsl:include href="xmlqstat-masthead.xsl"/>
 <xsl:include href="xmlqstat-templates.xsl"/>
-
+<!-- Include processor-instruction parsing -->
+<xsl:include href="pi-param.xsl"/>
 
 <!-- ======================== Passed Parameters =========================== -->
-<xsl:param name="clusterName"/>
-<xsl:param name="timestamp"/>
-<xsl:param name="menuMode"/>
+<xsl:param name="clusterName">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'clusterName'"/>
+  </xsl:call-template>
+</xsl:param>
+<xsl:param name="timestamp">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'timestamp'"/>
+  </xsl:call-template>
+</xsl:param>
+<xsl:param name="menuMode">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'menuMode'"/>
+  </xsl:call-template>
+</xsl:param>
 
 
 <!-- ======================= Internal Parameters ========================== -->
 <!-- configuration parameters -->
-<xsl:param name="viewfile" select="//config/programs/viewfile" />
-<xsl:param name="viewlog"  select="//config/programs/viewlog" />
-
+<xsl:variable
+    name="configFile"
+    select="document('../config/config.xml')/config" />
+<xsl:variable
+    name="viewfile"
+    select="$configFile/programs/viewfile" />
+<xsl:variable
+    name="viewlog"
+    select="$configFile/programs/viewlog" />
+<xsl:variable
+    name="clusterNode"
+    select="$configFile/clusters/cluster[@name=$clusterName]"/>
 
 <!-- possibly append ~{clusterName} to urls -->
-<xsl:param name="clusterSuffix">
+<xsl:variable name="clusterSuffix">
   <xsl:if test="$clusterName">~<xsl:value-of select="$clusterName"/></xsl:if>
-</xsl:param>
+</xsl:variable>
 
-<xsl:param name="cgiParams">
-  <xsl:if
-    test="//config/cluster">&amp;ROOT=<xsl:value-of
-    select="//config/cluster/@root"/><xsl:if
-    test="//config/cluster/@cell != 'default'"
-    >&amp;CELL=<xsl:value-of
-    select="//config/cluster/@cell"/></xsl:if>
-  </xsl:if>
-</xsl:param>
+<xsl:variable name="cgiParams">
+  <xsl:call-template name="cgiParams">
+    <xsl:with-param name="clusterNode" select="$clusterNode"/>
+  </xsl:call-template>
+</xsl:variable>
 
-<!-- Read in our bitmask translation XML config file -->
-<xsl:param name="codeFile" select="document('../config/status-codes.xml')" />
+<!-- our bitmask translations for configuration file -->
+<xsl:variable
+    name="statusCodes"
+    select="document('../config/status-codes.xml')/statusCodes" />
 
 
 <!-- ======================= Output Declaration =========================== -->
@@ -76,7 +96,9 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <link rel="icon" type="image/png" href="images/icons/silk/magnifier_zoom_in.png"/>
   &newline;
-  <title> job details <xsl:call-template name="append-clusterName"/> </title>
+  <title> job details
+  <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
+  </title>
   &newline;
   <!-- Load CSS from a file -->
   <link href="css/xmlqstat.css"  media="screen" rel="Stylesheet" type="text/css" />
@@ -92,7 +114,7 @@
 <!-- Topomost Logo Div and Top Menu Bar -->
 <xsl:choose>
 <xsl:when test="$menuMode='xmlqstat'">
-  <xsl:call-template name="xmlqstatLogo"/>
+  <xsl:call-template name="topLogoDefault"/>
   <xsl:call-template name="xmlqstatMenu">
     <xsl:with-param name="clusterSuffix" select="$clusterSuffix"/>
     <xsl:with-param name="jobinfo" select="'less'"/>
@@ -106,18 +128,21 @@
 </xsl:otherwise>
 </xsl:choose>
 
-<!-- Top dotted line bar (holds the cluster name) -->
+&newline;
+<xsl:comment> Top dotted line bar (holds the qmaster host and update time) </xsl:comment>
+&newline;
 <xsl:choose>
-<xsl:when test="//config/cluster">
+<xsl:when test="$clusterNode">
   <div class="dividerBarBelow">
     <!-- cluster/cell name -->
-    <xsl:value-of select="//config/cluster/@name"/>
-    <xsl:if test="//config/cluster/@cell != 'default'">/<xsl:value-of
-        select="//config/cluster/@cell"/>
+    <xsl:value-of select="$clusterNode/@name"/>
+    <xsl:if test="$clusterNode/@cell != 'default'">/<xsl:value-of
+        select="$clusterNode/@cell"/>
     </xsl:if>
   </div>
 </xsl:when>
 <xsl:when test="//query/host">
+  <!-- fallback to query information -->
   <div class="dividerBarBelow">
     [<xsl:value-of select="//query/host"/>]
     <!-- remove 'T' in dateTime for easier reading -->
@@ -870,6 +895,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
   </xsl:call-template>
 </xsl:template>
 
+
 <xsl:template name="statusTranslation">
   <xsl:param name="status" />
 
@@ -877,14 +903,16 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
     <xsl:attribute name="title">
       <!-- this lookup translates JAT_state to something more readable -->
       <xsl:value-of
-          select="$codeFile/statusCodes/status[@bitmask=$status]/long"
+          select="$statusCodes/status[@bitmask=$status]/long"
       />. The raw JAT_status bitmask code = <xsl:value-of select="$status"/>
     </xsl:attribute>
     <xsl:value-of
-        select="$codeFile/statusCodes/status[@bitmask=$status]/@state"
+        select="$statusCodes/status[@bitmask=$status]/@state"
     />
   </xsl:element>
 </xsl:template>
 
 
 </xsl:stylesheet>
+
+<!-- =========================== End of File ============================== -->

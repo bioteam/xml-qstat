@@ -30,35 +30,56 @@
 <!-- Include our masthead and templates -->
 <xsl:include href="xmlqstat-masthead.xsl"/>
 <xsl:include href="xmlqstat-templates.xsl"/>
+<!-- Include processor-instruction parsing -->
+<xsl:include href="pi-param.xsl"/>
 
 
 <!-- ======================== Passed Parameters =========================== -->
-<xsl:param name="clusterName"/>
-<xsl:param name="timestamp"/>
+<xsl:param name="clusterName">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'clusterName'"/>
+  </xsl:call-template>
+</xsl:param>
+<xsl:param name="timestamp">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'timestamp'"/>
+  </xsl:call-template>
+</xsl:param>
+
 <xsl:param name="activeJobTable"/>
 <xsl:param name="pendingJobTable"/>
 <xsl:param name="filterByUser"/>
 <xsl:param name="renderMode"/>
-<xsl:param name="menuMode" select="'xmlqstat'"/>
+<xsl:param name="menuMode">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'menuMode'"/>
+    <xsl:with-param  name="default" select="'xmlqstat'"/>
+  </xsl:call-template>
+</xsl:param>
 
 
 <!-- ======================= Internal Parameters ========================== -->
-<xsl:param name="configFile" select="document('../config/config.xml')" />
-<xsl:param name="alarmFile" select="document('../config/alarm-threshold.xml')" />
-
 <!-- configuration parameters -->
-<xsl:param name="useJavaScript" select="$configFile/config/useJavaScript"/>
+<xsl:variable
+    name="configFile"
+    select="document('../config/config.xml')" />
+<xsl:variable
+    name="alarmFile"
+    select="document('../config/alarm-threshold.xml')" />
+<xsl:variable
+    name="useJavaScript"
+    select="$configFile/config/useJavaScript"/>
 
 <!-- this doesn't seem to be working anyhow -->
-<xsl:param name="enableResourceQueries"/>
+<xsl:variable name="enableResourceQueries"/>
 
 <!-- absolute or percent -->
 <xsl:param name="showSlotUsage" select="'absolute'"/>
 
 <!-- possibly append ~{clusterName} to urls -->
-<xsl:param name="clusterSuffix">
+<xsl:variable name="clusterSuffix">
   <xsl:if test="$clusterName">~<xsl:value-of select="$clusterName"/></xsl:if>
-</xsl:param>
+</xsl:variable>
 
 
 <!-- ========================== Sorting Keys ============================== -->
@@ -96,23 +117,20 @@
 <xsl:choose>
 <xsl:when test="$renderMode='full'">
   <link rel="icon" type="image/png" href="images/icons/silk/shape_align_left.png"/>
-  <title>
-    queue instances
-    <xsl:if test="$clusterName">- <xsl:value-of select="$clusterName"/></xsl:if>
+  <title> queue instances
+  <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
   </title>
 </xsl:when>
 <xsl:when test="$renderMode='summary'">
   <link rel="icon" type="image/png" href="images/icons/silk/sum.png"/>
-  <title>
-    cluster summary
-    <xsl:if test="$clusterName">- <xsl:value-of select="$clusterName"/></xsl:if>
+  <title> cluster summary
+  <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
   </title>
 </xsl:when>
 <xsl:otherwise>
   <link rel="icon" type="image/png" href="images/icons/silk/lorry.png"/>
-  <title>
-    jobs
-    <xsl:if test="$clusterName">- <xsl:value-of select="$clusterName"/></xsl:if>
+  <title> jobs
+  <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
   </title>
 </xsl:otherwise>
 </xsl:choose>
@@ -304,7 +322,7 @@
 <!-- Topomost Logo Div and Top Menu Bar -->
 <xsl:choose>
 <xsl:when test="$menuMode='xmlqstat'">
-  <xsl:call-template name="xmlqstatLogo"/>
+  <xsl:call-template name="topLogoDefault"/>
   <xsl:call-template name="xmlqstatMenu">
     <xsl:with-param name="clusterSuffix" select="$clusterSuffix"/>
   </xsl:call-template>
@@ -1158,3 +1176,5 @@
 
 
 </xsl:stylesheet>
+
+<!-- =========================== End of File ============================== -->

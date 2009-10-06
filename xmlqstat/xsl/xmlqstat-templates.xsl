@@ -9,11 +9,22 @@
 
 <!-- ========================= Named Templates ============================ -->
 
-<xsl:template name="append-clusterName">
-  <xsl:if
-    test="//config/cluster/@name"
-  > - <xsl:value-of select="//config/cluster/@name"/></xsl:if>
+<!--
+   |
+   | extract @root @cell from clusterNode
+   | format into "&ROOT=@root&CELL=@cell" for cgi queries
+   -->
+<xsl:template name="cgiParams">
+  <xsl:param name="clusterNode"/>
+
+  <xsl:if test="$clusterNode/@root"
+    >&amp;ROOT=<xsl:value-of
+    select="$clusterNode/@root"/><xsl:if
+    test="$clusterNode/@cell != 'default'"
+    >&amp;CELL=<xsl:value-of select="$clusterNode/@cell"/></xsl:if>
+  </xsl:if>
 </xsl:template>
+
 
 <!--
    |
@@ -453,3 +464,5 @@
 
 
 </xsl:stylesheet>
+
+<!-- =========================== End of File ============================== -->

@@ -1,13 +1,13 @@
-<!-- XML-QSTAT configuration file -->
+<?xml version="1.0" encoding="UTF-8"?>
 <config>
-
+<!-- XML-QSTAT configuration file -->
 <!--
     Change this value to reflect your local timezone relative to UTC.
     This offset is used when constructing RFC-3339 validated timestamps that
     look like this:
 
         1990-12-31T23:59:60Z
-	1996-12-19T16:39:57-08:00
+    	1996-12-19T16:39:57-08:00
 
     The cocoon server will report proper local date time information,
     but we need to insert the UTC correction info for the RSS feed
