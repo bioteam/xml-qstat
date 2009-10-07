@@ -93,6 +93,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta http-equiv="Refresh" content="30" />
+
   <link rel="icon" type="image/png" href="images/icons/silk/lorry_flatbed.png"/>
   <title> jobs
   <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
@@ -131,9 +132,9 @@
 </head>
 &newline;
 
-<!-- CALCULATE TOTALS -->
+<!-- PRE-CALCULATE values -->
 
-<!-- done CALCULATE -->
+<!-- done PRE-CALCULATE -->
 
 <!-- begin body -->
 <body>
@@ -183,7 +184,7 @@
    -->
 <xsl:variable name="AJ_total">
   <xsl:choose>
-  <xsl:when test="$filterByUser">
+  <xsl:when test="string-length($filterByUser)">
     <xsl:value-of select="count(//job_info/queue_info/job_list[JB_owner=$filterByUser])"/>
   </xsl:when>
   <xsl:otherwise>
@@ -193,7 +194,7 @@
 </xsl:variable>
 <xsl:variable name="AJ_slots">
   <xsl:choose>
-  <xsl:when test="$filterByUser">
+  <xsl:when test="string-length($filterByUser)">
     <xsl:call-template name="count-slots">
       <xsl:with-param name="nodeList" select="//job_info/queue_info/job_list[JB_owner=$filterByUser]"/>
     </xsl:call-template>
@@ -215,7 +216,7 @@
     <td>
       <div class="tableCaption">
         <xsl:value-of select="$AJ_total"/> active jobs
-        <xsl:if test="$filterByUser">
+        <xsl:if test="string-length($filterByUser)">
           for <em><xsl:value-of select="$filterByUser"/></em>
         </xsl:if>
         (<xsl:value-of select="$AJ_slots"/> slots)
@@ -235,9 +236,9 @@
   <!-- no active jobs -->
   <div class="skipTableFormat">
     <img alt="*" src="css/screen/list_bullet.png" />
-    no active jobs
-    <xsl:if test="$filterByUser">
-      for <em><xsl:value-of select="$filterByUser"/></em>
+      no active jobs
+      <xsl:if test="string-length($filterByUser)">
+        for <em><xsl:value-of select="$filterByUser"/></em>
     </xsl:if>
   </div>
 </xsl:otherwise>
@@ -254,7 +255,7 @@
    -->
 <xsl:variable name="PJ_total">
   <xsl:choose>
-  <xsl:when test="$filterByUser">
+  <xsl:when test="string-length($filterByUser)">
     <xsl:value-of select="count(//job_info/job_info/job_list[JB_owner=$filterByUser])"/>
   </xsl:when>
   <xsl:otherwise>
@@ -264,7 +265,7 @@
 </xsl:variable>
 <xsl:variable name="PJ_slots">
   <xsl:choose>
-  <xsl:when test="$filterByUser">
+  <xsl:when test="string-length($filterByUser)">
     <xsl:call-template name="count-slots">
       <xsl:with-param name="nodeList" select="//job_info/job_info/job_list[JB_owner=$filterByUser]"/>
     </xsl:call-template>
@@ -286,7 +287,7 @@
     <td>
       <div class="tableCaption">
         <xsl:value-of select="$PJ_total"/> pending jobs
-        <xsl:if test="$filterByUser" >
+        <xsl:if test="string-length($filterByUser)">
           for <em><xsl:value-of select="$filterByUser"/></em>
         </xsl:if>
         (<xsl:value-of select="$PJ_slots"/> slots)
@@ -307,7 +308,7 @@
   <div class="skipTableFormat">
     <img alt="*" src="css/screen/list_bullet.png" />
     no pending jobs
-    <xsl:if test="$filterByUser" >
+    <xsl:if test="string-length($filterByUser)">
       for user <em><xsl:value-of select="$filterByUser"/></em>
     </xsl:if>
   </div>
@@ -332,6 +333,8 @@
   active jobs: header
  -->
 <xsl:template match="job_info/queue_info">
+
+  &newline;
   <div id="activeJobTable">
     <table class="listing">
     <tr>
@@ -344,14 +347,17 @@
       <th><acronym title="priority">startTime</acronym></th>
       <th>state</th>
     </tr>
+    &newline;
     <xsl:for-each select="job_list[@state='running']">
       <!-- sorted by job number and task -->
       <xsl:sort select="JB_job_number"/>
       <xsl:sort select="tasks"/>
+      &newline;
       <xsl:apply-templates select="."/>
     </xsl:for-each>
     </table>
   </div>
+  &newline;
 </xsl:template>
 
 <!--
@@ -359,7 +365,7 @@
  -->
 <xsl:template match="job_list[@state='running']">
 <!-- per user sort -->
-<xsl:if test="not($filterByUser) or JB_owner=$filterByUser">
+<xsl:if test="not(string-length($filterByUser)) or JB_owner=$filterByUser">
 
   <tr>
   <!-- jobId with resource requests -->
@@ -429,6 +435,7 @@
   pending jobs: header
  -->
 <xsl:template match="//job_info/job_info">
+  &newline;
   <div id="pendingJobTable">
     <table class="listing">
     <tr>
@@ -449,6 +456,7 @@
     </xsl:for-each>
     </table>
   </div>
+  &newline;
 </xsl:template>
 
 <!--
@@ -456,7 +464,7 @@
  -->
 <xsl:template match="job_list[@state='pending']">
 <!-- per user sort -->
-<xsl:if test="not($filterByUser) or JB_owner=$filterByUser">
+<xsl:if test="not(string-length($filterByUser)) or JB_owner=$filterByUser">
 
   <tr>
   <!-- jobId with resource requests -->
@@ -528,9 +536,8 @@
   create links for viewlog with plots
 -->
 <xsl:template match="job_list" mode="viewlog">
-&newline;
-
 <xsl:if test="count(hard_request)">
+  &newline;
   <xsl:variable name="resources">
     <xsl:for-each
         select="hard_request"><xsl:value-of

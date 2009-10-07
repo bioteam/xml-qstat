@@ -16,7 +16,7 @@
 -->
 
 <!-- ======================= Imports / Includes =========================== -->
-<!-- Include our masthead -->
+<!-- Include our masthead and templates -->
 <xsl:include href="xmlqstat-masthead.xsl"/>
 <xsl:include href="xmlqstat-templates.xsl"/>
 

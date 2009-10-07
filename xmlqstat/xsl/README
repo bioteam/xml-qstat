@@ -39,3 +39,6 @@ Utility templates
     prune directory listing to retain
     cache/*.xml, cache-{clusterName}/*.xml files
 
+  * attach-stylesheet.xsl
+    add <?xslt-param ..?> and <?xml-stylesheet .. ?> to an xml file
+

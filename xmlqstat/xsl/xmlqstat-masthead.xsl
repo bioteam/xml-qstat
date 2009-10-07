@@ -1,6 +1,7 @@
 <!DOCTYPE stylesheet [
 <!ENTITY  newline "<xsl:text>&#x0a;</xsl:text>">
 <!ENTITY  space   "<xsl:text> </xsl:text>">
+<!ENTITY  nbsp    "&#xa0;">
 ]>
 
 <xsl:stylesheet version="1.0"
@@ -31,7 +32,7 @@
   <xsl:choose>
   <xsl:when test="$topLogo/@src">
     &newline;
-    <xsl:comment> define standard (corporate/institutional) logo </xsl:comment>
+    <xsl:comment> standard (corporate/institutional) logo </xsl:comment>
     &newline;
 
     <div class="topLogo" style="clear:both; text-align:left;">
@@ -75,7 +76,7 @@
   <xsl:param name="relPath" />
 
   &newline;
-  <xsl:comment> define standard xmlqstat logo </xsl:comment>
+  <xsl:comment> xmlqstat logo </xsl:comment>
   &newline;
   <div class="topLogo" style="clear:both; text-align:left;">
     <p>
@@ -281,17 +282,27 @@
 <xsl:template name="bottomStatusBar">
   <xsl:param name="timestamp" />
 
-  <xsl:text>
-  </xsl:text>
-  <xsl:comment> Bottom status bar </xsl:comment>
-  <xsl:text>
-  </xsl:text>
   <xsl:if test="$timestamp">
+    &newline;
+    <xsl:comment> Bottom status bar </xsl:comment>
+    &newline;
+
     <div class="dividerBarAbove">
-      Rendered: <xsl:value-of select="$timestamp"/>
+      <!-- Rendered: with acronym showing the XSLT version and vendor name -->
+      <xsl:element name="acronym">
+        <xsl:attribute name="title">
+          <xsl:text>XSLT </xsl:text>
+          <xsl:value-of select="format-number(number(system-property('xsl:version')), '0.0')" />
+          <xsl:text> (</xsl:text>
+          <xsl:value-of select="system-property('xsl:vendor')"/>
+          <xsl:text>)</xsl:text>
+        </xsl:attribute>
+        <xsl:text>Rendered</xsl:text>
+      </xsl:element>
+      <xsl:text>: </xsl:text>
+      <xsl:value-of select="$timestamp"/>
     </div>
-    <xsl:text>
-    </xsl:text>
+    &newline;
   </xsl:if>
 </xsl:template>
 

@@ -148,6 +148,48 @@
    | progressBar with size 'percent'
    | title (mouse help) and label
    -->
+<xsl:template name="progressBarAbs">
+  <xsl:param name="value" select="0" />
+  <xsl:param name="total" select="0" />
+  <xsl:param name="title" />
+  <xsl:param name="label" select="concat($value, '/', $total)" />
+  <xsl:param name="class" />
+
+  <xsl:variable name="percent">
+    <xsl:choose>
+    <xsl:when test="not($total) or $total &lt;= 0">0</xsl:when>
+    <xsl:otherwise>
+      <xsl:value-of select="($value div $total)*100"/>
+    </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <div class="progbarOuter" style="width:100px;">
+    <xsl:element name="div">
+      <xsl:if test="$percent &gt; 0">
+        <xsl:attribute name="class">progbarInner <xsl:if test="$class"><xsl:value-of select="$class"/></xsl:if></xsl:attribute>
+        <xsl:attribute name="style">width:<xsl:value-of select="format-number($percent,'##0.#')"/>%;</xsl:attribute>
+      </xsl:if>
+      <xsl:choose>
+      <xsl:when test="$title">
+        <xsl:element name="acronym">
+          <xsl:attribute name="title"><xsl:value-of select="$title"/></xsl:attribute>
+          <xsl:value-of select="$label" />
+        </xsl:element>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$label" />
+      </xsl:otherwise>
+      </xsl:choose>
+    </xsl:element>
+  </div>
+</xsl:template>
+
+
+<!--
+   | progressBar with size 'percent'
+   | title (mouse help) and label
+   -->
 <xsl:template name="progressBar">
   <xsl:param name="title" />
   <xsl:param name="label" />
@@ -176,6 +218,41 @@
 </xsl:template>
 
 
+<!-- extract value before the memory suffix (G, M, K) -->
+<xsl:template name="memoryValue">
+  <xsl:param name="value" />
+  <xsl:param name="suffix" />
+
+  <xsl:choose>
+  <xsl:when test="$suffix">
+    <xsl:value-of select="substring($value, 0, string-length($value))"/>
+  </xsl:when>
+  <xsl:otherwise>
+    <xsl:value-of select="$value"/>
+  </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+
+<!-- extract the memory suffix (G, M, K) -->
+<xsl:template name="memorySuffix">
+  <xsl:param name="value" />
+
+  <xsl:choose>
+  <xsl:when test="contains($value, 'G')">
+    <xsl:value-of select="'G'"/>
+  </xsl:when>
+  <xsl:when test="contains($value, 'M')">
+    <xsl:value-of select="'M'"/>
+  </xsl:when>
+  <xsl:when test="contains($value, 'K')">
+    <xsl:value-of select="'K'"/>
+  </xsl:when>
+  <xsl:otherwise>0</xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+
 <!--
    | simple means of handling memory with a 'G', 'M' and 'K' suffix
    | and displaying a progressBar (slider)
@@ -184,90 +261,55 @@
   <xsl:param name="used" />
   <xsl:param name="total" />
 
-  <xsl:param name="memoryUsed">
+  <xsl:variable name="memoryUsed">
     <xsl:choose>
     <xsl:when test="contains($used, '-')">0</xsl:when>
     <xsl:otherwise><xsl:value-of select="$used" /></xsl:otherwise>
     </xsl:choose>
-  </xsl:param>
+  </xsl:variable>
 
-  <xsl:param name="memoryTotal">
+  <xsl:variable name="memoryTotal">
     <xsl:choose>
     <xsl:when test="contains($total, '-')">0</xsl:when>
     <xsl:otherwise><xsl:value-of select="$total" /></xsl:otherwise>
     </xsl:choose>
-  </xsl:param>
+  </xsl:variable>
 
-  <xsl:variable
-      name="rawSuffix"
-      select="substring($memoryUsed, string-length($memoryUsed))"
-  />
-
-  <!-- suffix (G, M, K) -->
+  <!-- prefix (value) and suffix (G, M, K) -->
   <xsl:variable name="suffixUsed">
-    <xsl:choose>
-    <xsl:when test="contains($rawSuffix, 'G')">
-      <xsl:value-of select="$rawSuffix"/>
-    </xsl:when>
-    <xsl:when test="contains($rawSuffix, 'M')">
-      <xsl:value-of select="$rawSuffix"/>
-    </xsl:when>
-    <xsl:when test="contains($rawSuffix, 'K')">
-      <xsl:value-of select="$rawSuffix"/>
-    </xsl:when>
-    <xsl:otherwise>0</xsl:otherwise>
-    </xsl:choose>
+    <xsl:call-template name="memorySuffix">
+      <xsl:with-param name="value"  select="$memoryUsed" />
+    </xsl:call-template>
   </xsl:variable>
-
-  <xsl:variable
-      name="rawSuffix"
-      select="substring($memoryTotal, string-length($memoryTotal))"
-  />
-
-  <xsl:variable name="suffixTotal">
-    <xsl:choose>
-    <xsl:when test="contains($rawSuffix, 'G')">
-      <xsl:value-of select="$rawSuffix"/>
-    </xsl:when>
-    <xsl:when test="contains($rawSuffix, 'M')">
-      <xsl:value-of select="$rawSuffix"/>
-    </xsl:when>
-    <xsl:when test="contains($rawSuffix, 'K')">
-      <xsl:value-of select="$rawSuffix"/>
-    </xsl:when>
-    <xsl:otherwise>0</xsl:otherwise>
-    </xsl:choose>
-  </xsl:variable>
-
-  <!-- prefix (value) -->
   <xsl:variable name="valueUsed">
-    <xsl:choose>
-    <xsl:when test="$suffixUsed">
-      <xsl:value-of
-          select="substring($memoryUsed, 0, string-length($memoryUsed))"
-      />
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:value-of select="$memoryUsed"/>
-    </xsl:otherwise>
-    </xsl:choose>
+    <xsl:call-template name="memoryValue">
+      <xsl:with-param name="value"  select="$memoryUsed" />
+      <xsl:with-param name="suffix" select="$suffixUsed" />
+    </xsl:call-template>
   </xsl:variable>
 
-  <!-- prefix (value) -->
+  <!-- prefix (value) and suffix (G, M, K) -->
+  <xsl:variable name="suffixTotal">
+    <xsl:call-template name="memorySuffix">
+      <xsl:with-param name="value"  select="$memoryTotal" />
+    </xsl:call-template>
+  </xsl:variable>
   <xsl:variable name="valueTotal">
-    <xsl:choose>
-    <xsl:when test="$suffixTotal">
-      <xsl:value-of
-          select="substring($memoryTotal, 0, string-length($memoryTotal))"
-      />
-    </xsl:when>
-    <xsl:otherwise>
-      <xsl:value-of select="$memoryTotal"/>
-    </xsl:otherwise>
-    </xsl:choose>
+    <xsl:call-template name="memoryValue">
+      <xsl:with-param name="value"  select="$memoryTotal" />
+      <xsl:with-param name="suffix" select="$suffixTotal" />
+    </xsl:call-template>
   </xsl:variable>
 
+  <!-- output progress bar -->
   <xsl:choose>
+  <xsl:when test="$memoryTotal = 0">
+    <xsl:call-template name="progressBar">
+      <xsl:with-param name="title" select="'not available'" />
+      <xsl:with-param name="label" select="'NA'" />
+      <xsl:with-param name="percent" select="0"/>
+    </xsl:call-template>
+  </xsl:when>
   <xsl:when test="$suffixUsed = $suffixTotal">
     <xsl:call-template name="progressBar">
       <xsl:with-param name="title" select="concat($memoryUsed, ' used')" />
@@ -278,8 +320,9 @@
     </xsl:call-template>
   </xsl:when>
   <xsl:when test="
-      ($suffixTotal = 'G' and $suffixUsed = 'M') or
-      ($suffixTotal = 'M' and $suffixUsed = 'K')">
+      ($suffixUsed = 'M' and $suffixTotal = 'G') or
+      ($suffixUsed = 'K' and $suffixTotal = 'M')">
+    <!-- factor 1000 between used and total -->
     <xsl:call-template name="progressBar">
       <xsl:with-param name="title" select="concat($memoryUsed,' used')" />
       <xsl:with-param name="label" select="$memoryTotal" />

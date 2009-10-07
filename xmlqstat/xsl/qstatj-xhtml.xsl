@@ -199,6 +199,8 @@
 </blockquote>
 &newline;
 
+&newline;<xsl:comment> Context table </xsl:comment>&newline;
+
 <!--
   context table
 -->
@@ -211,6 +213,7 @@
   </tr>
 </table>
 <div>
+&newline;
 <table class="listing">
   <th>jobId</th>
   <th>context</th>
@@ -235,6 +238,7 @@
 </table>
 </div>
 </blockquote>
+&newline;
 
 <!-- 6.1: //detailed_job_info/djob_info/qmaster_response -->
 <!--
@@ -257,6 +261,8 @@
     | //detailed_job_info/djob_info/qmaster_response[not(JB_ja_tasks)]
     "
 />
+
+&newline;<xsl:comment> Scheduling info </xsl:comment>&newline;
 
 <!--
   scheduling info
@@ -318,6 +324,7 @@
 
 -->
 </blockquote>
+&newline;
 
 <!-- bottom status bar with rendered time -->
 <xsl:call-template name="bottomStatusBar">
@@ -435,13 +442,14 @@
 &newline;
 </xsl:template>
 
-
 <!--
   details table
   6.1: //djob_info/qmaster_response
 -->
 <xsl:template match="//djob_info/element | //djob_info/qmaster_response">
 <xsl:variable name="jobId" select="JB_job_number"/>
+
+&newline;<xsl:comment> Details table </xsl:comment>&newline;
 
 <blockquote>
 <xsl:element name="table">

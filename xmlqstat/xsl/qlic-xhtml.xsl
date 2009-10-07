@@ -221,9 +221,9 @@
     <xsl:choose>
     <xsl:when test="$valueUsed &gt; 0 and ($valueUsed &gt;= $valueTotal)">
       <xsl:call-template name="progressBar">
+        <xsl:with-param name="class"   select="'warnBar'"/>
         <xsl:with-param name="label"   select="concat($valueUsed, '/', $valueTotal)" />
         <xsl:with-param name="percent" select="100"/>
-        <xsl:with-param name="class"   select="'warnBar'"/>
       </xsl:call-template>
     </xsl:when>
     <xsl:when test="$valueUsed &gt; 0">

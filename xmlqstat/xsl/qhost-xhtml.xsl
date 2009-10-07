@@ -121,22 +121,16 @@
 </head>
 &newline;
 
-<!-- CALCULATE TOTALS -->
+<!-- PRE-CALCULATE values -->
 
-<!-- count active jobs -->
-<xsl:variable name="AJ_total">
-  <xsl:call-template name="count-jobs">
-    <xsl:with-param name="nodeList" select="//qhost/host/job"/>
-  </xsl:call-template>
-</xsl:variable>
+<!-- count active number of slots -->
+<xsl:variable name="AJ_slots" select="sum(//queuevalue[@name='slots_used'])"/>
 
-<!-- done CALCULATE -->
+<!-- done PRE-CALCULATE -->
 
 <!-- begin body -->
 <body>
-&newline;
-<xsl:comment> Main body content </xsl:comment>
-&newline;
+&newline;<xsl:comment> Main body content </xsl:comment>&newline;
 
 <div id="main">
 <!-- Topomost Logo Div -->
@@ -169,10 +163,9 @@
 </xsl:choose>
 <br/>
 <xsl:choose>
-<xsl:when test="$AJ_total &gt; 0">
+<xsl:when test="$AJ_slots &gt; 0">
   <!-- active jobs: -->
-  <xsl:value-of select="$AJ_total"/> active jobs
-  (<xsl:value-of select="sum(//queuevalue[@name='slots_used'])"/> slots)
+  <xsl:value-of select="$AJ_slots"/> slots used
 </xsl:when>
 <xsl:otherwise>
   <!-- no active jobs -->
@@ -345,8 +338,9 @@
 
       <xsl:variable
           name="slotsAvailable"
-          select="$slotsTotal - $slotsUsed - $slotsProblem"
+          select="$slotsTotal - $slotsProblem"
       />
+
 
       <tr align="right">
         <!-- queue name -->
@@ -366,77 +360,38 @@
         </xsl:choose>
 
         <!-- used slots -->
-        <xsl:variable name="valueUsed"    select="$slotsUsed"/>
-        <xsl:variable name="valueTotal"   select="$slotsAvailable + $slotsUsed"/>
-        <xsl:variable name="valuePercent">
-          <xsl:choose>
-          <xsl:when test="$valueTotal &gt; 0">
-            <xsl:value-of select="($valueUsed div $valueTotal)*100"/>
-          </xsl:when>
-          <xsl:otherwise>
-            0
-          </xsl:otherwise>
-          </xsl:choose>
-        </xsl:variable>
-
         <td width="100px" align="left">
-          <xsl:call-template name="progressBar">
-            <xsl:with-param name="title"   select="total = $valueTotal" />
-            <xsl:with-param name="label"   select="concat($valueUsed, '/', $valueTotal)" />
-            <xsl:with-param name="percent" select="$valuePercent" />
+          <xsl:call-template name="progressBarAbs">
+            <xsl:with-param name="title" select="total = $slotsAvailable" />
+            <xsl:with-param name="value" select="$slotsUsed" />
+            <xsl:with-param name="total" select="$slotsAvailable" />
           </xsl:call-template>
         </td>
 
         <!-- aoACDS errors (warnings) -->
-        <xsl:variable name="valueUsed"    select="$group_aoACDS"/>
-        <xsl:variable name="valueTotal"   select="$slotsTotal"/>
-        <xsl:variable name="valuePercent">
-          <xsl:choose>
-          <xsl:when test="$valueTotal &gt; 0">
-            <xsl:value-of select="($valueUsed div $valueTotal)*100"/>
-          </xsl:when>
-          <xsl:otherwise>
-            0
-          </xsl:otherwise>
-          </xsl:choose>
-        </xsl:variable>
-
         <td width="100px" align="left">
-          <xsl:call-template name="progressBar">
-            <xsl:with-param name="title"   select="''" />
-            <xsl:with-param name="label"   select="$valueUsed" />
-            <xsl:with-param name="percent" select="$valuePercent" />
-            <xsl:with-param name="class"   select="'warnBar'" />
+          <xsl:call-template name="progressBarAbs">
+            <xsl:with-param name="class" select="'warnBar'" />
+            <xsl:with-param name="label" select="$group_aoACDS" />
+            <xsl:with-param name="value" select="$group_aoACDS" />
+            <xsl:with-param name="total" select="$slotsTotal" />
           </xsl:call-template>
         </td>
 
         <!-- cdsuE errors -->
-        <xsl:variable name="valueUsed"    select="$group_cdsuE"/>
-        <xsl:variable name="valueTotal"   select="$slotsTotal"/>
-        <xsl:variable name="valuePercent">
-          <xsl:choose>
-          <xsl:when test="$valueTotal &gt; 0">
-            <xsl:value-of select="($valueUsed div $valueTotal)*100"/>
-          </xsl:when>
-          <xsl:otherwise>
-            0
-          </xsl:otherwise>
-          </xsl:choose>
-        </xsl:variable>
-
         <td width="100px" align="left">
-          <xsl:call-template name="progressBar">
-            <xsl:with-param name="title"   select="''" />
-            <xsl:with-param name="label"   select="$valueUsed" />
-            <xsl:with-param name="percent" select="$valuePercent" />
-            <xsl:with-param name="class"   select="'alarmBar'" />
+          <xsl:call-template name="progressBarAbs">
+            <xsl:with-param name="class" select="'alarmBar'" />
+            <xsl:with-param name="label" select="$group_cdsuE" />
+            <xsl:with-param name="value" select="$group_cdsuE" />
+            <xsl:with-param name="total" select="$slotsTotal" />
           </xsl:call-template>
         </td>
 
         <!-- free: display warn/alarm when exhausted -->
         <xsl:choose>
-        <xsl:when test="$slotsAvailable &gt; 0">
-          <td><xsl:value-of select="$slotsAvailable"/></td>
+        <xsl:when test="$slotsAvailable &gt; $slotsUsed">
+          <td><xsl:value-of select="$slotsAvailable - $slotsUsed"/></td>
         </xsl:when>
         <xsl:otherwise>
           <!-- warn color -->
@@ -483,7 +438,8 @@
   queue/host information: content
 -->
 <xsl:template match="qhost/host">
-  <xsl:param name="render">
+
+  <xsl:variable name="render">
     <xsl:choose>
     <xsl:when test="$renderMode='free'">
       <xsl:for-each select="queue">
@@ -504,7 +460,7 @@
       true
     </xsl:otherwise>
     </xsl:choose>
-  </xsl:param>
+  </xsl:variable>
 
 <xsl:if test="contains($render, 'true')">
 
@@ -601,9 +557,9 @@
   process host queue information
 -->
 <xsl:template match="host/queue">
-  <xsl:variable name="valueUsed"  select="queuevalue[@name='slots_used']"/>
-  <xsl:variable name="valueTotal" select="queuevalue[@name='slots']"/>
-  <xsl:variable name="state"      select="queuevalue[@name='state_string']"/>
+  <xsl:variable name="used"   select="queuevalue[@name='slots_used']"/>
+  <xsl:variable name="total"  select="queuevalue[@name='slots']"/>
+  <xsl:variable name="state"  select="queuevalue[@name='state_string']"/>
 
   <tr>
     <!-- 'S' suspend state : alter font-style -->
@@ -631,10 +587,10 @@
 
     <!-- slider showing slot usage -->
     <td width="100px" align="left">
-      <xsl:if test="$valueUsed &gt; -1">
-        <xsl:call-template name="progressBar">
-          <xsl:with-param name="label"   select="concat($valueUsed, '/', $valueTotal)" />
-          <xsl:with-param name="percent" select="($valueUsed div $valueTotal)*100"/>
+      <xsl:if test="$used &gt; -1">
+        <xsl:call-template name="progressBarAbs">
+          <xsl:with-param name="value" select="$used" />
+          <xsl:with-param name="total" select="$total" />
         </xsl:call-template>
       </xsl:if>
     </td>

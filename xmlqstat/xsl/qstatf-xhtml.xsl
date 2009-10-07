@@ -461,7 +461,7 @@
       </td>
     </tr>
     <tr>
-      <th>Queue Availibility</th>
+      <th>Queue Availability</th>
       <td>
         <xsl:choose>
         <xsl:when test="$unavailable-all-Percent &gt;= 50" >
@@ -485,7 +485,7 @@
           <xsl:with-param name="percent" select="$unavailable-all-Percent"/>
         </xsl:call-template>
 
-        <!-- bar graph of availability -->
+        <!-- bar graph of unavailability -->
         <xsl:variable name="unavailableSlots" select="count($nodeSet-loadAlarmQueues)"/>
         <xsl:call-template name="progressBar">
           <xsl:with-param name="title"
@@ -499,10 +499,10 @@
         </xsl:call-template>
 
         <!-- bar graph of total cluster slot utilization -->
-        <xsl:variable name="unavailableSlots" select="count($nodeSet-dEauQueues)"/>
+        <xsl:variable name="unavailable-dEau" select="count($nodeSet-dEauQueues)"/>
         <xsl:call-template name="progressBar">
           <xsl:with-param name="title"
-              select="concat($unavailableSlots, ' / ',
+              select="concat($unavailable-dEau, ' / ',
               $queueInstances, ' queue instances unavailable for ALARM, ERROR or ADMIN related reasons')"
           />
           <xsl:with-param name="label"
@@ -817,13 +817,15 @@
 
       <!-- usage -->
       <!-- NB: slots_total reported actually includes slots_used -->
-      <xsl:variable name="valueUsed"  select="slots_used"/>
-      <xsl:variable name="valueTotal" select="slots_total - slots_used"/>
+      <xsl:variable name="valueUsed0"  select="slots_used"/>
+      <xsl:variable name="valueTotal0" select="slots_total - slots_used"/>
       <td width="100px" align="left">
-        <xsl:if test="$valueUsed &gt; -1">
+        <xsl:if test="$valueUsed0 &gt; -1">
           <xsl:call-template name="progressBar">
-            <xsl:with-param name="label"   select="concat($valueUsed, '/', $valueTotal)" />
-            <xsl:with-param name="percent" select="($valueUsed div $valueTotal)*100"/>
+            <xsl:with-param name="label"   select="concat($valueUsed0, '/',
+$valueTotal0)" />
+            <xsl:with-param name="percent" select="($valueUsed0 div
+$valueTotal0)*100"/>
           </xsl:call-template>
         </xsl:if>
       </td>
@@ -1030,6 +1032,9 @@
 </xsl:template>
 
 <xsl:template match="Queue-List/job_list" mode="summary">
+</xsl:template>
+
+<xsl:template match="Queue-List/job_list" mode="summaryXX">
 <xsl:if test="not($filterByUser) or JB_owner=$filterByUser">
 
   <xsl:variable name="jobId"  select="JB_job_number" />
