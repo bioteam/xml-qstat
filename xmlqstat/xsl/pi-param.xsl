@@ -29,7 +29,7 @@
    | extract attribute="..." from text
    |
 -->
-<xsl:template name="parse-attribute">
+<xsl:template name="pi-parse-attribute">
   <xsl:param name="text" />
   <xsl:param name="attr" />
 
@@ -60,7 +60,7 @@
     />
 
     <xsl:variable name="nameContent">
-      <xsl:call-template name="parse-attribute">
+      <xsl:call-template name="pi-parse-attribute">
         <xsl:with-param name="text" select="$text"/>
         <xsl:with-param name="attr" select="'name'"/>
       </xsl:call-template>
@@ -68,7 +68,7 @@
 
     <xsl:choose>
     <xsl:when test="$nameContent = $name">
-      <xsl:call-template name="parse-attribute">
+      <xsl:call-template name="pi-parse-attribute">
         <xsl:with-param name="text" select="$text"/>
         <xsl:with-param name="attr" select="'value'"/>
       </xsl:call-template>
@@ -82,6 +82,53 @@
       </xsl:call-template>
     </xsl:otherwise>
     </xsl:choose>
+  </xsl:when>
+  <xsl:otherwise>
+    <!-- nothing found: return the default -->
+    <xsl:value-of select="$default"/>
+  </xsl:otherwise>
+  </xsl:choose>
+</xsl:template>
+
+<!--
+   |
+   |  hand-rolled parsing of <?xxx foo=".." ?>
+   |
+-->
+<xsl:template name="pi-named-param">
+  <xsl:param name="pis" select="processing-instruction('xslt-param')" />
+  <xsl:param name="name" />
+  <xsl:param name="count">1</xsl:param>
+  <xsl:param name="default" />
+
+  <xsl:choose>
+  <xsl:when test="$count &lt;= count($pis)">
+    <xsl:variable
+        name="text"
+        select="concat(' ', normalize-space($pis[position()=$count]))"
+    />
+
+    <xsl:variable name="nameContent">
+      <xsl:call-template name="pi-parse-attribute">
+        <xsl:with-param name="text" select="$text"/>
+        <xsl:with-param name="attr" select="$name"/>
+      </xsl:call-template>
+    </xsl:variable>
+
+    <xsl:choose>
+    <xsl:when test="string-length($nameContent)">
+      <xsl:value-of select="$nameContent"/>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:call-template name="pi-named-param">
+        <xsl:with-param name="pis"   select="$pis" />
+        <xsl:with-param name="name"  select="$name" />
+        <xsl:with-param name="count" select="$count + 1" />
+        <xsl:with-param name="default" select="$default" />
+      </xsl:call-template>
+    </xsl:otherwise>
+    </xsl:choose>
+
   </xsl:when>
   <xsl:otherwise>
     <!-- nothing found: return the default -->

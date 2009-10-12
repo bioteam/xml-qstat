@@ -19,8 +19,10 @@
    |
    | expected input:
    | aggregated input from
-   |  - qlicserver.xml
    |  - qhost.xml
+   |
+   | uses external files:
+   |  - config/config.xml
 -->
 
 <!-- ======================= Imports / Includes =========================== -->
@@ -58,6 +60,14 @@
     name="clusterNode"
     select="$configFile/clusters/cluster[@name=$clusterName]" />
 
+<!-- the date according to the processing-instruction -->
+<xsl:variable name="piDate">
+  <xsl:call-template name="pi-named-param">
+    <xsl:with-param  name="pis"  select="processing-instruction('qhost')" />
+    <xsl:with-param  name="name" select="'date'"/>
+  </xsl:call-template>
+</xsl:variable>
+
 
 <!-- ========================== Sorting Keys ============================== -->
 <xsl:key
@@ -88,25 +98,25 @@
 
 <xsl:choose>
 <xsl:when test="$renderMode='summary'">
-  <link rel="icon" type="image/png" href="images/icons/silk/sum.png"/>
+  <link rel="icon" type="image/png" href="css/screen/icons/sum.png"/>
   <title> queue summary
   <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
   </title>
 </xsl:when>
 <xsl:when test="$renderMode='free'">
-  <link rel="icon" type="image/png" href="images/icons/silk/tick.png"/>
+  <link rel="icon" type="image/png" href="css/screen/icons/tick.png"/>
   <title> queues free
   <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
   </title>
 </xsl:when>
 <xsl:when test="$renderMode='warn'">
-  <link rel="icon" type="image/png" href="images/icons/silk/error.png"/>
+  <link rel="icon" type="image/png" href="css/screen/icons/error.png"/>
   <title> queue warnings
   <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
   </title>
 </xsl:when>
 <xsl:otherwise>
-  <link rel="icon" type="image/png" href="images/icons/silk/shape_align_left.png"/>
+  <link rel="icon" type="image/png" href="css/screen/icons/shape_align_left.png"/>
   <title> queue instances
   <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
   </title>
@@ -149,18 +159,14 @@
   <xsl:if test="$clusterNode/@cell != 'default'">/<xsl:value-of
       select="$clusterNode/@cell"/>
   </xsl:if>
-  <!-- query host info -->
-  <xsl:if test="//query/host">@<xsl:value-of select="//query/host"/>
-  &space;
-  <!-- replace 'T' in dateTime for easier reading -->
-  [<xsl:value-of select="translate(//query/time, 'T', '_')"/>]
-  </xsl:if>
 </xsl:when>
 <xsl:otherwise>
   <!-- unnamed cluster: -->
   unnamed cluster
 </xsl:otherwise>
 </xsl:choose>
+<!-- replace 'T' in dateTime for easier reading -->
+&space; <xsl:value-of select="translate($piDate, 'T', ' ')"/>
 <br/>
 <xsl:choose>
 <xsl:when test="$AJ_slots &gt; 0">

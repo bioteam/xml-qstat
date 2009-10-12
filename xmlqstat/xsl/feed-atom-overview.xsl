@@ -137,7 +137,7 @@
   </author>
   <generator uri="/xmlqstat" version="1.0">xmlqstat</generator>
   <subtitle>Overview of Grid Engine state and status.</subtitle>
-  <!-- <logo>/images/xml-qstat-logo.png</logo> -->
+  <!-- <logo>/config/logo.png</logo> -->
   <id>urn:uuid:xmlqstat-atomfeed-overview</id>
 
   <entry>

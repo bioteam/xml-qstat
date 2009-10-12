@@ -63,7 +63,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta http-equiv="Refresh" content="30" />
 
-  <link rel="icon" type="image/png" href="images/icons/silk/database_key.png"/>
+  <link rel="icon" type="image/png" href="css/screen/icons/database_key.png"/>
   &newline;
   <title> resources
   <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
@@ -85,15 +85,14 @@
 
 <div id="main">
 <!-- Topomost Logo Div and Top Menu Bar -->
+<xsl:call-template name="topLogo"/>
 <xsl:choose>
-<xsl:when test="$menuMode='xmlqstat'">
-  <xsl:call-template name="topLogoDefault"/>
-  <xsl:call-template name="xmlqstatMenu">
+<xsl:when test="$menuMode='qstatf'">
+  <xsl:call-template name="qstatfMenu">
     <xsl:with-param name="clusterSuffix" select="$clusterSuffix"/>
   </xsl:call-template>
 </xsl:when>
 <xsl:otherwise>
-  <xsl:call-template name="topLogo"/>
   <xsl:call-template name="topMenu"/>
 </xsl:otherwise>
 </xsl:choose>

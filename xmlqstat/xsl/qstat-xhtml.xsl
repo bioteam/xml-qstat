@@ -14,10 +14,7 @@
    | to produce a list of active and pending jobs
    |
    | expected input:
-   | aggregated
-   |   - paths~{clusterName}.xml
-   |   - cache-{clusterName}/qlicserver.xml
-   |   - cache-{clusterName}//qstat.xml
+   |   - qstat.xml
    |
    | uses external files:
    |  - config/config.xml
@@ -79,6 +76,14 @@
   </xsl:call-template>
 </xsl:variable>
 
+<!-- the date according to the processing-instruction -->
+<xsl:variable name="piDate">
+  <xsl:call-template name="pi-named-param">
+    <xsl:with-param  name="pis"  select="processing-instruction('qstat')" />
+    <xsl:with-param  name="name" select="'date'"/>
+  </xsl:call-template>
+</xsl:variable>
+
 
 <!-- ======================= Output Declaration =========================== -->
 <xsl:output method="xml" indent="yes" version="1.0" encoding="UTF-8"
@@ -94,7 +99,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta http-equiv="Refresh" content="30" />
 
-  <link rel="icon" type="image/png" href="images/icons/silk/lorry_flatbed.png"/>
+  <link rel="icon" type="image/png" href="css/screen/icons/lorry_flatbed.png"/>
   <title> jobs
   <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
   </title>
@@ -159,18 +164,14 @@
   <xsl:if test="$clusterNode/@cell != 'default'">/<xsl:value-of
       select="$clusterNode/@cell"/>
   </xsl:if>
-  <!-- query host info -->
-  <xsl:if test="//query/host">@<xsl:value-of select="//query/host"/>
-  &space;
-  <!-- replace 'T' in dateTime for easier reading -->
-  [<xsl:value-of select="translate(//query/time, 'T', '_')"/>]
-  </xsl:if>
 </xsl:when>
 <xsl:otherwise>
   <!-- unnamed cluster: -->
   unnamed cluster
 </xsl:otherwise>
 </xsl:choose>
+<!-- replace 'T' in dateTime for easier reading -->
+&space; <xsl:value-of select="translate($piDate, 'T', ' ')"/>
 </div>
 &newline;
 
@@ -556,7 +557,7 @@
     <xsl:attribute name="href"><xsl:value-of
         select="$viewlog"/>?<xsl:value-of
         select="$request"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
-    <img src="images/icons/silk/page_find.png" alt="[v]" border="0" />
+    <img src="css/screen/icons/page_find.png" alt="[v]" border="0" />
   </xsl:element>
 
   <!-- url viewlog?action=plot&jobid=...&resources={resources} -->
@@ -565,7 +566,7 @@
     <xsl:attribute name="href"><xsl:value-of
         select="$viewlog"/>?action=plot<xsl:text>&amp;</xsl:text><xsl:value-of
         select="$request"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
-    <img src="images/icons/silk/chart_curve.png" alt="[p]" border="0" />
+    <img src="css/screen/icons/chart_curve.png" alt="[p]" border="0" />
   </xsl:element>
 
   <!-- url viewlog?action=plot&owner=...&resources={resources} -->
@@ -575,7 +576,7 @@
         select="$viewlog"/>?action=plot<xsl:text>&amp;</xsl:text>owner=<xsl:value-of
         select="JB_owner"/><xsl:text>&amp;</xsl:text>resources=<xsl:value-of
         select="$resources"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
-    <img src="images/icons/silk/chart_curve_add.png" alt="[P]" border="0" />
+    <img src="css/screen/icons/chart_curve_add.png" alt="[P]" border="0" />
   </xsl:element>
 </xsl:if>
 </xsl:template>

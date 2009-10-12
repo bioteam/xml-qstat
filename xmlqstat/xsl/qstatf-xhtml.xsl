@@ -46,17 +46,35 @@
   </xsl:call-template>
 </xsl:param>
 
-<xsl:param name="activeJobTable"/>
-<xsl:param name="pendingJobTable"/>
-<xsl:param name="filterByUser"/>
-<xsl:param name="renderMode"/>
-<xsl:param name="menuMode">
+<xsl:param name="activeJobTable">
   <xsl:call-template name="pi-param">
-    <xsl:with-param  name="name"    select="'menuMode'"/>
-    <xsl:with-param  name="default" select="'xmlqstat'"/>
+    <xsl:with-param  name="name"    select="'activeJobTable'"/>
+  </xsl:call-template>
+</xsl:param>
+<xsl:param name="pendingJobTable">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'pendingJobTable'"/>
+  </xsl:call-template>
+</xsl:param>
+<xsl:param name="filterByUser">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'filterByUser'"/>
   </xsl:call-template>
 </xsl:param>
 
+<xsl:param name="renderMode">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'renderMode'"/>
+    <xsl:with-param  name="default" select="'jobs'"/>
+  </xsl:call-template>
+</xsl:param>
+
+<xsl:param name="menuMode">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'menuMode'"/>
+    <xsl:with-param  name="default" select="'qstatf'"/>
+  </xsl:call-template>
+</xsl:param>
 
 <!-- ======================= Internal Parameters ========================== -->
 <!-- configuration parameters -->
@@ -79,6 +97,14 @@
 <!-- possibly append ~{clusterName} to urls -->
 <xsl:variable name="clusterSuffix">
   <xsl:if test="$clusterName">~<xsl:value-of select="$clusterName"/></xsl:if>
+</xsl:variable>
+
+<!-- the date according to the processing-instruction -->
+<xsl:variable name="piDate">
+  <xsl:call-template name="pi-named-param">
+    <xsl:with-param  name="pis"  select="processing-instruction('qstat')" />
+    <xsl:with-param  name="name" select="'date'"/>
+  </xsl:call-template>
 </xsl:variable>
 
 
@@ -116,19 +142,19 @@
 
 <xsl:choose>
 <xsl:when test="$renderMode='full'">
-  <link rel="icon" type="image/png" href="images/icons/silk/shape_align_left.png"/>
+  <link rel="icon" type="image/png" href="css/screen/icons/shape_align_left.png"/>
   <title> queue instances
   <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
   </title>
 </xsl:when>
 <xsl:when test="$renderMode='summary'">
-  <link rel="icon" type="image/png" href="images/icons/silk/sum.png"/>
+  <link rel="icon" type="image/png" href="css/screen/icons/sum.png"/>
   <title> cluster summary
   <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
   </title>
 </xsl:when>
 <xsl:otherwise>
-  <link rel="icon" type="image/png" href="images/icons/silk/lorry.png"/>
+  <link rel="icon" type="image/png" href="css/screen/icons/lorry.png"/>
   <title> jobs
   <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
   </title>
@@ -178,7 +204,7 @@
    -->
 <xsl:variable name="AJ_total">
   <xsl:choose>
-  <xsl:when test="$filterByUser">
+  <xsl:when test="string-length($filterByUser)">
     <xsl:call-template name="count-jobs">
       <xsl:with-param name="nodeList" select="//job_info/queue_info/Queue-List/job_list[JB_owner=$filterByUser]"/>
     </xsl:call-template>
@@ -192,7 +218,7 @@
 </xsl:variable>
 <xsl:variable name="AJ_slots">
   <xsl:choose>
-  <xsl:when test="$filterByUser">
+  <xsl:when test="string-length($filterByUser)">
     <xsl:value-of select="sum(//job_info/queue_info/Queue-List/job_list[JB_owner=$filterByUser]/slots)"/>
   </xsl:when>
   <xsl:otherwise>
@@ -207,7 +233,7 @@
    -->
 <xsl:variable name="PJ_total">
   <xsl:choose>
-  <xsl:when test="$filterByUser">
+  <xsl:when test="string-length($filterByUser)">
     <xsl:value-of select="count(//job_info/job_info/job_list[JB_owner=$filterByUser])"/>
   </xsl:when>
   <xsl:otherwise>
@@ -217,7 +243,7 @@
 </xsl:variable>
 <xsl:variable name="PJ_slots">
   <xsl:choose>
-  <xsl:when test="$filterByUser">
+  <xsl:when test="string-length($filterByUser)">
     <xsl:call-template name="count-slots">
       <xsl:with-param name="nodeList" select="//job_info/job_info/job_list[JB_owner=$filterByUser]"/>
     </xsl:call-template>
@@ -311,6 +337,8 @@
     select="(count($nodeSet-dEauQueues) div $queueInstances)*100"
     />
 
+
+
 <!-- begin body -->
 <body>
 
@@ -320,15 +348,14 @@
 
 <div id="main">
 <!-- Topomost Logo Div and Top Menu Bar -->
+<xsl:call-template name="topLogo"/>
 <xsl:choose>
-<xsl:when test="$menuMode='xmlqstat'">
-  <xsl:call-template name="topLogoDefault"/>
-  <xsl:call-template name="xmlqstatMenu">
+<xsl:when test="$menuMode='qstatf'">
+  <xsl:call-template name="qstatfMenu">
     <xsl:with-param name="clusterSuffix" select="$clusterSuffix"/>
   </xsl:call-template>
 </xsl:when>
 <xsl:otherwise>
-  <xsl:call-template name="topLogo"/>
   <xsl:call-template name="topMenu"/>
 </xsl:otherwise>
 </xsl:choose>
@@ -339,23 +366,26 @@
 <xsl:when test="//query/host">
   <div class="dividerBarBelow">
     [<xsl:value-of select="//query/host"/>]
-    <!-- remove 'T' in dateTime for easier reading -->
+    <!-- replace 'T' in dateTime for easier reading -->
     <xsl:value-of select="translate(//query/time, 'T', ' ')"/>
   </div>
 </xsl:when>
-<xsl:when test="$clusterName">
+<xsl:when test="string-length($clusterName) or string-length($piDate)">
   <div class="dividerBarBelow">
     <xsl:value-of select="$clusterName"/>
+    &space;
+    <!-- replace 'T' in dateTime for easier reading -->
+    <xsl:value-of select="translate($piDate, 'T', ' ')"/>
   </div>
 </xsl:when>
 </xsl:choose>
 
-&newline;
-<xsl:comment> Queue Instance Information or Cluster Summary </xsl:comment>
-&newline;
-
 <xsl:choose>
 <xsl:when test="$renderMode='full'">
+  &newline;
+  <xsl:comment> Queue Instance Information </xsl:comment>
+  &newline;
+
   <!-- queue instances: -->
   <blockquote>
   <table class="listing">
@@ -406,6 +436,9 @@
   </blockquote>
 </xsl:when>
 <xsl:when test="$renderMode='summary'">
+  &newline;
+  <xsl:comment> Cluster Summary </xsl:comment>
+  &newline;
   <!-- cluster summary: -->
   <blockquote>
   <table class="listing" width="80%">
@@ -465,10 +498,10 @@
       <td>
         <xsl:choose>
         <xsl:when test="$unavailable-all-Percent &gt;= 50" >
-          <img src="images/icons/silk/exclamation.png" />
+          <img src="css/screen/icons/exclamation.png" />
         </xsl:when>
         <xsl:when test="$unavailable-all-Percent &gt;= 10" >
-          <img src="images/icons/silk/error.png" />
+          <img src="css/screen/icons/error.png" />
         </xsl:when>
         </xsl:choose>
       </td>
@@ -522,10 +555,10 @@
       <td>
         <xsl:choose>
         <xsl:when test="$QI_state_au &gt; 0">
-          <img src="images/icons/silk/exclamation.png" />
+          <img src="css/screen/icons/exclamation.png" />
         </xsl:when>
         <xsl:when test="$QI_state_S &gt; 0">
-          <img src="images/icons/silk/exclamation.png" />
+          <img src="css/screen/icons/exclamation.png" />
         </xsl:when>
         </xsl:choose>
       </td>
@@ -615,147 +648,144 @@
   </div>
   </blockquote>
 </xsl:when>
-</xsl:choose>
+<xsl:otherwise>
+  &newline;
+  <xsl:comment> Active Jobs </xsl:comment>
+  &newline;
 
-<xsl:if test="not($renderMode)">
-&newline;
-<xsl:comment> Active Jobs </xsl:comment>
-&newline;
-
-<blockquote>
-<xsl:choose>
-<xsl:when test="$AJ_total &gt; 0">
-  <!-- active jobs: -->
-  <table class="listing">
-    <tr>
-    <td valign="middle">
-      <div class="tableCaption">
-        <xsl:value-of select="$AJ_total"/> active jobs
-        <xsl:if test="$filterByUser">
-          for <xsl:value-of select="$filterByUser"/>
-        </xsl:if>
-        (<xsl:value-of select="$AJ_slots"/> slots)
-      </div>
-      <!-- show/hide the activeJobTable via javascript -->
-      <xsl:if test="$useJavaScript = 'yes'">
-        <xsl:call-template name="toggleElementVisibility">
-          <xsl:with-param name="name" select="'activeJobTable'"/>
-        </xsl:call-template>
-      </xsl:if>
-    </td>
-    </tr>
-  </table>
-  <div id="activeJobTable">
+  <blockquote>
+  <xsl:choose>
+  <xsl:when test="$AJ_total &gt; 0">
+    <!-- active jobs: -->
     <table class="listing">
       <tr>
-      <th>jobId</th>
-      <th>owner</th>
-      <th>name</th>
-      <th>slots</th>
-      <th>tasks</th>
-      <th>queue</th>
-      <th><acronym title="priority">startTime</acronym></th>
-      <th>state</th>
-      </tr>
-
-<!--
-   | potential bug here
-   | we need to research all possible non-pending states that could be reported
-   | as we currently only catch items marked as running or transferring
-   -->
-
-     <!-- select running or transferring jobs -->
-      <xsl:for-each select="//job_list[@state='running'] | //job_list[@state='transferring']">
-        <!-- sorted by job number and by task-->
-        <xsl:sort select="JB_job_number"/>
-        <xsl:sort select="tasks"/>
-        <xsl:variable name="jobIdent" select="concat(JB_job_number,';',tasks)"/>
-        <xsl:variable name="thisNode" select="generate-id(.)"/>
-        <xsl:variable name="allNodes" select="key('jobTask-summary', $jobIdent)"/>
-        <xsl:variable name="firstNode" select="generate-id($allNodes[1])"/>
-
-        <xsl:if test="$thisNode = $firstNode">
-          <xsl:apply-templates select="." mode="summary"/>
+      <td valign="middle">
+        <div class="tableCaption">
+          <xsl:value-of select="$AJ_total"/> active jobs
+          <xsl:if test="string-length($filterByUser)">
+            for <xsl:value-of select="$filterByUser"/>
+          </xsl:if>
+          (<xsl:value-of select="$AJ_slots"/> slots)
+        </div>
+        <!-- show/hide the activeJobTable via javascript -->
+        <xsl:if test="$useJavaScript = 'yes'">
+          <xsl:call-template name="toggleElementVisibility">
+            <xsl:with-param name="name" select="'activeJobTable'"/>
+          </xsl:call-template>
         </xsl:if>
+      </td>
+      </tr>
+    </table>
+    <div id="activeJobTable">
+      <table class="listing">
+        <tr>
+        <th>jobId</th>
+        <th>owner</th>
+        <th>name</th>
+        <th>slots</th>
+        <th>tasks</th>
+        <th>queue</th>
+        <th><acronym title="priority">startTime</acronym></th>
+        <th>state</th>
+        </tr>
+
+  <!--
+     | potential bug here
+     | we need to research all possible non-pending states that could be reported
+     | as we currently only catch items marked as running or transferring
+     -->
+
+       <!-- select running or transferring jobs -->
+        <xsl:for-each select="//job_list[@state='running'] | //job_list[@state='transferring']">
+          <!-- sorted by job number and by task-->
+          <xsl:sort select="JB_job_number"/>
+          <xsl:sort select="tasks"/>
+          <xsl:variable name="jobIdent" select="concat(JB_job_number,';',tasks)"/>
+          <xsl:variable name="thisNode" select="generate-id(.)"/>
+          <xsl:variable name="allNodes" select="key('jobTask-summary', $jobIdent)"/>
+          <xsl:variable name="firstNode" select="generate-id($allNodes[1])"/>
+
+          <xsl:if test="$thisNode = $firstNode">
+            <xsl:apply-templates select="." mode="summary"/>
+          </xsl:if>
+        </xsl:for-each>
+      </table>
+    </div>
+  </xsl:when>
+  <xsl:otherwise>
+    <!-- no active jobs -->
+    <div class="skipTableFormat">
+      <img alt="*" src="css/screen/list_bullet.png" />
+      no active jobs
+      <xsl:if test="string-length($filterByUser)">
+        for user <em><xsl:value-of select="$filterByUser"/></em>
+      </xsl:if>
+    </div>
+  </xsl:otherwise>
+  </xsl:choose>
+  </blockquote>
+
+  &newline;
+  <xsl:comment> Pending Jobs </xsl:comment>
+  &newline;
+
+  <blockquote>
+  <xsl:choose>
+  <xsl:when test="$PJ_total &gt; 0">
+    <!-- pending jobs: -->
+    <table class="listing">
+      <tr>
+      <td valign="middle">
+        <div class="tableCaption">
+          <xsl:value-of select="$PJ_total"/> pending jobs
+          <xsl:if test="string-length($filterByUser)">
+            for <xsl:value-of select="$filterByUser"/>
+          </xsl:if>
+          (<xsl:value-of select="$PJ_slots"/> slots)
+        </div>
+        <!-- show/hide the pendingJobTable via javascript -->
+        <xsl:if test="$useJavaScript = 'yes'" >
+          <xsl:call-template name="toggleElementVisibility">
+            <xsl:with-param name="name" select="'pendingJobTable'"/>
+          </xsl:call-template>
+        </xsl:if>
+      </td>
+      </tr>
+    </table>
+    <div id="pendingJobTable">
+      <table class="listing">
+        <tr>
+        <th>jobId</th>
+        <th>owner</th>
+        <th>name</th>
+        <th>slots</th>
+        <th>tasks</th>
+        <th><acronym title="submissionTime">priority</acronym></th>
+        <th>state</th>
+        </tr>
+      <xsl:for-each select="//job_list[@state='pending']">
+        <!-- sorted by job number -->
+        <xsl:sort select="./JB_job_number"/>
+        <xsl:apply-templates select="."/>
       </xsl:for-each>
-    </table>
-  </div>
-</xsl:when>
-<xsl:otherwise>
-  <!-- no active jobs -->
-  <div class="skipTableFormat">
-    <img alt="*" src="css/screen/list_bullet.png" />
-    no active jobs
-    <xsl:if test="$filterByUser">
-      for user <em><xsl:value-of select="$filterByUser"/></em>
-    </xsl:if>
-  </div>
-</xsl:otherwise>
-</xsl:choose>
-</blockquote>
-</xsl:if>
-
-
-<xsl:if test="not($renderMode)">
-&newline;
-<xsl:comment> Pending Jobs </xsl:comment>
-&newline;
-
-<blockquote>
-<xsl:choose>
-<xsl:when test="$PJ_total &gt; 0">
-  <!-- pending jobs: -->
-  <table class="listing">
-    <tr>
-    <td valign="middle">
-      <div class="tableCaption">
-        <xsl:value-of select="$PJ_total"/> pending jobs
-        <xsl:if test="$filterByUser">
-          for <xsl:value-of select="$filterByUser"/>
-        </xsl:if>
-        (<xsl:value-of select="$PJ_slots"/> slots)
-      </div>
-      <!-- show/hide the pendingJobTable via javascript -->
-      <xsl:if test="$useJavaScript = 'yes'" >
-        <xsl:call-template name="toggleElementVisibility">
-          <xsl:with-param name="name" select="'pendingJobTable'"/>
-        </xsl:call-template>
+      </table>
+    </div>
+  </xsl:when>
+  <xsl:otherwise>
+    <!-- no pending jobs -->
+    <div class="skipTableFormat">
+      <img alt="*" src="css/screen/list_bullet.png" />
+      no pending jobs
+      <xsl:if test="string-length($filterByUser)">
+        for user <em><xsl:value-of select="$filterByUser"/></em>
       </xsl:if>
-    </td>
-    </tr>
-  </table>
-  <div id="pendingJobTable">
-    <table class="listing">
-      <tr>
-      <th>jobId</th>
-      <th>owner</th>
-      <th>name</th>
-      <th>slots</th>
-      <th>tasks</th>
-      <th><acronym title="submissionTime">priority</acronym></th>
-      <th>state</th>
-      </tr>
-    <xsl:for-each select="//job_list[@state='pending']">
-      <!-- sorted by job number -->
-      <xsl:sort select="./JB_job_number"/>
-      <xsl:apply-templates select="."/>
-    </xsl:for-each>
-    </table>
-  </div>
-</xsl:when>
-<xsl:otherwise>
-  <!-- no pending jobs -->
-  <div class="skipTableFormat">
-    <img alt="*" src="css/screen/list_bullet.png" />
-    no pending jobs
-    <xsl:if test="$filterByUser">
-      for user <em><xsl:value-of select="$filterByUser"/></em>
-    </xsl:if>
-  </div>
+    </div>
+  </xsl:otherwise>
+  </xsl:choose>
+  </blockquote>
+
 </xsl:otherwise>
 </xsl:choose>
-</blockquote>
-</xsl:if>
 
 
 <!-- bottom status bar with rendered time -->
@@ -935,7 +965,7 @@ $valueTotal0)*100"/>
 
 <xsl:template match="job_list[@state='pending']">
 <!-- per user sort: BEGIN -->
-<xsl:if test="not($filterByUser) or JB_owner=$filterByUser">
+<xsl:if test="not(string-length($filterByUser)) or JB_owner=$filterByUser">
 &newline; <xsl:comment>Begin Pending Job Row</xsl:comment> &newline;
   <tr>
     <!-- jobId: link owner names to "jobinfo?jobId" -->
@@ -949,11 +979,11 @@ $valueTotal0)*100"/>
       </xsl:element>
     </td>
 
-    <!-- owner: link owner names to "jobs?{owner}" -->
+    <!-- owner: link owner names to "jobs?user={owner}" -->
     <td>
       <xsl:element name="a">
         <xsl:attribute name="href">
-          jobs<xsl:value-of select="$clusterSuffix"/>?<xsl:value-of select="JB_owner"/>
+          jobs<xsl:value-of select="$clusterSuffix"/>?user=<xsl:value-of select="JB_owner"/>
         </xsl:attribute>
         <xsl:attribute name="title">view jobs owned by user <xsl:value-of select="JB_owner"/></xsl:attribute>
         <xsl:value-of select="JB_owner"/>
@@ -993,12 +1023,12 @@ $valueTotal0)*100"/>
       <xsl:choose>
       <xsl:when test="state='qw'">
         <acronym title="Pending (qw)">
-          <img src="images/icons/silk/time.png" />
+          <img src="css/screen/icons/time.png" />
         </acronym>
       </xsl:when>
       <xsl:when test="state='hqw'">
         <acronym title="Pending with hold state (hqw)">
-          <img src="images/icons/silk/time_add.png" />
+          <img src="css/screen/icons/time_add.png" />
         </acronym>
       </xsl:when>
       <xsl:otherwise>
@@ -1032,10 +1062,7 @@ $valueTotal0)*100"/>
 </xsl:template>
 
 <xsl:template match="Queue-List/job_list" mode="summary">
-</xsl:template>
-
-<xsl:template match="Queue-List/job_list" mode="summaryXX">
-<xsl:if test="not($filterByUser) or JB_owner=$filterByUser">
+<xsl:if test="not(string-length($filterByUser)) or JB_owner=$filterByUser">
 
   <xsl:variable name="jobId"  select="JB_job_number" />
   <xsl:variable name="taskId" select="tasks" />
@@ -1097,11 +1124,11 @@ $valueTotal0)*100"/>
       </xsl:element>
     </td>
 
-    <!-- owner: link owner names to "jobs?{owner}" -->
+    <!-- owner: link owner names to "jobs?user={owner}" -->
     <td>
       <xsl:element name="a">
         <xsl:attribute name="href">
-          jobs<xsl:value-of select="$clusterSuffix"/>?<xsl:value-of select="JB_owner"/>
+          jobs<xsl:value-of select="$clusterSuffix"/>?user=<xsl:value-of select="JB_owner"/>
         </xsl:attribute>
         <xsl:attribute name="title">view jobs owned by user <xsl:value-of select="JB_owner"/></xsl:attribute>
         <xsl:value-of select="JB_owner"/>
@@ -1167,7 +1194,7 @@ $valueTotal0)*100"/>
       <xsl:when test="state='r'">r</xsl:when>
       <xsl:when test="state='S'">
         <acronym title="Job in (S)ubordinate suspend state">
-          <img alt="" src="images/icons/silk/error.png" />
+          <img alt="" src="css/screen/icons/error.png" />
         </acronym>
       </xsl:when>
       <xsl:otherwise>

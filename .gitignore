@@ -35,6 +35,9 @@
 # ignore site-specific config files
 /xmlqstat/config/alarm-threshold.xml
 
+# ignore site-specific image files
+/xmlqstat/config/logo.png
+
 # ignore misc build directories
 /build-*/
 

@@ -196,13 +196,23 @@ do {
 exit 0;
 
 # --------------------------------------------------------------------------
-# the qx// command with a simple timeout wrapper
+# somewhat like the qx// command with a timeout mechanism,
+# but for safety it only handles a list form (no shell escapes)
+#
 
 package Shell;
-our ($timeout);
+our ( $timeout, $report );
 
 BEGIN {
     $timeout = 10;
+}
+
+#
+# assign new value for reporting the timeout
+#
+sub report {
+    my ( $caller, $value ) = @_;
+    $report = $value;
 }
 
 #
@@ -215,38 +225,38 @@ sub timeout {
 
 sub cmd {
     my ( $caller, @command ) = @_;
-    my ( $redirect, @lines );
-    local *OLDERR;
+    my ( @lines, $pid, $redirected );
+    local ( *OLDERR, *PIPE );
+
+    # kill off truant child: this works well for unthreaded processes,
+    # but threaded processes are still an issue
+    local $SIG{__DIE__} = sub { kill TERM => $pid if $pid; };
 
     eval {
-        local $SIG{ALRM} = sub { die "TIMEOUT\n" };    # NB: '\n' required
+        local $SIG{ALRM} = sub { die "TIMEOUT\n" };         # NB: '\n' required
         alarm $timeout if $timeout;
         @command or die "$caller: Shell->cmd with an undefined query\n";
-        if ( @command > 1 ) {
-            local *PIPE;
 
-            open OLDERR, ">&", \*STDERR and $redirect++;
+        if ( open OLDERR, ">&", \*STDERR ) {
+            $redirected++;
             open STDERR, ">/dev/null";
+        }
 
-            if ( open PIPE, '-|', @command ) {         # open without shell
-                @lines = <PIPE>;
-            }
+        $pid = open PIPE, '-|', @command;    # open without shell (forked)
+        if ($pid) {
+            @lines = <PIPE>;
         }
-        else {
-            @lines = qx{$command[0] 2>&1};
-        }
+
         die "(EE) ", @lines if $?;
         alarm 0;
     };
 
     # restore stderr
-    if ($redirect) {
-        open STDERR, ">&OLDERR";
-    }
+    open STDERR, ">&OLDERR" if $redirected;
 
     if ($@) {
-        if ( $@ eq "TIMEOUT\n" ) {
-            warn "(WW) TIMEOUT after $timeout seconds on '@command'\n";
+        if ( $@ =~ /^TIMEOUT/ ) {
+            warn "(WW) TIMEOUT after $timeout seconds on '@command'\n" if $report;
             return undef;
         }
         else {
@@ -260,7 +270,6 @@ sub cmd {
 1;
 
 # --------------------------------------------------------------------------
-
 package Sge;
 use vars qw( $bin );
 
@@ -326,36 +335,66 @@ sub writeCache {
 
 # --------------------------------------------------------------------------
 
+#
+# get and cache 'qstat -f' output
+#
 sub qstatfCacher {
     my $caller    = shift;
     my $cacheFile = shift or return;
 
-    my $lines = Sge->bin(
-        qstat    => qw( -u * -xml -r -f -explain aAcE ),
-        -F       => "load_avg,num_proc",
-      )
+    my @args =
+      ( qw( -u * -xml -r -f -explain aAcE ), -F => "load_avg,num_proc" );
+
+    my $lines = Sge->bin( qstat => @args )
       or return;
+
+    # document the request without affecting the xml structure:
+    # inject the query date and arguments as processing instructions
+    # newer perl can use \K for a variable-length look behind
+    my $date = POSIX::strftime( "%FT%T", localtime );
+    $lines =~ s{^(<\?xml[^\?]+\?>)}{$1\n<?qstat date="$date"?>\n<?qstat command="@args"?>};
 
     Sge->writeCache( $cacheFile, $lines );
 }
 
+#
+# get and cache 'qstat' output (as per qlicserver)
+#
 sub qstatCacher {
     my $caller    = shift;
     my $cacheFile = shift or return;
 
-    my $lines = Sge->bin( qstat => qw( -u * -xml -r -s prs ) ) or return;
+    my @args = qw( -u * -xml -r -s prs );
+    my $lines = Sge->bin( qstat => @args ) or return;
+
+    # document the request without affecting the xml structure:
+    # inject the query date and arguments as processing instructions
+    # newer perl can use \K for a variable-length look behind
+    my $date = POSIX::strftime( "%FT%T", localtime );
+    $lines =~ s{^(<\?xml[^\?]+\?>)}{$1\n<?qstat date="$date"?>\n<?qstat command="@args"?>};
 
     Sge->writeCache( $cacheFile, $lines );
 }
 
+#
+# get and cache 'qhost' output (as per qlicserver)
+#
 sub qhostCacher {
     my $caller    = shift;
     my $cacheFile = shift or return;
 
-    my $lines = Sge->bin( qhost => qw( -q -j -xml ) ) or return;
+    my @args = qw( -q -j -xml );
+    my $lines = Sge->bin( qhost => @args ) or return;
 
     # replace xmlns= with xmlns:xsd=
+    # only needed for older GridEngine versions
     $lines =~ s{\s+xmlns=}{ xmlns:xsd=}s;
+
+    # document the request without affecting the xml structure:
+    # inject the query date and arguments as processing instructions
+    # newer perl can use \K for a variable-length look behind
+    my $date = POSIX::strftime( "%FT%T", localtime );
+    $lines =~ s{^(<\?xml[^\?]+\?>)}{\n<?qhost date="$date"?>\n<?qhost command="@args"?>};
 
     Sge->writeCache( $cacheFile, $lines );
 }

@@ -41,7 +41,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <link rel="icon" type="image/png" href="../images/icons/silk/information.png"/>
+  <link rel="icon" type="image/png" href="../css/screen/icons/information.png"/>
   <title><xsl:value-of select="/content/title"/></title>
 
   &newline;
@@ -59,34 +59,34 @@
 &newline;
 <div id="main">
 <!-- Topomost Logo Div -->
-  <xsl:call-template name="topLogoDefault">
+  <xsl:call-template name="topLogo">
     <xsl:with-param name="relPath" select="'../'" />
   </xsl:call-template>
 &newline;
 <!-- Top Menu Bar -->
 <div id="menu">
   <a href="../" title="home" class="leftSpace"><img
-      src="../images/icons/silk/house.png"
+      src="../css/screen/icons/house.png"
       alt="[home]"
   /></a>
 
   <img alt=" | " src="../css/screen/icon_divider.png" />
   <a href="http://olesenm.github.com/xml-qstat/index.html"
       title="about"><img
-      src="../images/icons/silk/information.png"
+      src="../css/screen/icons/information.png"
       alt="[about]"
   /></a>
 
   <img alt=" | " src="../css/screen/icon_divider.png" />
   <a href="../info/rss-feeds.html"
       title="rss-feeds"><img
-      src="../images/icons/silk/feed.png"
+      src="../css/screen/icons/feed.png"
       alt="[rss feeds]"
   /></a>
 
   <img alt=" | " src="../css/screen/icon_divider.png" />
   <a href="" title="reload"><img
-      src="../images/icons/silk/arrow_refresh_small.png"
+      src="../css/screen/icons/arrow_refresh_small.png"
       alt="[reload]"
   /></a>
 
@@ -154,6 +154,11 @@
   </xsl:element>
   <xsl:apply-templates select="./para"/>
 </xsl:template>
+
+<!-- disable-output-escaping allows us to embed html sequences in CDATA,
+     but is unfortunately not supported in mozilla
+     https://developer.mozilla.org/en/XSL_Transformations_in_Mozilla_FAQ#Can_I_do_disable-output-escaping.3f
+-->
 
 <xsl:template match="para">
   <div class="infoPara">

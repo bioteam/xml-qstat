@@ -19,7 +19,7 @@
 
 <!--
    | define a standard (corporate, institutional) logo to use
-   | - extract @src, @width and @href attributes
+   | - extract @src, @href and @height or @width attributes
 -->
 <xsl:template name="topLogo">
   <xsl:param name="relPath" />
@@ -29,67 +29,54 @@
       select="document('../config/config.xml')/config/topLogo"
       />
 
-  <xsl:choose>
-  <xsl:when test="$topLogo/@src">
-    &newline;
-    <xsl:comment> standard (corporate/institutional) logo </xsl:comment>
-    &newline;
-
-    <div class="topLogo" style="clear:both; text-align:left;">
-    <p>
-      <xsl:element name="a">
-        <xsl:if test="$topLogo/@href">
-          <xsl:attribute name="href">
-            <xsl:value-of select="$topLogo/@href"/>
-          </xsl:attribute>
-        </xsl:if>
-        <xsl:element name="img">
-          <xsl:attribute name="src">
-            <xsl:if test="$relPath"><xsl:value-of select="$relPath"/></xsl:if>
-            <xsl:value-of select="$topLogo/@src"/>
-          </xsl:attribute>
-          <xsl:if test="$topLogo/@width">
-            <xsl:attribute name="width">
-              <xsl:value-of select="$topLogo/@width" />
-            </xsl:attribute>
-          </xsl:if>
-          <xsl:attribute name="alt">logo</xsl:attribute>
-          <xsl:attribute name="border">0</xsl:attribute>
-        </xsl:element>
-      </xsl:element>
-    </p>
-    </div>
-    &newline;
-  </xsl:when>
-  <xsl:otherwise>
-    <xsl:call-template name="topLogoDefault">
-      <xsl:with-param name="relPath" select="$relPath" />
-    </xsl:call-template>
-  </xsl:otherwise>
-  </xsl:choose>
-
-</xsl:template>
-
-
-<!-- define a default xmlqstat logo -->
-<xsl:template name="topLogoDefault">
-  <xsl:param name="relPath" />
-
   &newline;
-  <xsl:comment> xmlqstat logo </xsl:comment>
+  <xsl:comment> standard (corporate/institutional) logo </xsl:comment>
   &newline;
+
   <div class="topLogo" style="clear:both; text-align:left;">
-    <p>
+  <p>
+    <xsl:element name="a">
+      <!-- a href -->
+      <xsl:attribute name="href">
+        <xsl:choose>
+        <xsl:when test="$topLogo/@href">
+          <xsl:value-of select="$topLogo/@href"/>
+        </xsl:when>
+        <xsl:otherwise>#</xsl:otherwise>
+        </xsl:choose>
+      </xsl:attribute>
+
       <xsl:element name="img">
+        <!-- img src -->
         <xsl:attribute name="src">
           <xsl:if test="$relPath"><xsl:value-of select="$relPath"/></xsl:if>
-          <xsl:text>images/xml-qstat-logo.png</xsl:text>
+          <xsl:choose>
+          <xsl:when test="$topLogo/@src">
+            <xsl:value-of select="$topLogo/@src"/>
+          </xsl:when>
+          <xsl:otherwise>config/logo.png</xsl:otherwise>
+          </xsl:choose>
         </xsl:attribute>
-        <xsl:attribute name="width">150</xsl:attribute>
+
+        <!-- img alt -->
         <xsl:attribute name="alt">logo</xsl:attribute>
         <xsl:attribute name="border">0</xsl:attribute>
+
+        <!-- img height -->
+        <xsl:if test="$topLogo/@height">
+          <xsl:attribute name="height">
+            <xsl:value-of select="$topLogo/@height" />
+          </xsl:attribute>
+        </xsl:if>
+        <!-- img width -->
+        <xsl:if test="$topLogo/@width">
+          <xsl:attribute name="width">
+            <xsl:value-of select="$topLogo/@width" />
+          </xsl:attribute>
+        </xsl:if>
       </xsl:element>
-    </p>
+    </xsl:element>
+  </p>
   </div>
   &newline;
 
@@ -108,42 +95,42 @@
 
   <div id="menu">
     <a href="../../" title="clusters" class="leftSpace"><img
-        src="images/icons/silk/house.png"
+        src="css/screen/icons/house.png"
         alt="[home]"
     /></a>
 
     <!-- jobs -->
     <img alt=" | " src="css/screen/icon_divider.png" />
     <a href="jobs" title="jobs"><img
-        src="images/icons/silk/lorry_flatbed.png"
+        src="css/screen/icons/lorry_flatbed.png"
         alt="[jobs]"
     /></a>
 
     <!-- queues?summary -->
     <img alt=" | " src="css/screen/icon_divider.png" />
     <a href="queues?summary" title="queue summary"><img
-        src="images/icons/silk/sum.png"
+        src="css/screen/icons/sum.png"
         alt="[queues summary]"
     /></a>
 
     <!-- queues?free -->
     <img alt=" | " src="css/screen/icon_divider.png" />
     <a href="queues?free" title="queues free"><img
-        src="images/icons/silk/tick.png"
+        src="css/screen/icons/tick.png"
         alt="[queues free]"
     /></a>
 
     <!-- queues?warn -->
     <img alt=" | " src="css/screen/icon_divider.png" />
     <a href="queues?warn" title="warn queues"><img
-        src="images/icons/silk/error.png"
+        src="css/screen/icons/error.png"
         alt="[warn queues]"
     /></a>
 
     <!-- queues -->
     <img alt=" | " src="css/screen/icon_divider.png" />
     <a href="queues" title="queue instances"><img
-        src="images/icons/silk/shape_align_left.png"
+        src="css/screen/icons/shape_align_left.png"
         alt="[queues]"
     /></a>
 
@@ -151,7 +138,7 @@
     <!-- resources -->
     <img alt=" | " src="css/screen/icon_divider.png" />
     <a href="resources" title="resources" ><img
-        src="images/icons/silk/database_key.png"
+        src="css/screen/icons/database_key.png"
         alt="[resources]"
     /></a>
   </xsl:if>
@@ -161,13 +148,13 @@
     <xsl:choose>
     <xsl:when test="$jobinfo = 'less'">
       <a href="jobs" title="jobs"><img
-          src="images/icons/silk/magnifier_zoom_out.png"
+          src="css/screen/icons/magnifier_zoom_out.png"
           alt="[jobs]"
       /></a>
     </xsl:when>
     <xsl:otherwise>
       <a href="jobinfo" title="job details"><img
-          src="images/icons/silk/magnifier_zoom_in.png"
+          src="css/screen/icons/magnifier_zoom_in.png"
           alt="[job details]"
       /></a>
     </xsl:otherwise>
@@ -175,7 +162,7 @@
 
     <img alt=" | " src="css/screen/icon_divider.png" />
     <a href="" title="reload"><img
-        src="images/icons/silk/arrow_refresh_small.png"
+        src="css/screen/icons/arrow_refresh_small.png"
         alt="[reload]"
     /></a>
   </div>
@@ -186,7 +173,7 @@
      this version is for the traditional xmlqstat navigation
      (using qstat -f output)
 -->
-<xsl:template name="xmlqstatMenu">
+<xsl:template name="qstatfMenu">
   <xsl:param name="clusterSuffix" />
   <xsl:param name="jobinfo" />
 
@@ -197,7 +184,7 @@
 
   <div id="menu">
     <a href="./" title="home" class="leftSpace"><img
-        src="images/icons/silk/house.png"
+        src="css/screen/icons/house.png"
         alt="[home]"
     /></a>
 
@@ -206,7 +193,7 @@
       <xsl:attribute name="title">jobs</xsl:attribute>
       <xsl:attribute name="href">jobs<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
       <img
-        src="images/icons/silk/lorry.png"
+        src="css/screen/icons/lorry.png"
         alt="[jobs]"
       />
     </xsl:element>
@@ -216,7 +203,7 @@
       <xsl:attribute name="title">queue instances</xsl:attribute>
       <xsl:attribute name="href">queues<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
       <img
-        src="images/icons/silk/shape_align_left.png"
+        src="css/screen/icons/shape_align_left.png"
         alt="[queue instances]"
       />
     </xsl:element>
@@ -226,7 +213,7 @@
       <xsl:attribute name="title">cluster summary</xsl:attribute>
       <xsl:attribute name="href">summary<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
       <img
-        src="images/icons/silk/sum.png"
+        src="css/screen/icons/sum.png"
         alt="[cluster summary]"
       />
     </xsl:element>
@@ -238,7 +225,7 @@
       <xsl:attribute name="title">resources</xsl:attribute>
       <xsl:attribute name="href">resources<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
       <img
-        src="images/icons/silk/database_key.png"
+        src="css/screen/icons/database_key.png"
         alt="[resources]"
       />
     </xsl:element>
@@ -252,7 +239,7 @@
         <xsl:attribute name="title">jobs</xsl:attribute>
         <xsl:attribute name="href">jobs<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
         <img
-          src="images/icons/silk/magnifier_zoom_out.png"
+          src="css/screen/icons/magnifier_zoom_out.png"
           alt="[jobs]"
         />
       </xsl:element>
@@ -262,7 +249,7 @@
         <xsl:attribute name="title">job details</xsl:attribute>
         <xsl:attribute name="href">jobinfo<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
         <img
-          src="images/icons/silk/magnifier_zoom_in.png"
+          src="css/screen/icons/magnifier_zoom_in.png"
           alt="[jobs]"
         />
       </xsl:element>
@@ -271,7 +258,7 @@
 
     <img alt=" | " src="css/screen/icon_divider.png" />
     <a href="" title="reload"><img
-        src="images/icons/silk/arrow_refresh_small.png"
+        src="css/screen/icons/arrow_refresh_small.png"
         alt="[reload]"
     /></a>
   </div>

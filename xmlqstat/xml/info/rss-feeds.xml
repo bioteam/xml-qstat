@@ -18,9 +18,10 @@ the "to-do" list.
 <para>
 <![CDATA[
   <a href="../feed/overview">
-  <img border="0" align="top" src="../images/atom-rss.png" alt="Atom 1.0 Feed"/></a> &ndash; <a href="../feed/overview">Overview Feed</a> (beta)
+  <img border="0" align="top" src="../css/screen/icons/rss_add.png" alt="Atom 1.0 Feed"/></a> &ndash; <a href="../feed/overview">Overview Feed</a> (beta)
 ]]>
 </para>
+
 </section>
 
 </content>

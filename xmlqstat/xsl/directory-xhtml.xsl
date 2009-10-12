@@ -52,7 +52,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta http-equiv="Refresh" content="60" />
   &newline;
-  <link rel="icon" type="image/png" href="images/icons/silk/folder.png"/>
+  <link rel="icon" type="image/png" href="css/screen/icons/folder.png"/>
   <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
   &newline;
   <title>dir - <xsl:value-of select="$dir"/></title>
@@ -74,7 +74,7 @@
 <!-- Top Menu Bar -->
 &newline;
 <div id="menu">
-  <img class="leftSpace rightSpace" src="images/icons/silk/folder.png"/>
+  <img class="leftSpace rightSpace" src="css/screen/icons/folder.png"/>
   <strong><xsl:value-of select="$dir"/>/</strong>
 </div>
 &newline;

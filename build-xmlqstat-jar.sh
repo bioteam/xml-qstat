@@ -70,7 +70,7 @@ echo "--------"
 
 if
 (
-    cd java/org/xmlqstat/generator/ && \
+    cd java && \
     javac -classpath $MYCLASSPATH CommandGenerator.java
 )
 then
@@ -95,7 +95,7 @@ fi
 echo "[STATUS] Creating clean build-jar/ directory with the org/xmlqstat/generator"
 echo "         directory structure and moving the compiled .class files into it"
 mkdir -p build-jar/org/xmlqstat/generator
-mv -v java/org/xmlqstat/generator/*.class build-jar/org/xmlqstat/generator/
+mv -v java/*.class build-jar/org/xmlqstat/generator/
 
 echo
 echo "[STATUS] Creating the build-jar/xml-qstat.jar file"

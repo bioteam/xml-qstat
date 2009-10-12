@@ -94,7 +94,7 @@
 <head>
   &newline;<xsl:comment> head </xsl:comment>&newline;
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <link rel="icon" type="image/png" href="images/icons/silk/magnifier_zoom_in.png"/>
+  <link rel="icon" type="image/png" href="css/screen/icons/magnifier_zoom_in.png"/>
   &newline;
   <title> job details
   <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
@@ -112,16 +112,15 @@
 
 <div id="main">
 <!-- Topomost Logo Div and Top Menu Bar -->
+<xsl:call-template name="topLogo"/>
 <xsl:choose>
-<xsl:when test="$menuMode='xmlqstat'">
-  <xsl:call-template name="topLogoDefault"/>
-  <xsl:call-template name="xmlqstatMenu">
+<xsl:when test="$menuMode='qstatf'">
+  <xsl:call-template name="qstatfMenu">
     <xsl:with-param name="clusterSuffix" select="$clusterSuffix"/>
     <xsl:with-param name="jobinfo" select="'less'"/>
   </xsl:call-template>
 </xsl:when>
 <xsl:otherwise>
-  <xsl:call-template name="topLogo"/>
   <xsl:call-template name="topMenu">
     <xsl:with-param name="jobinfo" select="'less'"/>
   </xsl:call-template>
@@ -347,7 +346,7 @@
 >
   <xsl:variable name="jobs-href">
     <xsl:choose>
-    <xsl:when test="$menuMode='xmlqstat'">
+    <xsl:when test="$menuMode='qstatf'">
       jobs<xsl:value-of select="$clusterSuffix"/>?<xsl:value-of select="JB_owner"/>
     </xsl:when>
     <xsl:otherwise>jobs?user=<xsl:value-of select="JB_owner"/></xsl:otherwise>
@@ -845,7 +844,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
     <xsl:attribute name="href"><xsl:value-of
         select="$viewlog"/>?<xsl:value-of
         select="$request"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
-    <img alt="[v]" src="images/icons/silk/page_find.png" border="0" />
+    <img alt="[v]" src="css/screen/icons/page_find.png" border="0" />
   </xsl:element>
 
   <!-- url viewlog?action=plot&jobid=...&resources={resources} -->
@@ -854,7 +853,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
     <xsl:attribute name="href"><xsl:value-of
         select="$viewlog"/>?action=plot<xsl:text>&amp;</xsl:text><xsl:value-of
         select="$request"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
-    <img alt="[p]" src="images/icons/silk/chart_curve.png" border="0" />
+    <img alt="[p]" src="css/screen/icons/chart_curve.png" border="0" />
   </xsl:element>
 
   <!-- url viewlog?action=plot&owner=...&resources={resources} -->
@@ -864,7 +863,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
         select="$viewlog"/>?action=plot<xsl:text>&amp;</xsl:text>owner=<xsl:value-of
         select="../JB_owner"/><xsl:text>&amp;</xsl:text>resources=<xsl:value-of
         select="$resources"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
-    <img alt="[P]" src="images/icons/silk/chart_curve_add.png" border="0" />
+    <img alt="[P]" src="css/screen/icons/chart_curve_add.png" border="0" />
   </xsl:element>
 </xsl:if>
 </xsl:template>

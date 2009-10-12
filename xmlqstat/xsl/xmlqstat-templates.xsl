@@ -133,12 +133,12 @@
     <xsl:element name="a">
       <xsl:attribute name="href">#</xsl:attribute>
       <xsl:attribute name="onclick">javascript:setDiv('<xsl:value-of select="$name"/>',false)</xsl:attribute>
-      <img border="0" src="images/icons/silk/bullet_toggle_minus.png" alt="[hide]" title="hide" />
+      <img border="0" src="css/screen/icons/bullet_toggle_minus.png" alt="[hide]" title="hide" />
     </xsl:element>
     <xsl:element name="a">
       <xsl:attribute name="href">#</xsl:attribute>
       <xsl:attribute name="onclick">javascript:setDiv('<xsl:value-of select="$name"/>',true)</xsl:attribute>
-      <img border="0" src="images/icons/silk/bullet_toggle_plus.png" alt="[show]" title="show" />
+      <img border="0" src="css/screen/icons/bullet_toggle_plus.png" alt="[show]" title="show" />
     </xsl:element>
   </div>
 </xsl:template>
@@ -377,7 +377,7 @@
   <xsl:element name="img">
     <xsl:attribute name="title"><xsl:value-of select="$state"/></xsl:attribute>
     <xsl:attribute name="alt">(<xsl:value-of select="$state"/>) </xsl:attribute>
-    <xsl:attribute name="src">images/icons/silk/<xsl:choose>
+    <xsl:attribute name="src">css/screen/icons/<xsl:choose>
       <xsl:when test="contains($state, 'd')">delete.png</xsl:when>
       <xsl:when test="contains($state, 'E')">exclamation.png</xsl:when>
       <xsl:when test="contains($state, 'u')">cross.png</xsl:when>
