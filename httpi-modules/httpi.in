@@ -1,5 +1,6 @@
 ~check ISNTINSTALLEDYET
 ();
+# -*- perl -*-  ##<xmlqstat/>## - editor hint
 sub BEGIN { die(<<"EOF");
 
 
@@ -15,7 +16,7 @@ EOF
 ~
 #!DEF_PERL
 ~check MUSEPOSIX
-use POSIX;
+use POSIX ();  ##<xmlqstat/>## - don't import all POSIX symbols
 ~
 $ENV{'PERL_SIGNALS'} = "unsafe";
 ~
@@ -58,7 +59,7 @@ $VERSION = "1.6.1 (DEF_CONF_TYPE/DEF_ARCH)";
 	 "au" => "audio/basic",
 	 "aif" => "audio/x-aiff",
 	 "aiff" => "audio/x-aiff",
-	 "ogg" => "audio/x-ogg", 
+	 "ogg" => "audio/x-ogg",
 	 "oga" => "audio/x-ogg",
 	 "mid" => "audio/midi",
 	 "wma" => "audio/x-ms-wma",
@@ -103,6 +104,19 @@ $VERSION = "1.6.1 (DEF_CONF_TYPE/DEF_ARCH)";
 
 $logfile = "DEF_ACCESS_LOG";
 $path = "DEF_HTDOCS_PATH";
+##<xmlqstat>## - early binding for server host and port
+$server_host = "DEF_SERVER_HOST";
+~check MUSEPOSIX
+# we might also wish to get the hostname automatically
+# by using (POSIX::uname())[1]
+if ( $server_host =~ /POSIX::/ )
+{
+    eval { $server_host = DEF_SERVER_HOST };
+}
+~
+~
+$server_port = "DEF_TCP_PORT";
+##</xmlqstat>##
 $sockaddr = 'S n a4 x8';
 
 ~insert uservar.in
@@ -127,12 +141,13 @@ while (($file, $arrayref) = each(%virtual_files)) {
 ~check MDEMONIC
 if ($pid = fork()) { exit; }
 $0 = "dhttpi: binding port ...";
-$bindthis = pack($sockaddr, DEF_AF_INET, DEF_TCP_PORT, DEF_INADDR_ANY);
+$bindthis = pack($sockaddr, DEF_AF_INET, $server_port, DEF_INADDR_ANY);  ##<xmlqstat/>##
+
 socket(S, DEF_PF_INET, DEF_SOCK_STREAM, DEF_IPPROTO_TCP);
 setsockopt(S, DEF_SOL_SOCKET, DEF_SO_REUSEADDR, 1);
-bind(S, $bindthis) || die("$0: while binding port DEF_TCP_PORT:\n\"$!\"\n");
+bind(S, $bindthis) || die("$0: while binding port $server_port:\n\"$!\"\n");  ##<xmlqstat/>##
 listen(S, DEF_SOMAXCONN);
-$0 = "dhttpi: connected and waiting DEF_IP_ADDR:DEF_TCP_PORT";
+$0 = "dhttpi: connected and waiting DEF_IP_ADDR:$server_port";  ##<xmlqstat/>##
 ~
 $0 = "httpi: handling request";
 ~
@@ -305,10 +320,12 @@ EOF
 sub defaultsignals {
 	$SIG{'__DIE__'} = \&dead;
 ~check MUSEPOSIX
-	sigaction SIGALRM, new POSIX::SigAction \&bye
+        ##<xmlqstat>## - POSIX namespace
+	POSIX::sigaction SIGALRM, new POSIX::SigAction \&bye
 		or die "sigalrm failed: $!\n";
-	sigaction SIGTERM, new POSIX::SigAction \&byebye
+	POSIX::sigaction SIGTERM, new POSIX::SigAction \&byebye
 		or die "sigterm failed: $!\n";
+        ##</xmlqstat>##
 ~
 	$SIG{'ALRM'} = \&bye;
 	$SIG{'TERM'} = \&byebye;
@@ -319,7 +336,7 @@ sub defaultsignals {
 sub alarmsignals {
 	undef $SIG{'__DIE__'};
 ~check MUSEPOSIX
-	sigaction SIGALRM, new POSIX::SigAction sub { die; }
+	POSIX::sigaction SIGALRM, new POSIX::SigAction sub { die; }
 		or die "sigalrm failed: $!\n";
 ~
 	$SIG{'ALRM'} = sub { die; };
@@ -347,9 +364,9 @@ $date = scalar localtime;
 	m/(...) (...) (..) (..:..:..) (....)/);
 $dt += 0;
 $dt = substr("0$dt", length("0$dt") - 2, 2);
-$date = "$dt/$mon/$yr:$tm DEF_TIME_ZONE"; 
+$date = "$dt/$mon/$yr:$tm DEF_TIME_ZONE";
 
-select(STDOUT); $|=1; $address = 0; 
+select(STDOUT); $|=1; $address = 0;
 ~check MCANALARM
 alarm 5;
 ~
@@ -357,7 +374,7 @@ alarm 5;
 while (<STDIN>) {
 	if(/^([A-Z]+)\s+([^\s]+)\s+([^\s\r\l\n]*)/) {
 		$method = $1;
-		$address = $2; 
+		$address = $2;
 		$httpver = $3;
 		$httpref = '';
 		$httpua = '';
@@ -418,7 +435,7 @@ while (<STDIN>) {
 		&log; exit;
 	}
 ~check NAMEREDIR
-	if ($httphost && $httphost ne 'DEF_SERVER_HOST') {
+	if ($httphost && $httphost ne $server_host) {  ##<xmlqstat/>##
 		if ($nameredir{$httphost}) {
 			&hterror301("$nameredir{$httphost}$address");
 		}
@@ -528,14 +545,14 @@ EOF
 <html>
 <head>
 <title>
-HTTPi Status for Server DEF_SERVER_HOST
+HTTPi Status for Server $server_host
 </title>
 <meta name="robots" content="noindex,nofollow">
 <META NAME="Googlebot" CONTENT="noindex,nofollow">
 </head>
 <body bgcolor = "#ffffff" text = "#000000" vlink = "#0000ff" link = "#0000ff">
 <h1>HTTPi Server Status (<code>$VERSION</code>)</h1>
-<h3><code>DEF_SERVER_HOST</code> on DEF_IP_ADDR:DEF_TCP_PORT</h3>
+<h3><code>$server_host</code> on DEF_IP_ADDR:$server_port</h3>
 <b>Started at:</b> $suptime<br>
 <b>Uptime:</b> $d days, $h:$m:$s<br>
 <b>Previous request time:</b> $statiosltr<br>
@@ -582,9 +599,9 @@ EOF
 ~
 	1 while ($raddress =~ s#//#/#);
 ~check MDEMONIC
-	&hterror301("http://DEF_SERVER_HOST:DEF_TCP_PORT$address/")
+	&hterror301("http://$server_host:$server_port$address/")  ##<xmlqstat/>##
 ~
-	&hterror301("http://DEF_SERVER_HOST$address/")
+	&hterror301("http://$server_host$address/")  ##<xmlqstat/>##
 ~
 		if ($address !~ m#/$# && -d $raddress);
 	$raddress = (-r "${raddress}index.shtml") ?
@@ -592,7 +609,7 @@ EOF
 			if (-d $raddress);
 	IRED: ($hostname, $port, $ip) = &sock_to_host();
 	if(!sysopen(S, $raddress, 0)) { &hterror404; } else {
-		if ((-x $raddress) 
+		if ((-x $raddress)
 ~check CGIEXT
 	&& ($raddress =~ /[\-\._](exe|[ckpba]*sh|p[er]*l|cgi|cmd|com)$/i)
 ~
@@ -600,16 +617,16 @@ EOF
 			) {
 			$currentcode = 100; &log; &nsecmodel;
 			$ENV{'REQUEST_METHOD'} = $method;
-			$ENV{'SERVER_NAME'} = "DEF_SERVER_HOST";
+			$ENV{'SERVER_NAME'} = $server_host;  ##<xmlqstat/>##
 			$ENV{'SERVER_PROTOCOL'} = "HTTP/$httpver";
 			$ENV{'SERVER_SOFTWARE'} = "HTTPi/$VERSION";
 ~check MDEMONIC
-			$ENV{'SERVER_PORT'} = "DEF_TCP_PORT";
-			$ENV{'SERVER_URL'} = "http://DEF_SERVER_HOST:DEF_TCP_PORT/";
+			$ENV{'SERVER_PORT'} = $server_port;  ##<xmlqstat/>##
+			$ENV{'SERVER_URL'} = "http://$ENV{'SERVER_PORT'}:$ENV{'SERVER_PORT'}/";  ##<xmlqstat/>##
 ~
 			($x, $ENV{'SERVER_PORT'}, $x, $x) = unpack($sockaddr,
 				getsockname(STDIN));
-			$ENV{'SERVER_URL'} = "http://DEF_SERVER_HOST:$ENV{'SERVER_PORT'}/";
+			$ENV{'SERVER_URL'} = "http://$ENV{'SERVER_PORT'}:$ENV{'SERVER_PORT'}/";  ##<xmlqstat/>##
 ~
 			$ENV{'SCRIPT_FILENAME'} = $raddress;
 			$ENV{'SCRIPT_NAME'} = $address;
@@ -655,7 +672,7 @@ EOF
 			}
 		}
 		$mtime = &rfctime($mtime);
-SERVEIT:	
+SERVEIT:
 		if ($mtime eq $modsince) {
 			&htsponse(304, "Not Modified");
 			&hthead("Last-Modified: $mtime", 1);
@@ -796,7 +813,7 @@ $statiosmaxsec = $statioslastsec = $statiosreq = 1;
 ~
 ~
 ~check MDEMONIC
-$0 = "dhttpi: on DEF_IP_ADDR:DEF_TCP_PORT, ready!";
+$0 = "dhttpi: on DEF_IP_ADDR:$server_port, ready!";   ##<xmlqstat/>##
 $master_pid = $$;
 for (;;) {
 ~
@@ -822,7 +839,7 @@ for (;;) {
 ~
 ~
 ~check MDEMONIC
-		$0 = "dhttpi: on DEF_IP_ADDR:DEF_TCP_PORT, last request " .
+		$0 = "dhttpi: on DEF_IP_ADDR:$server_port, last request " .  ##<xmlqstat/>##
 			scalar localtime;
 	} else {
 		$0 = "dhttpi (child of $master_pid): waiting for connect";

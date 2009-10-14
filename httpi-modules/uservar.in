@@ -1,3 +1,4 @@
+# -*- perl -*-  ##<xmlqstat/>## - editor hint
 ~check MFALSE
 
 This is the user variables file rolled into HTTPi at configure-time.
@@ -24,14 +25,16 @@ they'll just override all the types they'll define with the same MIME type.
 ~
 ~
 	("html" => "text/html",
-	 "htm" => "text/html");
+	 "htm" => "text/html",
+	 "xsl" => "text/xsl",    ##<xmlqstat/>## - missing type for xsl
+         );
 ~check MFALSE
 
 *** The restrictions matrix is documented in the manual. The keys are the
     filepaths and the values are the matrices themselves.
 
 *** The host redirect matrix is also documented, the keys being the simulated
-    host names and the values being the redirect prefix. 
+    host names and the values being the redirect prefix.
 
 ### THESE ARE JUST EXAMPLES: YOU SHOULD CHANGE TO YOUR OWN. :-) IF YOU AREN'T
     USING THE RESTRICTIONS MATRIX AND/OR HOST REDIRECTION, THEY WILL BE
@@ -85,3 +88,86 @@ Demonic feature only; xinetd/inetd/etc. need not apply.
 	);
 ~
 ~
+
+##<xmlqstat>## - variables for /xmlqstat resource handler
+#
+################################################################################
+################################################################################
+# CUSTOMIZE THIS TO MATCH YOUR REQUIREMENTS:
+#
+
+# the base location of the xmlqstat distribution
+my $resourceRoot = "/export/home/mark/xml-qstat";
+
+# timeout for system command like qstat -j etc.
+my $shellCmdTimeout = 10;
+
+#
+# END OF CUSTOMIZE SETTINGS
+################################################################################
+################################################################################
+
+my $resourceName = "xmlqstat";           # don't touch this
+my %clusterPaths = ( "#mtime#" => 0 );
+
+# forward declaration of sub
+sub gridEngineCmd;
+
+# define callbacks for GridEngine commands
+# the names correspond to the internal resource mapping and to the xml file
+# -----------------
+my %gridEngineQuery = (
+    qhost => sub {
+        my ($cluster) = @_;
+        gridEngineCmd( $cluster, qhost => qw( -xml -q -j ) );
+    },
+    qstat => sub {
+        my ($cluster) = @_;
+        gridEngineCmd( $cluster, qstat => qw( -xml -u * -r -s prs ) );
+    },
+    qstatf => sub {
+        my ($cluster) = @_;
+        gridEngineCmd(
+            $cluster,
+            qstat => qw( -xml -u * -r -f -explain aAcE ),
+            ( -F => "load_avg,num_proc" )
+        );
+    },
+    qstatj => sub {
+        my ( $cluster, $jobId ) = @_;
+        $jobId and $jobId =~ /^\d+$/ or $jobId = '*';
+
+        gridEngineCmd( $cluster, qstat => qw( -xml -j ), $jobId );
+    },
+);
+
+
+#
+# something like what the GridEngine util/arch script returns
+# But we only deal with OS's where we can skip setting LD_LIBRARY_PATH
+# (which limits it to Linux and Solaris) and further limit it to architectures
+# that I have for testing (which limits it to Linux).
+
+# use an array, since we might need fallback values
+my @sge_arch;
+if ( exists $ENV{SGE_ARCH} and defined $ENV{SGE_ARCH} ) {
+    @sge_arch = $ENV{SGE_ARCH};
+}
+else {
+    my ( $sysname, undef, $release, undef, $machine ) = POSIX::uname();
+    if ( $sysname =~ /Linux/ ) {
+        $machine =~ s{^i.*86$}{x86} or $machine =~ s{^x86_64$}{amd64};
+
+        my @a;
+        if ( $release =~ m{^2\.6} ) {
+            @a = qw( lx26 lx24 );
+        }
+        elsif ( $release =~ m{^2\.4} ) {
+            @a = qw( lx24 );
+        }
+
+        @sge_arch = map { "$_-$machine" } @a;
+    }
+}
+
+##</xmlqstat>##

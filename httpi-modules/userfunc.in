@@ -1,3 +1,4 @@
+# -*- perl -*-  ##<xmlqstat/>## - editor hint
 ~check MFALSE
 
 User-customizable functions that you can use to change and modify HTTPi's
@@ -39,4 +40,437 @@ sub hterror301 {
 		"This resource has moved <a href = \"@_\">here</a>.");
 	&log; exit;
 }
+
+##<xmlqstat>## - functions for /xmlqstat resource handler
+#
+{
+    use warnings;
+    use strict;
+
+    #
+    # like hterror404, but with our own message content
+    #
+    sub customError404 {
+        &htsponse( 404 => "File Not Found" );
+        &hterror( "Resource Not Found", "@_" );
+        &log;
+        exit;
+    }
+
+    #
+    # extract attrib="value" ... attrib="value"
+    #
+    sub parseXMLattrib {
+        my $str = shift || '';
+        my %attr;
+
+        while ($str =~ s{^\s*(\w+)=\"([^\"]*)\"}{}s
+            or $str =~ s{^\s*(\w+)=\'([^\']*)\'}{}s )
+        {
+            $attr{$1} = $2;
+        }
+
+        %attr;
+    }
+
+    #
+    # parse request string
+    # placed named parameters in \%param and unnamed parameters in \%switch
+    #
+    # Prototype xmlProlog( \%param, \%switch )
+    # ---------------------------------------------
+    sub parseRequestString {
+        my ( $param, $switch ) = @_;
+
+        # reset
+        %$param  = ();
+        %$switch = ();
+
+        if ( defined $::variables ) {
+            for ( grep { defined and length } split /\&/, $::variables ) {
+                ## decode chars, eg %20 -> space etc
+                s{%([\dA-Fa-f]{2})}{chr hex $1}eg;
+
+                ## remove meta-chars
+                s{[*?&<>{}\[\]\\\`]}{}g;
+
+                if (/=/) {
+                    my ( $k, $v ) = split /=/;
+                    ## remove leading/trailing commas
+                    $v =~ s{^,+|,+$}{}g;
+                    $param->{$k} = $v;
+                }
+                else {
+                    $switch->{$_}++;
+                }
+            }
+        }
+    }
+
+    #
+    # get cluster settings from config/config.xml file
+    #
+    sub updateClusterConfig {
+        my $configFile = "$resourceRoot/$resourceName/config/config.xml";
+
+        my ($mtime) = ( lstat $configFile )[9] || 0;
+
+        local ( *CONFIG, $_, $/ );    ## slurp mode
+        if (    $mtime
+            and $mtime > ( $clusterPaths{"#mtime#"} ||= 0 )
+            and -f $configFile
+            and open CONFIG, $configFile )
+        {
+
+            # reset paths, assign new modification time
+            %clusterPaths = ( "#mtime#" => $mtime );
+
+            # slurp file and strip out all xml comments
+            $_ = <CONFIG>;
+            s{<!--.*?-->\s*}{}sg;
+
+            ## process <cluster .../> and <cluster ...> .. </cluster>
+            while (s{<cluster \s+([^<>]+?) />}{}sx
+                or s{<cluster \s+([^<>]+) > (.*?) </cluster>}{}sx )
+            {
+                my ( $attr, $uri ) = ( $1, $2 );
+
+                my %attr = parseXMLattrib($attr);
+                my $name = delete $attr{name};
+
+                if ( defined $name ) {
+                    $clusterPaths{$name} = {%attr};
+
+                    ## this needs more work (haven't decided what we want yet)
+                    $uri =~ s/^\s+|\s+//g if $uri;
+                    if ($uri) {
+                        $clusterPaths{$name}{uri} = $uri;
+                    }
+                }
+            }
+        }
+    }
+
+    #
+    # output <?xml .. ?> processing-instruction
+    # with mozilla-style <?xslt-param name=.. ?> processing-instructions
+    # and  <?stylesheet ... ?> processing-instruction
+    #
+    # Prototype xmlProlog( param => value, ... )
+    # ---------------------------------------------
+    sub xmlProlog {
+        my %xsltParam = @_;
+
+        # special treatment for these
+        my $encoding = delete $xsltParam{encoding} || "utf-8";
+        my $disabled   = delete $xsltParam{rawxml} ? "disabled-" : "";
+        my $stylesheet = delete $xsltParam{stylesheet};
+
+        my $prolog = qq{<?xml version="1.0" encoding="$encoding"?>\n};
+        for ( keys %xsltParam ) {
+            if ( defined $xsltParam{$_} and length $xsltParam{$_} ) {
+                $prolog .=
+                  qq{<?xslt-param name="$_" value="$xsltParam{$_}"?>\n};
+            }
+        }
+
+        if ($stylesheet) {
+            $prolog .=
+qq{<?${disabled}xml-stylesheet type="text/xml" href="$stylesheet"?>\n};
+        }
+
+        $prolog;
+    }
+
+    #
+    # simple wrapper to join the args and return text/xml
+    # without forgetting to log and exit
+    # ---------------------------------------------
+    sub returnXML {
+        &htsponse( 200 => "OK" );
+        &htcontent( join( '' => @_ ), "text/xml" );
+
+        &log;
+        exit;
+    }
+
+    #
+    # get xml content from an file and stripping the <?xml ... ?>
+    # processing-instructions, since the file contents are likely to be
+    # inserted after a stylesheet instruction
+    #
+    # Prototype xmlFromFile( fileName )
+    # ---------------------------------------------
+    sub xmlFromFile {
+        my ($fileName) = @_;
+        my $mainDir = "$resourceRoot/$resourceName";
+
+        my $content;
+
+        local ( *XMLFILE, $/ );    ## slurp mode
+        if ( open XMLFILE, "$mainDir/$fileName" ) {
+            $content = <XMLFILE>;
+
+            # strip <?xml version="1.0" encoding="utf-8"?>}
+            $content =~ s{^\s*<\?xml[^?]+\?>\s*}{}sx;
+
+            # we could also do a simple check for non-truncated content
+        }
+
+        $content ? $content : "<fileNotFound>$_</fileNotFound>\n";
+    }
+
+    #
+    # provide similar output to Apache Cocoon Directory Generator
+    # but with depth=1 and limited to (xml|xsl) files
+    # didn't bother full compatibility, attributes etc, since none of
+    # it is used in our transformations
+    #
+    # ---------------------------------------------
+    sub directoryGenerator {
+        my $mainDir = "$resourceRoot/$resourceName";
+        my ($src) = @_;
+
+        my $content =
+qq{<dir:directory xmlns:dir="http://apache.org/cocoon/directory/2.0" name="$src">\n};
+
+        local ( *DIR, *SUBDIR );
+        if ( opendir DIR, "$mainDir/$src" ) {
+            while ( my $f = readdir DIR ) {
+                if ( -f "$mainDir/$src/$f" and $f =~ /\.(xml|xsl)$/ ) {
+                    $content .= qq{<dir:file name="$f"/>\n};
+                }
+            }
+        }
+
+        qq{$content</dir:directory>\n};
+    }
+
+    # special purpose Directory Generator
+    #
+    # max depth=2, limit first level to cache, cache-* directories
+    # and limit second level to (xml) files
+    #
+    # ---------------------------------------------
+    sub directoryGeneratorCacheFiles {
+        my $mainDir = "$resourceRoot/$resourceName";
+
+        my $content =
+qq{<dir:directory xmlns:dir="http://apache.org/cocoon/directory/2.0">\n};
+
+        local ( *DIR, *SUBDIR );
+        if ( opendir DIR, $mainDir ) {
+            while ( my $subDir = readdir DIR ) {
+                my $thisDir = "$mainDir/$subDir";
+                if ( $subDir =~ /^cache(-.+)?$/ and -d $thisDir ) {
+                    $content .= qq{<dir:directory name="$subDir">\n};
+
+                    if ( opendir SUBDIR, $thisDir ) {
+                        while ( my $f = readdir SUBDIR ) {
+                            if ( $f =~ /^.+\.xml$/ and -f "$thisDir/$f" ) {
+                                $content .= qq{<dir:file name="$f"/>\n};
+                            }
+                        }
+                    }
+                    $content .= qq{</dir:directory>\n};
+                }
+            }
+        }
+
+        qq{$content</dir:directory>\n};
+    }
+
+    #
+    # execute a shell-type of command with a error 404 on timeout or other error
+    #
+    # ---------------------------------------------
+    sub shellCmd {
+        my $timeout = 5;
+        my ( $caller, @command ) = @_;
+        my ( @lines, $redirected, $pid );
+
+        @command or die "$caller: Shell->cmd with an undefined query\n";
+
+        local ( *OLDERR, $@ );
+        local $SIG{'__DIE__'} = sub {
+
+            # kill off truant child as well
+            kill 9, $pid if $pid;
+
+            &customError404(<<"CONTENT");
+Resource <b>$::address</b> &ndash;
+Timeout or error when executing command :
+<blockquote><pre>@command<pre></blockquote>
+CONTENT
+        };
+
+        eval {
+            local $SIG{ALRM} = sub { die "TIMEOUT\n"; };    # NB: '\n' required
+            alarm $shellCmdTimeout if $shellCmdTimeout;
+
+            local *PIPE;
+            open OLDERR, ">&", \*STDERR and $redirected++;
+            open STDERR, ">/dev/null";
+
+            # open without shell (fork)
+            $pid = open PIPE, '-|', @command;
+            if ($pid) {
+                @lines = <PIPE>;
+            }
+
+            die "(EE) ", @lines if $?;
+            alarm 0;
+        };
+
+        # restore stderr
+        open STDERR, ">&OLDERR" if $redirected;
+
+        # eval errors are handled via the previous die handler
+        wantarray ? @lines : join '' => @lines;
+    }
+
+    #
+    # execute <sge_root>/bin/<sge_arch>/cmd with a timeout
+    # for security, only allow absolute paths
+    #
+    # Prototype gridEngineCmd( clusterName, command => [command args] )
+    #
+    # %clusterPaths must be up-to-date before calling
+    # ---------------------------------------------
+    sub gridEngineCmd {
+        my ( $cluster, $cmd, @cmdArgs ) = @_;
+        my ( $root, $cell );
+
+        # get root/cell from config information
+        if ( $cluster and $cluster ne "*" ) {
+            if (    exists $clusterPaths{$cluster}
+                and exists $clusterPaths{$cluster}{root} )
+            {
+                $root = $clusterPaths{$cluster}{root};
+                $cell = $clusterPaths{$cluster}{cell};
+            }
+        }
+        else {
+            $cluster ||= "";
+            $root = $ENV{SGE_ROOT}  if exists $ENV{SGE_ROOT};
+            $cell = $ENV{SGE_CELLT} if exists $ENV{SGE_CELL};
+        }
+
+        $cmd or die "gridEngineCmd called without a command\n";
+
+        unless ( defined $root ) {
+            &customError404(<<"CONTENT");
+Resource <b>$::address</b> &ndash;
+Undefined SGE_ROOT for cluster <em>$cluster</em> while executing command :
+<blockquote><pre>$cmd @cmdArgs<pre></blockquote>
+CONTENT
+        }
+
+        #
+        # resolve cmd in the <sge_root>/bin/<sge_arch>/ directory
+        #
+        my $cmdPath;
+        if ( -d $root ) {
+            for (@sge_arch) {
+                my $x = "$root/bin/$_/$cmd";
+                if ( -f $x and -x $x ) {
+                    $cmdPath = $x;
+                    last;
+                }
+            }
+        }
+
+        # not found? error!
+        unless ( defined $cmdPath ) {
+            my $bindirs = "bin/";
+            if ( @sge_arch > 1 ) {
+                $bindirs .= "{" . join( "," => @sge_arch ) . "}";
+            }
+
+            &customError404(<<"CONTENT");
+Resource <b>$::address</b> &ndash; for cluster <em>$cluster</em>
+(<tt>SGE_ROOT=$root</tt>),<br/>
+but could not resolve command in <tt>$root/$bindirs</tt>
+<blockquote><pre>$cmd @cmdArgs<pre></blockquote>
+CONTENT
+        }
+
+        local *ENV;
+        $ENV{SGE_ROOT} = $root;
+        $ENV{SGE_CELL} = $cell || "default";    # fallback
+
+        # first argument is a currently just a dummy (OO-remnant)
+        shellCmd( "gridEngineCmd", $cmdPath, @cmdArgs );
+    }
+
+    #
+    # Search cache-{clusterName}/ and cache/ for cache files. If this
+    # fails, attempt the fallback command which can be a code or array
+    # reference
+    #
+    # Prototype xmlFromCache( clusterName, cacheName => [command] )
+    #
+    # ---------------------------------------------
+    sub xmlFromCache {
+        my ( $clusterName, $cacheName, $altCmd, @cmdArgs ) = @_;
+        my $mainDir = "$resourceRoot/$resourceName";
+
+        my @errors;
+
+        $cacheName =~ s{\.xml$}{};
+
+        my $cacheFile;
+        for (
+            $clusterName
+            ? (
+                "cache-$clusterName/$cacheName", "cache/$cacheName~$clusterName"
+            )
+            : ("cache/$cacheName")
+          )
+        {
+            my $x = "$mainDir/$_.xml";
+
+            if ( -f $x ) {
+                $cacheFile = $x;
+                last;
+            }
+        }
+
+        my $content;
+
+        if ($cacheFile) {
+            local ( *XMLFILE, $/ );    ## slurp mode
+            if ( open XMLFILE, $cacheFile ) {
+                $content = <XMLFILE>;
+            }
+        }
+        elsif ($altCmd) {
+            my $refType = ref $altCmd;
+
+            if ( $refType eq "CODE" ) {
+                ## code ref gets called directly
+                $content = &$altCmd(@cmdArgs);
+            }
+            elsif ( $refType eq "ARRAY" ) {
+                ## array ref gets called via command generator
+                $content = shellCmd( "command-generator", @$altCmd, @cmdArgs );
+            }
+        }
+
+        if ($content) {
+
+            # strip <?xml ...?> # or have problems later!
+            $content =~ s{^\s*<\?xml[^?]+\?>\s*}{}sx;
+
+            # we could also do a simple check for non-truncated content?
+        }
+        else {
+            &customError404("Cannot resolve resource <b>$::address</b>");
+        }
+
+        $content;
+    }
+}
+
+##</xmlqstat>##
 

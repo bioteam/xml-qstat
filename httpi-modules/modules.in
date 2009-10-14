@@ -1,3 +1,4 @@
+# -*- perl -*-  ##<xmlqstat/>## - editor hint
 ~check MFALSE
 
 Add your modules to the end of this file. See the Programming Manual for
@@ -6,3 +7,379 @@ how to write your own custom HTTPi modules.
 ~
 ~
 
+##<xmlqstat>## - /xmlqstat resource handler
+#
+
+if ( $::address =~ m{^/xmlqstat(?:/|$)} ) {
+    use warnings;
+    use strict;
+
+    my $newPath = $resourceRoot;
+
+    # place named parameters in %param and unnamed parameters in %switch
+    my ( %param, %switch );
+    parseRequestString( \%param, \%switch );
+
+    #
+    # basic xslt parameters
+    #
+    my %xsltParam =
+      ( timestamp => POSIX::strftime( "%Y-%m-%d %H:%M:%S", localtime ), );
+
+    if ( exists $switch{rawxml} or delete $param{rawxml} ) {
+        $xsltParam{rawxml} = "true";
+    }
+
+    #
+    # re-direct rules first
+    #
+
+    #    /xmlqstat
+    # or /xmlqstat/cluster/
+    # -> /xmlqstat/cluster
+    if (   $::address =~ m{^/xmlqstat/*$}
+        or $::address =~ m{^/xmlqstat/cluster/+$} )
+    {
+        $::address =~ s{/+$}{};
+        &hterror301("/xmlqstat/cluster");
+    }
+
+    #    /xmlqstat/cluster/{clusterName}
+    # -> /xmlqstat/cluster/{clusterName}/jobs
+    if ( $::address =~ m{^/xmlqstat/cluster/([^\s/]+?)/*$} ) {
+        $::address =~ s{/+$}{};
+        &hterror301("$::address/jobs");
+    }
+
+    # path rewriting for static files
+    if ( $::address =~ m{^/xmlqstat/(?:css|xsl|config|javascript)/.+$} ) {
+        $::path = $newPath;
+        goto XMLQSTAT_DONE;
+    }
+
+    # path rewriting for static files - avoid relative roots
+    # path rewriting for static files - avoid relative roots
+    #
+    #    /xmlqstat/.../css/.../*.(css|png)
+    #    /xmlqstat/..../javascript/*.js
+    #    /xmlqstat/..../xsl/*.xsl
+    # etc
+    # -> /xmlqstat/css/.../*.(css|png) etc
+    if ( $::address =~
+        m{^/xmlqstat/.*/((?:config|css|x[ms]l)/.+\.(?:css|png|x[ms]l))$}
+        or $::address =~ m{^/xmlqstat/.*/(javascript/.+\.js)$} )
+    {
+        ( $::path, $::address ) = ( $newPath, "/xmlqstat/$1" );
+        goto XMLQSTAT_DONE;
+    }
+
+    #
+    #  /xmlqstat/cluster
+    #
+    if ( $::address eq "/xmlqstat/cluster" ) {
+        returnXML(
+            xmlProlog(
+                %xsltParam,    #
+                "server-info" => "HTTPi/$::VERSION",
+                stylesheet    => "xsl/index-xhtml.xsl",
+            ),
+            directoryGeneratorCacheFiles()
+        );
+    }
+
+    #
+    #  /xmlqstat/cache
+    #
+    if ( $::address eq "/xmlqstat/cache" ) {
+        returnXML(
+            xmlProlog(%xsltParam),    #
+            directoryGeneratorCacheFiles()
+        );
+    }
+
+    #
+    #  /xmlqstat/test
+    #
+    if ( $::address eq "/xmlqstat/test" ) {
+        returnXML(
+            xmlProlog(
+                %xsltParam,           #
+                stylesheet => "xsl/test-xhtml.xsl",
+            ),
+            "<xmlqstat-test/>"
+        );
+    }
+
+    updateClusterConfig();
+
+    # create directory listings
+    if ( $::address =~ m{^/xmlqstat/(config|xsl)$} ) {
+        my $dir = $1;
+
+        returnXML(
+            xmlProlog(
+                %xsltParam,    #
+                stylesheet => "./xsl/directory-xhtml.xsl",
+            ),
+            directoryGenerator($dir)
+        );
+    }
+
+    #
+    # /xmlqstat/sitemap.xmap
+    # display cocoon sitemap
+    if ( $::address eq "/xmlqstat/sitemap.xmap" ) {
+        returnXML(
+            xmlProlog(%xsltParam),    #
+            xmlFromFile("sitemap.xmap")
+        );
+    }
+
+    #
+    # /xmlqstat/info/*
+    #
+    if ( $::address =~ m{^/xmlqstat/(info/.+)\.html$} ) {
+        my $file = "xml/$1.xml";
+
+        returnXML(
+            xmlProlog(
+                %xsltParam,    #
+                stylesheet => "xsl/info-to-xhtml.xsl",
+            ),
+            xmlFromFile($file)
+        );
+    }
+
+    #
+    # /xmlqstat/cluster/{clusterName}/{function}
+    #
+    if ( $::address =~ m{^/xmlqstat/cluster/([^\s/]+?)/([^\s/]+?)/*$} ) {
+        my ( $clusterName, $function ) = ( $1, $2 );
+
+        $xsltParam{clusterName} = $clusterName;
+
+        #
+        # job : with optional user=... filter
+        #
+        if ( $function eq "jobs" ) {
+            if ( defined $param{user} and $param{user} =~ m{^\w+$} ) {
+                $xsltParam{filterByUser} = $param{user};
+            }
+
+            returnXML(
+                xmlProlog(
+                    %xsltParam,    #
+                    stylesheet => "../../xsl/qstat-xhtml.xsl",
+                ),
+                xmlFromCache( $clusterName, qstat => '' )
+            );
+        }
+
+        #
+        # jobinfo : with optional jobId
+        #
+        if ( $function eq "jobinfo" ) {
+            my ($jobId) = grep { $_ and /^\d+/ } keys %switch;
+
+            returnXML(
+                xmlProlog(
+                    %xsltParam,    #
+                    stylesheet => "../../xsl/qstatj-xhtml.xsl",
+                ),
+                xmlFromCache(
+                    $clusterName,    #
+                    qstatj => ( $gridEngineQuery{qstatj}, $clusterName, $jobId )
+                )
+            );
+        }
+
+        #
+        # queues : with optional renderMode (summary|free|warn)
+        #
+        if ( $function eq "queues" ) {
+            ( $xsltParam{renderMode} ) =
+              grep { m{^(summary|free|warn)$} } keys %switch;
+
+            returnXML(
+                xmlProlog(
+                    %xsltParam,    #
+                    stylesheet => "../../xsl/qhost-xhtml.xsl",
+                ),
+                xmlFromCache( $clusterName, qhost => '' )
+            );
+        }
+
+        #
+        # resources : display licenses etc
+        #
+        if ( $function eq "resources" ) {
+            returnXML(
+                xmlProlog(
+                    %xsltParam,    #
+                    stylesheet => "../../xsl/qlic-xhtml.xsl",
+                ),
+                xmlFromCache( $clusterName, qlicserver => '', )
+            );
+        }
+
+        #
+        # cache : display directory of cluster cache files
+        #
+        if ( $function eq "cache" ) {
+            returnXML(
+                xmlProlog(
+                    %xsltParam,
+                    prefix     => ".",
+                    stylesheet => "../../xsl/directory-xhtml.xsl",
+                ),
+                directoryGenerator("cache-$clusterName"),
+            );
+        }
+
+        # *.xml - serve cache file directly, without 404 error
+        if ( $function =~ m{^([^/]+)\.xml$} ) {
+            my $file = $1;
+
+            returnXML(
+                xmlProlog(%xsltParam),    #
+                xmlFromCache( $clusterName, $file )
+            );
+        }
+
+        ## fallback - custom XML error404
+        &htsponse( 404 => "File Not Found" );
+        &htcontent(
+            xmlProlog(
+                %xsltParam,               #
+                uri        => $::address,
+                stylesheet => "../../xsl/error404.xsl",
+              )
+              . "<error404/>",
+            "text/xml"
+        );
+
+        &log;
+        exit;
+    }
+
+    # top-level rendering again
+
+    #
+    #    /xmlqstat/(resource|jobs|..)~{clusterName}
+    # or /xmlqstat/(resource|jobs|..)
+    #
+    if (   $::address =~ m{^/xmlqstat/(\w+)~([^\s/]*)$}
+        or $::address =~ m{^/xmlqstat/(\w+)$} )
+    {
+        my ( $function, $clusterName ) = ( $1, $2 );
+
+        $xsltParam{clusterName} = $clusterName;
+        $xsltParam{menuMode}    = "qstatf";
+
+        #
+        # job : with optional user=... filter
+        #
+        if ( $function eq "jobs" ) {
+            if ( defined $param{user} and $param{user} =~ m{^\w+$} ) {
+                $xsltParam{filterByUser} = $param{user};
+            }
+
+            returnXML(
+                xmlProlog(
+                    %xsltParam,    #
+                    stylesheet => "xsl/qstatf-xhtml.xsl",
+                ),
+                xmlFromCache(
+                    $clusterName,
+                    qstatf => ( $gridEngineQuery{qstatf}, $clusterName )
+                )
+            );
+        }
+
+        #
+        # jobinfo : with optional jobId
+        #
+        if ( $function eq "jobinfo" ) {
+            my ($jobId) = grep { $_ and /^\d+/ } keys %switch;
+
+            returnXML(
+                xmlProlog(
+                    %xsltParam,    #
+                    stylesheet => "xsl/qstatj-xhtml.xsl",
+                ),
+                xmlFromCache(
+                    $clusterName,    #
+                    qstatj => ( $gridEngineQuery{qstatj}, $clusterName, $jobId )
+                )
+            );
+        }
+
+        #
+        # queues : renderMode 'full'
+        #
+        if ( $function eq "queues" ) {
+            returnXML(
+                xmlProlog(
+                    %xsltParam,      #
+                    renderMode => "full",
+                    stylesheet => "xsl/qstatf-xhtml.xsl",
+                ),
+                xmlFromCache(
+                    $clusterName,
+                    qstatf => ( $gridEngineQuery{qstatf}, $clusterName )
+                )
+            );
+        }
+
+        #
+        # summary : renderMode 'full'
+        #
+        if ( $function eq "summary" ) {
+            returnXML(
+                xmlProlog(
+                    %xsltParam,    #
+                    renderMode => "summary",
+                    stylesheet => "xsl/qstatf-xhtml.xsl",
+                ),
+                xmlFromCache(
+                    $clusterName,
+                    qstatf => ( $gridEngineQuery{qstatf}, $clusterName )
+                )
+            );
+        }
+
+        #
+        # resources : display licenses etc
+        #
+        if ( $function eq "resources" ) {
+            returnXML(
+                xmlProlog(
+                    %xsltParam,    #
+                    stylesheet => "xsl/qlic-xhtml.xsl",
+                ),
+                xmlFromCache( $clusterName, qlicserver => '' )
+            );
+        }
+
+        ## fallback - custom XML error404
+        &htsponse( 404 => "File Not Found" );
+        &htcontent(
+            xmlProlog(
+                %xsltParam,        #
+                uri        => $::address,
+                stylesheet => "xsl/error404.xsl",
+              )
+              . "<error404/>",
+            "text/xml"
+        );
+
+        &log;
+        exit;
+    }
+
+    ##    warn "fall-thru with $::address\n";
+}
+
+XMLQSTAT_DONE:
+
+##</xmlqstat>##
