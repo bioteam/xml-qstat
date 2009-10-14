@@ -1,0 +1,42 @@
+~check MFALSE
+
+User-customizable functions that you can use to change and modify HTTPi's
+internal messages, and carry them across upgrades, new in 1.5.
+
+hterror is the central routine. If you want additional customization,
+you can also change hterror301 and hterror404. However, hterror's arguments
+should not be changed as other subroutines call it for their error handling.
+
+~
+~
+
+sub hterror {
+	my($errstr, $expl) = (@_);
+	&htcontent(<<"EOF", "text/html");
+<html>
+<body>
+<h1>$errstr</h1>
+$expl
+<hr>
+<address><a href = "http://httpi.floodgap.com/">httpi/$VERSION</a>
+by Cameron Kaiser</address>
+</body>
+</html>
+EOF
+	}
+
+sub hterror404 {
+	&htsponse(404, "File Not Found");
+	&hterror("File Not Found",
+		"The resource <tt>$address</tt> was not found on this system.");
+	&log; exit;
+}
+
+sub hterror301 {
+	&htsponse(301, "Moved Permanently");
+	&hthead("Location: @_");
+	&hterror("Resource Moved Permanently",
+		"This resource has moved <a href = \"@_\">here</a>.");
+	&log; exit;
+}
+

@@ -1,0 +1,18 @@
+xmlqstat modules for HTTPi/1.6.1
+
+-- get the original HTTPi from  http://httpi.floodgap.com/
+
+
+The modifications/customizations for xml-qstat are marked with
+
+    ##<xmlqstat>##
+    ##</xmlqstat>##   multi-line changes
+
+    ##<xmlqstat/>##   single-line changes
+
+
+--
+uservar.in  - inserted at the top of the code for general declarations
+modules.in  - inserted in 'sub master {...}' for execution within the loop
+userfunc.in - inserted below at file scope
+

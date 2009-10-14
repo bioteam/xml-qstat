@@ -1,0 +1,87 @@
+~check MFALSE
+
+This is the user variables file rolled into HTTPi at configure-time.
+
+** MAKE YOUR CHANGES TO GLOBAL CONFIGURABLE HASHES AND SCALARS HERE. **
+
+If you don't know what all this means or what to do, see the Programming
+Manual for a clue.
+
+~
+~
+
+%content_types =
+~check MFALSE
+
+Be sure to read the manual on this, but in a nutshell:
+
+In 1.2.x and previous, this was the entire list of content types.
+
+In 1.3 and higher, the system default list is now in httpi.in and is
+maintained in the standard distribution, and this hash is now for
+adding/overriding MIME types. However, old uservar.in files will still work;
+they'll just override all the types they'll define with the same MIME type.
+~
+~
+	("html" => "text/html",
+	 "htm" => "text/html");
+~check MFALSE
+
+*** The restrictions matrix is documented in the manual. The keys are the
+    filepaths and the values are the matrices themselves.
+
+*** The host redirect matrix is also documented, the keys being the simulated
+    host names and the values being the redirect prefix. 
+
+### THESE ARE JUST EXAMPLES: YOU SHOULD CHANGE TO YOUR OWN. :-) IF YOU AREN'T
+    USING THE RESTRICTIONS MATRIX AND/OR HOST REDIRECTION, THEY WILL BE
+    AUTOMAGICALLY IGNORED. ###
+
+*** Add any HTTP/1.1 compliant headers you like to the headers string.
+
+~
+~
+~check MRESTRICTIONS
+%restrictions = (
+	 "/nw" => "^10\.##^Mozilla#MSIE",
+	 "/status" => "####voyeur:daNrZR3TcSwD2",
+	 "/" => "###(NPBot|WebZIP|HTTrack|eCatch|Offline Explorer|UdmSearch|WebCopier|internetseer|MSIECrawler|SuperBot|LinkWalker|Tutorial Crawler|WebReaper)",
+	);
+		# See documentation for interpreting this string.
+~
+~
+~check NAMEREDIR
+%nameredir = (
+	 "floodgap.com" => "http://www.floodgap.com",
+	 "stockholm.floodgap.com" => "http://www.floodgap.com",
+	 "httpi.floodgap.com" => "http://www.floodgap.com/httpi",
+	);
+~
+~
+
+$headers = <<"EOF";
+Server: HTTPi/$VERSION
+MIME-Version: 1.0
+EOF
+
+~check MFALSE
+
+*** Virtual files are specified below with keys being the referenced filename
+    and values being three-element array references; the first element is
+    the MIME type, and the second is either FILE followed by an absolute
+    filespec, or DATA with the data inlined next. Read the manual first --
+    there's some gotchas with this.
+
+Demonic feature only; xinetd/inetd/etc. need not apply.
+
+~
+~
+~check MVIRTFILES
+%virtual_files =
+	("/httpi/pix/httpismall.gif" => [ "image/gif", "FILE",
+		"/usr/local/htdocs/httpi/pix/httpismall.gif" ] ,
+	 "/httpi/virtualfile.html" => [ "text/html", "DATA",
+		"<html><body>Look, Ma, I'm virtual!</body></html>" ] ,
+	);
+~
+~
