@@ -488,7 +488,7 @@
     <map:serialize type="xhtml"/>
   </map:match>
 
-  <!-- url: "/xmlqstat/cluster/{clusterName}/jobinfo.xml?jobId"
+  <!-- url: "/xmlqstat/cluster/{clusterName}/qstatj.xml?jobId"
        generate job details via second webserver (handles empty query strings)
        -->
   <map:match pattern="cluster/*/qstatj.xml">
@@ -639,7 +639,11 @@
   <!-- fallback - catch errors -->
   <map:match pattern="cluster/**">
     <map:generate src="xml/notFound.xml"/>
-    <map:serialize type="xml"/>
+    <map:transform src="xsl/error404.xsl">
+      <map:parameter name="uri"     value="/xmlqstat/cluster/{1}"/>
+      <map:parameter name="request" value="{request:queryString}" />
+    </map:transform>
+    <map:serialize type="xhtml"/>
   </map:match>
 
   <!--
@@ -883,6 +887,16 @@
   <map:match pattern="qlicserver.xml">
     <map:generate  src="cocoon:/qlicserver~.xml"/>
     <map:serialize type="xml"/>
+  </map:match>
+
+  <!-- fallback - catch errors -->
+  <map:match pattern="*">
+    <map:generate src="xml/notFound.xml"/>
+    <map:transform src="xsl/error404.xsl">
+      <map:parameter name="uri"     value="/xmlqstat/{1}"/>
+      <map:parameter name="request" value="{request:queryString}" />
+    </map:transform>
+    <map:serialize type="xhtml"/>
   </map:match>
 
 
