@@ -22,6 +22,15 @@
 <!-- ======================= Imports / Includes =========================== -->
 <!-- Include our masthead and templates -->
 <xsl:include href="xmlqstat-masthead.xsl"/>
+<!-- Include processor-instruction parsing -->
+<xsl:include href="pi-param.xsl"/>
+
+<!-- ======================== Passed Parameters =========================== -->
+<xsl:param name="server-info">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'server-info'"/>
+  </xsl:call-template>
+</xsl:param>
 
 
 <!-- ======================= Internal Parameters ========================== -->
@@ -195,6 +204,11 @@
 </table>
 </blockquote>
 &newline;
+<xsl:if test="string-length($server-info)">
+  <xsl:call-template name="bottomStatusBar">
+    <xsl:with-param name="timestamp" select="$server-info"/>
+  </xsl:call-template>
+</xsl:if>
 </div>
 
 </body></html>

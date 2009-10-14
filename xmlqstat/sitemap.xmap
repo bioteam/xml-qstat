@@ -356,7 +356,12 @@
        -->
   <map:match pattern="cluster">
     <map:generate  src="cocoon:/cache-files" />
-    <map:transform src="xsl/index-xhtml.xsl"/>
+    <map:transform src="xsl/index-xhtml.xsl">
+    <!-- server information -->
+    <map:parameter name="server-info"
+      value="{cocoon-properties:name}-{cocoon-properties:version}"
+    />
+    </map:transform>
     <map:serialize type="xhtml"/>
   </map:match>
 
@@ -767,6 +772,10 @@
   <map:match pattern="_cluster">
     <map:generate  src="cocoon:/cache-files" />
     <map:transform src="xsl/attach-stylesheet.xsl">
+      <!-- server information -->
+      <map:parameter name="xslt-parameters" value='
+          server-info="{cocoon-properties:name}-{cocoon-properties:version}"
+      '/>
       <map:parameter name="rawxml" value="{request-param:rawxml}" />
       <map:parameter name="stylesheet" value="xsl/index-xhtml.xsl" />
     </map:transform>
