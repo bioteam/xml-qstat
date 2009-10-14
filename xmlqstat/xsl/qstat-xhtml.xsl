@@ -106,6 +106,11 @@
 &newline;
 <!-- load css -->
 <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
+<style type="text/css">
+  /* initially hide elements that rely on javascript */
+  #activeJobTableToggle  { visibility: hidden; }
+  #pendingJobTableToggle { visibility: hidden; }
+</style>
 &newline;
 </head>
 
@@ -300,8 +305,12 @@
 &newline;
 <script type="text/javascript">
    // hide elements based on the cookie values
-   hideDivFromCookie('activeJobTable');
-   hideDivFromCookie('pendingJobTable');
+   hideDivFromCookie("activeJobTable");
+   hideDivFromCookie("pendingJobTable");
+
+   // expose toggle elements that rely on javascript
+   document.getElementById("activeJobTableToggle").style.visibility = "visible";
+   document.getElementById("pendingJobTableToggle").style.visibility = "visible";
 </script>
 
 </html>
