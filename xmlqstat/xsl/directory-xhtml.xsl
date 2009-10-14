@@ -48,7 +48,7 @@
 <!-- ============================ Matching ================================ -->
 <xsl:template match="/" >
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>&newline;
+<head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta http-equiv="Refresh" content="60" />
   &newline;
@@ -58,10 +58,10 @@
   <title>dir - <xsl:value-of select="$dir"/></title>
   &newline;
 
-  <xsl:comment> Load CSS from a file </xsl:comment>
   &newline;
+  <!-- load css -->
   <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
-  &newline;
+&newline;
 </head>
 
 <!-- begin body -->

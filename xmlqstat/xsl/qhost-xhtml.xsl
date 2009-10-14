@@ -95,6 +95,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="Refresh" content="30" />
+&newline;
 
 <xsl:choose>
 <xsl:when test="$renderMode='summary'">
@@ -124,12 +125,10 @@
 </xsl:choose>
 
 &newline;
-<xsl:comment> Load CSS from a file </xsl:comment>
-&newline;
+<!-- load css -->
 <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
 &newline;
 </head>
-&newline;
 
 <!-- PRE-CALCULATE values -->
 
@@ -140,7 +139,9 @@
 
 <!-- begin body -->
 <body>
-&newline;<xsl:comment> Main body content </xsl:comment>&newline;
+&newline;
+<xsl:comment> Main body content </xsl:comment>
+&newline;
 
 <div id="main">
 <!-- Topomost Logo Div -->

@@ -387,8 +387,6 @@
       <map:parameter name="xslt-parameters" value='
           timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
       '/>
-      <map:parameter name="activeJobTable"  value="{cookie:activeJobTable}"/>
-      <map:parameter name="pendingJobTable" value="{cookie:pendingJobTable}"/>
     </map:transform>
     <map:serialize type="xml"/>
   </map:match>
@@ -399,8 +397,6 @@
     <map:transform src="xsl/attach-stylesheet.xsl">
       <map:parameter name="xslt-parameters" value='
           timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
-          activeJobTable="{cookie:activeJobTable}"
-          pendingJobTable="{cookie:pendingJobTable}"
       '/>
       <map:parameter name="rawxml" value="{request-param:rawxml}" />
       <map:parameter name="stylesheet" value="xsl/test-xhtml.xsl" />
@@ -527,8 +523,6 @@
     <map:transform src="xsl/qstat-xhtml.xsl">
       <map:parameter name="clusterName"     value="{1}" />
       <map:parameter name="timestamp"       value="{date: yyyy-MM-dd_HH:mm:ss}"/>
-      <map:parameter name="activeJobTable"  value="{cookie:activeJobTable}"/>
-      <map:parameter name="pendingJobTable" value="{cookie:pendingJobTable}"/>
       <map:parameter name="filterByUser"    value="{request-param:user}"/>
     </map:transform>
     <map:serialize type="xhtml"/>
@@ -585,8 +579,6 @@
       <map:parameter name="xslt-parameters" value='
           clusterName="{1}"
           timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
-          activeJobTable="{cookie:activeJobTable}"
-          pendingJobTable="{cookie:pendingJobTable}"
           filterByUser="{request-param:user}"
       '/>
       <map:parameter name="rawxml" value="{request-param:rawxml}" />
@@ -704,8 +696,6 @@
     <map:transform src="xsl/qstatf-xhtml.xsl">
       <map:parameter name="clusterName"     value="{1}" />
       <map:parameter name="timestamp"       value="{date: yyyy-MM-dd_HH:mm:ss}"/>
-      <map:parameter name="activeJobTable"  value="{cookie:activeJobTable}"/>
-      <map:parameter name="pendingJobTable" value="{cookie:pendingJobTable}"/>
       <map:parameter name="filterByUser"    value="{request-param:user}"/>
       <map:parameter name="menuMode"        value="qstatf"/>
     </map:transform>
@@ -787,8 +777,6 @@
       <map:parameter name="xslt-parameters" value='
           clusterName="{1}"
           timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
-          activeJobTable="{cookie:activeJobTable}"
-          pendingJobTable="{cookie:pendingJobTable}"
           filterByUser="{request-param:user}"
           menuMode="qstatf"
       '/>

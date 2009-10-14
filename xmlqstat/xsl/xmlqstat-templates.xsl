@@ -142,6 +142,7 @@
       <img border="0" src="css/screen/icons/bullet_toggle_plus.png" alt="[show]" title="show" />
     </xsl:element>
   </div>
+
 </xsl:template>
 
 

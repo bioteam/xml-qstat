@@ -60,22 +60,19 @@
 <xsl:template match="/" >
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta http-equiv="Refresh" content="30" />
-
-  <link rel="icon" type="image/png" href="css/screen/icons/database_key.png"/>
-  &newline;
-  <title> resources
-  <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
-  </title>
-  <!-- import CSS from a file -->
-  <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Refresh" content="30" />
+<link rel="icon" type="image/png" href="css/screen/icons/database_key.png"/>
+&newline;
+<title> resources
+<xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
+</title>
+<!-- load css -->
+<link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
 </head>
 &newline;
 
-<!-- CALCULATIONS -->
-
-<!-- done CALCULATIONS -->
+<!-- nothing to pre-calculate -->
 
 <!-- begin body -->
 <body>

@@ -46,16 +46,6 @@
   </xsl:call-template>
 </xsl:param>
 
-<xsl:param name="activeJobTable">
-  <xsl:call-template name="pi-param">
-    <xsl:with-param  name="name"    select="'activeJobTable'"/>
-  </xsl:call-template>
-</xsl:param>
-<xsl:param name="pendingJobTable">
-  <xsl:call-template name="pi-param">
-    <xsl:with-param  name="name"    select="'pendingJobTable'"/>
-  </xsl:call-template>
-</xsl:param>
 <xsl:param name="filterByUser">
   <xsl:call-template name="pi-param">
     <xsl:with-param  name="name"    select="'filterByUser'"/>
@@ -136,6 +126,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="alternate" type="application/atom+xml" href="feed/overview" title="xmlqstat" />
+&newline;
 
 <xsl:choose>
 <xsl:when test="$renderMode='full'">
@@ -161,7 +152,6 @@
 &newline;
 <xsl:comment> load javascript </xsl:comment>
 &newline;
-
 <!-- NB: <script> .. </script> needs some (any) content -->
 <script src="javascript/cookie.js" type="text/javascript">
   // Dortch cookies
@@ -169,27 +159,11 @@
 <script src="javascript/xmlqstat.js" type="text/javascript">
   // display altering code
 </script>
-
 &newline;
-<xsl:comment> define css (from file) and with overrides </xsl:comment>
-&newline;
-
+<!-- load css -->
 <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
-<style type="text/css">
-<!-- DIFFERENT CSS STYLE DEPENDING ON USER COOKIE PREFERENCE PARAM(s) -->
-<!-- hide activeJobTable (depending on cookie value) -->
-<xsl:if test="$activeJobTable = 'no'" >
-  #activeJobTable { visibility: hidden; display: none; }
-</xsl:if>
-<!-- hide pendingJobTable (depending on cookie value) -->
-<xsl:if test="$pendingJobTable = 'no'" >
-  #pendingJobTable { visibility: hidden; display: none; }
-</xsl:if>
-<!-- END COOKIE DEPENDENT VARIABLE CSS STYLE OUTPUT -->
 &newline;
-</style>
 </head>
-&newline;
 
 <!--
    | count active jobs/slots for user or everyone
@@ -335,9 +309,8 @@
 
 <!-- begin body -->
 <body>
-
 &newline;
-<xsl:comment>Main body content</xsl:comment>
+<xsl:comment> Main body content </xsl:comment>
 &newline;
 
 <div id="main">
@@ -356,23 +329,14 @@
 
 &newline;
 <!-- Top dotted line bar (holds the qmaster host and update time) -->
-<xsl:choose>
-<xsl:when test="//query/host">
-  <div class="dividerBarBelow">
-    [<xsl:value-of select="//query/host"/>]
-    <!-- replace 'T' in dateTime for easier reading -->
-    <xsl:value-of select="translate(//query/time, 'T', ' ')"/>
-  </div>
-</xsl:when>
-<xsl:when test="string-length($clusterName) or string-length($piDate)">
+<xsl:if test="string-length($clusterName) or string-length($piDate)">
   <div class="dividerBarBelow">
     <xsl:value-of select="$clusterName"/>
     &space;
     <!-- replace 'T' in dateTime for easier reading -->
     <xsl:value-of select="translate($piDate, 'T', ' ')"/>
   </div>
-</xsl:when>
-</xsl:choose>
+</xsl:if>
 
 <xsl:choose>
 <xsl:when test="$renderMode='full'">
@@ -784,10 +748,16 @@
 </xsl:call-template>
 
 &newline;
-</div><xsl:comment>This is the end of main content </xsl:comment>
+</div>
+</body>
+&newline; <xsl:comment> javascript tricks </xsl:comment> &newline;
+<script type="text/javascript">
+   // hide elements based on the cookie values
+   hideDivFromCookie('activeJobTable');
+   hideDivFromCookie('pendingJobTable');
+</script>
 
-
-</body></html>
+</html>
 <!-- end body/html -->
 </xsl:template>
 
@@ -962,7 +932,8 @@ $valueTotal0)*100"/>
     <td>
       <xsl:element name="a">
         <xsl:attribute name="href">
-          jobinfo<xsl:value-of select="$clusterSuffix"/>?<xsl:value-of select="JB_job_number"/>
+          <xsl:text>jobinfo</xsl:text>
+          <xsl:value-of select="$clusterSuffix"/>?<xsl:value-of select="JB_job_number"/>
         </xsl:attribute>
         <xsl:attribute name="title">details for job <xsl:value-of select="JB_job_number"/></xsl:attribute>
         <xsl:value-of select="JB_job_number"/>
@@ -973,7 +944,8 @@ $valueTotal0)*100"/>
     <td>
       <xsl:element name="a">
         <xsl:attribute name="href">
-          jobs<xsl:value-of select="$clusterSuffix"/>?user=<xsl:value-of select="JB_owner"/>
+          <xsl:text>jobs</xsl:text>
+          <xsl:value-of select="$clusterSuffix"/>?user=<xsl:value-of select="JB_owner"/>
         </xsl:attribute>
         <xsl:attribute name="title">view jobs owned by user <xsl:value-of select="JB_owner"/></xsl:attribute>
         <xsl:value-of select="JB_owner"/>
@@ -1107,7 +1079,8 @@ $valueTotal0)*100"/>
     <td>
       <xsl:element name="a">
         <xsl:attribute name="href">
-          jobinfo<xsl:value-of select="$clusterSuffix"/>?<xsl:value-of select="JB_job_number"/>
+          <xsl:text>jobinfo</xsl:text>
+          <xsl:value-of select="$clusterSuffix"/>?<xsl:value-of select="JB_job_number"/>
         </xsl:attribute>
         <xsl:attribute name="title">details for job <xsl:value-of select="JB_job_number"/></xsl:attribute>
         <xsl:value-of select="JB_job_number"/>
@@ -1118,7 +1091,8 @@ $valueTotal0)*100"/>
     <td>
       <xsl:element name="a">
         <xsl:attribute name="href">
-          jobs<xsl:value-of select="$clusterSuffix"/>?user=<xsl:value-of select="JB_owner"/>
+          <xsl:text>jobs</xsl:text>
+          <xsl:value-of select="$clusterSuffix"/>?user=<xsl:value-of select="JB_owner"/>
         </xsl:attribute>
         <xsl:attribute name="title">view jobs owned by user <xsl:value-of select="JB_owner"/></xsl:attribute>
         <xsl:value-of select="JB_owner"/>

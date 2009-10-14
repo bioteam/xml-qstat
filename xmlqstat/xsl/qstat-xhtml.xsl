@@ -38,16 +38,6 @@
     <xsl:with-param  name="name"    select="'timestamp'"/>
   </xsl:call-template>
 </xsl:param>
-<xsl:param name="activeJobTable">
-  <xsl:call-template name="pi-param">
-    <xsl:with-param  name="name"    select="'activeJobTable'"/>
-  </xsl:call-template>
-</xsl:param>
-<xsl:param name="pendingJobTable">
-  <xsl:call-template name="pi-param">
-    <xsl:with-param  name="name"    select="'pendingJobTable'"/>
-  </xsl:call-template>
-</xsl:param>
 <xsl:param name="filterByUser">
   <xsl:call-template name="pi-param">
     <xsl:with-param  name="name"    select="'filterByUser'"/>
@@ -93,48 +83,34 @@
 <xsl:template match="/" >
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta http-equiv="Refresh" content="30" />
-
-  <link rel="icon" type="image/png" href="css/screen/icons/lorry_flatbed.png"/>
-  <title> jobs
-  <xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
-  </title>
-
-  &newline;
-  <xsl:comment> load javascript </xsl:comment>
-  &newline;
-  <!-- NB: <script> .. </script> needs some (any) content -->
-  <script src="javascript/cookie.js" type="text/javascript">
-    // Dortch cookies
-  </script>
-  <script src="javascript/xmlqstat.js" type="text/javascript">
-    // display altering code
-  </script>
-
-  &newline;
-  <xsl:comment> define css (from file) and with overrides </xsl:comment>
-  &newline;
-  <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
-  <style type="text/css">
-  <!-- DIFFERENT CSS STYLE DEPENDING ON USER COOKIE PREFERENCE PARAM(s) -->
-  <!-- hide activeJobTable (depending on cookie value) -->
-  <xsl:if test="$activeJobTable = 'no'" >
-    #activeJobTable { visibility: hidden; display: none; }
-  </xsl:if>
-  <!-- hide pendingJobTable (depending on cookie value) -->
-  <xsl:if test="$pendingJobTable = 'no'" >
-    #pendingJobTable { visibility: hidden; display: none; }
-  </xsl:if>
-  <!-- END COOKIE DEPENDENT VARIABLE CSS STYLE OUTPUT -->
-  &newline;
-  </style>
-</head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Refresh" content="30" />
+<link rel="icon" type="image/png" href="css/screen/icons/lorry_flatbed.png"/>
 &newline;
 
-<!-- PRE-CALCULATE values -->
+<title> jobs
+<xsl:if test="$clusterName"> @<xsl:value-of select="$clusterName"/></xsl:if>
+</title>
 
-<!-- done PRE-CALCULATE -->
+&newline;
+<xsl:comment> load javascript </xsl:comment>
+&newline;
+<!-- NB: <script> .. </script> needs some (any) content -->
+<script src="javascript/cookie.js" type="text/javascript">
+  // Dortch cookies
+</script>
+<script src="javascript/xmlqstat.js" type="text/javascript">
+  // display altering code
+</script>
+
+&newline;
+<!-- load css -->
+<link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
+&newline;
+</head>
+
+<!-- nothing to pre-calculate -->
+
 
 <!-- begin body -->
 <body>
@@ -224,6 +200,7 @@
     </td>
     </tr>
   </table>
+  &newline;
   <xsl:apply-templates select="//job_info/queue_info" />
 </xsl:when>
 <xsl:otherwise>
@@ -293,6 +270,7 @@
     </td>
     </tr>
   </table>
+  &newline;
   <xsl:apply-templates select="//job_info/job_info" />
 </xsl:when>
 <xsl:otherwise>
@@ -316,7 +294,17 @@
 
 &newline;
 </div>
-</body></html>
+</body>
+&newline;
+<xsl:comment> javascript tricks after loading body </xsl:comment>
+&newline;
+<script type="text/javascript">
+   // hide elements based on the cookie values
+   hideDivFromCookie('activeJobTable');
+   hideDivFromCookie('pendingJobTable');
+</script>
+
+</html>
 <!-- end body/html -->
 </xsl:template>
 

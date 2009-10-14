@@ -73,14 +73,11 @@
 <xsl:template match="/" >
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta http-equiv="Refresh" content="30" />
-
-  <link rel="icon" type="image/png" href="css/screen/icons/bomb.png"/>
-  &newline;
-  <title> Resource Not Found </title>
-  <!-- import CSS from a file -->
-  <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+&newline;
+<title> Resource Not Found </title>
+<!-- load css -->
+<link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
 </head>
 &newline;
 
@@ -92,14 +89,13 @@
 <div id="main">
 <!-- Topomost Logo Div and Top Menu Bar -->
 <xsl:choose>
-<xsl:when test="$menuMode='xmlqstat'">
-  <xsl:call-template name="topLogoDefault"/>
-  <xsl:call-template name="xmlqstatMenu">
+<xsl:call-template name="topLogo"/>
+<xsl:when test="$menuMode='qstatf'">
+  <xsl:call-template name="qstatfMenu">
     <xsl:with-param name="clusterSuffix" select="$clusterSuffix"/>
   </xsl:call-template>
 </xsl:when>
 <xsl:otherwise>
-  <xsl:call-template name="topLogo"/>
   <xsl:call-template name="topMenu"/>
 </xsl:otherwise>
 </xsl:choose>

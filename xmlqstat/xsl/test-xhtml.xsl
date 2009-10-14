@@ -33,16 +33,6 @@
     <xsl:with-param  name="name"    select="'timestamp'"/>
   </xsl:call-template>
 </xsl:param>
-<xsl:param name="activeJobTable">
-  <xsl:call-template name="pi-param">
-    <xsl:with-param  name="name"    select="'activeJobTable'"/>
-  </xsl:call-template>
-</xsl:param>
-<xsl:param name="pendingJobTable">
-  <xsl:call-template name="pi-param">
-    <xsl:with-param  name="name"    select="'pendingJobTable'"/>
-  </xsl:call-template>
-</xsl:param>
 
 
 <!-- ======================= Internal Parameters ========================== -->
@@ -75,25 +65,11 @@
   // display altering code
 </script>
 &newline;
-<xsl:comment> define css (from file) and with overrides </xsl:comment>
-&newline;
-
+<!-- load css -->
 <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
-<style type="text/css">
-<!-- DIFFERENT CSS STYLE DEPENDING ON USER COOKIE PREFERENCE PARAM(s) -->
-<!-- hide activeJobTable (depending on cookie value) -->
-<xsl:if test="$activeJobTable = 'no'" >
-  #activeJobTable { visibility: hidden; display: none; }
-</xsl:if>
-<!-- hide pendingJobTable (depending on cookie value) -->
-<xsl:if test="$pendingJobTable = 'no'" >
-  #pendingJobTable { visibility: hidden; display: none; }
-</xsl:if>
-<!-- END COOKIE DEPENDENT VARIABLE CSS STYLE OUTPUT -->
-&newline;
-</style>
 </head>
 &newline;
+
 
 <!-- begin body -->
 <body>
@@ -161,6 +137,9 @@
       text += '; pendingJobTable=' + GetCookie('pendingJobTable');
 
       document.getElementById('javascript').innerHTML = text;
+
+      hideDivFromCookie('activeJobTable');
+      hideDivFromCookie('pendingJobTable');
   }
   // ]]>
 </script>

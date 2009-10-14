@@ -49,13 +49,14 @@
 <xsl:template match="/" >
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>clusters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="icon" type="image/png" href="css/screen/icons/tux.png"/>
+&newline;
+<title>clusters</title>
 
-  <link rel="icon" type="image/png" href="css/screen/icons/tux.png"/>
-  &newline; <xsl:comment> Load CSS from a file </xsl:comment> &newline;
-  <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
-  &newline;
+&newline;
+<!-- load css -->
+<link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
 </head>
 &newline;
 

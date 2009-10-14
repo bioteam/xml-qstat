@@ -20,6 +20,19 @@ function setDiv(name, state)
     }
 }
 
+//
+// set a div 'name' to hidden if the cookie is 'no'
+//
+function hideDivFromCookie(name)
+{
+    if (GetCookie(name) == "no")
+    {
+        document.getElementById(name).style.visibility = "hidden";
+        document.getElementById(name).style.display    = "none";
+    }
+}
+
+
 var req;
 var result;
 
