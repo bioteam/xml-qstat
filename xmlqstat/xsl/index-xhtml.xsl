@@ -33,6 +33,17 @@
   <xsl:if test="$configFile/qlicserver = 'yes'">yes</xsl:if>
 </xsl:variable>
 
+<xsl:variable name="defaultCluster">
+  <xsl:choose>
+  <xsl:when test="$configFile/clusters/default">
+    <xsl:if test="$configFile/clusters/default != 'no'">yes</xsl:if>
+  </xsl:when>
+  <xsl:otherwise>
+    <xsl:text>yes</xsl:text>
+  </xsl:otherwise>
+  </xsl:choose>
+</xsl:variable>
+
 
 <!-- all the directory nodes -->
 <xsl:variable name="dirNodes" select="//dir:directory"/>
@@ -166,75 +177,24 @@
   <th>root</th>
   <th>cell</th>
 </tr>
+
 <xsl:for-each select="$configFile/clusters/cluster">
   <!-- sorted by cluster name -->
   <xsl:sort select="name"/>
   <xsl:apply-templates select="."/>
 </xsl:for-each>
+
+<!-- add default cluster -->
+<xsl:if test="$defaultCluster = 'yes'">
+<xsl:call-template name="addClusterLinks">
+  <xsl:with-param name="unnamed" select="'default'"/>
+</xsl:call-template>
+</xsl:if>
+
+&newline;
 </table>
-
 </blockquote>
-
-</div>
-
-
-<!-- bottom links -->
-&newline; <xsl:comment> bottom links </xsl:comment> &newline;
-<div class="bottomBox">
-
-  <!-- jobs: using qstat -f output (cached or direct) -->
-  &space;
-  <a href="jobs" title="jobs"><img border="0"
-      src="css/screen/icons/lorry.png" alt="[jobs]"
-  /></a>
-
-  <!-- queues: using qstat -f output (cached or direct) -->
-  &space;
-  <a href="queues" title="queue listing"><img border="0"
-      src="css/screen/icons/shape_align_left.png"
-      alt="[queue instances]"
-  />
-  </a>
-
-  <!-- summary: using qstat -f output (cached or direct) -->
-  &space;
-  <a href="summary" title="cluster summary"><img border="0"
-      src="css/screen/icons/sum.png"
-      alt="[cluster summary]"
-  />
-  </a>
-
-  <!-- resources -->
-  &space;
-  <xsl:if test="$qlicserverOk = 'yes'">
-    <a href="resources" title="resources"><img border="0"
-          src="css/screen/icons/database_key.png"
-          alt="[resources]"
-      />
-    </a>
-  </xsl:if>
-
-  <!-- view qstat -f xml: (cached or direct) -->
-  &space;
-  <xsl:choose>
-  <xsl:when test="//dir:directory[@name='cache']/dir:file[@name='qstatf.xml']">
-    <a href="cache/qstatf.xml" title="cached qstat -f query"><img border="0"
-        src="css/screen/icons/folder_page.png"
-        alt="[cache]"
-    />
-    </a>
-  </xsl:when>
-  <xsl:otherwise>
-    <a href="qstatf.xml" title="qstat -f -xml"><img border="0"
-        src="css/screen/icons/tag.png"
-        alt="[raw xml]"
-    />
-    </a>
-  </xsl:otherwise>
-  </xsl:choose>
-
-  &space;Query unnamed (default) cluster
-
+&newline;
 </div>
 
 </body></html>
@@ -243,14 +203,41 @@
 
 
 <xsl:template match="cluster">
+  <xsl:call-template name="addClusterLinks">
+    <xsl:with-param name="name" select="@name"/>
+    <xsl:with-param name="root" select="@root"/>
+    <xsl:with-param name="cell" select="@cell"/>
+  </xsl:call-template>
+</xsl:template>
+
+
+<xsl:template name="addClusterLinks">
+  <xsl:param name="name" />
+  <xsl:param name="root" />
+  <xsl:param name="cell" />
+  <xsl:param name="unnamed" />
 
   <!-- directory name for qlicserver-style caches -->
-  <xsl:param name="cacheDir">cache-<xsl:value-of select="@name"/></xsl:param>
-  <!-- directory name for qstat -f cache -->
-  <xsl:param name="cacheFile">qstatf~<xsl:value-of select="@name"/>.xml</xsl:param>
+  <xsl:param name="cacheDir">
+    <xsl:text>cache</xsl:text>
+    <xsl:if test="$name">
+      <xsl:text>-</xsl:text><xsl:value-of select="$name"/>
+    </xsl:if>
+  </xsl:param>
+
+  <!-- file name for qstat -f cache -->
+  <xsl:param name="cacheFile">
+    <xsl:text>qstatf</xsl:text>
+    <xsl:if test="$name">
+      <xsl:text>~</xsl:text><xsl:value-of select="$name"/>
+    </xsl:if>
+    <xsl:text>.xml</xsl:text>
+  </xsl:param>
 
   <xsl:param name="hasCache">
-     <xsl:if test="$dirNodes[@name=$cacheDir]">true</xsl:if>
+    <xsl:if test="$name">
+      <xsl:if test="$dirNodes[@name=$cacheDir]">true</xsl:if>
+    </xsl:if>
   </xsl:param>
 
   <!-- qstat -f cache can come from different locations -->
@@ -263,16 +250,25 @@
   </xsl:param>
 
   &newline;
-  <xsl:comment> cluster: <xsl:value-of select="@name"/> </xsl:comment>
+  <xsl:comment> cluster: <xsl:value-of select="$name"/> </xsl:comment>
   &newline;
   <tr>
   <!-- cluster name -->
   <td>
-    <xsl:element name="a">
-      <xsl:attribute name="title">jobs</xsl:attribute>
-      <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/jobs</xsl:attribute>
-      <xsl:value-of select="@name"/>
-    </xsl:element>
+    <xsl:choose>
+    <xsl:when test="$unnamed">
+      <acronym title="default (unnamed) cluster">
+        <xsl:value-of select="$unnamed"/>
+      </acronym>
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:element name="a">
+        <xsl:attribute name="title">jobs</xsl:attribute>
+        <xsl:attribute name="href">cluster/<xsl:value-of select="$name"/>/jobs</xsl:attribute>
+        <xsl:value-of select="$name"/>
+      </xsl:element>
+    </xsl:otherwise>
+    </xsl:choose>
   </td>
   <td>
     <xsl:choose>
@@ -281,7 +277,7 @@
       &space;
       <xsl:element name="a">
         <xsl:attribute name="title">jobs</xsl:attribute>
-        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/jobs</xsl:attribute>
+        <xsl:attribute name="href">cluster/<xsl:value-of select="$name"/>/jobs</xsl:attribute>
         <img border="0"
             src="css/screen/icons/lorry_flatbed.png"
             alt="[jobs]"
@@ -292,7 +288,7 @@
       &space;
       <xsl:element name="a">
         <xsl:attribute name="title">queue summary</xsl:attribute>
-        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/queues?summary</xsl:attribute>
+        <xsl:attribute name="href">cluster/<xsl:value-of select="$name"/>/queues?summary</xsl:attribute>
         <img border="0"
             src="css/screen/icons/sum.png"
             alt="[queue instances]"
@@ -303,7 +299,7 @@
       &space;
       <xsl:element name="a">
         <xsl:attribute name="title">queues free</xsl:attribute>
-        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/queues?free</xsl:attribute>
+        <xsl:attribute name="href">cluster/<xsl:value-of select="$name"/>/queues?free</xsl:attribute>
         <img border="0"
             src="css/screen/icons/tick.png"
             alt="[queues free]"
@@ -314,7 +310,7 @@
       &space;
       <xsl:element name="a">
         <xsl:attribute name="title">queue warnings</xsl:attribute>
-        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/queues?warn</xsl:attribute>
+        <xsl:attribute name="href">cluster/<xsl:value-of select="$name"/>/queues?warn</xsl:attribute>
         <img border="0"
             src="css/screen/icons/error.png"
             alt="[warn queue]"
@@ -325,7 +321,7 @@
       &space;
       <xsl:element name="a">
         <xsl:attribute name="title">queue listing</xsl:attribute>
-        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/queues</xsl:attribute>
+        <xsl:attribute name="href">cluster/<xsl:value-of select="$name"/>/queues</xsl:attribute>
         <img border="0"
             src="css/screen/icons/shape_align_left.png"
             alt="[queue instances]"
@@ -337,7 +333,7 @@
       <xsl:if test="$qlicserverOk = 'yes'">
         <xsl:element name="a">
           <xsl:attribute name="title">resources</xsl:attribute>
-          <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/resources</xsl:attribute>
+          <xsl:attribute name="href">cluster/<xsl:value-of select="$name"/>/resources</xsl:attribute>
           <img border="0"
               src="css/screen/icons/database_key.png"
               alt="[resources]"
@@ -350,7 +346,7 @@
       &space;
       <xsl:element name="a">
         <xsl:attribute name="title">job details</xsl:attribute>
-        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/jobinfo</xsl:attribute>
+        <xsl:attribute name="href">cluster/<xsl:value-of select="$name"/>/jobinfo</xsl:attribute>
         <img border="0"
             src="css/screen/icons/magnifier_zoom_in.png"
             alt="[job details]"
@@ -362,7 +358,7 @@
       &space;
       <xsl:element name="a">
         <xsl:attribute name="title">cached files</xsl:attribute>
-        <xsl:attribute name="href">cluster/<xsl:value-of select="@name"/>/cache</xsl:attribute>
+        <xsl:attribute name="href">cluster/<xsl:value-of select="$name"/>/cache</xsl:attribute>
         <img border="0"
             src="css/screen/icons/folder_page.png"
             alt="[cache]"
@@ -381,7 +377,7 @@
     &space;
     <xsl:element name="a">
       <xsl:attribute name="title">jobs</xsl:attribute>
-      <xsl:attribute name="href">jobs~<xsl:value-of select="@name"/></xsl:attribute>
+      <xsl:attribute name="href">jobs~<xsl:value-of select="$name"/></xsl:attribute>
       <img border="0"
           src="css/screen/icons/lorry.png"
           alt="[xmlqstat]"
@@ -392,7 +388,7 @@
     &space;
     <xsl:element name="a">
       <xsl:attribute name="title">queue listing</xsl:attribute>
-      <xsl:attribute name="href">queues~<xsl:value-of select="@name"/></xsl:attribute>
+      <xsl:attribute name="href">queues~<xsl:value-of select="$name"/></xsl:attribute>
       <img border="0"
           src="css/screen/icons/shape_align_left.png"
           alt="[queue instances]"
@@ -403,7 +399,7 @@
     &space;
     <xsl:element name="a">
       <xsl:attribute name="title">cluster summary</xsl:attribute>
-      <xsl:attribute name="href">summary~<xsl:value-of select="@name"/></xsl:attribute>
+      <xsl:attribute name="href">summary~<xsl:value-of select="$name"/></xsl:attribute>
       <img border="0"
           src="css/screen/icons/sum.png"
           alt="[cluster summary]"
@@ -415,7 +411,7 @@
     &space;
     <xsl:element name="a">
       <xsl:attribute name="title">resources</xsl:attribute>
-      <xsl:attribute name="href">resources~<xsl:value-of select="@name"/></xsl:attribute>
+      <xsl:attribute name="href">resources~<xsl:value-of select="$name"/></xsl:attribute>
       <img border="0"
           src="css/screen/icons/database_key.png"
           alt="[resources]"
@@ -429,7 +425,7 @@
     <xsl:when test="$qstatfCached='true'">
       <xsl:element name="a">
         <xsl:attribute name="title">cached qstat -f query</xsl:attribute>
-        <xsl:attribute name="href">qstatf~<xsl:value-of select="@name"/>.xml</xsl:attribute>
+        <xsl:attribute name="href"><xsl:value-of select="$cacheFile"/></xsl:attribute>
         <img border="0"
             src="css/screen/icons/folder_page.png"
             alt="[cached qstat -f]"
@@ -439,7 +435,7 @@
     <xsl:otherwise>
       <xsl:element name="a">
         <xsl:attribute name="title">qstat -f -xml</xsl:attribute>
-        <xsl:attribute name="href">qstatf~<xsl:value-of select="@name"/>.xml</xsl:attribute>
+        <xsl:attribute name="href">qstatf~<xsl:value-of select="$name"/>.xml</xsl:attribute>
         <img border="0"
             src="css/screen/icons/tag.png"
             alt="[qstat -f -xml]"
@@ -452,11 +448,11 @@
 
   <!-- sge root -->
   <td>
-      <xsl:value-of select="@root"/>
+      <xsl:value-of select="$root"/>
   </td>
   <!-- sge cell -->
   <td>
-      <xsl:value-of select="@cell"/>
+      <xsl:value-of select="$cell"/>
   </td>
 
   </tr>

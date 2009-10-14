@@ -61,10 +61,11 @@
 -->
 <topLogo src="config/logo.png" href="http://dealog01:8080" height="29"/>
 
-<!-- define cluster settings -->
+<!-- define cluster settings and if a default cluster is allowed -->
 <clusters>
   <cluster name="augsburg01" root="/data/app/grid01" cell="default" />
   <cluster name="augsburg02" root="/data/app/grid02" cell="default" />
+  <default>yes</default>
 </clusters>
 
 </config>
