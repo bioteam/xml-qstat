@@ -14,17 +14,22 @@ function getCookieVal(offset)
 
 function GetCookie(name)
 {
-    var arg = name + "=";
-    var alen = arg.length;
-    var clen = document.cookie.length;
-    var i = 0;
-    while (i < clen) {
-        var j = i + alen;
-        if (document.cookie.substring(i, j) == arg)
-            return getCookieVal(j);
-	i = document.cookie.indexOf(" ", i) + 1;
-        if (i == 0) break;
+    if (document.cookie)
+    {
+        var arg = name + "=";
+        var alen = arg.length;
+        var clen = document.cookie.length;
+        var i = 0;
+        while (i < clen)
+        {
+            var j = i + alen;
+            if (document.cookie.substring(i, j) == arg)
+                return getCookieVal(j);
+            i = document.cookie.indexOf(" ", i) + 1;
+            if (i == 0) break;
+        }
     }
+
     return null;
 }
 

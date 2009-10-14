@@ -61,9 +61,6 @@
     name="configFile"
     select="document('../config/config.xml')/config" />
 <xsl:variable
-    name="useJavaScript"
-    select="$configFile/useJavaScript" />
-<xsl:variable
     name="viewlog"
     select="$configFile/programs/viewlog" />
 <xsl:variable
@@ -105,17 +102,15 @@
   </title>
 
   &newline;
-  <xsl:comment> useJavaScript = '<xsl:value-of select="$useJavaScript"/>' </xsl:comment>
+  <xsl:comment> load javascript </xsl:comment>
   &newline;
   <!-- NB: <script> .. </script> needs some (any) content -->
-  <xsl:if test="$useJavaScript = 'yes'" >
-    <script src="javascript/cookie.js" type="text/javascript">
-      // Dortch cookies
-    </script>
-    <script src="javascript/xmlqstat.js" type="text/javascript">
-      // display altering code
-    </script>
-  </xsl:if>
+  <script src="javascript/cookie.js" type="text/javascript">
+    // Dortch cookies
+  </script>
+  <script src="javascript/xmlqstat.js" type="text/javascript">
+    // display altering code
+  </script>
 
   &newline;
   <xsl:comment> define css (from file) and with overrides </xsl:comment>
@@ -124,11 +119,11 @@
   <style type="text/css">
   <!-- DIFFERENT CSS STYLE DEPENDING ON USER COOKIE PREFERENCE PARAM(s) -->
   <!-- hide activeJobTable (depending on cookie value) -->
-  <xsl:if test="$useJavaScript = 'yes' and $activeJobTable = 'no'" >
+  <xsl:if test="$activeJobTable = 'no'" >
     #activeJobTable { visibility: hidden; display: none; }
   </xsl:if>
   <!-- hide pendingJobTable (depending on cookie value) -->
-  <xsl:if test="$useJavaScript = 'yes' and $pendingJobTable = 'no'" >
+  <xsl:if test="$pendingJobTable = 'no'" >
     #pendingJobTable { visibility: hidden; display: none; }
   </xsl:if>
   <!-- END COOKIE DEPENDENT VARIABLE CSS STYLE OUTPUT -->
@@ -223,11 +218,9 @@
         (<xsl:value-of select="$AJ_slots"/> slots)
       </div>
       <!-- show/hide activeJobTable via javascript -->
-      <xsl:if test="$useJavaScript = 'yes'" >
-        <xsl:call-template name="toggleElementVisibility">
-          <xsl:with-param name="name"  select="'activeJobTable'"/>
-        </xsl:call-template>
-      </xsl:if>
+      <xsl:call-template name="toggleElementVisibility">
+        <xsl:with-param name="name"  select="'activeJobTable'"/>
+      </xsl:call-template>
     </td>
     </tr>
   </table>
@@ -294,11 +287,9 @@
         (<xsl:value-of select="$PJ_slots"/> slots)
       </div>
       <!-- show/hide pendingJobTable via javascript -->
-      <xsl:if test="$useJavaScript = 'yes'" >
-        <xsl:call-template name="toggleElementVisibility">
-          <xsl:with-param name="name" select="'pendingJobTable'"/>
-        </xsl:call-template>
-      </xsl:if>
+      <xsl:call-template name="toggleElementVisibility">
+        <xsl:with-param name="name" select="'pendingJobTable'"/>
+      </xsl:call-template>
     </td>
     </tr>
   </table>

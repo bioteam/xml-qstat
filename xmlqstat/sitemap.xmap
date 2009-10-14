@@ -377,6 +377,37 @@
     <map:serialize type="xml"/>
   </map:match>
 
+  <!-- url: "/xmlqstat/test"
+       misc browser/javascript tests
+       apply xslt to any xml junk
+       -->
+  <map:match pattern="test">
+    <map:generate  src="cocoon:/config" />
+    <map:transform src="xsl/test-xhtml.xsl">
+      <map:parameter name="xslt-parameters" value='
+          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
+      '/>
+      <map:parameter name="activeJobTable"  value="{cookie:activeJobTable}"/>
+      <map:parameter name="pendingJobTable" value="{cookie:pendingJobTable}"/>
+    </map:transform>
+    <map:serialize type="xml"/>
+  </map:match>
+
+  <!-- client-side rendering for url path "test" -->
+  <map:match pattern="_test">
+    <map:generate  src="cocoon:/config" />
+    <map:transform src="xsl/attach-stylesheet.xsl">
+      <map:parameter name="xslt-parameters" value='
+          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
+          activeJobTable="{cookie:activeJobTable}"
+          pendingJobTable="{cookie:pendingJobTable}"
+      '/>
+      <map:parameter name="rawxml" value="{request-param:rawxml}" />
+      <map:parameter name="stylesheet" value="xsl/test-xhtml.xsl" />
+    </map:transform>
+    <map:serialize type="xml"/>
+  </map:match>
+
   <!-- client-side rendering for url path /info/ -->
   <map:match pattern="info/_*.html">
     <map:generate  src="xml/info/{1}.xml" />

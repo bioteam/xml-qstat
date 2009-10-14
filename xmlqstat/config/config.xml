@@ -28,12 +28,6 @@
 <qlicserver>yes</qlicserver>
 
 <!--
-    Set this to 'yes' if you wish to use JavaScript
-    may cause compatibility issues with some browser versions
--->
-<useJavaScript>yes</useJavaScript>
-
-<!--
     specify an external program for querying the jobinfo
     - the jobId, etc. are passed via the queryString
 -->

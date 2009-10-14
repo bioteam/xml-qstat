@@ -130,6 +130,7 @@
   <xsl:param name="name" />
 
   <div class="toggleVisibility">
+    <xsl:attribute name="id"><xsl:value-of select="$name"/>Toggle</xsl:attribute>
     <xsl:element name="a">
       <xsl:attribute name="href">#</xsl:attribute>
       <xsl:attribute name="onclick">javascript:setDiv('<xsl:value-of select="$name"/>',false)</xsl:attribute>
