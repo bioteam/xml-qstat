@@ -386,7 +386,7 @@ CONTENT
         my ( $root, $cell );
 
         # get root/cell from config information
-        if ( $cluster and $cluster ne "*" ) {
+        if ($cluster) {
             if (    exists $clusterPaths{$cluster}
                 and exists $clusterPaths{$cluster}{root} )
             {
@@ -458,8 +458,6 @@ CONTENT
     sub xmlFromCache {
         my ( $clusterName, $cacheName, $altCmd, @cmdArgs ) = @_;
         my $mainDir = "$resourceRoot/$resourceName";
-
-        my @errors;
 
         $cacheName =~ s{\.xml$}{};
 
@@ -675,6 +673,11 @@ CONTENT
             my ( $clusterName, $function ) = ( $1, $2 );
 
             $xsltParam{clusterName} = $clusterName;
+
+            # handle "default"
+            if ( $clusterName eq "*" or $clusterName eq "default" ) {
+                $clusterName = '';
+            }
 
             #
             # job : with optional user=... filter
