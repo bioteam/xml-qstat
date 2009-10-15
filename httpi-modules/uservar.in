@@ -97,50 +97,15 @@ Demonic feature only; xinetd/inetd/etc. need not apply.
 #
 
 # the base location of the xmlqstat distribution
-my $resourceRoot = "/export/home/mark/xml-qstat";
+my $resourceRoot = "$ENV{HOME}/xml-qstat";
 
-# timeout for system command like qstat -j etc.
+# timeout (seconds) for system command like qstat -j etc.
 my $shellCmdTimeout = 10;
 
 #
 # END OF CUSTOMIZE SETTINGS
 ################################################################################
 ################################################################################
-
-my $resourceName = "xmlqstat";           # don't touch this
-my %clusterPaths = ( "#mtime#" => 0 );
-
-# forward declaration of sub
-sub gridEngineCmd;
-
-# define callbacks for GridEngine commands
-# the names correspond to the internal resource mapping and to the xml file
-# -----------------
-my %gridEngineQuery = (
-    qhost => sub {
-        my ($cluster) = @_;
-        gridEngineCmd( $cluster, qhost => qw( -xml -q -j ) );
-    },
-    qstat => sub {
-        my ($cluster) = @_;
-        gridEngineCmd( $cluster, qstat => qw( -xml -u * -r -s prs ) );
-    },
-    qstatf => sub {
-        my ($cluster) = @_;
-        gridEngineCmd(
-            $cluster,
-            qstat => qw( -xml -u * -r -f -explain aAcE ),
-            ( -F => "load_avg,num_proc" )
-        );
-    },
-    qstatj => sub {
-        my ( $cluster, $jobId ) = @_;
-        $jobId and $jobId =~ /^\d+$/ or $jobId = '*';
-
-        gridEngineCmd( $cluster, qstat => qw( -xml -j ), $jobId );
-    },
-);
-
 
 #
 # something like what the GridEngine util/arch script returns
@@ -154,6 +119,7 @@ if ( exists $ENV{SGE_ARCH} and defined $ENV{SGE_ARCH} ) {
     @sge_arch = $ENV{SGE_ARCH};
 }
 else {
+    use POSIX (); # in case it wasn't already used
     my ( $sysname, undef, $release, undef, $machine ) = POSIX::uname();
     if ( $sysname =~ /Linux/ ) {
         $machine =~ s{^i.*86$}{x86} or $machine =~ s{^x86_64$}{amd64};

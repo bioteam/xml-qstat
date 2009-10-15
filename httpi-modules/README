@@ -17,6 +17,10 @@ modules.in  - inserted in 'sub master {...}' for execution within the loop
 userfunc.in - inserted below at file scope
 
 
+The file "settings-daemonic.EXAMPLE" is an example of configuration
+settings that could be used when configuring httpi in daemonic mode.
+
+
 It is currently necessary to edit uservar.in and adjust
 the base location of the xmlqstat distribution:
 

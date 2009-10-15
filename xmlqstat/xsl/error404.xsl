@@ -86,7 +86,7 @@
   <blockquote>
     <b>
     <xsl:value-of select="$uri"/>
-    <xsl:if test="$request">?<xsl:value-of select="$request"/></xsl:if>
+    <xsl:if test="string-length($request)">?<xsl:value-of select="$request"/></xsl:if>
     </b>
   </blockquote>
 </blockquote>

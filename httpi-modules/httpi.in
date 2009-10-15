@@ -107,11 +107,17 @@ $path = "DEF_HTDOCS_PATH";
 ##<xmlqstat>## - early binding for server host and port
 $server_host = "DEF_SERVER_HOST";
 ~check MUSEPOSIX
-# we might also wish to get the hostname automatically
-# by using (POSIX::uname())[1]
-if ( $server_host =~ /POSIX::/ )
+# we might also wish to get the hostname automatically via POSIX::uname()
+if ( $server_host =~ m{uname\(\)} )
 {
-    eval { $server_host = DEF_SERVER_HOST };
+    $server_host = ( POSIX::uname() )[1];
+
+    ## try to make it fully qualified
+    my $server_ip = gethostbyname($server_host);
+    if ( defined $serverIP ) {
+        my $fqdn = gethostbyaddr( $server_ip, DEF_AF_INET );
+        $server_host = $fqdn if $fqdn;
+    }
 }
 ~
 ~
