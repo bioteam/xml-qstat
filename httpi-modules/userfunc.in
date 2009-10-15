@@ -522,6 +522,40 @@ CONTENT
     #   - $::path
     # ------------------------------
     sub resource_xmlqstat {
+
+        # basic xslt parameters
+        my %xsltParam =
+          ( timestamp => POSIX::strftime( "%Y-%m-%d %H:%M:%S", localtime ), );
+
+        # hack for quick serving of qstat/qhost information
+        # ----------------------------------------------
+
+        # match qstat.xml, qstatf.xml, qhost.xml, etc
+        if ( $::address =~ m{^/(q\w+)\.xml$} )
+        {
+            my ($function) = $1;
+
+            if ( exists $gridEngineQuery{$function} )
+            {
+                if ( $function eq "qstatj" )
+                {
+                    &customError404(<<"CONTENT");
+Resource-intensive request denied
+<blockquote><b>$::address</b></blockquote>
+CONTENT
+                }
+
+                returnXML(
+                    xmlProlog(%xsltParam),
+                    xmlFromCache(
+                        '',    # empty cluster name
+                        $function => ( $gridEngineQuery{$function} )
+                    )
+                );
+            }
+        }
+
+
         # trivial check - not our resource
         return if $::address !~ m{^/xmlqstat(?:/|$)};
 
@@ -542,12 +576,7 @@ CONTENT
         my ( %param, %switch );
         parseRequestString( \%param, \%switch );
 
-        #
-        # basic xslt parameters
-        #
-        my %xsltParam =
-          ( timestamp => POSIX::strftime( "%Y-%m-%d %H:%M:%S", localtime ), );
-
+        # disable stylesheets upon request
         if ( exists $switch{rawxml} or delete $param{rawxml} ) {
             $xsltParam{rawxml} = "true";
         }
@@ -797,7 +826,7 @@ CONTENT
             my ( $function, $clusterName ) = ( $1, $2 );
 
             #
-            # job : with optional user=... filter
+            # raw qstat -f query
             #
             if ( $function eq "qstatf" ) {
                 returnXML(
