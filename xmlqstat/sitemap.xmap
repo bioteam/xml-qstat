@@ -660,7 +660,7 @@
   <map:match pattern="^(config|xsl|xml)$" type="regexp">
     <map:generate type="directory"  src="{1}">
       <map:parameter name="depth"   value="1"/>
-      <map:parameter name="include" value="\.(xml|xsl)$"/>
+      <map:parameter name="include" value="\.(png|xml|xsl)$"/>
     </map:generate>
     <map:transform src="xsl/directory-xhtml.xsl"/>
     <map:serialize type="xhtml"/>

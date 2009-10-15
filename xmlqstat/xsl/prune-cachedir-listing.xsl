@@ -30,7 +30,7 @@
 <xsl:template match="/dir:directory">
   <xsl:copy>
     <xsl:apply-templates
-        select="*[@name = 'cache' or substring-before(@name, '-') = 'cache']"
+        select="*[@name = 'cache' or starts-with(@name, 'cache-')]"
     />
   </xsl:copy>
 </xsl:template>

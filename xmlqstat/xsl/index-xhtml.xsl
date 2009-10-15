@@ -117,12 +117,6 @@
   /></a>
 
   <img alt=" | " src="css/screen/icon_divider.png" />
-  <a href="sitemap.xmap" title="sitemap"><img
-      src="css/screen/icons/map.png"
-      alt="[sitemap]"
-  /></a>
-
-  <img alt=" | " src="css/screen/icon_divider.png" />
   <a href="http://olesenm.github.com/xml-qstat/index.html"
       title="about"><img
       src="css/screen/icons/information.png"

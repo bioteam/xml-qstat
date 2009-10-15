@@ -50,7 +50,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta http-equiv="Refresh" content="60" />
   &newline;
   <link rel="icon" type="image/png" href="css/screen/icons/folder.png"/>
   <link href="css/xmlqstat.css" media="screen" rel="Stylesheet" type="text/css" />
@@ -82,7 +81,12 @@
 <ul>
   <xsl:choose>
   <xsl:when test="/dir:directory">
-    <xsl:apply-templates select="/dir:directory" />
+    <xsl:for-each select="/dir:directory">
+      <!-- sort by name -->
+      <xsl:sort select="@name"/>
+      <xsl:apply-templates select="."/>
+    </xsl:for-each>
+    <!--    <xsl:apply-templates select="/dir:directory" /> -->
   </xsl:when>
   <xsl:otherwise>
     <li>directory does not exist or is empty</li>
@@ -111,6 +115,8 @@ transformed by
 
 <xsl:template match="/dir:directory">
   <xsl:for-each select="dir:file">
+    <!-- sort by name -->
+    <xsl:sort select="@name"/>
     <xsl:element name="li">
       <xsl:element name="a">
         <xsl:attribute name="href">

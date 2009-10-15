@@ -264,10 +264,11 @@ qq{<?${disabled}xml-stylesheet type="text/xml" href="$stylesheet"?>\n};
 
     #
     # provide similar output to Apache Cocoon Directory Generator
-    # but with depth=1 and limited to (xml|xsl) files
+    # but with depth=1 and limited to (png|xml|xsl) files
     # didn't bother full compatibility, attributes etc, since none of
     # it is used in our transformations
     #
+    # also don't bother sorting the entries
     # ---------------------------------------------
     sub directoryGenerator {
         my $mainDir = "$resourceRoot/$resourceName";
@@ -279,7 +280,7 @@ qq{<dir:directory xmlns:dir="http://apache.org/cocoon/directory/2.0" name="$src"
         local ( *DIR, *SUBDIR );
         if ( opendir DIR, "$mainDir/$src" ) {
             while ( my $f = readdir DIR ) {
-                if ( -f "$mainDir/$src/$f" and $f =~ /\.(xml|xsl)$/ ) {
+                if ( -f "$mainDir/$src/$f" and $f =~ /^.+\.(png|xml|xsl)$/ ) {
                     $content .= qq{<dir:file name="$f"/>\n};
                 }
             }
@@ -291,8 +292,9 @@ qq{<dir:directory xmlns:dir="http://apache.org/cocoon/directory/2.0" name="$src"
     # special purpose Directory Generator
     #
     # max depth=2, limit first level to cache, cache-* directories
-    # and limit second level to (xml) files
+    # and limit second level to (xml) files only
     #
+    # also don't bother sorting the entries
     # ---------------------------------------------
     sub directoryGeneratorCacheFiles {
         my $mainDir = "$resourceRoot/$resourceName";
@@ -648,16 +650,6 @@ CONTENT
                     stylesheet => "./xsl/directory-xhtml.xsl",
                 ),
                 directoryGenerator($dir)
-            );
-        }
-
-        #
-        # /xmlqstat/sitemap.xmap
-        # display cocoon sitemap
-        if ( $::address eq "/xmlqstat/sitemap.xmap" ) {
-            returnXML(
-                xmlProlog(%xsltParam),    #
-                xmlFromFile("sitemap.xmap")
             );
         }
 

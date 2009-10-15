@@ -74,7 +74,7 @@ for ( sort keys %missing ) {
 my %extra = %fileList;
 delete @extra{ keys %referenced };
 
-print "\n", +( scalar keys %missing ),
+print "\n", +( scalar keys %extra ),
   " icon files found but not referenced:\n";
 for ( sort keys %extra ) {
     print "    git mv xmlqstat/css/screen/icons/$_  icons/silk\n";
