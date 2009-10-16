@@ -22,8 +22,9 @@
 <UTC_TZ_offset>+01:00</UTC_TZ_offset>
 
 <!--
-    Set this to 'yes' if you wish to view the resource allocation
-    reported by the qlicserver program
+    Set this to 'no' if you wish to disable viewing of the
+    resource allocation reported by the qlicserver program.
+    Other values (or a missing entry) are interpreted as 'yes'.
 -->
 <qlicserver>yes</qlicserver>
 
@@ -33,6 +34,7 @@
 -->
 <programs>
   <!--
+      Cocoon only:
       specify an external program for obtaining the qstat -j information
       - leave empty if you don't have such a program, or if you wish
         to use the CommandGenerator
@@ -61,10 +63,24 @@
 -->
 <topLogo src="config/logo.png" href="http://dealog01:8080" height="29"/>
 
-<!-- define cluster settings and if a default cluster is allowed -->
+<!--
+    define cluster settings and if a default cluster is allowed
+    @name - SGE_CLUSTER_NAME required
+    @root - SGE_ROOT required unless @baseURL is used
+    @cell - SGE_CELL optional, provided the downstream uses 'default'
+    @baseURL - (in testing) optional means of getting at resources, needs a trailing slash
+    -->
 <clusters>
-  <cluster name="augsburg01" root="/data/app/grid01" cell="default" />
-  <cluster name="augsburg02" root="/data/app/grid02" cell="default" />
+  <cluster
+      name="augsburg01"
+      root="/data/app/grid01"
+      cell="default"
+      />
+  <cluster
+      name="augsburg02"
+      root="/data/app/grid02"
+      cell="default"
+      />
   <default>yes</default>
 </clusters>
 

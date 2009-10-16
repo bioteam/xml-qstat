@@ -171,7 +171,8 @@
     <map:serialize type="xml"/>
   </map:match>
 
-  <!-- url: "/xmlqstat/resource~{clusterName}.xml"
+
+  <!-- url: "/xmlqstat/qlicserver~{clusterName}.xml"
        qstatf for a particular cluster name
        get cached value
        1. cache-{clusterName}/qlicserver.xml
@@ -193,10 +194,32 @@
     <map:serialize type="xml"/>
   </map:match>
 
+
+
+  <!--
+     | Notes for understanding the command-generator mappings.
+     | Replace '{Function}' with qstatf, qstatj calls.
+     |
+     | "/{Function}~.xml"
+     | '{Function}' w/o cluster name
+     |   1. check cache/{Function}.xml
+     |   2. call command-generator directly for {Function}
+     |
+     | "/Function~{NAME}.xml"
+     | 'Function' for a particular cluster name
+     |   1. check cache-{NAME}/{Function}.xml
+     |   2. check cache/{Function}~{NAME}.xml
+     |   3. use xslt/redirect-query to extract SGE_ROOT, SGE_CELL for NAME
+     |      and rewrite the query as "/{Function}.xml/~{sge_cell}/{sge_root}".
+     |      The subsequent xinclude call redirects the pipeline there and
+     |      calls the command-generator with "CELL={1} ROOT=/{2}" as its
+     |      initial arguments. It is thus imperative that the qstat.sh
+     |      be used. It interpretes these values correctly.
+     -->
+
   <!-- url: "/xmlqstat/qstatf~.xml"
        qstatf w/o cluster name
-       1. use cached value (cache/qstatf.xml)
-       or redirected query to CommandGenerator/cgi-script
+       See notes above
        -->
   <map:match pattern="qstatf~.xml">
     <map:select type="resource-exists">
@@ -204,8 +227,7 @@
       <map:generate src="cocoon:/cache/qstatf.xml"/>
     </map:when>
     <map:otherwise>
-    <map:generate
-        type="commandGenerator"
+    <map:generate type="commandGenerator"
         src="qstat.sh -u * -xml -r -f -F load_avg,num_proc -explain aAcE"
         />
     </map:otherwise>
@@ -216,10 +238,7 @@
 
   <!-- url: "/xmlqstat/qstatf~{clusterName}.xml"
        qstatf for a particular cluster name
-       get cached value
-       1. cache-{clusterName}/qstatf.xml
-       2. cache/qstatf~{clusterName}.xml
-       or redirected query to CommandGenerator/cgi-script
+       See notes above
        -->
   <map:match pattern="qstatf~*.xml">
     <map:select type="resource-exists">
@@ -231,14 +250,15 @@
     </map:when>
     <map:otherwise>
       <!--
-          | redirect query via xinclude (Note: the input xml is irrelevant)
-          | redirect to "/xmlqstat/qstatf.xml/~{sge_cell}/{sge_root}"
-          -->
+         | redirect query "/xmlqstat/qstatf.xml/~{sge_cell}/{sge_root}" via xinclude
+         | (Note: the input xml is irrelevant)
+         -->
       <map:generate  src="cocoon:/config" />
       <map:transform src="xsl/redirect-query.xsl">
         <map:parameter name="clusterName" value="{1}" />
-        <map:parameter name="redirect"
-            value="http://{request:serverName}:{request:serverPort}/xmlqstat/qstatf.xml"
+        <map:parameter name="resource"    value="qstatf.xml" />
+        <map:parameter name="baseURL"
+            value="http://{request:serverName}:{request:serverPort}/xmlqstat/"
             />
       </map:transform>
       <map:transform type="xinclude"/>
@@ -251,8 +271,7 @@
        qstatf for a particular SGE_CELL, SGE_ROOT combination
        -->
   <map:match pattern="qstatf.xml/~*/**">
-    <map:generate
-        type="commandGenerator"
+    <map:generate type="commandGenerator"
         src="qstat.sh CELL={1} ROOT=/{2} -u * -xml -r -f -F load_avg,num_proc -explain aAcE"
         />
     <map:serialize type="xml"/>
@@ -262,8 +281,7 @@
        qstatf for a particular SGE_ROOT, SGE_CELL=default
        -->
   <map:match pattern="qstatf.xml/**">
-    <map:generate
-        type="commandGenerator"
+    <map:generate type="commandGenerator"
         src="qstat.sh CELL=default ROOT=/{1} -u * -xml -r -f -F load_avg,num_proc -explain aAcE"
         />
     <map:serialize type="xml"/>
@@ -282,8 +300,9 @@
       <map:parameter name="clusterName" value="{1}" />
       <map:parameter name="mode"     value="jobinfo"/>
       <map:parameter name="request"  value="{request:queryString}" />
-      <map:parameter name="redirect"
-          value="http://{request:serverName}:{request:serverPort}/xmlqstat/qstatj.xml"
+      <map:parameter name="resource" value="qstatj.xml" />
+      <map:parameter name="baseURL"
+          value="http://{request:serverName}:{request:serverPort}/xmlqstat/"
           />
     </map:transform>
     <map:transform type="xinclude"/>
@@ -298,16 +317,14 @@
     <map:parameter name="parameter-test" value="{request:queryString}" />
     <map:when test="">
       <!-- empty queryString -->
-      <map:generate
-          type="commandGenerator"
-          src="qstat.sh CELL={1} ROOT=/{2} -xml -j *"
+      <map:generate type="commandGenerator"
+          src="qstat.sh CELL={1} ROOT=/{2} -j * -xml"
           />
     </map:when>
     <map:otherwise>
       <!-- with jobNumber -->
-      <map:generate
-          type="commandGenerator"
-          src="qstat.sh CELL={1} ROOT=/{2} -xml -j {request:queryString}"
+      <map:generate type="commandGenerator"
+          src="qstat.sh CELL={1} ROOT=/{2} -j {request:queryString} -xml"
           />
     </map:otherwise>
     </map:select>
@@ -325,16 +342,14 @@
     />
     <map:when test="">
       <!-- empty queryString -->
-      <map:generate
-          type="commandGenerator"
-          src="qstat.sh CELL=default ROOT=/{1} -xml -j *"
+      <map:generate type="commandGenerator"
+          src="qstat.sh CELL=default ROOT=/{1} -j * -xml"
           />
     </map:when>
     <map:otherwise>
       <!-- with jobNumber -->
-      <map:generate
-          type="commandGenerator"
-          src="qstat.sh CELL=default ROOT=/{1} -xml -j {request:queryString}"
+      <map:generate type="commandGenerator"
+          src="qstat.sh CELL=default ROOT=/{1} -j {request:queryString} -xml"
           />
     </map:otherwise>
     </map:select>
@@ -679,15 +694,13 @@
     />
     <map:when test="">
       <!-- empty queryString -->
-      <map:generate
-          type="commandGenerator"
+      <map:generate type="commandGenerator"
           src="qstat.sh -xml -j *"
       />
     </map:when>
     <map:otherwise>
       <!-- with jobId -->
-      <map:generate
-          type="commandGenerator"
+      <map:generate type="commandGenerator"
           src="qstat.sh -xml -j {request:queryString}"
           />
     </map:otherwise>

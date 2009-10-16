@@ -3,8 +3,9 @@
 # For example, to track how often a command is 'hit' from a webserver request.
 #
 # But the wrapper also interprets these initial parameters:
-#     CELL=... (interpret as SGE_CELL)
-#     ROOT=... (interpret as SGE_ROOT - should be an absolute path)
+#     CELL=... interpret as SGE_CELL
+#     ROOT=... interpret as SGE_ROOT - should be an absolute path
+#     JOB=...  interpret as '-j' option for qstat, but handle empty argument as '*'
 #
 # It also provides a quick fix for issue
 #     http://gridengine.sunsource.net/issues/show_bug.cgi?id=1949
@@ -47,8 +48,11 @@ error()
 
 
 # adjust the GridEngine environment based on the leading parameters:
-#    CELL (SGE_CELL), ROOT (SGE_ROOT)
+#    CELL= (SGE_CELL), ROOT= (SGE_ROOT)
+#    JOB=  the '-j' option for qstat, but handle empty argument as '*'
+#
 unset abspath
+unset jobArgs
 while [ "$#" -gt 0 ]
 do
     case "$1" in
@@ -59,6 +63,11 @@ do
     ROOT=*)
         export SGE_ROOT="${1##ROOT=}"
         abspath=/
+        shift
+        ;;
+    JOB=*)
+        jobArgs="${1##JOB=}"
+        [ -n "$jobArgs" ] || jobArgs="*"    # missing job number is '*' (all jobs)
         shift
         ;;
     *)
@@ -96,7 +105,13 @@ qhost)
     $abspath$cmd "$@" | sed -e 's@xmlns=@xmlns:xsd=@'
     ;;
 *)
-    $abspath$cmd "$@" | sed -e 's@</*>@@g'
+    if [ -n "$jobArgs" ]
+    then
+        $abspath$cmd "$@" -j "$jobArgs" | sed -e 's@</*>@@g'
+    else
+        $abspath$cmd "$@" | sed -e 's@</*>@@g'
+    fi
+
     ;;
 esac
 

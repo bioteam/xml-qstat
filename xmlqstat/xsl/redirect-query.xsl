@@ -6,7 +6,8 @@
    | process config/config.xml to generate an appropriate
    | xi:include element for querying jobs, which can be expanded later
    |
-   | this is likely only useful for server-side transformations
+   | this is likely only useful for server-side transformations, thus
+   | we don't bother with using pi-param to get at the xslt-params
 -->
 
 <!-- ======================= Imports / Includes =========================== -->
@@ -14,10 +15,11 @@
 <xsl:include href="xmlqstat-templates.xsl"/>
 
 <!-- ======================== Passed Parameters =========================== -->
-<xsl:param name="clusterName"/>
-<xsl:param name="redirect"/>
-<xsl:param name="request"/>
-<xsl:param name="mode"/>
+<xsl:param name="clusterName" />
+<xsl:param name="resource" />
+<xsl:param name="baseURL" />
+<xsl:param name="request" />
+<xsl:param name="mode" />
 
 <!-- ======================= Internal Parameters ========================== -->
 <!-- configuration parameters -->
@@ -60,8 +62,11 @@
           <xsl:value-of select="$jobinfo"/>
         </xsl:when>
         <xsl:otherwise>
+
           <!-- redirect (likely uses CommandGenerator) -->
-          <xsl:value-of select="$redirect"/>
+          <xsl:value-of select="$baseURL"/>
+          <xsl:value-of select="$resource"/>
+
         </xsl:otherwise>
         </xsl:choose>
         <xsl:if test="string-length($request)">
@@ -102,17 +107,23 @@
 <!--
    create a qstat query that can be evaluated later via xinclude
    typically something like
-       http://<server>:<port>/xmlqstat/redirect.xml/~{sge_cell}/{sge_root}
+       http://<server>:<port>/xmlqstat/{Function}.xml/~{sge_cell}/{sge_root}
 -->
 <xsl:template match="cluster" mode="redirect">
+
+  <xsl:variable name="cell" select="$clusterNode/@cell" />
+  <xsl:variable name="root" select="$clusterNode/@root" />
+  <xsl:variable name="base" select="$clusterNode/@baseURL" />
+
   <xsl:element name="xi:include">
     <xsl:attribute name="href">
-      <xsl:value-of select="$redirect"/>
-      <xsl:if test="$clusterNode/@cell != 'default'">
-        <xsl:text>/~</xsl:text>
-        <xsl:value-of select="$clusterNode/@cell" />
-      </xsl:if>
-      <xsl:value-of select="$clusterNode/@root"/>
+
+      <!-- redirect (likely uses CommandGenerator) -->
+      <xsl:value-of select="$baseURL"/>
+      <xsl:value-of select="$resource"/>
+
+      <xsl:text>/~</xsl:text><xsl:value-of select="$cell" />
+      <xsl:value-of select="$root"/>
       <xsl:if test="string-length($request)">
         <xsl:text>?</xsl:text>
         <xsl:value-of select="$request"/>
