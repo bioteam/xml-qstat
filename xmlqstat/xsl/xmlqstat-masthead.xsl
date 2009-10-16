@@ -89,8 +89,15 @@
 <xsl:template name="topMenu">
   <xsl:param name="jobinfo" />
 
-  <xsl:variable name="qlicserverOk">
-    <xsl:if test="document('../config/config.xml')/config/qlicserver = 'yes'">yes</xsl:if>
+  <xsl:variable name="qlicserverAllowed">
+    <xsl:choose>
+    <xsl:when test="document('../config/config.xml')/config/qlicserver
+      and document('../config/config.xml')/config/qlicserver != 'no'
+      ">yes</xsl:when>
+    <xsl:otherwise>
+      <xsl:text>yes</xsl:text>
+    </xsl:otherwise>
+    </xsl:choose>
   </xsl:variable>
 
   <div id="menu">
@@ -134,7 +141,7 @@
         alt="[queues]"
     /></a>
 
-  <xsl:if test="$qlicserverOk = 'yes'">
+  <xsl:if test="$qlicserverAllowed = 'yes'">
     <!-- resources -->
     <img alt=" | " src="css/screen/icon_divider.png" />
     <a href="resources" title="resources" ><img
@@ -177,8 +184,15 @@
   <xsl:param name="clusterSuffix" />
   <xsl:param name="jobinfo" />
 
-  <xsl:variable name="qlicserverOk">
-    <xsl:if test="document('../config/config.xml')/config/qlicserver = 'yes'">yes</xsl:if>
+  <xsl:variable name="qlicserverAllowed">
+    <xsl:choose>
+    <xsl:when test="document('../config/config.xml')/config/qlicserver
+      and document('../config/config.xml')/config/qlicserver != 'no'
+      ">yes</xsl:when>
+    <xsl:otherwise>
+      <xsl:text>yes</xsl:text>
+    </xsl:otherwise>
+    </xsl:choose>
   </xsl:variable>
 
 
@@ -218,7 +232,7 @@
       />
     </xsl:element>
 
-  <xsl:if test="$qlicserverOk = 'yes'">
+  <xsl:if test="$qlicserverAllowed = 'yes'">
     <!-- resources -->
     <img alt=" | " src="css/screen/icon_divider.png" />
     <xsl:element name="a">

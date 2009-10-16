@@ -38,8 +38,15 @@
 <xsl:variable
     name="configFile"
     select="document('../config/config.xml')/config" />
-<xsl:variable name="qlicserverOk">
-  <xsl:if test="$configFile/qlicserver = 'yes'">yes</xsl:if>
+<xsl:variable name="qlicserverAllowed">
+  <xsl:choose>
+  <xsl:when test="$configFile/qlicserver">
+    <xsl:if test="$configFile/qlicserver != 'no'">yes</xsl:if>
+  </xsl:when>
+  <xsl:otherwise>
+    <xsl:text>yes</xsl:text>
+  </xsl:otherwise>
+  </xsl:choose>
 </xsl:variable>
 
 <xsl:variable name="defaultCluster">
@@ -272,11 +279,13 @@
   </xsl:variable>
 
   <xsl:variable name="qlicserver_exists">
-    <xsl:call-template name="hasCacheFile">
-      <xsl:with-param name="cacheDir"      select="$fqCacheDir"/>
-      <xsl:with-param name="fileQualifier" select="$fileQualifier"/>
-      <xsl:with-param name="fileBase"      select="'qlicserver'"/>
-    </xsl:call-template>
+    <xsl:if test="$qlicserverAllowed = 'yes'">
+      <xsl:call-template name="hasCacheFile">
+        <xsl:with-param name="cacheDir"      select="$fqCacheDir"/>
+        <xsl:with-param name="fileQualifier" select="$fileQualifier"/>
+        <xsl:with-param name="fileBase"      select="'qlicserver'"/>
+      </xsl:call-template>
+    </xsl:if>
   </xsl:variable>
 
   <xsl:variable name="qstat_exists">
@@ -415,7 +424,7 @@
         </xsl:element>
       </xsl:if>
 
-      <xsl:if test="string-length($qlicserver_exists) and $qlicserverOk = 'yes'">
+      <xsl:if test="string-length($qlicserver_exists)">
         <!-- resources -->
         &space;
         <xsl:element name="a">
@@ -494,7 +503,7 @@
     </xsl:element>
 
     <!-- resources -->
-    <xsl:if test="string-length($qlicserver_exists) and $qlicserverOk = 'yes'">
+    <xsl:if test="string-length($qlicserver_exists)">
       &space;
       <xsl:element name="a">
         <xsl:attribute name="title">resources</xsl:attribute>
