@@ -49,6 +49,11 @@
     <xsl:with-param  name="name"    select="'renderMode'"/>
   </xsl:call-template>
 </xsl:param>
+<xsl:param name="urlExt">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'urlExt'"/>
+  </xsl:call-template>
+</xsl:param>
 
 
 <!-- ======================= Internal Parameters ========================== -->
@@ -148,7 +153,9 @@
 <xsl:call-template name="topLogo"/>
 &newline;
 <!-- Top Menu Bar -->
-<xsl:call-template name="topMenu"/>
+<xsl:call-template name="topMenu">
+  <xsl:with-param name="urlExt" select="$urlExt"/>
+</xsl:call-template>
 &newline;
 
 <xsl:comment> Top dotted line bar (holds the cluster/qmaster names and update time) </xsl:comment>
@@ -531,7 +538,10 @@
       </xsl:choose>
       <xsl:element name="a">
         <xsl:attribute name="title">details for job <xsl:value-of select="@name"/></xsl:attribute>
-        <xsl:attribute name="href">jobinfo?<xsl:value-of select="@name"/></xsl:attribute>
+        <xsl:attribute name="href">
+          <xsl:text>jobinfo</xsl:text>
+          <xsl:value-of select="$urlExt"/>?<xsl:value-of select="@name"/>
+        </xsl:attribute>
         <xsl:value-of select="@name"/>
       </xsl:element>
       <br/>

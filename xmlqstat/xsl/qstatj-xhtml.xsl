@@ -47,6 +47,11 @@
     <xsl:with-param  name="name"    select="'menuMode'"/>
   </xsl:call-template>
 </xsl:param>
+<xsl:param name="urlExt">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'urlExt'"/>
+  </xsl:call-template>
+</xsl:param>
 
 
 <!-- ======================= Internal Parameters ========================== -->
@@ -117,11 +122,13 @@
   <xsl:call-template name="qstatfMenu">
     <xsl:with-param name="clusterSuffix" select="$clusterSuffix"/>
     <xsl:with-param name="jobinfo" select="'less'"/>
+    <xsl:with-param name="urlExt"  select="$urlExt"/>
   </xsl:call-template>
 </xsl:when>
 <xsl:otherwise>
   <xsl:call-template name="topMenu">
     <xsl:with-param name="jobinfo" select="'less'"/>
+    <xsl:with-param name="urlExt"  select="$urlExt"/>
   </xsl:call-template>
 </xsl:otherwise>
 </xsl:choose>
@@ -344,12 +351,14 @@
     mode="overview"
 >
   <xsl:variable name="jobs-href">
-    <xsl:choose>
-    <xsl:when test="$menuMode='qstatf'">
-      jobs<xsl:value-of select="$clusterSuffix"/>?<xsl:value-of select="JB_owner"/>
-    </xsl:when>
-    <xsl:otherwise>jobs?user=<xsl:value-of select="JB_owner"/></xsl:otherwise>
-    </xsl:choose>
+    <xsl:text>jobs</xsl:text>
+    <xsl:if test="$menuMode='qstatf'">
+      <xsl:value-of select="$clusterSuffix"/>
+    </xsl:if>
+    <xsl:if test="string-length($urlExt)">
+      <xsl:value-of select="$urlExt"/>
+    </xsl:if>
+    <xsl:text>?user=</xsl:text><xsl:value-of select="JB_owner"/>
   </xsl:variable>
 
   <tr>

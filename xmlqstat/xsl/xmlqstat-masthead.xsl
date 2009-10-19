@@ -84,10 +84,11 @@
 
 
 <!-- define top menu bar for navigation
-     this version is optimized for use with qlicserver output
+     this version is optimized for use with qlicserver cache files
 -->
 <xsl:template name="topMenu">
   <xsl:param name="jobinfo" />
+  <xsl:param name="urlExt" />
 
   <xsl:variable name="qlicserverAllowed">
     <xsl:choose>
@@ -101,69 +102,115 @@
   </xsl:variable>
 
   <div id="menu">
-    <a href="../../" title="clusters" class="leftSpace"><img
+    <xsl:element name="a">
+      <xsl:attribute name="title">cluster listing</xsl:attribute>
+      <xsl:attribute name="href">../../cluster<xsl:value-of
+        select="$urlExt"/></xsl:attribute>
+      <xsl:attribute name="class">leftSpace</xsl:attribute>
+      <img
         src="css/screen/icons/house.png"
         alt="[home]"
-    /></a>
+      />
+    </xsl:element>
 
     <!-- jobs -->
     <img alt=" | " src="css/screen/icon_divider.png" />
-    <a href="jobs" title="jobs"><img
+    <xsl:element name="a">
+      <xsl:attribute name="title">jobs</xsl:attribute>
+      <xsl:attribute name="href">jobs<xsl:value-of
+        select="$urlExt"/></xsl:attribute>
+      <img
         src="css/screen/icons/lorry_flatbed.png"
         alt="[jobs]"
-    /></a>
+      />
+    </xsl:element>
 
     <!-- queues?summary -->
     <img alt=" | " src="css/screen/icon_divider.png" />
-    <a href="queues?summary" title="queue summary"><img
+    <xsl:element name="a">
+      <xsl:attribute name="title">queue summary</xsl:attribute>
+      <xsl:attribute name="href">queues<xsl:value-of
+        select="$urlExt"/>?summary</xsl:attribute>
+      <img
         src="css/screen/icons/sum.png"
         alt="[queues summary]"
-    /></a>
+      />
+    </xsl:element>
 
     <!-- queues?free -->
     <img alt=" | " src="css/screen/icon_divider.png" />
-    <a href="queues?free" title="queues free"><img
+    <xsl:element name="a">
+      <xsl:attribute name="title">queue free</xsl:attribute>
+      <xsl:attribute name="href">queues<xsl:value-of
+        select="$urlExt"/>?free</xsl:attribute>
+      <img
         src="css/screen/icons/tick.png"
         alt="[queues free]"
-    /></a>
+      />
+    </xsl:element>
 
     <!-- queues?warn -->
     <img alt=" | " src="css/screen/icon_divider.png" />
-    <a href="queues?warn" title="warn queues"><img
+    <xsl:element name="a">
+      <xsl:attribute name="title">queue warn</xsl:attribute>
+      <xsl:attribute name="href">queues<xsl:value-of
+        select="$urlExt"/>?warn</xsl:attribute>
+      <img
         src="css/screen/icons/error.png"
         alt="[warn queues]"
-    /></a>
+      />
+    </xsl:element>
 
     <!-- queues -->
     <img alt=" | " src="css/screen/icon_divider.png" />
-    <a href="queues" title="queue instances"><img
+    <xsl:element name="a">
+      <xsl:attribute name="title">queue instances</xsl:attribute>
+      <xsl:attribute name="href">queues<xsl:value-of
+        select="$urlExt"/></xsl:attribute>
+      <img
         src="css/screen/icons/shape_align_left.png"
         alt="[queues]"
-    /></a>
+      />
+    </xsl:element>
 
   <xsl:if test="$qlicserverAllowed = 'yes'">
     <!-- resources -->
     <img alt=" | " src="css/screen/icon_divider.png" />
-    <a href="resources" title="resources" ><img
+    <xsl:element name="a">
+      <xsl:attribute name="title">resources</xsl:attribute>
+      <xsl:attribute name="href">resources<xsl:value-of
+        select="$urlExt"/></xsl:attribute>
+      <img
         src="css/screen/icons/database_key.png"
         alt="[resources]"
-    /></a>
+      />
+    </xsl:element>
   </xsl:if>
 
     <!-- jobinfo: toggle between more/less views -->
     <img alt=" | " src="css/screen/icon_divider.png" />
     <xsl:choose>
     <xsl:when test="$jobinfo = 'less'">
-      <a href="jobs" title="jobs"><img
+      <xsl:element name="a">
+        <xsl:attribute name="title">jobs</xsl:attribute>
+        <xsl:attribute name="href">jobs<xsl:value-of
+          select="$urlExt"/></xsl:attribute>
+        <img
           src="css/screen/icons/magnifier_zoom_out.png"
           alt="[jobs]"
-      /></a>
+        />
+      </xsl:element>
     </xsl:when>
     <xsl:otherwise>
-      <a href="jobinfo" title="job details"><img
+      <xsl:element name="a">
+        <xsl:attribute name="title">job details</xsl:attribute>
+        <xsl:attribute name="href">jobinfo<xsl:value-of
+          select="$urlExt"/></xsl:attribute>
+        <img
           src="css/screen/icons/magnifier_zoom_in.png"
           alt="[job details]"
-      /></a>
+        />
+      </xsl:element>
     </xsl:otherwise>
     </xsl:choose>
 
@@ -183,6 +230,7 @@
 <xsl:template name="qstatfMenu">
   <xsl:param name="clusterSuffix" />
   <xsl:param name="jobinfo" />
+  <xsl:param name="urlExt" />
 
   <xsl:variable name="qlicserverAllowed">
     <xsl:choose>
@@ -197,15 +245,23 @@
 
 
   <div id="menu">
-    <a href="./" title="home" class="leftSpace"><img
+    <xsl:element name="a">
+      <xsl:attribute name="title">clusters</xsl:attribute>
+      <xsl:attribute name="href">cluster<xsl:value-of
+        select="$urlExt"/></xsl:attribute>
+      <xsl:attribute name="class">leftSpace</xsl:attribute>
+      <img
         src="css/screen/icons/house.png"
         alt="[home]"
-    /></a>
+      />
+    </xsl:element>
 
     <img alt=" | " src="css/screen/icon_divider.png" />
     <xsl:element name="a">
       <xsl:attribute name="title">jobs</xsl:attribute>
-      <xsl:attribute name="href">jobs<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
+      <xsl:attribute name="href">jobs<xsl:value-of select="$clusterSuffix"/>
+        <xsl:value-of select="$urlExt"/>
+      </xsl:attribute>
       <img
         src="css/screen/icons/lorry.png"
         alt="[jobs]"
@@ -215,7 +271,9 @@
     <img alt=" | " src="css/screen/icon_divider.png" />
     <xsl:element name="a">
       <xsl:attribute name="title">queue instances</xsl:attribute>
-      <xsl:attribute name="href">queues<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
+      <xsl:attribute name="href">queues<xsl:value-of select="$clusterSuffix"/>
+        <xsl:value-of select="$urlExt"/>
+      </xsl:attribute>
       <img
         src="css/screen/icons/shape_align_left.png"
         alt="[queue instances]"
@@ -225,7 +283,9 @@
     <img alt=" | " src="css/screen/icon_divider.png" />
     <xsl:element name="a">
       <xsl:attribute name="title">cluster summary</xsl:attribute>
-      <xsl:attribute name="href">summary<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
+      <xsl:attribute name="href">summary<xsl:value-of select="$clusterSuffix"/>
+        <xsl:value-of select="$urlExt"/>
+      </xsl:attribute>
       <img
         src="css/screen/icons/sum.png"
         alt="[cluster summary]"
@@ -237,7 +297,9 @@
     <img alt=" | " src="css/screen/icon_divider.png" />
     <xsl:element name="a">
       <xsl:attribute name="title">resources</xsl:attribute>
-      <xsl:attribute name="href">resources<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
+      <xsl:attribute name="href">resources<xsl:value-of select="$clusterSuffix"/>
+        <xsl:value-of select="$urlExt"/>
+      </xsl:attribute>
       <img
         src="css/screen/icons/database_key.png"
         alt="[resources]"
@@ -251,7 +313,9 @@
     <xsl:when test="$jobinfo = 'less'">
       <xsl:element name="a">
         <xsl:attribute name="title">jobs</xsl:attribute>
-        <xsl:attribute name="href">jobs<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
+        <xsl:attribute name="href">jobs<xsl:value-of select="$clusterSuffix"/>
+          <xsl:value-of select="$urlExt"/>
+        </xsl:attribute>
         <img
           src="css/screen/icons/magnifier_zoom_out.png"
           alt="[jobs]"
@@ -261,7 +325,9 @@
     <xsl:otherwise>
       <xsl:element name="a">
         <xsl:attribute name="title">job details</xsl:attribute>
-        <xsl:attribute name="href">jobinfo<xsl:value-of select="$clusterSuffix"/></xsl:attribute>
+        <xsl:attribute name="href">jobinfo<xsl:value-of select="$clusterSuffix"/>
+          <xsl:value-of select="$urlExt"/>
+        </xsl:attribute>
         <img
           src="css/screen/icons/magnifier_zoom_in.png"
           alt="[jobs]"

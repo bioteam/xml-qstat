@@ -43,6 +43,11 @@
     <xsl:with-param  name="name"    select="'filterByUser'"/>
   </xsl:call-template>
 </xsl:param>
+<xsl:param name="urlExt">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'urlExt'"/>
+  </xsl:call-template>
+</xsl:param>
 
 
 <!-- ======================= Internal Parameters ========================== -->
@@ -127,7 +132,9 @@
 <!-- Topomost Logo Div -->
 <xsl:call-template name="topLogo"/>
 <!-- Top Menu Bar -->
-<xsl:call-template name="topMenu"/>
+<xsl:call-template name="topMenu">
+  <xsl:with-param name="urlExt" select="$urlExt"/>
+</xsl:call-template>
 
 &newline;
 <xsl:comment> Top dotted line bar (holds the qmaster host and update time) </xsl:comment>
@@ -367,7 +374,10 @@
           &space;
         </xsl:for-each>
       </xsl:attribute>
-      <xsl:attribute name="href">jobinfo?<xsl:value-of select="JB_job_number"/></xsl:attribute>
+      <xsl:attribute name="href">
+        <xsl:text>jobinfo</xsl:text>
+        <xsl:value-of select="$urlExt"/>?<xsl:value-of select="JB_job_number"/>
+      </xsl:attribute>
       <xsl:value-of select="JB_job_number" />
     </xsl:element>
   </td>
@@ -376,7 +386,10 @@
     <!-- link owner names to "jobs?user={owner}" -->
     <xsl:element name="a">
       <xsl:attribute name="title">view jobs owned by <xsl:value-of select="JB_owner"/></xsl:attribute>
-      <xsl:attribute name="href">jobs?user=<xsl:value-of select="JB_owner"/></xsl:attribute>
+      <xsl:attribute name="href">
+        <xsl:text>jobs</xsl:text>
+        <xsl:value-of select="$urlExt"/>?user=<xsl:value-of select="JB_owner"/>
+      </xsl:attribute>
       <xsl:value-of select="JB_owner" />
     </xsl:element>
   </td>
@@ -466,7 +479,10 @@
           &space;
         </xsl:for-each>
       </xsl:attribute>
-      <xsl:attribute name="href">jobinfo?<xsl:value-of select="JB_job_number"/></xsl:attribute>
+      <xsl:attribute name="href">
+        <xsl:text>jobinfo</xsl:text>
+        <xsl:value-of select="$urlExt"/>?<xsl:value-of select="JB_job_number"/>
+      </xsl:attribute>
       <xsl:value-of select="JB_job_number" />
     </xsl:element>
   </td>
@@ -475,7 +491,10 @@
     <!-- link owner names to "jobs?user={owner}" -->
     <xsl:element name="a">
       <xsl:attribute name="title">view jobs owned by <xsl:value-of select="JB_owner"/></xsl:attribute>
-      <xsl:attribute name="href">jobs?user=<xsl:value-of select="JB_owner"/></xsl:attribute>
+      <xsl:attribute name="href">
+        <xsl:text>jobs</xsl:text>
+        <xsl:value-of select="$urlExt"/>?user=<xsl:value-of select="JB_owner"/>
+      </xsl:attribute>
       <xsl:value-of select="JB_owner" />
     </xsl:element>
   </td>

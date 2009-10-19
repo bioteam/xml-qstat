@@ -34,6 +34,14 @@
 -->
 <programs>
   <!--
+      Cocoon only:
+      specify an external program for obtaining the qstat -j information
+      - leave empty if you don't have such a program, or if you wish
+        to use the CommandGenerator
+  -->
+  <jobinfo>http://dealog01:8080/xmlqstat/jobinfo</jobinfo>
+
+  <!--
       specify an external program for viewing the stdout files
       (jobId, filenames, etc. are passed via the queryString)
       - leave empty if you don't have such a program
@@ -60,11 +68,19 @@
     @name - SGE_CLUSTER_NAME required
     @root - SGE_ROOT required unless @baseURL is used
     @cell - SGE_CELL optional, provided the downstream uses 'default'
-    @baseURL - optional means of getting at resources, needs a trailing slash
+    @baseURL - (in testing) optional means of getting at resources, needs a trailing slash
     -->
 <clusters>
-  <cluster name="augsburg01" root="/data/app/grid01" cell="default" />
-  <cluster name="augsburg02" root="/data/app/grid02" cell="default" />
+  <cluster
+      name="augsburg01"
+      root="/data/app/grid01"
+      cell="default"
+      />
+  <cluster
+      name="augsburg02"
+      root="/data/app/grid02"
+      cell="default"
+      />
   <default>yes</default>
 </clusters>
 
