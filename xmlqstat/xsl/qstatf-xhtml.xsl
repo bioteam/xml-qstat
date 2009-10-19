@@ -15,8 +15,7 @@
    |   1) a list of active and pending jobs (the default)
    |   2) a detailed list of the queue instances (renderMode = full)
    |   3) a queue summary (renderMode = summary)
-   |
--->
+   -->
 
 <!--
    ============================================================================
@@ -349,7 +348,7 @@
     <xsl:value-of select="$clusterName"/>
     &space;
     <!-- replace 'T' in dateTime for easier reading -->
-    <xsl:value-of select="translate($piDate, 'T', ' ')"/>
+    <xsl:value-of select="translate($piDate, 'T', '_')"/>
   </div>
 </xsl:if>
 

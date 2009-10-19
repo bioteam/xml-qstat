@@ -8,12 +8,12 @@
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 >
-
 <!--
    |
    | documentation rendering for url path /info/
    |
--->
+   | expected input: xml/info/{1}.xml
+   -->
 
 <!-- ======================= Imports / Includes =========================== -->
 <!-- Include our masthead and templates -->

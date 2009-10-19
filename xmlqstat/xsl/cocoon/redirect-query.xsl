@@ -7,11 +7,16 @@
    | xi:include element for querying jobs, which can be expanded later
    |
    | this is likely only useful for server-side transformations
--->
+   |
+   | any xml expected - the relevant information is from the config file
+   |
+   | uses external files:
+   |  - config/config.xml
+   -->
 
 <!-- ======================= Imports / Includes =========================== -->
-<!-- Include our templates -->
-<xsl:include href="xmlqstat-templates.xsl"/>
+<!-- Include our templates : needed for cgi-params -->
+<xsl:include href="../xmlqstat-templates.xsl"/>
 
 <!-- ======================== Passed Parameters =========================== -->
 <xsl:param name="clusterName"/>
@@ -24,7 +29,7 @@
 <!-- configuration parameters -->
 <xsl:variable
     name="configFile"
-    select="document('../config/config.xml')/config" />
+    select="document('../../config/config.xml')/config" />
 <xsl:variable
     name="jobinfo"
     select="$configFile/programs/jobinfo"/>
@@ -93,7 +98,7 @@
     <xsl:attribute name="href">
       <xsl:value-of select="$jobinfo"/>
       <xsl:text>?</xsl:text>
-      <xsl:call-template name="cgiParams">
+      <xsl:call-template name="cgi-params">
         <xsl:with-param name="clusterNode" select="$clusterNode"/>
       </xsl:call-template>
       <xsl:if test="string-length($request)">

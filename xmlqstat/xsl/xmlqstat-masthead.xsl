@@ -1,17 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE stylesheet [
 <!ENTITY  newline "<xsl:text>&#x0a;</xsl:text>">
 <!ENTITY  space   "<xsl:text> </xsl:text>">
 <!ENTITY  nbsp    "&#xa0;">
 ]>
-
 <xsl:stylesheet version="1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns="http://www.w3.org/1999/xhtml"
 >
-
 <!--
    | Logo and uniform naviation buttons that can be customized as required
--->
+   -->
 
 <!-- ======================= Internal Parameters ========================== -->
 
@@ -367,7 +366,8 @@
         <xsl:text>Rendered</xsl:text>
       </xsl:element>
       <xsl:text>: </xsl:text>
-      <xsl:value-of select="$timestamp"/>
+      <!-- replace 'T' in dateTime for easier reading -->
+      <xsl:value-of select="translate($timestamp, 'T', '_')"/>
     </div>
     &newline;
   </xsl:if>

@@ -23,7 +23,7 @@
    |
    | uses external files:
    |  - config/config.xml
--->
+   -->
 
 <!-- ======================= Imports / Includes =========================== -->
 <!-- Include our masthead and templates -->
@@ -174,7 +174,7 @@
 </xsl:otherwise>
 </xsl:choose>
 <!-- replace 'T' in dateTime for easier reading -->
-&space; <xsl:value-of select="translate($piDate, 'T', ' ')"/>
+&space; <xsl:value-of select="translate($piDate, 'T', '_')"/>
 <br/>
 <xsl:choose>
 <xsl:when test="$AJ_slots &gt; 0">

@@ -1,10 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns="http://www.w3.org/1999/xhtml"
 >
 <!--
    | A collection of Named Templates with various useful functions
--->
+   -->
 
 
 <!-- ========================= Named Templates ============================ -->
@@ -14,7 +15,7 @@
    | extract @root @cell from clusterNode
    | format into "&ROOT=@root&CELL=@cell" for cgi queries
    -->
-<xsl:template name="cgiParams">
+<xsl:template name="cgi-params">
   <xsl:param name="clusterNode"/>
 
   <xsl:if test="$clusterNode/@root"

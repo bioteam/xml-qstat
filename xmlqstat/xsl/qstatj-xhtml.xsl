@@ -16,7 +16,7 @@
    | to produce a list of active and pending jobs
    | with their details
    | The menuMode only affects the top menu
--->
+   -->
 
 
 <!-- ======================= Imports / Includes =========================== -->
@@ -74,8 +74,8 @@
   <xsl:if test="$clusterName">~<xsl:value-of select="$clusterName"/></xsl:if>
 </xsl:variable>
 
-<xsl:variable name="cgiParams">
-  <xsl:call-template name="cgiParams">
+<xsl:variable name="cgi-params">
+  <xsl:call-template name="cgi-params">
     <xsl:with-param name="clusterNode" select="$clusterNode"/>
   </xsl:call-template>
 </xsl:variable>
@@ -151,7 +151,7 @@
   <div class="dividerBarBelow">
     [<xsl:value-of select="//query/host"/>]
     <!-- remove 'T' in dateTime for easier reading -->
-    <xsl:value-of select="translate(//query/time, 'T', ' ')"/>
+    <xsl:value-of select="translate(//query/time, 'T', '_')"/>
   </div>
 </xsl:when>
 </xsl:choose>
@@ -851,7 +851,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
     <xsl:attribute name="title">viewlog</xsl:attribute>
     <xsl:attribute name="href"><xsl:value-of
         select="$viewlog"/>?<xsl:value-of
-        select="$request"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
+        select="$request"/><xsl:value-of select="$cgi-params"/></xsl:attribute>
     <img alt="[v]" src="css/screen/icons/page_find.png" border="0" />
   </xsl:element>
 
@@ -860,7 +860,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
     <xsl:attribute name="title">plotlog</xsl:attribute>
     <xsl:attribute name="href"><xsl:value-of
         select="$viewlog"/>?action=plot<xsl:text>&amp;</xsl:text><xsl:value-of
-        select="$request"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
+        select="$request"/><xsl:value-of select="$cgi-params"/></xsl:attribute>
     <img alt="[p]" src="css/screen/icons/chart_curve.png" border="0" />
   </xsl:element>
 
@@ -870,7 +870,7 @@ or JB_ja_tasks/ulong_sublist/JAT_task_list/element/JG_slots)"/>
     <xsl:attribute name="href"><xsl:value-of
         select="$viewlog"/>?action=plot<xsl:text>&amp;</xsl:text>owner=<xsl:value-of
         select="../JB_owner"/><xsl:text>&amp;</xsl:text>resources=<xsl:value-of
-        select="$resources"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
+        select="$resources"/><xsl:value-of select="$cgi-params"/></xsl:attribute>
     <img alt="[P]" src="css/screen/icons/chart_curve_add.png" border="0" />
   </xsl:element>
 </xsl:if>

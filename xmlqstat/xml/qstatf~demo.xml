@@ -1,4 +1,6 @@
 <?xml version='1.0'?>
+<?qstat date="2005-08-04T10:10:10"?>
+<?qstat command="-u * -xml -r -f -F load_avg,num_proc -explain aAcE"?>
 <job_info  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <queue_info>
     <Queue-List>
@@ -17,7 +19,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>31</tasks>
       </job_list>
@@ -27,7 +29,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:47</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:47</JAT_start_time>
         <slots>1</slots>
         <tasks>44</tasks>
       </job_list>
@@ -37,7 +39,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:05:23</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:23</JAT_start_time>
         <slots>1</slots>
         <tasks>54</tasks>
       </job_list>
@@ -47,7 +49,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:05:57</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:57</JAT_start_time>
         <slots>1</slots>
         <tasks>56</tasks>
       </job_list>
@@ -68,7 +70,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>36</tasks>
       </job_list>
@@ -78,7 +80,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:49</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:49</JAT_start_time>
         <slots>1</slots>
         <tasks>46</tasks>
       </job_list>
@@ -88,7 +90,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:05:21</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:21</JAT_start_time>
         <slots>1</slots>
         <tasks>51</tasks>
       </job_list>
@@ -98,7 +100,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:05:57</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:57</JAT_start_time>
         <slots>1</slots>
         <tasks>61</tasks>
       </job_list>
@@ -117,7 +119,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>S</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>35</tasks>
       </job_list>
@@ -127,7 +129,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>S</state>
-        <JAT_start_time>04/08/2005 10:04:47</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:47</JAT_start_time>
         <slots>1</slots>
         <tasks>45</tasks>
       </job_list>
@@ -137,7 +139,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>S</state>
-        <JAT_start_time>04/08/2005 10:05:21</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:21</JAT_start_time>
         <slots>1</slots>
         <tasks>50</tasks>
       </job_list>
@@ -147,7 +149,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>S</state>
-        <JAT_start_time>04/08/2005 10:05:57</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:57</JAT_start_time>
         <slots>1</slots>
         <tasks>58</tasks>
       </job_list>
@@ -168,7 +170,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:47</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:47</JAT_start_time>
         <slots>1</slots>
         <tasks>43</tasks>
       </job_list>
@@ -189,7 +191,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>34</tasks>
       </job_list>
@@ -199,7 +201,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:47</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:47</JAT_start_time>
         <slots>1</slots>
         <tasks>41</tasks>
       </job_list>
@@ -209,7 +211,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:05:21</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:21</JAT_start_time>
         <slots>1</slots>
         <tasks>53</tasks>
       </job_list>
@@ -219,7 +221,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:05:57</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:57</JAT_start_time>
         <slots>1</slots>
         <tasks>63</tasks>
       </job_list>
@@ -240,7 +242,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>30</tasks>
       </job_list>
@@ -250,7 +252,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:47</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:47</JAT_start_time>
         <slots>1</slots>
         <tasks>38</tasks>
       </job_list>
@@ -260,7 +262,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:05:21</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:21</JAT_start_time>
         <slots>1</slots>
         <tasks>47</tasks>
       </job_list>
@@ -270,7 +272,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:05:57</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:57</JAT_start_time>
         <slots>1</slots>
         <tasks>60</tasks>
       </job_list>
@@ -291,7 +293,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>33</tasks>
       </job_list>
@@ -301,7 +303,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:47</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:47</JAT_start_time>
         <slots>1</slots>
         <tasks>40</tasks>
       </job_list>
@@ -311,7 +313,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:05:21</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:21</JAT_start_time>
         <slots>1</slots>
         <tasks>52</tasks>
       </job_list>
@@ -321,7 +323,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:05:57</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:57</JAT_start_time>
         <slots>1</slots>
         <tasks>62</tasks>
       </job_list>
@@ -342,7 +344,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>32</tasks>
       </job_list>
@@ -352,7 +354,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:47</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:47</JAT_start_time>
         <slots>1</slots>
         <tasks>39</tasks>
       </job_list>
@@ -362,7 +364,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:05:21</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:21</JAT_start_time>
         <slots>1</slots>
         <tasks>48</tasks>
       </job_list>
@@ -372,7 +374,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:05:57</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:57</JAT_start_time>
         <slots>1</slots>
         <tasks>57</tasks>
       </job_list>
@@ -393,7 +395,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>29</tasks>
       </job_list>
@@ -403,7 +405,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:47</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:47</JAT_start_time>
         <slots>1</slots>
         <tasks>37</tasks>
       </job_list>
@@ -413,7 +415,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:05:21</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:21</JAT_start_time>
         <slots>1</slots>
         <tasks>49</tasks>
       </job_list>
@@ -423,7 +425,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:05:57</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:57</JAT_start_time>
         <slots>1</slots>
         <tasks>59</tasks>
       </job_list>
@@ -444,7 +446,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>28</tasks>
       </job_list>
@@ -454,7 +456,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:47</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:47</JAT_start_time>
         <slots>1</slots>
         <tasks>42</tasks>
       </job_list>
@@ -464,7 +466,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:05:40</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:05:40</JAT_start_time>
         <slots>1</slots>
         <tasks>55</tasks>
       </job_list>
@@ -496,7 +498,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>10</tasks>
       </job_list>
@@ -517,7 +519,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>8</tasks>
       </job_list>
@@ -527,7 +529,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:08:00</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:08:00</JAT_start_time>
         <slots>1</slots>
         <tasks>81</tasks>
       </job_list>
@@ -537,7 +539,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:09:31</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:09:31</JAT_start_time>
         <slots>1</slots>
         <tasks>85</tasks>
       </job_list>
@@ -921,7 +923,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:06:48</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:06:48</JAT_start_time>
         <slots>1</slots>
         <tasks>69</tasks>
       </job_list>
@@ -1107,7 +1109,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>26</tasks>
       </job_list>
@@ -1359,7 +1361,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>6</tasks>
       </job_list>
@@ -1732,7 +1734,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>15</tasks>
       </job_list>
@@ -1830,7 +1832,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>21</tasks>
       </job_list>
@@ -1873,7 +1875,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:09:31</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:09:31</JAT_start_time>
         <slots>1</slots>
         <tasks>83</tasks>
       </job_list>
@@ -2136,7 +2138,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>27</tasks>
       </job_list>
@@ -2344,7 +2346,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>7</tasks>
       </job_list>
@@ -2541,7 +2543,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>5</tasks>
       </job_list>
@@ -2848,7 +2850,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>9</tasks>
       </job_list>
@@ -2880,7 +2882,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>12</tasks>
       </job_list>
@@ -2945,7 +2947,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>22</tasks>
       </job_list>
@@ -2977,7 +2979,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>17</tasks>
       </job_list>
@@ -3240,7 +3242,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>2</tasks>
       </job_list>
@@ -3272,7 +3274,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:06:48</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:06:48</JAT_start_time>
         <slots>1</slots>
         <tasks>65</tasks>
       </job_list>
@@ -3293,7 +3295,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>20</tasks>
       </job_list>
@@ -3336,7 +3338,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>18</tasks>
       </job_list>
@@ -3522,7 +3524,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>3</tasks>
       </job_list>
@@ -3565,7 +3567,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>4</tasks>
       </job_list>
@@ -3663,7 +3665,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:07:26</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:07:26</JAT_start_time>
         <slots>1</slots>
         <tasks>74</tasks>
       </job_list>
@@ -3695,7 +3697,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:06:48</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:06:48</JAT_start_time>
         <slots>1</slots>
         <tasks>70</tasks>
       </job_list>
@@ -3760,7 +3762,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:07:26</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:07:26</JAT_start_time>
         <slots>1</slots>
         <tasks>76</tasks>
       </job_list>
@@ -3792,7 +3794,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:09:31</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:09:31</JAT_start_time>
         <slots>1</slots>
         <tasks>84</tasks>
       </job_list>
@@ -4176,7 +4178,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:08:00</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:08:00</JAT_start_time>
         <slots>1</slots>
         <tasks>82</tasks>
       </job_list>
@@ -4373,7 +4375,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:06:48</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:06:48</JAT_start_time>
         <slots>1</slots>
         <tasks>66</tasks>
       </job_list>
@@ -4801,7 +4803,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>24</tasks>
       </job_list>
@@ -4833,7 +4835,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>11</tasks>
       </job_list>
@@ -5140,7 +5142,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:06:48</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:06:48</JAT_start_time>
         <slots>1</slots>
         <tasks>67</tasks>
       </job_list>
@@ -5172,7 +5174,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>23</tasks>
       </job_list>
@@ -5369,7 +5371,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>25</tasks>
       </job_list>
@@ -5874,7 +5876,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>19</tasks>
       </job_list>
@@ -5884,7 +5886,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:07:43</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:07:43</JAT_start_time>
         <slots>1</slots>
         <tasks>77</tasks>
       </job_list>
@@ -5905,7 +5907,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:07:43</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:07:43</JAT_start_time>
         <slots>1</slots>
         <tasks>80</tasks>
       </job_list>
@@ -5959,7 +5961,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:07:43</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:07:43</JAT_start_time>
         <slots>1</slots>
         <tasks>78</tasks>
       </job_list>
@@ -6145,7 +6147,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>13</tasks>
       </job_list>
@@ -6243,7 +6245,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>1</tasks>
       </job_list>
@@ -6319,7 +6321,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>16</tasks>
       </job_list>
@@ -6351,7 +6353,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:04:20</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:04:20</JAT_start_time>
         <slots>1</slots>
         <tasks>14</tasks>
       </job_list>
@@ -6416,7 +6418,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:07:07</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:07:07</JAT_start_time>
         <slots>1</slots>
         <tasks>72</tasks>
       </job_list>
@@ -6437,7 +6439,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:06:50</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:06:50</JAT_start_time>
         <slots>1</slots>
         <tasks>71</tasks>
       </job_list>
@@ -6458,7 +6460,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:07:24</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:07:24</JAT_start_time>
         <slots>1</slots>
         <tasks>73</tasks>
       </job_list>
@@ -6479,7 +6481,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:06:48</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:06:48</JAT_start_time>
         <slots>1</slots>
         <tasks>68</tasks>
       </job_list>
@@ -6511,7 +6513,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:07:43</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:07:43</JAT_start_time>
         <slots>1</slots>
         <tasks>79</tasks>
       </job_list>
@@ -6532,7 +6534,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:07:26</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:07:26</JAT_start_time>
         <slots>1</slots>
         <tasks>75</tasks>
       </job_list>
@@ -6564,7 +6566,7 @@
         <JB_name>jobA</JB_name>
         <JB_owner>root</JB_owner>
         <state>r</state>
-        <JAT_start_time>04/08/2005 10:06:31</JAT_start_time>
+        <JAT_start_time>2005-08-04T10:06:31</JAT_start_time>
         <slots>1</slots>
         <tasks>64</tasks>
       </job_list>
@@ -6577,7 +6579,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:04:18</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:04:18</JB_submission_time>
       <slots>1</slots>
       <tasks>86-1200:1</tasks>
     </job_list>
@@ -6587,7 +6589,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:04:18</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:04:18</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6597,7 +6599,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:04:18</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:04:18</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6607,7 +6609,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:04:18</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:04:18</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6617,7 +6619,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:04:18</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:04:18</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6627,7 +6629,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:04:18</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:04:18</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6637,7 +6639,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:04:18</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:04:18</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6647,7 +6649,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:04:18</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:04:18</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6657,7 +6659,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:04:18</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:04:18</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6667,7 +6669,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:04:18</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:04:18</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6677,7 +6679,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:04:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:04:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6687,7 +6689,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:04:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:04:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6697,7 +6699,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:04:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:04:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6707,7 +6709,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:04:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:04:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6717,7 +6719,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:04:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:04:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6727,7 +6729,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:05:04</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:05:04</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6737,7 +6739,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:05:04</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:05:04</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6747,7 +6749,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:05:04</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:05:04</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6757,7 +6759,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:05:04</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:05:04</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6767,7 +6769,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:05:04</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:05:04</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6777,7 +6779,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:05:04</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:05:04</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6787,7 +6789,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:05:04</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:05:04</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6797,7 +6799,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:05:04</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:05:04</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6807,7 +6809,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:05:04</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:05:04</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6817,7 +6819,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:05:04</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:05:04</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6827,7 +6829,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:05:04</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:05:04</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6837,7 +6839,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:05:04</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:05:04</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6847,7 +6849,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:05:04</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:05:04</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6857,7 +6859,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:05:04</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:05:04</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6867,7 +6869,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:05:04</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:05:04</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6877,7 +6879,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:06:28</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:06:28</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6887,7 +6889,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:06:28</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:06:28</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6897,7 +6899,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:06:28</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:06:28</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6907,7 +6909,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:06:28</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:06:28</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6917,7 +6919,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:06:28</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:06:28</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6927,7 +6929,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:06:28</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:06:28</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6937,7 +6939,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:06:28</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:06:28</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6947,7 +6949,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:06:28</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:06:28</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6957,7 +6959,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:06:28</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:06:28</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6967,7 +6969,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:06:28</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:06:28</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6977,7 +6979,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:06:28</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:06:28</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6987,7 +6989,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:06:28</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:06:28</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -6997,7 +6999,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:06:28</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:06:28</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7007,7 +7009,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:06:28</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:06:28</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7017,7 +7019,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:06:28</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:06:28</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7027,7 +7029,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:29</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:29</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7037,7 +7039,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:29</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:29</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7047,7 +7049,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:29</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:29</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7057,7 +7059,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:29</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:29</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7067,7 +7069,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:29</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:29</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7077,7 +7079,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:29</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:29</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7087,7 +7089,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:29</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:29</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7097,7 +7099,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:29</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:29</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7107,7 +7109,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:29</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:29</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7117,7 +7119,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:29</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:29</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7127,7 +7129,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:29</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:29</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7137,7 +7139,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:29</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:29</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7147,7 +7149,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:29</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:29</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7157,7 +7159,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7167,7 +7169,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7177,7 +7179,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:32</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:32</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7187,7 +7189,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:32</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:32</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7197,7 +7199,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:32</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:32</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7207,7 +7209,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:32</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:32</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7217,7 +7219,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:32</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:32</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7227,7 +7229,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:32</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:32</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7237,7 +7239,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:32</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:32</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7247,7 +7249,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:32</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:32</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7257,7 +7259,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:32</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:32</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7267,7 +7269,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:32</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:32</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7277,7 +7279,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:32</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:32</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7287,7 +7289,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:32</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:32</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7297,7 +7299,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:32</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:32</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7307,7 +7309,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:32</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:32</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7317,7 +7319,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:32</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:32</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7327,7 +7329,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:36</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:36</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7337,7 +7339,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:36</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:36</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7347,7 +7349,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:36</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:36</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7357,7 +7359,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:36</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:36</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7367,7 +7369,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:36</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:36</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7377,7 +7379,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:36</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:36</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7387,7 +7389,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:36</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:36</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7397,7 +7399,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:36</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:36</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7407,7 +7409,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:36</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:36</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7417,7 +7419,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:36</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:36</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7427,7 +7429,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:36</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:36</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7437,7 +7439,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:36</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:36</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7447,7 +7449,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:36</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:36</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7457,7 +7459,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:36</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:36</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7467,7 +7469,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:36</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:36</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7477,7 +7479,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:38</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:38</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7487,7 +7489,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:38</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:38</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7497,7 +7499,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:39</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:39</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7507,7 +7509,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:39</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:39</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7517,7 +7519,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:39</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:39</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7527,7 +7529,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:39</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:39</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7537,7 +7539,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:39</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:39</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7547,7 +7549,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:39</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:39</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7557,7 +7559,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:39</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:39</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7567,7 +7569,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:39</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:39</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7577,7 +7579,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:39</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:39</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7587,7 +7589,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:39</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:39</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7597,7 +7599,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:39</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:39</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7607,7 +7609,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:39</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:39</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7617,7 +7619,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:39</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:39</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7627,7 +7629,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:43</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:43</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7637,7 +7639,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:43</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:43</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7647,7 +7649,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:43</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:43</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7657,7 +7659,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:43</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:43</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7667,7 +7669,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:43</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:43</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7677,7 +7679,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:43</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:43</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7687,7 +7689,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:43</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:43</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7697,7 +7699,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:43</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:43</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7707,7 +7709,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:43</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:43</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7717,7 +7719,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:43</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:43</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7727,7 +7729,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:43</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:43</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7737,7 +7739,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:43</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:43</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7747,7 +7749,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:43</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:43</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7757,7 +7759,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:43</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:43</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7767,7 +7769,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:08:43</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:08:43</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7777,7 +7779,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:08</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:08</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7787,7 +7789,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:08</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:08</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7797,7 +7799,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:08</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:08</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7807,7 +7809,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:08</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:08</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7817,7 +7819,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:08</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:08</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7827,7 +7829,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:08</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:08</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7837,7 +7839,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:08</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:08</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7847,7 +7849,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:08</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:08</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7857,7 +7859,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:08</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:08</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7867,7 +7869,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:08</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:08</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7877,7 +7879,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:08</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:08</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7887,7 +7889,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:08</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:08</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7897,7 +7899,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:08</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:08</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7907,7 +7909,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:08</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:08</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7917,7 +7919,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:08</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:08</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7927,7 +7929,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:09</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:09</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7937,7 +7939,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:09</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:09</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7947,7 +7949,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:09</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:09</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7957,7 +7959,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:09</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:09</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7967,7 +7969,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:10</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:10</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7977,7 +7979,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:10</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:10</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7987,7 +7989,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:10</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:10</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -7997,7 +7999,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:10</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:10</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8007,7 +8009,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:10</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:10</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8017,7 +8019,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:10</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:10</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8027,7 +8029,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:10</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:10</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8037,7 +8039,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:10</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:10</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8047,7 +8049,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:10</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:10</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8057,7 +8059,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:10</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:10</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8067,7 +8069,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:10</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:10</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8077,7 +8079,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:12</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:12</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8087,7 +8089,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:12</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:12</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8097,7 +8099,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:12</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:12</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8107,7 +8109,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:12</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:12</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8117,7 +8119,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:12</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:12</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8127,7 +8129,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:12</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:12</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8137,7 +8139,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:12</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:12</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8147,7 +8149,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:12</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:12</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8157,7 +8159,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:12</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:12</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8167,7 +8169,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:12</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:12</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8177,7 +8179,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:12</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:12</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8187,7 +8189,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:12</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:12</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8197,7 +8199,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:12</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:12</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8207,7 +8209,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:12</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:12</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8217,7 +8219,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:12</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:12</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8227,7 +8229,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:14</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:14</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8237,7 +8239,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:14</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:14</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8247,7 +8249,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:14</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:14</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8257,7 +8259,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:14</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:14</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8267,7 +8269,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:14</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:14</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8277,7 +8279,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:14</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:14</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8287,7 +8289,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:14</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:14</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8297,7 +8299,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:14</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:14</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8307,7 +8309,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:14</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:14</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8317,7 +8319,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:14</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:14</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8327,7 +8329,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:14</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:14</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8337,7 +8339,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:14</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:14</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8347,7 +8349,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:14</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:14</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8357,7 +8359,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:14</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:14</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8367,7 +8369,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:14</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:14</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8377,7 +8379,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:16</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:16</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8387,7 +8389,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:16</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:16</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8397,7 +8399,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:16</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:16</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8407,7 +8409,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:16</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:16</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8417,7 +8419,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:16</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:16</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8427,7 +8429,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:16</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:16</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8437,7 +8439,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:16</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:16</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8447,7 +8449,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:16</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:16</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8457,7 +8459,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:16</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:16</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8467,7 +8469,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:16</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:16</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8477,7 +8479,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:16</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:16</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8487,7 +8489,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:16</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:16</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8497,7 +8499,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:16</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:16</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8507,7 +8509,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:16</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:16</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8517,7 +8519,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:16</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:16</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8527,7 +8529,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:19</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:19</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8537,7 +8539,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:19</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:19</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8547,7 +8549,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:19</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:19</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8557,7 +8559,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:19</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:19</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8567,7 +8569,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:19</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:19</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8577,7 +8579,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:19</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:19</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8587,7 +8589,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:19</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:19</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8597,7 +8599,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:19</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:19</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8607,7 +8609,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:19</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:19</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8617,7 +8619,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:19</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:19</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8627,7 +8629,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:19</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:19</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8637,7 +8639,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:19</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:19</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8647,7 +8649,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:19</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:19</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8657,7 +8659,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:19</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:19</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8667,7 +8669,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:19</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:19</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8677,7 +8679,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:21</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:21</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8687,7 +8689,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:21</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:21</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8697,7 +8699,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:21</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:21</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8707,7 +8709,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:21</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:21</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8717,7 +8719,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:21</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:21</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8727,7 +8729,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:21</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:21</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8737,7 +8739,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:21</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:21</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8747,7 +8749,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:21</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:21</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8757,7 +8759,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:21</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:21</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8767,7 +8769,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:21</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:21</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8777,7 +8779,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:21</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:21</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8787,7 +8789,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:21</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:21</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8797,7 +8799,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:21</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:21</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8807,7 +8809,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:21</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:21</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8817,7 +8819,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:21</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:21</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8827,7 +8829,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:24</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:24</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8837,7 +8839,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:24</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:24</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8847,7 +8849,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:24</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:24</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8857,7 +8859,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:24</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:24</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8867,7 +8869,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:24</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:24</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8877,7 +8879,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:24</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:24</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8887,7 +8889,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:24</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:24</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8897,7 +8899,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:24</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:24</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8907,7 +8909,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:24</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:24</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8917,7 +8919,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:24</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:24</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8927,7 +8929,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:24</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:24</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8937,7 +8939,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:24</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:24</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8947,7 +8949,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:24</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:24</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8957,7 +8959,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:24</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:24</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8967,7 +8969,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:24</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:24</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8977,7 +8979,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:26</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:26</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8987,7 +8989,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:26</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:26</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -8997,7 +8999,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:26</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:26</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9007,7 +9009,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:26</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:26</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9017,7 +9019,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:26</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:26</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9027,7 +9029,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:26</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:26</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9037,7 +9039,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:26</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:26</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9047,7 +9049,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:26</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:26</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9057,7 +9059,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:26</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:26</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9067,7 +9069,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:26</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:26</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9077,7 +9079,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:27</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:27</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9087,7 +9089,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:27</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:27</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9097,7 +9099,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:27</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:27</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9107,7 +9109,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:27</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:27</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9117,7 +9119,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:27</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:27</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9127,7 +9129,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9137,7 +9139,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9147,7 +9149,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9157,7 +9159,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9167,7 +9169,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9177,7 +9179,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9187,7 +9189,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9197,7 +9199,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9207,7 +9209,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9217,7 +9219,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9227,7 +9229,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9237,7 +9239,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9247,7 +9249,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9257,7 +9259,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9267,7 +9269,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:30</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:30</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9277,7 +9279,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:33</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:33</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9287,7 +9289,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:33</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:33</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9297,7 +9299,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:33</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:33</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9307,7 +9309,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:33</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:33</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9317,7 +9319,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:33</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:33</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9327,7 +9329,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:33</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:33</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9337,7 +9339,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:33</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:33</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9347,7 +9349,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:33</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:33</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9357,7 +9359,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:33</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:33</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9367,7 +9369,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:33</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:33</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9377,7 +9379,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:33</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:33</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9387,7 +9389,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:33</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:33</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9397,7 +9399,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:33</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:33</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9407,7 +9409,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:33</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:33</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9417,7 +9419,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:33</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:33</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9427,7 +9429,7 @@
       <JB_name>jobA</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:35</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:35</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9437,7 +9439,7 @@
       <JB_name>jobB</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:35</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:35</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9447,7 +9449,7 @@
       <JB_name>jobC</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:35</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:35</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9457,7 +9459,7 @@
       <JB_name>jobD</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:35</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:35</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9467,7 +9469,7 @@
       <JB_name>jobE</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:35</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:35</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9477,7 +9479,7 @@
       <JB_name>jobF</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:35</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:35</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9487,7 +9489,7 @@
       <JB_name>jobG</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:35</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:35</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9497,7 +9499,7 @@
       <JB_name>jobH</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:35</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:35</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9507,7 +9509,7 @@
       <JB_name>jobJ</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:35</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:35</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9517,7 +9519,7 @@
       <JB_name>jobI</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:35</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:35</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9527,7 +9529,7 @@
       <JB_name>Solaris32-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:35</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:35</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9537,7 +9539,7 @@
       <JB_name>Solaris64-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:35</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:35</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9547,7 +9549,7 @@
       <JB_name>I8632-bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:35</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:35</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9557,7 +9559,7 @@
       <JB_name>Rest_of_the_jobs</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:35</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:35</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>
@@ -9567,7 +9569,7 @@
       <JB_name>X86Solaris-32bit</JB_name>
       <JB_owner>root</JB_owner>
       <state>qw</state>
-      <JB_submission_time>04/08/2005 10:11:35</JB_submission_time>
+      <JB_submission_time>2005-08-04T10:11:35</JB_submission_time>
       <slots>1</slots>
       <tasks>1-1200:1</tasks>
     </job_list>

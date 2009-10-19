@@ -62,8 +62,8 @@
     name="clusterNode"
     select="$configFile/clusters/cluster[@name=$clusterName]" />
 
-<xsl:variable name="cgiParams">
-  <xsl:call-template name="cgiParams">
+<xsl:variable name="cgi-params">
+  <xsl:call-template name="cgi-params">
     <xsl:with-param name="clusterNode" select="$clusterNode" />
   </xsl:call-template>
 </xsl:variable>
@@ -154,7 +154,7 @@
 </xsl:otherwise>
 </xsl:choose>
 <!-- replace 'T' in dateTime for easier reading -->
-&space; <xsl:value-of select="translate($piDate, 'T', ' ')"/>
+&space; <xsl:value-of select="translate($piDate, 'T', '_')"/>
 </div>
 &newline;
 
@@ -563,7 +563,7 @@
     <xsl:attribute name="title">viewlog</xsl:attribute>
     <xsl:attribute name="href"><xsl:value-of
         select="$viewlog"/>?<xsl:value-of
-        select="$request"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
+        select="$request"/><xsl:value-of select="$cgi-params"/></xsl:attribute>
     <img src="css/screen/icons/page_find.png" alt="[v]" border="0" />
   </xsl:element>
 
@@ -572,7 +572,7 @@
     <xsl:attribute name="title">plotlog</xsl:attribute>
     <xsl:attribute name="href"><xsl:value-of
         select="$viewlog"/>?action=plot<xsl:text>&amp;</xsl:text><xsl:value-of
-        select="$request"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
+        select="$request"/><xsl:value-of select="$cgi-params"/></xsl:attribute>
     <img src="css/screen/icons/chart_curve.png" alt="[p]" border="0" />
   </xsl:element>
 
@@ -582,7 +582,7 @@
     <xsl:attribute name="href"><xsl:value-of
         select="$viewlog"/>?action=plot<xsl:text>&amp;</xsl:text>owner=<xsl:value-of
         select="JB_owner"/><xsl:text>&amp;</xsl:text>resources=<xsl:value-of
-        select="$resources"/><xsl:value-of select="$cgiParams"/></xsl:attribute>
+        select="$resources"/><xsl:value-of select="$cgi-params"/></xsl:attribute>
     <img src="css/screen/icons/chart_curve_add.png" alt="[P]" border="0" />
   </xsl:element>
 </xsl:if>

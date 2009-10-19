@@ -12,8 +12,8 @@ should not be changed as other subroutines call it for their error handling.
 ~
 
 sub hterror {
-	my($errstr, $expl) = (@_);
-	&htcontent(<<"EOF", "text/html");
+    my($errstr, $expl) = (@_);
+    &htcontent(<<"EOF", "text/html");
 <html>
 <body>
 <h1>$errstr</h1>
@@ -24,21 +24,21 @@ by Cameron Kaiser</address>
 </body>
 </html>
 EOF
-	}
+}
 
 sub hterror404 {
-	&htsponse(404, "File Not Found");
-	&hterror("File Not Found",
-		"The resource <tt>$address</tt> was not found on this system.");
-	&log; exit;
+    &htsponse(404, "File Not Found");
+    &hterror("File Not Found",
+        "The resource <tt>$address</tt> was not found on this system.");
+    &log; exit;
 }
 
 sub hterror301 {
-	&htsponse(301, "Moved Permanently");
-	&hthead("Location: @_");
-	&hterror("Resource Moved Permanently",
-		"This resource has moved <a href = \"@_\">here</a>.");
-	&log; exit;
+    &htsponse(301, "Moved Permanently");
+    &hthead("Location: @_");
+    &hterror("Resource Moved Permanently",
+        qq{This resource has moved <a href="@_">here</a>.});
+    &log; exit;
 }
 
 ##<xmlqstat>## - functions for /xmlqstat resource handler
@@ -50,7 +50,7 @@ sub customError404 {
         "Resource Not Found",
         @_
         ? "@_"
-        : "The resource <tt>$::address</tt> could not be resolved on this system."
+        : "Cannot resolve resource <b>$::address</b>"
     );
     &log;
     exit;
@@ -629,9 +629,11 @@ CONTENT
         }
 
         #
-        #  /xmlqstat/cluster
+        #  /xmlqstat/cluster(.xml)
         #
-        if ( $::address eq "/xmlqstat/cluster" ) {
+        if ( $::address =~ m{^/xmlqstat/cluster(\.xml)?$} ) {
+            $xsltParam{urlExt} = $1 if $1;
+
             returnXML(
                 xmlProlog(
                     %xsltParam,    #
@@ -653,9 +655,9 @@ CONTENT
         }
 
         #
-        #  /xmlqstat/test
+        #  /xmlqstat/test(.xml)
         #
-        if ( $::address eq "/xmlqstat/test" ) {
+        if ( $::address =~ m{^/xmlqstat/test(\.xml)?$} ) {
             returnXML(
                 xmlProlog(
                     %xsltParam,           #
@@ -696,11 +698,12 @@ CONTENT
         }
 
         #
-        # /xmlqstat/cluster/{clusterName}/{function}
+        # /xmlqstat/cluster/{clusterName}/{function}(.xml)
         #
-        if ( $::address =~ m{^/xmlqstat/cluster/([^\s/]+?)/([^\s/]+?)/*$} ) {
-            my ( $clusterName, $function ) = ( $1, $2 );
+        if ( $::address =~ m{^/xmlqstat/cluster/([^\s/]+?)/([^\s/]+?)(\.xml)?/*$} ) {
+            my ( $clusterName, $function, $urlExt ) = ( $1, $2, $3 );
 
+            $xsltParam{urlExt} = $urlExt if $urlExt;
             $xsltParam{clusterName} = $clusterName;
 
             # handle "default"
@@ -787,30 +790,16 @@ CONTENT
                 );
             }
 
-            # *.xml - serve cache file directly, without 404 error
-            if ( $function =~ m{^([^/]+)\.xml$} ) {
-                my $file = $1;
-
+            # *.xml specified - attempt to serve cached file
+            if (  delete $xsltParam{urlExt} ) {
                 returnXML(
                     xmlProlog(%xsltParam),    #
-                    xmlFromCache( $clusterName, $file )
+                    xmlFromCache( $clusterName, $function )
                 );
             }
 
-            ## fallback - custom XML error404
-            &htsponse( 404 => "File Not Found" );
-            &htcontent(
-                xmlProlog(
-                    %xsltParam,               #
-                    uri        => $::address,
-                    stylesheet => "../../xsl/error404.xsl",
-                  )
-                  . "<error404/>",
-                "text/xml"
-            );
-
-            &log;
-            exit;
+            ## can't be resolved - error404
+            &customError404;
         }
 
         # top-level rendering again
@@ -845,14 +834,15 @@ CONTENT
 
 
         #
-        #    /xmlqstat/(resource|jobs|..)~{clusterName}
-        # or /xmlqstat/(resource|jobs|..)
+        #    /xmlqstat/(resource|jobs|..)~{clusterName}(.xml)
+        # or /xmlqstat/(resource|jobs|..)(.xml)
         #
-        if (   $::address =~ m{^/xmlqstat/(\w+)~([^\s/]*)$}
-            or $::address =~ m{^/xmlqstat/(\w+)$} )
+        if (   $::address =~ m{^/xmlqstat/(\w+)~([^\s/]*?)(\.xml)?$}
+            or $::address =~ m{^/xmlqstat/(\w+)(\.xml)?$} )
         {
-            my ( $function, $clusterName ) = ( $1, $2 );
+            my ( $function, $clusterName, $urlExt ) = ( $1, $2, $3 );
 
+            $xsltParam{urlExt} = $urlExt if $urlExt;
             $xsltParam{clusterName} = $clusterName;
             $xsltParam{menuMode}    = "qstatf";
 
@@ -942,20 +932,8 @@ CONTENT
                 );
             }
 
-            ## fallback - custom XML error404
-            &htsponse( 404 => "File Not Found" );
-            &htcontent(
-                xmlProlog(
-                    %xsltParam,        #
-                    uri        => $::address,
-                    stylesheet => "xsl/error404.xsl",
-                  )
-                  . "<error404/>",
-                "text/xml"
-            );
-
-            &log;
-            exit;
+            ## can't be resolved - error404
+            &customError404;
         }
 
         ##    warn "fall-thru with $::address\n";

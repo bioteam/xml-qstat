@@ -22,23 +22,31 @@ transformation, the naming convention 'SOURCE-MODE-DEST.xsl' is used.
   * qstat-xhtml.xsl
 
 
-For general actions, no particular convention has been used:
+For the balance, no particular convention has been used.
 
-  * redirect-query.xsl
+  * index-xhtml.xsl
   * directory-xhtml.xsl
   * feed-atom-overview.xsl
-  * index-xhtml.xsl
   * info-to-xhtml.xsl
+
+Utility templates (likely cocoon-only)
+
+  * cocoon/error404.xsl
+    a simpler error page than getting a cocoon stack trace
+
+  * cocoon/redirect-query.xsl
+    extract cluster root/cell from config.xml and redirect to another url
+
+  * cocoon/prune-cachedir-listing.xsl
+    prune directory listing to retain
+    cache/*.xml, cache-{clusterName}/*.xml files
+
+  * cocoon/attach-stylesheet.xsl
+    add <?xslt-param ..?> and <?xml-stylesheet .. ?> to an xml file
+
 
 Utility templates
 
   * pi-param.xsl
-    extract mozilla-style processing instructions.
-
-  * prune-cachedir-listing.xsl
-    prune directory listing to retain
-    cache/*.xml, cache-{clusterName}/*.xml files
-
-  * attach-stylesheet.xsl
-    add <?xslt-param ..?> and <?xml-stylesheet .. ?> to an xml file
+    extract mozilla-style processing instructions for client-side XSLT
 

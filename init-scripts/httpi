@@ -9,8 +9,8 @@ PATH=/bin:/usr/bin
 # 1. Downgrade to a non-root user account (adjust as required)
 runAs=nobody
 
-# 2. Location of httpi server
-HTTPI_HOME=/data/app/httpi
+# 2. Location of httpi server program
+HTTPI=/data/app/httpi/httpi
 
 # 3. Extra path(s) for anything we wish to have but don't want to add to the
 #    cgi scripts ourselves
@@ -20,14 +20,14 @@ do
 done
 
 export PATH
-unset SGE_ROOT DISPLAY   # a bit extra safety
+unset DISPLAY SGE_ROOT SGE_CELL  # a bit extra safety
 
 #---------------------------------------------------------------------------
 # The following lines provide the necessary info for adding a startup script
 # according to the Linux Standard Base Specification (LSB).
 #
 ### BEGIN INIT INFO
-# Provides:       xmlqstat.httpi
+# Provides:       httpi-xmlqstat
 # Required-Start: $network $remote_fs
 # Should-Start:   network-remotefs
 # Required-Stop:
@@ -49,32 +49,47 @@ then
     }
 fi
 
-daemon=$HTTPI_HOME/httpi
-name=httpi
+daemon=$HTTPI
 desc="httpi webserver"
 
 # logging
 LOG=/var/log/httpi
 LOG=/dev/null
 
-[ -f $daemon -a -x $daemon ] || {
-    echo "$daemon not found"
-    exit 5      # LSB compliant exit status - program is not installed
+#
+# check that the daemon program is installed
+#
+check_installed()
+{
+    [ -f $daemon -a -x $daemon ] || {
+        echo "$daemon not found"
+        exit 5      # LSB compliant exit status - program is not installed
+    }
 }
 
-test -f $daemon || exit 0
+
+# with second argument, take as the name of the httpi server
+if [ "$#" -ge 2 ]
+then
+    daemon=$2
+    check_installed
+fi
+
+
 set -e
 case "$1" in
 start)
+    check_installed
+
     echo -n "Starting $desc: "
     $daemon >> $LOG 2>&1 &
-    echo "$name"
+    echo "httpi ($daemon)"
     ;;
 
 stop)
     echo -n "Stopping $desc: "
     # get pid
-    pid=`ps aux | awk '{if (/dhttpi:/ && !/awk/) print $2}'`
+    pid=`ps aux | awk '{if (/httpi:/ && !/awk/) print $2}'`
     if [ -z "$pid" ]
     then
         echo "process not found"
@@ -86,8 +101,10 @@ stop)
 
 restart)
     ## Stop (if running) and start anew
+    shift
+    check_installed
     $0 stop
-    $0 start
+    $0 start $@
     ;;
 
 *)
