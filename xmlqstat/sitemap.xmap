@@ -411,8 +411,8 @@
     <map:serialize type="xml"/>
   </map:match>
 
-  <!-- client-side rendering for url path "test" -->
-  <map:match pattern="_test">
+  <!-- client-side XSLT for path "test.xml" -->
+  <map:match pattern="test.xml">
     <map:generate  src="cocoon:/config" />
     <map:transform src="xsl/attach-stylesheet.xsl">
       <map:parameter name="xslt-parameters" value='
@@ -424,7 +424,8 @@
     <map:serialize type="xml"/>
   </map:match>
 
-  <!-- client-side rendering for url path /info/ -->
+  <!-- client-side XSLT for url path /info/ -->
+  <!-- needs fixing -->
   <map:match pattern="info/_*.html">
     <map:generate  src="xml/info/{1}.xml" />
     <map:transform src="xsl/attach-stylesheet.xsl">
@@ -516,6 +517,75 @@
     <map:serialize type="xml"/>
   </map:match>
 
+
+  <!-- client-side XSLT for jobs -->
+  <map:match pattern="cluster/*/jobs.xml">
+    <map:generate src="cocoon:/cluster/{1}/qstat.xml"/>
+    <map:transform src="xsl/attach-stylesheet.xsl">
+      <map:parameter name="xslt-parameters" value='
+          clusterName="{1}"
+          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
+          filterByUser="{request-param:user}"
+          urlExt=".xml"
+      '/>
+      <map:parameter name="rawxml" value="{request-param:rawxml}" />
+      <map:parameter name="stylesheet" value="../../xsl/qstat-xhtml.xsl" />
+    </map:transform>
+    <map:serialize type="xml"/>
+  </map:match>
+
+  <!-- client-side XSLT for queues -->
+  <map:match pattern="cluster/*/queues.xml">
+    <map:generate src="cocoon:/cluster/{1}/qhost.xml"/>
+    <map:transform src="xsl/attach-stylesheet.xsl">
+      <map:parameter name="xslt-parameters" value='
+          clusterName="{1}"
+          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
+          renderMode="{request:queryString}"
+          urlExt=".xml"
+      '/>
+      <map:parameter name="rawxml" value="{request-param:rawxml}" />
+      <map:parameter name="stylesheet" value="../../xsl/qhost-xhtml.xsl" />
+    </map:transform>
+    <map:serialize type="xml"/>
+  </map:match>
+
+  <!-- client-side XSLT for summary -->
+  <map:match pattern="cluster/*/summary.xml">
+    <map:redirect-to uri="queues.xml?summary"/>
+  </map:match>
+
+  <!-- client-side XSLT for resources -->
+  <map:match pattern="cluster/*/resources.xml">
+    <map:generate src="cocoon:/cluster/{1}/qlicserver.xml"/>
+    <map:transform src="xsl/attach-stylesheet.xsl">
+      <map:parameter name="xslt-parameters" value='
+          clusterName="{1}"
+          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
+          urlExt=".xml"
+      '/>
+      <map:parameter name="rawxml" value="{request-param:rawxml}" />
+      <map:parameter name="stylesheet" value="../../xsl/qlic-xhtml.xsl" />
+    </map:transform>
+    <map:serialize type="xml"/>
+  </map:match>
+
+  <!-- client-side XSLT for jobinfo -->
+  <map:match pattern="cluster/*/jobinfo.xml">
+    <map:generate  src="cocoon:/cluster/{1}/qstatj.xml"/>
+    <map:transform src="xsl/attach-stylesheet.xsl">
+      <map:parameter name="xslt-parameters" value='
+          clusterName="{1}"
+          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
+          urlExt=".xml"
+      '/>
+      <map:parameter name="rawxml" value="{request-param:rawxml}" />
+      <map:parameter name="stylesheet" value="../../xsl/qstatj-xhtml.xsl" />
+    </map:transform>
+    <map:serialize type="xml"/>
+  </map:match>
+
+
   <!-- url: "/xmlqstat/cluster/{clusterName}/*.xml"
        view cached xml files directly
        -->
@@ -592,70 +662,6 @@
     <map:serialize type="xhtml"/>
   </map:match>
 
-  <!-- client-side rendering -->
-  <map:match pattern="cluster/*/_jobs">
-    <map:generate src="cocoon:/cluster/{1}/qstat.xml"/>
-    <map:transform src="xsl/attach-stylesheet.xsl">
-      <map:parameter name="xslt-parameters" value='
-          clusterName="{1}"
-          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
-          filterByUser="{request-param:user}"
-      '/>
-      <map:parameter name="rawxml" value="{request-param:rawxml}" />
-      <map:parameter name="stylesheet" value="../../xsl/qstat-xhtml.xsl" />
-    </map:transform>
-    <map:serialize type="xml"/>
-  </map:match>
-
-  <!-- client-side rendering -->
-  <map:match pattern="cluster/*/_queues">
-    <map:generate src="cocoon:/cluster/{1}/qhost.xml"/>
-    <map:transform src="xsl/attach-stylesheet.xsl">
-      <map:parameter name="xslt-parameters" value='
-          clusterName="{1}"
-          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
-          renderMode="{request:queryString}"
-      '/>
-      <map:parameter name="rawxml" value="{request-param:rawxml}" />
-      <map:parameter name="stylesheet" value="../../xsl/qhost-xhtml.xsl" />
-    </map:transform>
-    <map:serialize type="xml"/>
-  </map:match>
-
-  <!-- client-side rendering -->
-  <map:match pattern="cluster/*/_summary">
-    <map:redirect-to uri="_queues?summary"/>
-  </map:match>
-
-  <!-- client-side rendering -->
-  <map:match pattern="cluster/*/_resources">
-    <map:generate src="cocoon:/cluster/{1}/qlicserver.xml"/>
-    <map:transform src="xsl/attach-stylesheet.xsl">
-      <map:parameter name="xslt-parameters" value='
-          clusterName="{1}"
-          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
-      '/>
-      <map:parameter name="rawxml" value="{request-param:rawxml}" />
-      <map:parameter name="stylesheet" value="../../xsl/qlic-xhtml.xsl" />
-    </map:transform>
-    <map:serialize type="xml"/>
-  </map:match>
-
-  <!-- client-side rendering -->
-  <map:match pattern="cluster/*/_jobinfo">
-    <map:generate  src="cocoon:/cluster/{1}/qstatj.xml"/>
-    <map:transform src="xsl/attach-stylesheet.xsl">
-      <map:parameter name="xslt-parameters" value='
-          clusterName="{1}"
-          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
-      '/>
-      <map:parameter name="rawxml" value="{request-param:rawxml}" />
-      <map:parameter name="stylesheet" value="../../xsl/qstatj-xhtml.xsl" />
-    </map:transform>
-    <map:serialize type="xml"/>
-  </map:match>
-
-
   <!-- fallback - catch errors -->
   <map:match pattern="cluster/**">
     <map:generate src="xml/notFound.xml"/>
@@ -705,6 +711,105 @@
           />
     </map:otherwise>
     </map:select>
+    <map:serialize type="xml"/>
+  </map:match>
+
+  <!-- client-side XSLT for cluster -->
+  <map:match pattern="cluster.xml">
+    <map:generate  src="cocoon:/cache-files" />
+    <map:transform src="xsl/attach-stylesheet.xsl">
+      <!-- server information -->
+      <map:parameter name="xslt-parameters" value='
+          server-info="{cocoon-properties:name}-{cocoon-properties:version}"
+          urlExt=".xml"
+      '/>
+      <map:parameter name="rawxml" value="{request-param:rawxml}" />
+      <map:parameter name="stylesheet" value="xsl/index-xhtml.xsl" />
+    </map:transform>
+    <map:serialize type="xml"/>
+  </map:match>
+
+
+  <!-- client-side XSLT for jobs~NAME -->
+  <map:match pattern="jobs~*.xml">
+    <map:generate  src="cocoon:/qstatf~{1}.xml" />
+    <map:transform src="xsl/attach-stylesheet.xsl">
+      <map:parameter name="xslt-parameters" value='
+          clusterName="{1}"
+          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
+          filterByUser="{request-param:user}"
+          menuMode="qstatf"
+          urlExt=".xml"
+      '/>
+      <map:parameter name="rawxml" value="{request-param:rawxml}" />
+      <map:parameter name="stylesheet" value="xsl/qstatf-xhtml.xsl" />
+    </map:transform>
+    <map:serialize type="xml"/>
+  </map:match>
+
+  <!-- client-side XSLT for jobinfo~NAME -->
+  <map:match pattern="jobinfo~*.xml">
+    <map:generate  src="cocoon:/qstatj~{1}.xml" />
+    <map:transform src="xsl/attach-stylesheet.xsl">
+      <map:parameter name="xslt-parameters" value='
+          clusterName="{1}"
+          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
+          menuMode="qstatf"
+          urlExt=".xml"
+      '/>
+      <map:parameter name="rawxml" value="{request-param:rawxml}" />
+      <map:parameter name="stylesheet" value="xsl/qstatj-xhtml.xsl" />
+    </map:transform>
+    <map:serialize type="xml"/>
+  </map:match>
+
+  <!-- client-side XSLT for queues~NAME -->
+  <map:match pattern="queues~*.xml">
+    <map:generate  src="cocoon:/qstatf~{1}.xml" />
+    <map:transform src="xsl/attach-stylesheet.xsl">
+      <map:parameter name="xslt-parameters" value='
+          clusterName="{1}"
+          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
+          renderMode="full"
+          menuMode="qstatf"
+          urlExt=".xml"
+      '/>
+      <map:parameter name="rawxml" value="{request-param:rawxml}" />
+      <map:parameter name="stylesheet" value="xsl/qstatf-xhtml.xsl" />
+    </map:transform>
+    <map:serialize type="xml"/>
+  </map:match>
+
+  <!-- client-side XSLT for resources~NAME -->
+  <map:match pattern="resources~*.xml">
+    <map:generate  src="cocoon:/qlicserver~{1}.xml" />
+    <map:transform src="xsl/attach-stylesheet.xsl">
+      <map:parameter name="xslt-parameters" value='
+          clusterName="{1}"
+          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
+          menuMode="qstatf"
+          urlExt=".xml"
+      '/>
+      <map:parameter name="rawxml" value="{request-param:rawxml}" />
+      <map:parameter name="stylesheet" value="xsl/qlic-xhtml.xsl" />
+    </map:transform>
+    <map:serialize type="xml"/>
+  </map:match>
+
+  <!-- client-side XSLT for summary~NAME -->
+  <map:match pattern="summary~*.xml">
+    <map:generate  src="cocoon:/qstatf~{1}.xml" />
+    <map:transform src="xsl/attach-stylesheet.xsl">
+      <map:parameter name="xslt-parameters" value='
+          clusterName="{1}"
+          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
+          renderMode="summary"
+          menuMode="qstatf"
+          urlExt=".xml"
+      '/>
+      <map:parameter name="rawxml" value="{request-param:rawxml}" />
+      <map:parameter name="stylesheet" value="xsl/qstatf-xhtml.xsl" />
+    </map:transform>
     <map:serialize type="xml"/>
   </map:match>
 
@@ -778,100 +883,6 @@
       <map:parameter name="menuMode"     value="qstatf"/>
     </map:transform>
     <map:serialize type="xhtml"/>
-  </map:match>
-
-
-  <!-- client-side rendering -->
-  <map:match pattern="_cluster">
-    <map:generate  src="cocoon:/cache-files" />
-    <map:transform src="xsl/attach-stylesheet.xsl">
-      <!-- server information -->
-      <map:parameter name="xslt-parameters" value='
-          server-info="{cocoon-properties:name}-{cocoon-properties:version}"
-      '/>
-      <map:parameter name="rawxml" value="{request-param:rawxml}" />
-      <map:parameter name="stylesheet" value="xsl/index-xhtml.xsl" />
-    </map:transform>
-    <map:serialize type="xml"/>
-  </map:match>
-
-
-  <!-- client-side rendering -->
-  <map:match pattern="_jobs~*">
-    <map:generate  src="cocoon:/qstatf~{1}.xml" />
-    <map:transform src="xsl/attach-stylesheet.xsl">
-      <map:parameter name="xslt-parameters" value='
-          clusterName="{1}"
-          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
-          filterByUser="{request-param:user}"
-          menuMode="qstatf"
-      '/>
-      <map:parameter name="rawxml" value="{request-param:rawxml}" />
-      <map:parameter name="stylesheet" value="xsl/qstatf-xhtml.xsl" />
-    </map:transform>
-    <map:serialize type="xml"/>
-  </map:match>
-
-  <!-- client-side rendering -->
-  <map:match pattern="_jobinfo~*">
-    <map:generate  src="cocoon:/qstatj~{1}.xml" />
-    <map:transform src="xsl/attach-stylesheet.xsl">
-      <map:parameter name="xslt-parameters" value='
-          clusterName="{1}"
-          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
-          menuMode="qstatf"
-      '/>
-      <map:parameter name="rawxml" value="{request-param:rawxml}" />
-      <map:parameter name="stylesheet" value="xsl/qstatj-xhtml.xsl" />
-    </map:transform>
-    <map:serialize type="xml"/>
-  </map:match>
-
-  <!-- client-side rendering -->
-  <map:match pattern="_queues~*">
-    <map:generate  src="cocoon:/qstatf~{1}.xml" />
-    <map:transform src="xsl/attach-stylesheet.xsl">
-      <map:parameter name="xslt-parameters" value='
-          clusterName="{1}"
-          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
-          renderMode="full"
-          menuMode="qstatf"
-      '/>
-      <map:parameter name="rawxml" value="{request-param:rawxml}" />
-      <map:parameter name="stylesheet" value="xsl/qstatf-xhtml.xsl" />
-    </map:transform>
-    <map:serialize type="xml"/>
-  </map:match>
-
-  <!-- client-side rendering -->
-  <map:match pattern="_resources~*">
-    <map:generate  src="cocoon:/qlicserver~{1}.xml" />
-    <map:transform src="xsl/attach-stylesheet.xsl">
-      <map:parameter name="xslt-parameters" value='
-          clusterName="{1}"
-          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
-          menuMode="qstatf"
-      '/>
-      <map:parameter name="rawxml" value="{request-param:rawxml}" />
-      <map:parameter name="stylesheet" value="xsl/qlic-xhtml.xsl" />
-    </map:transform>
-    <map:serialize type="xml"/>
-  </map:match>
-
-  <!-- client-side rendering -->
-  <map:match pattern="_summary~*">
-    <map:generate  src="cocoon:/qstatf~{1}.xml" />
-    <map:transform src="xsl/attach-stylesheet.xsl">
-      <map:parameter name="xslt-parameters" value='
-          clusterName="{1}"
-          timestamp="{date: yyyy-MM-dd_HH:mm:ss}"
-          renderMode="summary"
-          menuMode="qstatf"
-      '/>
-      <map:parameter name="rawxml" value="{request-param:rawxml}" />
-      <map:parameter name="stylesheet" value="xsl/qstatf-xhtml.xsl" />
-    </map:transform>
-    <map:serialize type="xml"/>
   </map:match>
 
 

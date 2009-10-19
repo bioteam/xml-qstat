@@ -66,6 +66,12 @@
   </xsl:call-template>
 </xsl:param>
 
+<xsl:param name="urlExt">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'urlExt'"/>
+  </xsl:call-template>
+</xsl:param>
+
 <!-- ======================= Internal Parameters ========================== -->
 <!-- configuration parameters -->
 <xsl:variable
@@ -326,10 +332,13 @@
 <xsl:when test="$menuMode='qstatf'">
   <xsl:call-template name="qstatfMenu">
     <xsl:with-param name="clusterSuffix" select="$clusterSuffix"/>
+    <xsl:with-param name="urlExt" select="$urlExt"/>
   </xsl:call-template>
 </xsl:when>
 <xsl:otherwise>
-  <xsl:call-template name="topMenu"/>
+  <xsl:call-template name="topMenu">
+    <xsl:with-param name="urlExt" select="$urlExt"/>
+  </xsl:call-template>
 </xsl:otherwise>
 </xsl:choose>
 
@@ -945,7 +954,8 @@ $valueTotal0)*100"/>
       <xsl:element name="a">
         <xsl:attribute name="href">
           <xsl:text>jobinfo</xsl:text>
-          <xsl:value-of select="$clusterSuffix"/>?<xsl:value-of select="JB_job_number"/>
+          <xsl:value-of select="$clusterSuffix"/>
+          <xsl:value-of select="$urlExt"/>?<xsl:value-of select="JB_job_number"/>
         </xsl:attribute>
         <xsl:attribute name="title">details for job <xsl:value-of select="JB_job_number"/></xsl:attribute>
         <xsl:value-of select="JB_job_number"/>
@@ -957,7 +967,8 @@ $valueTotal0)*100"/>
       <xsl:element name="a">
         <xsl:attribute name="href">
           <xsl:text>jobs</xsl:text>
-          <xsl:value-of select="$clusterSuffix"/>?user=<xsl:value-of select="JB_owner"/>
+          <xsl:value-of select="$clusterSuffix"/>
+          <xsl:value-of select="$urlExt"/>?user=<xsl:value-of select="JB_owner"/>
         </xsl:attribute>
         <xsl:attribute name="title">view jobs owned by user <xsl:value-of select="JB_owner"/></xsl:attribute>
         <xsl:value-of select="JB_owner"/>
@@ -1092,7 +1103,8 @@ $valueTotal0)*100"/>
       <xsl:element name="a">
         <xsl:attribute name="href">
           <xsl:text>jobinfo</xsl:text>
-          <xsl:value-of select="$clusterSuffix"/>?<xsl:value-of select="JB_job_number"/>
+          <xsl:value-of select="$clusterSuffix"/>
+          <xsl:value-of select="$urlExt"/>?<xsl:value-of select="JB_job_number"/>
         </xsl:attribute>
         <xsl:attribute name="title">details for job <xsl:value-of select="JB_job_number"/></xsl:attribute>
         <xsl:value-of select="JB_job_number"/>
@@ -1104,7 +1116,8 @@ $valueTotal0)*100"/>
       <xsl:element name="a">
         <xsl:attribute name="href">
           <xsl:text>jobs</xsl:text>
-          <xsl:value-of select="$clusterSuffix"/>?user=<xsl:value-of select="JB_owner"/>
+          <xsl:value-of select="$clusterSuffix"/>
+          <xsl:value-of select="$urlExt"/>?user=<xsl:value-of select="JB_owner"/>
         </xsl:attribute>
         <xsl:attribute name="title">view jobs owned by user <xsl:value-of select="JB_owner"/></xsl:attribute>
         <xsl:value-of select="JB_owner"/>

@@ -36,6 +36,11 @@
     <xsl:with-param  name="name"    select="'menuMode'"/>
   </xsl:call-template>
 </xsl:param>
+<xsl:param name="urlExt">
+  <xsl:call-template name="pi-param">
+    <xsl:with-param  name="name"    select="'urlExt'"/>
+  </xsl:call-template>
+</xsl:param>
 
 <!-- ======================= Internal Parameters ========================== -->
 
@@ -87,10 +92,13 @@
 <xsl:when test="$menuMode='qstatf'">
   <xsl:call-template name="qstatfMenu">
     <xsl:with-param name="clusterSuffix" select="$clusterSuffix"/>
+    <xsl:with-param name="urlExt" select="$urlExt"/>
   </xsl:call-template>
 </xsl:when>
 <xsl:otherwise>
-  <xsl:call-template name="topMenu"/>
+  <xsl:call-template name="topMenu">
+    <xsl:with-param name="urlExt" select="$urlExt"/>
+  </xsl:call-template>
 </xsl:otherwise>
 </xsl:choose>
 
