@@ -37,10 +37,9 @@
     name="clusterNode"
     select="$configFile/clusters/cluster[@name=$clusterName]"/>
 
-<xsl:variable name="redirect">
-  <xsl:value-of select="$baseURL" />
-  <xsl:value-of select="$resource" />
-</xsl:variable>
+<xsl:variable name="root" select="$clusterNode/@root" />
+<xsl:variable name="cell" select="$clusterNode/@cell" />
+<xsl:variable name="base" select="$clusterNode/@baseURL" />
 
 <!-- ======================= Output Declaration =========================== -->
 <xsl:output method="xml" version="1.0" encoding="UTF-8"/>
@@ -48,89 +47,69 @@
 
 <!-- ============================ Matching ================================ -->
 <xsl:template match="/">
-  <xsl:choose>
-  <xsl:when test="$clusterNode">
+
+  <!-- define the redirect url -->
+  <xsl:variable name="redirect">
+    <xsl:choose>
+    <xsl:when test="string-length($base)">
+      <xsl:value-of select="$base" />
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:value-of select="$baseURL" />
+    </xsl:otherwise>
+    </xsl:choose>
+    <xsl:value-of select="$resource" />
+  </xsl:variable>
+
+
+  <xsl:element name="xi:include">
+  <xsl:attribute name="href">
     <xsl:choose>
     <xsl:when test="$mode = 'jobinfo' and string-length($jobinfo)">
       <!-- use jobinfo cgi script -->
-      <xsl:apply-templates select="$clusterNode" mode="jobinfo"/>
-    </xsl:when>
-    <xsl:otherwise>
-      <!-- redirect (likely uses CommandGenerator) -->
-      <xsl:apply-templates select="$clusterNode" mode="redirect"/>
-    </xsl:otherwise>
-    </xsl:choose>
-  </xsl:when>
-  <xsl:otherwise>
-    <!-- provide default values -->
-    <xsl:element name="xi:include">
-      <xsl:attribute name="href">
-        <xsl:choose>
-        <xsl:when test="$mode = 'jobinfo' and string-length($jobinfo)">
-          <!-- use jobinfo cgi script -->
-          <xsl:value-of select="$jobinfo"/>
-        </xsl:when>
-        <xsl:otherwise>
-          <!-- redirect (likely uses CommandGenerator) -->
-          <xsl:value-of select="$redirect"/>
-        </xsl:otherwise>
-        </xsl:choose>
-        <xsl:if test="string-length($request)">
-          <xsl:text>?</xsl:text>
-          <xsl:value-of select="$request"/>
-        </xsl:if>
-      </xsl:attribute>
-    </xsl:element>
-  </xsl:otherwise>
-  </xsl:choose>
-</xsl:template>
-
-
-<!--
-   create a jobinfo query that can be evaluated later via xinclude
-   typically something like
-       http://<server>:<port>/xmlqstat/jobinfo?request
-   the url is expected to handle a missing request
-   and treat it like '-j *' (show all jobs)
--->
-<xsl:template match="cluster" mode="jobinfo">
-  <xsl:element name="xi:include">
-    <xsl:attribute name="href">
+      <!--
+          | typically something like
+          | http://<server>:<port>/xmlqstat/jobinfo?request
+          | the url is expected to handle a missing request
+          |   and treat it like '-j *' (show all jobs)
+          -->
       <xsl:value-of select="$jobinfo"/>
       <xsl:text>?</xsl:text>
-      <xsl:call-template name="cgi-params">
-        <xsl:with-param name="clusterNode" select="$clusterNode"/>
-      </xsl:call-template>
-      <xsl:if test="string-length($request)">
-        <xsl:text>&amp;</xsl:text>
-        <xsl:value-of select="$request"/>
+      <xsl:if test="$clusterNode">
+        <xsl:call-template name="cgi-params">
+          <xsl:with-param name="clusterNode" select="$clusterNode"/>
+        </xsl:call-template>
       </xsl:if>
-    </xsl:attribute>
-  </xsl:element>
-</xsl:template>
-
-
-<!--
-   create a qstat query that can be evaluated later via xinclude
-   typically something like
-       http://<server>:<port>/xmlqstat/redirect.xml/~{sge_cell}/{sge_root}
--->
-<xsl:template match="cluster" mode="redirect">
-  <xsl:element name="xi:include">
-    <xsl:attribute name="href">
+    </xsl:when>
+    <xsl:otherwise>
+    <!-- redirect (likely uses CommandGenerator) -->
+    <!--
+        | create a qstat query that can be evaluated later via xinclude
+        | typically something like
+        | http://<server>:<port>/xmlqstat/redirect.xml/~{sge_cell}/{sge_root}
+        -->
       <xsl:value-of select="$redirect"/>
-      <xsl:if test="$clusterNode/@cell != 'default'">
-        <xsl:text>/~</xsl:text>
-        <xsl:value-of select="$clusterNode/@cell" />
-      </xsl:if>
-      <xsl:value-of select="$clusterNode/@root"/>
-      <xsl:if test="string-length($request)">
-        <xsl:text>?</xsl:text>
-        <xsl:value-of select="$request"/>
-      </xsl:if>
-    </xsl:attribute>
+        <xsl:if test="not(string-length($base))">
+          <xsl:if test="string-length($root)">
+            <xsl:if test="$cell">
+              <xsl:text>/~</xsl:text>
+              <xsl:value-of select="$cell" />
+            </xsl:if>
+            <xsl:value-of select="$root"/>
+          </xsl:if>
+        </xsl:if>
+      <xsl:text>?</xsl:text>
+    </xsl:otherwise>
+    </xsl:choose>
+    <xsl:if test="string-length($request)">
+      <xsl:text>&amp;</xsl:text>
+      <xsl:value-of select="$request"/>
+    </xsl:if>
+  </xsl:attribute>
   </xsl:element>
+
 </xsl:template>
+
 
 </xsl:stylesheet>
 
