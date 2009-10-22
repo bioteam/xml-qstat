@@ -11,9 +11,11 @@ should not be changed as other subroutines call it for their error handling.
 ~
 ~
 
+#!/perl  # provide a shebang for using perl -c -x userfunc.in
+
 sub hterror {
-    my($errstr, $expl) = (@_);
-    &htcontent(<<"EOF", "text/html");
+    my ( $errstr, $expl ) = (@_);
+    &htcontent( <<"EOF", "text/html" );
 <html>
 <body>
 <h1>$errstr</h1>
@@ -27,18 +29,20 @@ EOF
 }
 
 sub hterror404 {
-    &htsponse(404, "File Not Found");
-    &hterror("File Not Found",
-        "The resource <tt>$address</tt> was not found on this system.");
-    &log; exit;
+    &htsponse( 404 => "File Not Found" );
+    &hterror( "File Not Found",
+        "The resource <tt>$address</tt> was not found on this system." );
+    &log;
+    exit;
 }
 
 sub hterror301 {
-    &htsponse(301, "Moved Permanently");
+    &htsponse( 301 => "Moved Permanently" );
     &hthead("Location: @_");
-    &hterror("Resource Moved Permanently",
-        qq{This resource has moved <a href="@_">here</a>.});
-    &log; exit;
+    &hterror( "Resource Moved Permanently",
+        qq{This resource has moved <a href="@_">here</a>.} );
+    &log;
+    exit;
 }
 
 ##<xmlqstat>## - functions for /xmlqstat resource handler
@@ -46,12 +50,10 @@ sub hterror301 {
 # like hterror404, but optionally with our own message content
 sub customError404 {
     &htsponse( 404 => "File Not Found" );
-    &hterror(
-        "Resource Not Found",
+    &hterror( "Resource Not Found",
         @_
         ? "@_"
-        : "Cannot resolve resource <b>$::address</b>"
-    );
+        : "Cannot resolve resource <b>$::address</b>" );
     &log;
     exit;
 }
@@ -63,8 +65,8 @@ sub customError404 {
     use warnings;
     use strict;
 
-    my $resourceName = "xmlqstat";   # don't touch this
-    sub gridEngineCmd;    # forward declaration
+    my $resourceName = "xmlqstat";    # don't touch this
+    sub gridEngineCmd;                # forward declaration
 
     # define callbacks for GridEngine commands
     # the names correspond both to the internal resource mapping
@@ -98,7 +100,6 @@ sub customError404 {
     # hashed values of cluster configuration, extracted from config/config.xml
     my %clusterPaths = ( "#mtime#" => 0 );
 
-
     #
     # extract attrib="value" ... attrib="value"
     #
@@ -113,6 +114,74 @@ sub customError404 {
         }
 
         %attr;
+    }
+
+    #
+    # ideas from LWP::Simple but without IO::Socket.pm
+    #
+    sub get_http_source {
+        my ( $host, $port, $path ) = @_;
+        $port ||= 80;
+        if ($path) {
+            $path =~ s{//+}{/}g;
+        }
+        else {
+            $path = "/";
+        }
+
+        my $ipaddr       = gethostbyname $host;
+        my $serverIPaddr = gethostbyname $::server_host;
+
+        local *SOCK;
+
+        # avoid internal loops
+        if ( $port == $::server_port and $ipaddr eq $serverIPaddr ) {
+            &hterror404;
+        }
+
+        # use httpi DEF_* constants:
+        my $packaddr = pack $::sockaddr, DEF_AF_INET, $port, $ipaddr;
+        socket SOCK, DEF_PF_INET, DEF_SOCK_STREAM, DEF_IPPROTO_TCP;
+        connect SOCK, $packaddr or return undef;
+
+        ## add timeout?
+
+        # use syswrite to avoid buffering
+        syswrite SOCK,
+          join(
+            "\015\012" => "GET $path HTTP/1.0",
+            "User-Agent: HTTPi/$::VERSION",
+            "",
+            ""
+          );
+
+        my ( $buf, $n ) = ("");
+        1 while $n = sysread( SOCK, $buf, 8 * 1024, length($buf) );
+        defined $n or return undef;
+
+        # only deal with good (200) values
+        $buf =~ s{^HTTP/\d+\.\d+\s+(2\d+)\s*([^\012\015]*)\015?\012}{}
+          or return undef;
+
+        my @response = ( $1, $2 );
+        my %header;
+
+        # remove header, but extract information too
+        $buf =~ s{^(.+?)\015?\012\015?\012}{}s or return undef;
+        my $head = $1;
+
+        # extract Content-Type from header
+        for ( split /\015?\012/, $head ) {
+            if ( my ($v) = m{^Content-Type:\s*(.+?)\s*$} ) {
+                $header{'Content-Type'} = $v;
+                last;
+            }
+        }
+
+        # calculate Content-Length
+        $header{'Content-Length'} = length $buf;
+
+        return [ \@response, \%header, $buf ];
     }
 
     #
@@ -171,24 +240,44 @@ sub customError404 {
             $_ = <CONFIG>;
             s{<!--.*?-->\s*}{}sg;
 
+            # only retain content of <clusters> .. </clusters> bit
+            s{^.*<clusters>|</clusters>.*$}{}sg;
+
+
             ## process <cluster .../> and <cluster ...> .. </cluster>
             while (s{<cluster \s+([^<>]+?) />}{}sx
                 or s{<cluster \s+([^<>]+) > (.*?) </cluster>}{}sx )
             {
-                my ( $attr, $uri ) = ( $1, $2 );
+                my ( $attr, $content ) = ( $1, $2 );
 
                 my %attr = parseXMLattrib($attr);
                 my $name = delete $attr{name};
 
                 if ( defined $name ) {
                     $clusterPaths{$name} = {%attr};
-
-                    ## this needs more work (haven't decided what we want yet)
-                    $uri =~ s/^\s+|\s+//g if $uri;
-                    if ($uri) {
-                        $clusterPaths{$name}{uri} = $uri;
-                    }
                 }
+            }
+
+
+            ## handle <default ... />
+            my ( $name, %attr ) = ("default");
+
+
+            if (s{<default \s+([^<>]+?) />}{}sx
+                or s{<default \s+([^<>]+) > (.*?) </default>}{}sx )
+            {
+                my ( $attr, $content ) = ( $1, $2 );
+                %attr = parseXMLattrib($attr);
+
+                # remove unneed/unwanted attributes
+                delete $attr{name};
+            }
+
+            my $enabled = delete $attr{enabled};
+            if ( $enabled and $enabled eq "no" ) {
+                %attr = ();
+            } else {
+                $clusterPaths{"default"} = {%attr};
             }
         }
     }
@@ -374,8 +463,8 @@ CONTENT
     }
 
     #
-    # execute <sge_root>/bin/<sge_arch>/cmd with a timeout
-    # for security, only allow absolute paths
+    # Execute <sge_root>/bin/<sge_arch>/cmd with a timeout.
+    # For security, only allow absolute paths.
     #
     # Prototype gridEngineCmd( clusterName, command => [command args] )
     #
@@ -385,22 +474,19 @@ CONTENT
         my ( $cluster, $cmd, @cmdArgs ) = @_;
         my ( $root, $cell );
 
-        # get root/cell from config information
-        if ($cluster) {
-            if (    exists $clusterPaths{$cluster}
-                and exists $clusterPaths{$cluster}{root} )
-            {
-                $root = $clusterPaths{$cluster}{root};
-                $cell = $clusterPaths{$cluster}{cell};
-            }
-        }
-        else {
-            $cluster ||= "";
-            $root = $ENV{SGE_ROOT}  if exists $ENV{SGE_ROOT};
-            $cell = $ENV{SGE_CELLT} if exists $ENV{SGE_CELL};
-        }
-
+        ## programming error
         $cmd or die "gridEngineCmd called without a command\n";
+
+        $cluster ||= '';
+
+        # get root/cell from config information
+        if (    exists $clusterPaths{$cluster}
+            and exists $clusterPaths{$cluster}{root} )
+        {
+            $root = $clusterPaths{$cluster}{root};
+            $cell = $clusterPaths{$cluster}{cell};
+        }
+        $cell ||= "default"; # fallback
 
         unless ( defined $root ) {
             &customError404(<<"CONTENT");
@@ -439,9 +525,21 @@ Could not resolve command in <tt>$root/$bindirs</tt>
 CONTENT
         }
 
+
+        # no cell directory? error!
+        unless ( -d "$root/$cell" ) {
+            &customError404(<<"CONTENT");
+Resource <b>$::address</b> &ndash; for cluster <em>$cluster</em>
+<tt>(SGE_ROOT=$root</tt>, <tt>SGE_CELL=$root)</tt><br/>
+During command
+<blockquote><pre>$cmd @cmdArgs<pre></blockquote>
+Cell directory <b>$root/$cell</b> does not exist
+CONTENT
+        }
+
         local *ENV;
         $ENV{SGE_ROOT} = $root;
-        $ENV{SGE_CELL} = $cell || "default";    # fallback
+        $ENV{SGE_CELL} = $cell;
 
         # first argument is a currently just a dummy (OO-remnant)
         shellCmd( "gridEngineCmd", $cmdPath, @cmdArgs );
@@ -449,25 +547,26 @@ CONTENT
 
     #
     # Search cache-{clusterName}/ and cache/ for cache files. If this
-    # fails, attempt the fallback command which can be a code or array
-    # reference
+    # fails, attempt the fallback command.
+    # If the first parameter of the fallback command is a code reference,
+    # call directly with the remaining arguments.
     #
-    # Prototype xmlFromCache( clusterName, cacheName => [command] )
+    # Prototype xmlFromCache( clusterName, cacheName, [command] )
     #
     # ---------------------------------------------
     sub xmlFromCache {
-        my ( $clusterName, $cacheName, $altCmd, @cmdArgs ) = @_;
+        my ( $cluster, $cacheName, $altCmd ) = @_;
         my $mainDir = "$resourceRoot/$resourceName";
 
         $cacheName =~ s{\.xml$}{};
 
         my $cacheFile;
         for (
-            $clusterName
-            ? (
-                "cache-$clusterName/$cacheName", "cache/$cacheName~$clusterName"
+              ( not $cluster or $cluster eq "default" )
+            ? ("cache/$cacheName")
+            : (
+                "cache-$cluster/$cacheName", "cache/$cacheName~$cluster"
             )
-            : ("cache/$cacheName")
           )
         {
             my $x = "$mainDir/$_.xml";
@@ -486,22 +585,41 @@ CONTENT
                 $content = <XMLFILE>;
             }
         }
-        elsif ($altCmd) {
-            my $refType = ref $altCmd;
+        elsif ( $cluster
+            and exists $clusterPaths{$cluster}
+            and exists $clusterPaths{$cluster}{baseURL} )
+        {
+            my $get = "$clusterPaths{$cluster}{baseURL}/$cacheName.xml";
+            my $got;
 
-            if ( $refType eq "CODE" ) {
-                ## code ref gets called directly
-                $content = &$altCmd(@cmdArgs);
+            if ( $get =~ m{(?:^|/)http://([^/:\@]+)(?::(\d+))?(/\S*)?$} ) {
+                my ( $host, $port, $path ) = ( $1, $2, $3 );
+                $got = get_http_source( $host, $port, $path );
             }
-            elsif ( $refType eq "ARRAY" ) {
+
+            if ( ref $got eq "ARRAY" ) {
+                $content = $got->[2];
+            }
+            else {
+                &customError404("Could not fetch <b>$get</b>");
+            }
+        }
+        elsif ( ref $altCmd eq "ARRAY" ) {
+            my ( $cmd, @cmdArgs ) = @$altCmd;
+
+            if ( ref $cmd eq "CODE" ) {
+                ## code ref gets called directly
+                $content = &$cmd(@cmdArgs);
+            }
+            else {
                 ## array ref gets called via command generator
-                $content = shellCmd( "command-generator", @$altCmd, @cmdArgs );
+                $content = shellCmd( "command-generator", $cmd, @cmdArgs );
             }
         }
 
-        if ($content) {
 
-            # strip <?xml ...?> # or have problems later!
+        if ($content) {
+            ## strip <?xml ...?> # or have problems later!
             $content =~ s{^\s*<\?xml[^?]+\?>\s*}{}sx;
 
             # we could also do a simple check for non-truncated content?
@@ -512,7 +630,6 @@ CONTENT
 
         $content;
     }
-
 
     #
     # resource handler for /xmlqstat path
@@ -531,14 +648,13 @@ CONTENT
         # ----------------------------------------------
 
         # match qstat.xml, qstatf.xml, qhost.xml, etc
-        if ( $::address =~ m{^/(q\w+)\.xml$} )
-        {
-            my ($function) = $1;
+        if ( $::address =~ m{^/(q[a-z]+)\.xml$} ) {
+            my ( $function, $clusterName ) = ( $1, "default" );
 
-            if ( exists $gridEngineQuery{$function} )
-            {
-                if ( $function eq "qstatj" )
-                {
+            updateClusterConfig();
+
+            if ( exists $gridEngineQuery{$function} ) {
+                if ( $function eq "qstatj" ) {
                     &customError404(<<"CONTENT");
 Resource-intensive request denied
 <blockquote><b>$::address</b></blockquote>
@@ -548,13 +664,13 @@ CONTENT
                 returnXML(
                     xmlProlog(%xsltParam),
                     xmlFromCache(
-                        '',    # empty cluster name
-                        $function => ( $gridEngineQuery{$function} )
+                        $clusterName,
+                        $function => [ $gridEngineQuery{$function}, $clusterName ]
                     )
                 );
             }
+            return;
         }
-
 
         # trivial check - not our resource
         return if $::address !~ m{^/xmlqstat(?:/|$)};
@@ -586,6 +702,11 @@ CONTENT
         -d "$resourceRoot/$resourceName/xsl" or $xsltParam{rawxml} = "true";
 
         #
+        # update what we know about the cluster configuration
+        #
+        updateClusterConfig();
+
+        #
         # re-direct rules first
         #
 
@@ -602,14 +723,24 @@ CONTENT
         #    /xmlqstat/cluster/{clusterName}
         # -> /xmlqstat/cluster/{clusterName}/jobs
         if ( $::address =~ m{^/xmlqstat/cluster/([^\s/]+?)/*$} ) {
+            my ($clusterName) = ($1);
+
             $::address =~ s{/+$}{};
-            &hterror301("$::address/jobs");
+
+            # redirect for known clusters (including "default")
+            if ( exists $clusterPaths{$clusterName} )
+            {
+                &hterror301("$::address/jobs");
+            }
+            else {
+                &customError404;
+            }
         }
 
         # path rewriting for static files
         if ( $::address =~ m{^/xmlqstat/(?:css|xsl|config|javascript)/.+$} ) {
             $::path = $newPath;
-            return;  # done rewriting
+            return;    # done rewriting
         }
 
         # path rewriting for static files - avoid relative roots
@@ -625,7 +756,7 @@ CONTENT
             or $::address =~ m{^/xmlqstat/.*/(javascript/.+\.js)$} )
         {
             ( $::path, $::address ) = ( $newPath, "/xmlqstat/$1" );
-            return;  # done rewriting
+            return;    # done rewriting
         }
 
         #
@@ -667,8 +798,6 @@ CONTENT
             );
         }
 
-        updateClusterConfig();
-
         # create directory listings
         if ( $::address =~ m{^/xmlqstat/(config|xsl)$} ) {
             my $dir = $1;
@@ -700,16 +829,13 @@ CONTENT
         #
         # /xmlqstat/cluster/{clusterName}/{function}(.xml)
         #
-        if ( $::address =~ m{^/xmlqstat/cluster/([^\s/]+?)/([^\s/]+?)(\.xml)?/*$} ) {
+        if ( $::address =~
+            m{^/xmlqstat/cluster/([^\s/]+?)/([^\s/]+?)(\.xml)?/*$} )
+        {
             my ( $clusterName, $function, $urlExt ) = ( $1, $2, $3 );
 
-            $xsltParam{urlExt} = $urlExt if $urlExt;
+            $xsltParam{urlExt}      = $urlExt if $urlExt;
             $xsltParam{clusterName} = $clusterName;
-
-            # handle "default"
-            if ( $clusterName eq "*" or $clusterName eq "default" ) {
-                $clusterName = '';
-            }
 
             #
             # job : with optional user=... filter
@@ -724,7 +850,7 @@ CONTENT
                         %xsltParam,    #
                         stylesheet => "../../xsl/qstat-xhtml.xsl",
                     ),
-                    xmlFromCache( $clusterName, qstat => '' )
+                    xmlFromCache( $clusterName, qstat => undef )
                 );
             }
 
@@ -742,7 +868,7 @@ CONTENT
                     xmlFromCache(
                         $clusterName,    #
                         qstatj =>
-                          ( $gridEngineQuery{qstatj}, $clusterName, $jobId )
+                          [ $gridEngineQuery{qstatj}, $clusterName, $jobId ]
                     )
                 );
             }
@@ -759,7 +885,7 @@ CONTENT
                         %xsltParam,    #
                         stylesheet => "../../xsl/qhost-xhtml.xsl",
                     ),
-                    xmlFromCache( $clusterName, qhost => '' )
+                    xmlFromCache( $clusterName, qhost => undef )
                 );
             }
 
@@ -772,7 +898,7 @@ CONTENT
                         %xsltParam,    #
                         stylesheet => "../../xsl/qlic-xhtml.xsl",
                     ),
-                    xmlFromCache( $clusterName, qlicserver => '', )
+                    xmlFromCache( $clusterName, qlicserver => undef, )
                 );
             }
 
@@ -791,7 +917,7 @@ CONTENT
             }
 
             # *.xml specified - attempt to serve cached file
-            if (  delete $xsltParam{urlExt} ) {
+            if ( delete $xsltParam{urlExt} ) {
                 returnXML(
                     xmlProlog(%xsltParam),    #
                     xmlFromCache( $clusterName, $function )
@@ -826,12 +952,11 @@ CONTENT
                     ),
                     xmlFromCache(
                         $clusterName,
-                        qstatf => ( $gridEngineQuery{qstatf}, $clusterName )
+                        qstatf => [ $gridEngineQuery{qstatf}, $clusterName ]
                     )
                 );
             }
         }
-
 
         #
         #    /xmlqstat/(resource|jobs|..)~{clusterName}(.xml)
@@ -842,7 +967,7 @@ CONTENT
         {
             my ( $function, $clusterName, $urlExt ) = ( $1, $2, $3 );
 
-            $xsltParam{urlExt} = $urlExt if $urlExt;
+            $xsltParam{urlExt}      = $urlExt if $urlExt;
             $xsltParam{clusterName} = $clusterName;
             $xsltParam{menuMode}    = "qstatf";
 
@@ -861,7 +986,7 @@ CONTENT
                     ),
                     xmlFromCache(
                         $clusterName,
-                        qstatf => ( $gridEngineQuery{qstatf}, $clusterName )
+                        qstatf => [ $gridEngineQuery{qstatf}, $clusterName ]
                     )
                 );
             }
@@ -880,7 +1005,7 @@ CONTENT
                     xmlFromCache(
                         $clusterName,    #
                         qstatj =>
-                          ( $gridEngineQuery{qstatj}, $clusterName, $jobId )
+                          [ $gridEngineQuery{qstatj}, $clusterName, $jobId ]
                     )
                 );
             }
@@ -897,13 +1022,13 @@ CONTENT
                     ),
                     xmlFromCache(
                         $clusterName,
-                        qstatf => ( $gridEngineQuery{qstatf}, $clusterName )
+                        qstatf => [ $gridEngineQuery{qstatf}, $clusterName ]
                     )
                 );
             }
 
             #
-            # summary : renderMode 'full'
+            # summary : renderMode 'summary'
             #
             if ( $function eq "summary" ) {
                 returnXML(
@@ -914,7 +1039,7 @@ CONTENT
                     ),
                     xmlFromCache(
                         $clusterName,
-                        qstatf => ( $gridEngineQuery{qstatf}, $clusterName )
+                        qstatf => [ $gridEngineQuery{qstatf}, $clusterName ]
                     )
                 );
             }
@@ -928,7 +1053,7 @@ CONTENT
                         %xsltParam,    #
                         stylesheet => "xsl/qlic-xhtml.xsl",
                     ),
-                    xmlFromCache( $clusterName, qlicserver => '' )
+                    xmlFromCache( $clusterName, qlicserver => undef )
                 );
             }
 

@@ -64,7 +64,7 @@
 
 <xsl:variable name="cgi-params">
   <xsl:call-template name="cgi-params">
-    <xsl:with-param name="clusterNode" select="$clusterNode" />
+    <xsl:with-param name="clusterName" select="$clusterName" />
   </xsl:call-template>
 </xsl:variable>
 
@@ -144,13 +144,14 @@
 <xsl:when test="$clusterNode">
   <!-- cluster/cell name -->
   <xsl:value-of select="$clusterNode/@name"/>
-  <xsl:if test="$clusterNode/@cell != 'default'">/<xsl:value-of
+  <xsl:if test="string-length($clusterNode/@cell) and 
+      $clusterNode/@cell != 'default'">/<xsl:value-of
       select="$clusterNode/@cell"/>
   </xsl:if>
 </xsl:when>
 <xsl:otherwise>
   <!-- unnamed cluster: -->
-  unnamed cluster
+  default
 </xsl:otherwise>
 </xsl:choose>
 <!-- replace 'T' in dateTime for easier reading -->

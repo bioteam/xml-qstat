@@ -43,24 +43,26 @@
 <xsl:variable
     name="configFile"
     select="document('../config/config.xml')/config" />
+
+
 <xsl:variable name="qlicserverAllowed">
   <xsl:choose>
-  <xsl:when test="$configFile/qlicserver">
-    <xsl:if test="$configFile/qlicserver != 'no'">yes</xsl:if>
+  <xsl:when test="$configFile/qlicserver/@enabled = 'false'">
+    <xsl:text>false</xsl:text>
   </xsl:when>
   <xsl:otherwise>
-    <xsl:text>yes</xsl:text>
+    <xsl:text>true</xsl:text>
   </xsl:otherwise>
   </xsl:choose>
 </xsl:variable>
 
-<xsl:variable name="defaultCluster">
+<xsl:variable name="defaultClusterAllowed">
   <xsl:choose>
-  <xsl:when test="$configFile/clusters/default">
-    <xsl:if test="$configFile/clusters/default != 'no'">yes</xsl:if>
+  <xsl:when test="$configFile/clusters/default/@enabled = 'false'">
+    <xsl:text>false</xsl:text>
   </xsl:when>
   <xsl:otherwise>
-    <xsl:text>yes</xsl:text>
+    <xsl:text>true</xsl:text>
   </xsl:otherwise>
   </xsl:choose>
 </xsl:variable>
@@ -200,10 +202,19 @@
 </xsl:for-each>
 
 <!-- add default cluster -->
-<xsl:if test="$defaultCluster = 'yes'">
-<xsl:call-template name="addClusterLinks">
-  <xsl:with-param name="unnamed" select="'default'"/>
-</xsl:call-template>
+<xsl:if test="$defaultClusterAllowed = 'true'">
+  <xsl:choose>
+  <xsl:when test="$configFile/clusters/default">
+    <xsl:apply-templates select="$configFile/clusters/default"/>
+  </xsl:when>
+  <xsl:otherwise>
+    <xsl:call-template name="addClusterLinks">
+      <xsl:with-param name="name" select="'default'"/>
+      <xsl:with-param name="unnamed" select="'default'"/>
+      <xsl:with-param name="root" select="'X'"/>
+    </xsl:call-template>
+  </xsl:otherwise>
+  </xsl:choose>
 </xsl:if>
 
 &newline;
@@ -225,6 +236,15 @@
 <xsl:template match="cluster">
   <xsl:call-template name="addClusterLinks">
     <xsl:with-param name="name" select="@name"/>
+    <xsl:with-param name="root" select="@root"/>
+    <xsl:with-param name="cell" select="@cell"/>
+  </xsl:call-template>
+</xsl:template>
+
+<xsl:template match="default">
+  <xsl:call-template name="addClusterLinks">
+    <xsl:with-param name="unnamed" select="'default'"/>
+    <xsl:with-param name="name" select="'default'"/>
     <xsl:with-param name="root" select="@root"/>
     <xsl:with-param name="cell" select="@cell"/>
   </xsl:call-template>
@@ -258,7 +278,7 @@
   <!-- cache dir qualified with cluster name -->
   <xsl:variable name="fqCacheDir">
     <xsl:choose>
-    <xsl:when test="string-length($name)">
+    <xsl:when test="string-length($name) and not(string-length($unnamed))">
       <xsl:text>cache-</xsl:text><xsl:value-of select="$name"/>
     </xsl:when>
     <xsl:otherwise>
@@ -269,10 +289,22 @@
 
   <!-- cache dir qualified with cluster name -->
   <xsl:variable name="fileQualifier">
-    <xsl:if test="string-length($name)">
+    <xsl:if test="string-length($name) and not(string-length($unnamed))">
       <xsl:text>~</xsl:text><xsl:value-of select="$name"/>
     </xsl:if>
     <xsl:text>.xml</xsl:text>
+  </xsl:variable>
+
+  <xsl:variable name="clusterDir">
+    <xsl:text>cluster/</xsl:text>
+    <xsl:choose>
+    <xsl:when test="string-length($name)">
+      <xsl:value-of select="$name"/>
+    </xsl:when>
+    <xsl:otherwise>
+       <xsl:text>default</xsl:text>
+    </xsl:otherwise>
+    </xsl:choose>
   </xsl:variable>
 
   <xsl:variable name="qhost_exists">
@@ -284,7 +316,7 @@
   </xsl:variable>
 
   <xsl:variable name="qlicserver_exists">
-    <xsl:if test="$qlicserverAllowed = 'yes'">
+    <xsl:if test="$qlicserverAllowed = 'true'">
       <xsl:call-template name="hasCacheFile">
         <xsl:with-param name="cacheDir"      select="$fqCacheDir"/>
         <xsl:with-param name="fileQualifier" select="$fileQualifier"/>
@@ -309,18 +341,6 @@
     </xsl:call-template>
   </xsl:variable>
 
-
-  <xsl:variable name="clusterDir">
-    <xsl:text>cluster/</xsl:text>
-    <xsl:choose>
-    <xsl:when test="string-length($name)">
-      <xsl:value-of select="$name"/>
-    </xsl:when>
-    <xsl:otherwise>
-       <xsl:text>default</xsl:text>
-    </xsl:otherwise>
-    </xsl:choose>
-  </xsl:variable>
 
 
   &newline;
@@ -369,7 +389,8 @@
     <xsl:when test="
          string-length($qhost_exists)
       or string-length($qlicserver_exists)
-      or string-length($qstat_exists)">
+      or string-length($qstat_exists)
+      ">
 
       &space;
       <xsl:if test="string-length($qstat_exists)">

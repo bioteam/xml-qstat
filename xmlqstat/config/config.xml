@@ -1,32 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 <!-- XML-QSTAT configuration file -->
-<!--
-    Change this value to reflect your local timezone relative to UTC.
-    This offset is used when constructing RFC-3339 validated timestamps that
-    look like this:
-
-        1990-12-31T23:59:60Z
-    	1996-12-19T16:39:57-08:00
-
-    The cocoon server will report proper local date time information,
-    but we need to insert the UTC correction info for the RSS feed
-
-    Setting "Z" means no correction (UTC time matches)
-
-    CET (Central European Time) is 1 hour ahead of UTC, thus "+01:00"
-    EST (East coast USA) is 5 hours behind UTC, thus "-05:00"
-
-    Change the following param accordingly to your UTC offset.
--->
-<UTC_TZ_offset>+01:00</UTC_TZ_offset>
 
 <!--
-    Set this to 'no' if you wish to disable viewing of the
-    resource allocation reported by the qlicserver program.
-    Other values (or a missing entry) are interpreted as 'yes'.
+    If the 'qlicserver' entity exists and has the attribute enabled="false",
+    the viewing of the resource allocation reported by the qlicserver program
+    will be disabled.
+    Other values (or a missing entry) are interpreted as enabled="true".
 -->
-<qlicserver>yes</qlicserver>
+<qlicserver enabled="true"/>
 
 <!--
     specify an external program for querying the jobinfo
@@ -65,12 +47,22 @@
 
 <!--
     define cluster settings and if a default cluster is allowed
-    @name - SGE_CLUSTER_NAME required
+    @name - SGE_CLUSTER_NAME required for 'cluster' but not for 'default'
     @root - SGE_ROOT required unless @baseURL is used
     @cell - SGE_CELL optional, provided the downstream uses 'default'
-    @baseURL - (in testing) optional means of getting at resources, needs a trailing slash
-    -->
+    @baseURL - optional means of getting at resources, needs a trailing slash
+
+    If the 'default' entity exists in 'clusters' and has the attribute
+    enabled="false", the default (unnamed) cluster will be disabled.
+    Other values (or a missing entry) are interpreted as enabled="true".
+-->
 <clusters>
+  <default
+      enabled="true"
+      root="/opt/grid"
+      cell="default"
+      />
+
   <cluster
       name="augsburg01"
       root="/data/app/grid01"
@@ -81,7 +73,7 @@
       root="/data/app/grid02"
       cell="default"
       />
-  <default>yes</default>
+
 </clusters>
 
 </config>

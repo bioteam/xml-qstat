@@ -13,19 +13,21 @@ runAs=cfdadmin
 COCOON_HOME=/data/app/cocoon
 JAVA_HOME=/usr/lib/jvm/java
 
-# 3. Might require GridEngine information for later queries
-#    (only required when using the command-generator)
-SGE_ROOT=/opt/grid
-SGE_CELL=default
-
-# 4. Extra path(s) for anything we wish to use via the java CommandGenerator
+# 3. Extra path(s) for anything we wish to use via the java CommandGenerator
+#    eg, qstat.sh
 for d in /data/app/bin
 do
     [ -d $d ] && PATH=$PATH:$d
 done
 
+# 4. Could require GridEngine information for later queries
+#    (using the command-generator), but try to see it if works without
+unset SGE_ROOT SGE_CELL  # a bit extra safety
+# SGE_ROOT=/opt/grid; export SGE_ROOT
+# SGE_CELL=default; export SGE_CELL
+
 export COCOON_HOME JAVA_HOME PATH
-unset DISPLAY  # safety
+unset DISPLAY  # a bit extra safety
 
 #---------------------------------------------------------------------------
 # The following lines provide the necessary info for adding a startup script
@@ -56,6 +58,7 @@ fi
 
 # Init GridEngine path/environment variables
 # to allow webserver access to GridEngine commands
+# (if not unset above)
 if [ -f $SGE_ROOT/$SGE_CELL/common/settings.sh ]
 then
     export SGE_ROOT SGE_CELL

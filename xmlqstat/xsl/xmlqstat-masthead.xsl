@@ -91,11 +91,11 @@
 
   <xsl:variable name="qlicserverAllowed">
     <xsl:choose>
-    <xsl:when test="document('../config/config.xml')/config/qlicserver
-      and document('../config/config.xml')/config/qlicserver != 'no'
-      ">yes</xsl:when>
+    <xsl:when test="document('../config/config.xml')/config/qlicserver/@enabled = 'false'">
+      <xsl:text>false</xsl:text>
+    </xsl:when>
     <xsl:otherwise>
-      <xsl:text>yes</xsl:text>
+      <xsl:text>true</xsl:text>
     </xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
@@ -172,7 +172,7 @@
       />
     </xsl:element>
 
-  <xsl:if test="$qlicserverAllowed = 'yes'">
+  <xsl:if test="$qlicserverAllowed = 'true'">
     <!-- resources -->
     <img alt=" | " src="css/screen/icon_divider.png" />
     <xsl:element name="a">
@@ -233,15 +233,14 @@
 
   <xsl:variable name="qlicserverAllowed">
     <xsl:choose>
-    <xsl:when test="document('../config/config.xml')/config/qlicserver
-      and document('../config/config.xml')/config/qlicserver != 'no'
-      ">yes</xsl:when>
+    <xsl:when test="document('../config/config.xml')/config/qlicserver/@enabled = 'false'">
+      <xsl:text>false</xsl:text>
+    </xsl:when>
     <xsl:otherwise>
-      <xsl:text>yes</xsl:text>
+      <xsl:text>true</xsl:text>
     </xsl:otherwise>
     </xsl:choose>
   </xsl:variable>
-
 
   <div id="menu">
     <xsl:element name="a">
@@ -291,7 +290,7 @@
       />
     </xsl:element>
 
-  <xsl:if test="$qlicserverAllowed = 'yes'">
+  <xsl:if test="$qlicserverAllowed = 'true'">
     <!-- resources -->
     <img alt=" | " src="css/screen/icon_divider.png" />
     <xsl:element name="a">

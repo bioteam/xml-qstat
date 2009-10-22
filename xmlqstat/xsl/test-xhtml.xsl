@@ -22,15 +22,9 @@
 <!-- ======================= Imports / Includes =========================== -->
 <!-- Include our templates -->
 <xsl:include href="xmlqstat-templates.xsl"/>
-<!-- Include processor-instruction parsing -->
-<xsl:include href="pi-param.xsl"/>
 
 <!-- ======================== Passed Parameters =========================== -->
-<xsl:param name="timestamp">
-  <xsl:call-template name="pi-param">
-    <xsl:with-param  name="name"    select="'timestamp'"/>
-  </xsl:call-template>
-</xsl:param>
+<!-- NONE -->
 
 
 <!-- ======================= Internal Parameters ========================== -->
@@ -79,7 +73,9 @@
 <div id="main">
 <!-- Topomost Logo Div -->
 <blockquote>
-  <b>If you see this text, the xslt transform has been applied.</b>
+  <b>
+     If you see this text, the xslt transform has been applied.
+  </b>
   <div id="javascript"/>
   <noscript>
     <div>javascript is not active</div>

@@ -13,7 +13,7 @@
   <q name="all.q" np_load_avg="3.75" />
   <q name="disabled.q" np_load_avg="1.75" />
 
-  <!-- an example of using 'qi' values too -->
+  <!-- an example of using 'qi' (queue instance) values too -->
   <q name="subordinate-01.q" np_load_avg="1.75" />
   <qi name="subordinate-01.q@chrisdag.local" np_load_avg="1.5" />
 

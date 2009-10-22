@@ -109,18 +109,24 @@
 <xsl:choose>
 <xsl:when test="//query/cluster and //query/host">
   <!-- query host, cluster/cell name -->
-  <xsl:value-of
-      select="//query/cluster/@name"
-      /><xsl:if test="//query/cluster/@cell != 'default'">/<xsl:value-of
-      select="//query/cluster/@cell"/>
-      </xsl:if>@<xsl:value-of select="//query/host"/>
+  <xsl:value-of select="//query/cluster/@name"/>
+  <xsl:if test="
+      string-length(//query/cluster/@cell)
+      and //query/cluster/@cell != 'default'
+      ">
+    <xsl:text>/</xsl:text>
+    <xsl:value-of select="//query/cluster/@cell"/>
+  </xsl:if>
+  <xsl:text>@</xsl:text>
+  <xsl:value-of select="//query/host"/>
+
   &space;
   <!-- replace 'T' in dateTime for easier reading -->
   [<xsl:value-of select="translate(//query/time, 'T', '_')"/>]
 </xsl:when>
 <xsl:otherwise>
   <!-- unnamed cluster: -->
-  unnamed cluster
+  default
 </xsl:otherwise>
 </xsl:choose>
 </div>

@@ -76,7 +76,7 @@
 
 <xsl:variable name="cgi-params">
   <xsl:call-template name="cgi-params">
-    <xsl:with-param name="clusterNode" select="$clusterNode"/>
+    <xsl:with-param name="clusterName" select="$clusterName"/>
   </xsl:call-template>
 </xsl:variable>
 
@@ -141,7 +141,8 @@
   <div class="dividerBarBelow">
     <!-- cluster/cell name -->
     <xsl:value-of select="$clusterNode/@name"/>
-    <xsl:if test="$clusterNode/@cell != 'default'">/<xsl:value-of
+    <xsl:if test="string-length($clusterNode/@cell) and
+        $clusterNode/@cell != 'default'">/<xsl:value-of
         select="$clusterNode/@cell"/>
     </xsl:if>
   </div>

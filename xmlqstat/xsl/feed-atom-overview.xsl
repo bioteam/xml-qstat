@@ -19,7 +19,7 @@
 <xsl:include href="pi-param.xsl"/>
 
 <!-- ======================== Passed Parameters =========================== -->
-<!-- get iso8601 timestamp -->
+<!-- get iso8601 timestamp, including the timezone -->
 <xsl:param name="timestamp">
   <xsl:call-template name="pi-param">
     <xsl:with-param  name="name"    select="'timestamp'"/>
@@ -33,13 +33,7 @@
 
 
 <!-- ======================= Internal Parameters ========================== -->
-<!-- Read UTC TimeZone offset from the configuration XML file -->
-
-<xsl:variable name="atom-timestamp">
-  <xsl:value-of select="$timestamp"/>
-  <xsl:value-of
-      select="document('../config/config.xml')/config/UTC_TZ_offset"/>
-</xsl:variable>
+<!-- NONE -->
 
 
 <!-- ========================== Sorting Keys ============================== -->
@@ -138,7 +132,7 @@
  <xsl:attribute name="href"><xsl:value-of select="$baseURL"/>feed/overview</xsl:attribute>
 </xsl:element>
 
-  <updated><xsl:value-of select="$atom-timestamp"/></updated>
+  <updated><xsl:value-of select="$timestamp"/></updated>
   <author>
     <name>xmlqstat</name>
   </author>
@@ -157,7 +151,7 @@
          generating infinite articles...
     -->
     <id>urn:uuid:xmlqstat-atomfeed-overview-summary</id>
-    <updated><xsl:value-of select="$atom-timestamp"/></updated>
+    <updated><xsl:value-of select="$timestamp"/></updated>
     <summary>
      Grid Engine Status.
     </summary>
@@ -196,27 +190,37 @@ Slots Available/Unavailable: <xsl:value-of select="$slotsTotal - $unusableSlotCo
 
 <xsl:if test="$QI_state_au &gt; 0">
 &newline;
-<div>Queue Info: <xsl:value-of select="$QI_state_au"/> alarm/unreachable state 'au'</div>
+<div>
+  Queue Info: <xsl:value-of select="$QI_state_au"/> alarm/unreachable state 'au'
+</div>
 </xsl:if>
 
 <xsl:if test="$QI_state_adu &gt; 0">
 &newline;
-<div>Queue Info: <xsl:value-of select="$QI_state_adu"/> alarm/unreachable/disabled alarm state 'adu'</div>
+<div>
+  Queue Info: <xsl:value-of select="$QI_state_adu"/> alarm/unreachable/disabled alarm state 'adu'
+</div>
 </xsl:if>
 
 <xsl:if test="$QI_state_a &gt; 0">
 &newline;
-<div>Queue Info: <xsl:value-of select="$QI_state_a"/> load threshold alarm state 'a'</div>
+<div>
+  Queue Info: <xsl:value-of select="$QI_state_a"/> load threshold alarm state 'a'
+</div>
 </xsl:if>
 
 <xsl:if test="$QI_state_d &gt; 0">
 &newline;
-<div>Queue Info: <xsl:value-of select="$QI_state_d"/> admin disabled state 'd'</div>
+<div>
+  Queue Info: <xsl:value-of select="$QI_state_d"/> admin disabled state 'd'
+</div>
 </xsl:if>
 
 <xsl:if test="$QI_state_S &gt; 0">
 &newline;
-<div>Queue Info: <xsl:value-of select="$QI_state_S"/> subordinate state 'S' </div>
+<div>
+  Queue Info: <xsl:value-of select="$QI_state_S"/> subordinate state 'S'
+</div>
 </xsl:if>
 
 <!-- GENERATE A UNIQUE LIST OF ACTIVE JOB STATES THAT MAY BE OF INTEREST -->
@@ -237,11 +241,11 @@ Slots Available/Unavailable: <xsl:value-of select="$slotsTotal - $unusableSlotCo
 <div id="unusualQueueStates">
 <xsl:choose>
 <xsl:when test="$QI_unusual_statecount &gt; 0">
-Some unusual Queue Instance states have been detected.
+  Some unusual Queue Instance states have been detected.
 </xsl:when>
 <xsl:otherwise>
- <!-- no unusual states detected -->
-No unusual Queue Instance states have been detected.
+  <!-- no unusual states detected -->
+  No unusual Queue Instance states have been detected.
 </xsl:otherwise>
 </xsl:choose>
 Click here for <xsl:element name="a">
@@ -251,10 +255,12 @@ Detailed information.
 </div>
 
 <div class="sentence">
-With <xsl:value-of select="$unusableSlotCount"/> slots belonging to queue instances that are administratively disabled or in an unusable state,
-the adjusted slot utilization percentage is <xsl:value-of select="format-number($AdjSlotsPercent,'##0.#') "/>%.
-Currently, <xsl:value-of select="format-number($unavailable-all-Percent,'##0.#') "/>% of configured grid queue instances are closed to new jobs due to
- load threshold alarms, errors or administrative action.
+  With <xsl:value-of select="$unusableSlotCount"/> slots belonging to queue
+  instances that are administratively disabled or in an unusable state, the
+  adjusted slot utilization percentage is <xsl:value-of select="format-number($AdjSlotsPercent,'##0.#') "/>%.
+  Currently, <xsl:value-of select="format-number($unavailable-all-Percent,'##0.#') "/>%
+  of configured grid queue instances are closed to new jobs due to load threshold
+  alarms, errors or administrative action.
 </div>
 
 </blockquote>

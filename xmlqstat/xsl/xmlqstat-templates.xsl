@@ -16,14 +16,80 @@
    | format into "&ROOT=@root&CELL=@cell" for cgi queries
    -->
 <xsl:template name="cgi-params">
-  <xsl:param name="clusterNode"/>
+  <xsl:param name="clusterName"/>
 
-  <xsl:if test="$clusterNode/@root"
-    >&amp;ROOT=<xsl:value-of
-    select="$clusterNode/@root"/><xsl:if
-    test="$clusterNode/@cell != 'default'"
-    >&amp;CELL=<xsl:value-of select="$clusterNode/@cell"/></xsl:if>
-  </xsl:if>
+  <xsl:variable name="configFile" select="document('../config/config.xml')"/>
+
+  <!-- treat a bad clusterName as 'default' -->
+  <xsl:variable name="name">
+    <xsl:choose>
+    <xsl:when test="string-length($clusterName)">
+      <xsl:value-of select="$clusterName" />
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:text>default</xsl:text>
+    </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:variable
+    name="clusterNode"
+    select="$configFile/config/clusters/cluster[@name=$name]" />
+
+  <xsl:variable
+    name="defaultNode"
+    select="$configFile/config/clusters/default" />
+
+
+  <!-- the cell, a missing value is treated as 'default' -->
+  <xsl:variable name="cell">
+    <xsl:variable name="value">
+      <xsl:choose>
+      <xsl:when test="$name = 'default'">
+        <xsl:value-of select="$defaultNode/@cell" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$clusterNode/@cell" />
+      </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:choose>
+    <xsl:when test="string-length($value)">
+      <xsl:value-of select="$value" />
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:text>default</xsl:text>
+    </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+
+  <!-- the root, a missing value is treated as '/bin/false' for some safety -->
+  <xsl:variable name="root">
+    <xsl:variable name="value">
+      <xsl:choose>
+      <xsl:when test="$name = 'default'">
+        <xsl:value-of select="$defaultNode/@root" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$clusterNode/@root" />
+      </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:choose>
+    <xsl:when test="string-length($value)">
+      <xsl:value-of select="$value" />
+    </xsl:when>
+    <xsl:otherwise>
+      <xsl:text>/bin/false</xsl:text><xsl:value-of select="$name" />
+    </xsl:otherwise>
+    </xsl:choose>
+  </xsl:variable>
+
+  <xsl:text>&amp;ROOT=</xsl:text><xsl:value-of select="$root"/>
+  <xsl:text>&amp;CELL=</xsl:text><xsl:value-of select="$cell"/>
 </xsl:template>
 
 
